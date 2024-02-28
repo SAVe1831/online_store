@@ -1,0 +1,17 @@
+@media (max-width: 1200px) {
+    .p-carousel-prev, .p-carousel-next, .p-carousel-indicators  {
+        display: none;
+    }
+}
+.social {
+    margin-right: 10px;
+}
+.menu-bottom_item, .menu-bottom_link {
+    text-decoration: none;
+    list-style-type: none;
+    color: black;
+    line-height: 1.5;
+}
+.p-datatable .p-column-header-content {
+    display: block;
+}
