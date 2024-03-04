@@ -67,56 +67,6 @@ body .p-component {
 .p-card-body {
     padding: 10px;
 }
-
-.main[data-v-5b2c3267] {
-    display: flex;
-    justify-content: space-around;
-    align-items: flex-start;
-    flex-wrap: wrap;
-}
-.head-container[data-v-5b2c3267] {
-    box-sizing: border-box;
-    background-color: rgb(113, 194, 224);
-    border: 1px solid #043d75;
-    margin-top: 20px;
-    border-radius: 6px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 5px;
-}
-img[data-v-5b2c3267] {
-    width: 100px;
-    height: 90px;
-    margin: 0 20px;
-}
-.connect-container[data-v-5b2c3267] {
-    box-sizing: border-box;
-    background-color: rgb(113, 194, 224);
-    border: 1px solid #043d75;
-    margin-top: 20px;
-    border-radius: 6px;
-    padding: 10px; 
-    display: flex;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-}
-ul[data-v-5b2c3267] {
-    list-style: none;
-    padding: 0;
-    margin-left: 10px;
-}
-.contacts[data-v-5b2c3267] {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-}
-p[data-v-5b2c3267] {
-    margin: 8px 10px;
-}
-a[data-v-5b2c3267] {
-    text-decoration: none;
-} 
 :root {
   font-family: "Inter var", sans-serif;
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
