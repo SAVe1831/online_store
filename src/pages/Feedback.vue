@@ -1,56 +1,83 @@
 <template>
     <div class="discounts-container mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl">
         <h2>Обратная связь</h2>
-        <form method="post">
+        <form @submit.prevent.stop="submit" class="container p-5 w-full">
             <b>Ваше имя:</b><span style="color:red">*</span><br>
-            <input type="text" size="30" value="" name="d[0]" id="d[0]"><br><br>
+            <input class="mb-3 mt-1" type="text" size="30" v-model="review.author" placeholder="Как Вас зовут?"><br>
             <b>Ваш E-mail:</b><span style="color:red">*</span><br>
-            <input data-validator="email" type="text" size="30" maxlength="100" value="" name="d[1]" id="d[1]"><br><br> 
+            <input class="mb-3 mt-1" type="email" size="30" v-model="review.email" placeholder="Введите Ваш e-mail"><br>
             <b>Телефон:</b><span style="color:red">*</span><br>
-            <input data-validator="phone" type="text" size="30" maxlength="15" value="" name="d[2]" id="d[2]">
-            <br><br>                
-            <b>Текст:</b><span style="color:red">*</span><br>
-            <textarea cols="50" rows="7" name="d[3]" id="d[3]"></textarea>
-            <br><br>               
-            <input type="checkbox" value="Я выражаю&nbsp; согласие на передачу и обработку персональных данных &nbsp;в соответствии с&nbsp; Политикой конфиденциальности " id="d[4]" name="d[4]">Я выражаю&nbsp;<a href="/users/agreement" onclick="window.open(this.href, '', 'resizable=no,status=no,location=no,toolbar=no,menubar=no,fullscreen=no,scrollbars=no,dependent=no,width=500,left=500,height=700,top=700'); return false;">согласие на передачу и обработку персональных данных</a>&nbsp;в соответствии с&nbsp;<a href="/politika-konfidencialnosti" onclick="window.open(this.href, '', 'resizable=no,status=no,location=no,toolbar=no,menubar=no,fullscreen=no,scrollbars=no,dependent=no,width=500,left=500,height=700,top=700'); return false;">Политикой конфиденциальности</a>
-            <br><br>               
-            <br clear="all"><br>
-            <input type="submit" value="Отправить"><textarea name="g-recaptcha-response" style="display: none !important;"></textarea>
-        </form> 
-    </div>
-    <div>
-        <div>
-            <label for="name">Имя:</label>
-            <InputText id="name" v-model="name" placeholder="Введите ваше имя"></InputText>
-        </div>
-        <div>
-            <label for="email">Электронная почта:</label>
-            <InputText id="email" v-model="email" placeholder="Введите вашу электронную почту"></InputText>
-        </div>
-        <div>
-            <button @click="sendMessage">Отправить сообщение</button>
-        </div>
+            <input class="mb-3 mt-1" type="text" v-model="review.phone" placeholder="Введите номер телефона"><br>
+            <b>Текст сообщения:</b><span style="color:red">*</span><br>
+            <textarea class="w-full sm:w-9 lg:w-6 max-w-6" cols="50" rows="10" v-model="review.text" placeholder="Ваше сообщение"></textarea>
+            <div class="photo my-3">
+                <label>Фото</label><br>
+                <input type="file" @change="uploadFile"><br>
+                <img :src="previewFilePath" alt="" class="w-6 sm:w-5 md:w-4 lg:w-3 xl:w-2 mt-3">
+            </div>
+            <div class="w-full">
+                <input type="checkbox" v-model="review.isAccepted" @change="enableButton">
+                <label>
+                    Я выражаю 
+                    <a href="#">согласие на передачу и обработку персональных данных</a> 
+                    в соответствии с 
+                    <a href="#">Политикой конфиденциальности</a>
+                </label>
+            </div>
+            <button class="mt-3 active:bg-green-200" :disabled="!review.isAccepted">Отправить</button>
+        </form>
     </div>
 </template>
 
 
 <script setup>
-import { ref } from 'vue'
-import InputText from 'primevue/inputtext'
+import { reactive, computed } from 'vue'
+import axios from 'axios'
 
-const name = ref('');
-const email = ref('');
 
-const sendMessage = () => {
-    const message = {
-        name: name.value,
-        email: email.value
-    };
-    console.log(message); // здесь можно добавить логику отправки сообщения на сервер или как-то обрабатывать данные
-};
+const review = reactive({
+    author: '',
+    email: '',
+    phone: '',
+    text: '',
+    photo: null,
+    isAccepted: false
+})
+
+const previewFilePath = computed(() => {
+    if (review.photo) {
+        return URL.createObjectURL(review.photo)
+    }
+    return '#'
+})
+
+const submit = () => {
+    console.log('submit!');
+    axios.post('/api/review', review, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    })
+        .then((res) => {
+            console.log(res);
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+        .finally(() => {
+            console.log('Обработка завершена')
+        })
+}
+
+const uploadFile = (e) => {
+    const [file] = e.target.files;
+    review.photo = file;
+}
+
+const enableButton = () => {
+    this.review.isAccepted = !this.review.isAccepted;
+  }
 </script>
 
 
-<style scoped>
-
-</style>
+<style scoped></style>

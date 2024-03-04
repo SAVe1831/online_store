@@ -30,22 +30,22 @@
         <div class="right-block w-full sm:w-6 lg:w-4 pt-3">
             <ul class="menu-bottom m-0 p-0">
                 <li class="menu-bottom_item">
-                    <a href="#" class="menu-bottom_link">Реквизиты</a>
+                    <a href="#" class="menu-bottom_link hover:underline">Реквизиты</a>
                 </li>
                 <li class="menu-bottom_item">
-                    <a href="#" class="menu-bottom_link">Скидки</a>
+                    <a href="#" class="menu-bottom_link hover:underline">Скидки</a>
                 </li> 
                 <li class="menu-bottom_item">
-                    <a href="#" class="menu-bottom_link">Доставка</a>
+                    <a href="#" class="menu-bottom_link hover:underline">Доставка</a>
                 </li> 
                 <li class="menu-bottom_item">
-                    <a href="#" class="menu-bottom_link">Обмен и возврат</a>
+                    <a href="#" class="menu-bottom_link hover:underline">Обмен и возврат</a>
                 </li> 
                 <li class="menu-bottom_item">
-                    <a href="#" class="menu-bottom_link">Наши партнеры</a>
+                    <a href="#" class="menu-bottom_link hover:underline">Наши партнеры</a>
                 </li> 
                 <li class="menu-bottom_item">
-                    <a href="#" class="menu-bottom_link">О компании</a>
+                    <a href="#" class="menu-bottom_link hover:underline">О компании</a>
                 </li> 
             </ul>
         </div>

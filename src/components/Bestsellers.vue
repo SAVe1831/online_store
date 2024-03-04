@@ -1,7 +1,7 @@
 <template>
     <div class="bestsellers-container my-3 bg-red-100 p-1 sm:p-5 flex flex-wrap justify-content-center border-round-2xl">
         <h2 class="m-0 text-center hidden md:block">Хиты продаж</h2>
-        <button class="text-2xl bg-red-100 border-round-2xl p-2 font-bold md:hidden mt-2 sm:mt-0" @click="toggleCards">Хиты продаж</button>
+        <button class="text-2xl bg-red-100 border-round-2xl p-2 font-bold md:hidden my-2 sm:mt-0" @click="toggleCards">Хиты продаж</button>
         <div v-if="showCards" class="card-container mt-3 flex flex-wrap justify-content-center">
             <Card class="overflow-hidden ml-0 mt-3 max-w-full h-auto sm:w-5 sm:ml-3 lg:w-18rem shadow-6 hover:shadow-8 transition-duration-300">
                 <template #header>

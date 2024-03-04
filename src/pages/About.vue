@@ -1,101 +1,50 @@
 <template>
-    <div class="main">
-        <div class="head-container">
-            <h1>Как со мной связаться</h1>
-        </div>
-        <div class="connect-container">   
-            <div>
-                <ul>
-                    <li>Набрать номер телефона:</li>
-                    <li class="contacts">
-                        <i class="pi pi-phone"></i>
-                        <p><a href="tel:+79628685863">+7(962)868-58-63</a></p> 
-                    </li>
-                    <li class="contacts">
-                        <i class="pi pi-phone"></i>
-                        <p><a href="tel:+79046853431">+7(904)685-34-31</a></p> 
-                    </li>
-                    <li>Написать на электронный почтовый ящик:</li>
-                    <li class="contacts">
-                        <i class="pi pi-at"></i> 
-                    <p><a href="mailto:save1831537@gmail.com">save1831537@gmail.com</a></p>    
-                    </li>
-                </ul>
-            </div>
-            <div>
-                <ul>
-                    <li>Мои мессенджеры:</li>
-                    <li class="contacts">
-                        <i class="pi pi-whatsapp"></i>
-                        <p><a href="https://api.whatsapp.com/send?phone=79628685863">WhatsApp +7 (962) 868-58-63</a></p> 
-                    </li><li class="contacts">
-                        <i class="pi pi-whatsapp"></i>
-                        <p><a href="https://api.whatsapp.com/send?phone=79046853431">WhatsApp +7 (904) 685-34-31</a></p> 
-                    </li>
-                    <li class="contacts">
-                        <i class="pi pi-telegram"></i>
-                        <p><a href="tg://resolve?domain=save1831">Telegram +7 (904) 685-34-31</a></p> 
-                    </li>
-                </ul>
-            </div>
-        </div>
+    <div class="discounts-container mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl">
+        <h2>Лучший интернет-зоомагазин Краснодара</h2>
+        <p class="text-justify">
+            Интернет-магазин ZooМаг ориентируется на заботливых хозяев домашних животных и предлагает свои услуги. <br><br>
+            Домашние животные - наши верные друзья, компаньоны, те, кто радует нас каждый день и дарит нам позитивные эмоции. 
+            А настоящая дружба - дружба взаимная. Как наши питомцы приносят нам радость, так и мы должны окружать их заботой и 
+            ухаживать за ними.<br><br>
+            Независимо от размеров Вашего питомца и его аппетитов, будь то маленькая рыбка, котенок или огромный породистый пес - 
+            для любого из «братьев наших меньших» у нас найдется именно то, что нужно Вашему питомцу:<br>
+        </p>
+        <ul>
+            <li>Огромный выбор сухих кормов для собак и кошек;</li>
+            <li>товары для собак (игрушки, туалеты, ошейники, намордники и пр.);</li>
+            <li>товары для кошек (когтеточки, наполнители, домики, шлейки, миски, туалеты и т.д.);</li>
+            <li>товары для птиц (корма, клетки, игрушки и пр.);</li>
+            <li>товары для грызунов (клетки, корма, наполнители);</li>
+            <li>также в нашем магазине представлен широкий ассортимент витаминов и лекарств для домашних животных, средств для ухода и иных аксессуаров.</li>
+        </ul>
+        <p class="text-justify">
+            Покупатели обязательно отметят для себя:
+        </p>
+        <ul>
+            <li>Разнообразие товаров;</li>
+            <li>свежесть кормов;</li>
+            <li>соотношение цены и качества;</li>
+            <li>возможность обратиться за консультацией;</li>
+            <li>гибкие условия доставки;</li>
+            <li>заинтересованное отношение сотрудников.</li>
+        </ul>
+        <p class="text-justify">
+            Оформление интернет-заказа добавит посетителям приятных моментов в виде участия в бонусной программе, получения кэшбека,
+            актуальных акций и скидок.
+        </p>
+        <p class="text-justify">
+            Мы в ответе за тех, кого приручили! <br><br> 
+            И помните, хорошее настроение Вашего любимца - это и Ваше хорошее настроение!
+        </p>
     </div>
 </template>
 
-<script>
-export default {
-    
-}
+
+<script setup>
+
 </script>
 
+
 <style scoped>
-.main {
-    display: flex;
-    justify-content: space-around;
-    align-items: flex-start;
-    flex-wrap: wrap;
-}
-.head-container {
-    box-sizing: border-box;
-    background-color: rgb(113, 194, 224);
-    border: 1px solid #043d75;
-    margin-top: 20px;
-    border-radius: 6px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 5px;
-}
-img {
-    width: 100px;
-    height: 90px;
-    margin: 0 20px;
-}
-.connect-container {
-    box-sizing: border-box;
-    background-color: rgb(113, 194, 224);
-    border: 1px solid #043d75;
-    margin-top: 20px;
-    border-radius: 6px;
-    padding: 10px; 
-    display: flex;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-}
-ul {
-    list-style: none;
-    padding: 0;
-    margin-left: 10px;
-}
-.contacts {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-}
-p {
-    margin: 8px 10px;
-}  
-a {
-    text-decoration: none;
-} 
+
 </style>

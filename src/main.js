@@ -13,7 +13,8 @@ import Card from 'primevue/card'
 import Brands from '@/components/Brands.vue'
 import Footer from '@/components/Footer.vue'
 import router from '@/router/index.js'
-import ScrollTop from 'primevue/scrolltop';
+import ScrollTop from 'primevue/scrolltop'
+
 
 
 
