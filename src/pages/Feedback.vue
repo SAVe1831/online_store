@@ -11,12 +11,12 @@
             <b>Текст сообщения:</b><span style="color:red">*</span><br>
             <textarea class="w-full sm:w-9 lg:w-6 max-w-6" cols="50" rows="10" v-model="review.text" placeholder="Ваше сообщение"></textarea>
             <div class="photo my-3">
-                <label>Фото</label><br>
+                <b>Фото</b><br>
                 <input type="file" @change="uploadFile"><br>
                 <img :src="previewFilePath" alt="" class="w-6 sm:w-5 md:w-4 lg:w-3 xl:w-2 mt-3">
             </div>
             <div class="w-full">
-                <input type="checkbox" v-model="review.isAccepted" @change="enableButton">
+                <input type="checkbox" v-model="review.isAccepted" @change="toggleButton">
                 <label>
                     Я выражаю 
                     <a href="#">согласие на передачу и обработку персональных данных</a> 
@@ -24,7 +24,10 @@
                     <a href="#">Политикой конфиденциальности</a>
                 </label>
             </div>
-            <button class="mt-3 active:bg-green-200" :disabled="!review.isAccepted">Отправить</button>
+            <div>
+                <Toast class="w-full sm:w-7 md:w-5 lg:w-3 right-0" />
+                <button class="mt-3 active:bg-green-200" label="showMessage" @click="showMessage()" :disabled="!review.isAccepted">Отправить</button>
+            </div>
         </form>
     </div>
 </template>
@@ -33,7 +36,7 @@
 <script setup>
 import { reactive, computed } from 'vue'
 import axios from 'axios'
-
+import { useToast } from "primevue/usetoast";
 
 const review = reactive({
     author: '',
@@ -60,12 +63,19 @@ const submit = () => {
     })
         .then((res) => {
             console.log(res);
+            
         })
         .catch((error) => {
             console.log(error);
         })
         .finally(() => {
-            console.log('Обработка завершена')
+            console.log('Обработка завершена');
+            review.author = '';
+            review.email = '';
+            review.phone = '';
+            review.text = '';
+            review.photo = null;
+            review.isAccepted = false;
         })
 }
 
@@ -74,9 +84,15 @@ const uploadFile = (e) => {
     review.photo = file;
 }
 
-const enableButton = () => {
+const toggleButton = () => {
     this.review.isAccepted = !this.review.isAccepted;
-  }
+}
+
+const toast = useToast();
+
+const showMessage = () => {
+    toast.add({ severity: 'success', summary: 'Ваше письмо отправлено',  life: 3000 });
+};
 </script>
 
 

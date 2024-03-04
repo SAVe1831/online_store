@@ -28,7 +28,7 @@
                     <div class="flex align-items-center gap-2">
                         <InputGroup class="ml-2 flex justify-content-end">
                             <Button class="active:bg-green-200" style="width: 35px;" icon="pi pi-search" severity="secondary" />
-                            <InputText class="w-8rem sm:w-11rem" placeholder="Search..." />
+                            <InputText class="w-8rem sm:w-11rem" placeholder="Поиск..." />
                         </InputGroup>
                         <Button class="active:bg-green-200" icon="pi pi-shopping-cart" severity="secondary" />
                         <Button class="active:bg-green-200" icon="pi pi-user" severity="secondary" />

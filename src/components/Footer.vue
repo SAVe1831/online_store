@@ -4,7 +4,7 @@
             <div class="footer-info">
                 <div class="footer-sitename"><strong>ZooМаг</strong></div>
                 <div class="footer-sitecopy">© 2018 - 2024</div><br>
-                <a class="privacy_policy" href="#">Политика конфиденциальности</a>
+                <a class="privacy_policy" href="https://save1831.github.io/online_store/#/privacy-policy">Политика конфиденциальности</a>
                 <div class="social-block mt-4">
                     <a class="social" href="https://vk.com">
                         <img src="/images/social/vk.png" alt="vkontakte" width="34px">

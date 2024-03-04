@@ -14,6 +14,8 @@ import Brands from '@/components/Brands.vue'
 import Footer from '@/components/Footer.vue'
 import router from '@/router/index.js'
 import ScrollTop from 'primevue/scrolltop'
+import Toast from 'primevue/toast'
+import ToastService from 'primevue/toastservice'
 
 
 
@@ -26,6 +28,7 @@ import 'primeicons/primeicons.css'
 const app = createApp(App);
 app.use(PrimeVue);
 app.use(router);
+app.use(ToastService);
 
 app.component('Navbar', Navbar);
 app.component('Button', Button);
@@ -38,6 +41,7 @@ app.component('Card', Card);
 app.component('my-brands', Brands);
 app.component('my-footer', Footer);
 app.component('ScrollTop', ScrollTop);
+app.component('Toast', Toast);
 
 
 
