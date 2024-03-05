@@ -1,6 +1,6 @@
 <template>
-    <div class="discounts-container mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl">
-        <h2>Обратная связь</h2>
+    <div class="feedback-container mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl">
+        <h1>Обратная связь</h1>
         <form @submit.prevent.stop="submit" class="container p-5 w-full">
             <b>Ваше имя:</b><span style="color:red">*</span><br>
             <input class="mb-3 mt-1" type="text" size="30" v-model="review.author" placeholder="Как Вас зовут?"><br>
@@ -19,9 +19,9 @@
                 <input type="checkbox" v-model="review.isAccepted" @change="toggleButton">
                 <label>
                     Я выражаю 
-                    <a href="#">согласие на передачу и обработку персональных данных</a> 
+                    <router-link to="/agreement">согласие на передачу и обработку персональных данных</router-link>
                     в соответствии с 
-                    <a href="#">Политикой конфиденциальности</a>
+                    <router-link to="/privacy-policy">Политикой конфиденциальности</router-link>
                 </label>
             </div>
             <div>

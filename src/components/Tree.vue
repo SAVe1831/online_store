@@ -1,12 +1,14 @@
 <template>
    <div>
-        <Tree :value="nodes" selectionMode="single" class="catalog absolute w-11 sm:w-6 lg:w-3 bg-orange-100 uppercase border-round-3xl border-2 border-red-300 z-5" style="top: 168px;"></Tree>
+        <Tree :value="nodes" selectionMode="single" @node-select="handleNodeSelect" class="catalog absolute w-11 sm:w-6 lg:w-3 bg-orange-100 uppercase border-round-3xl border-2 border-red-300 z-5" style="top: 168px;"></Tree>
     </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import Tree from 'primevue/tree'
+import { useRouter } from 'vue-router'
+
 
 
 const nodes = ref([
@@ -79,6 +81,16 @@ const nodes = ref([
         ]
     },
 ]);
+
+const router = useRouter();
+
+const handleNodeSelect = (event) => {
+    const selectedNode = event.node;
+    if (selectedNode.key === 110) {
+        router.push('/for-cats/dry-food'); // Переход на страницу "Сухой корм"
+    }
+}
+
 </script>
 
 <style>

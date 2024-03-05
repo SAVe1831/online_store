@@ -4,7 +4,7 @@
             <div class="footer-info">
                 <div class="footer-sitename"><strong>ZooМаг</strong></div>
                 <div class="footer-sitecopy">© 2018 - 2024</div><br>
-                <a class="privacy_policy" href="https://save1831.github.io/online_store/#/privacy-policy">Политика конфиденциальности</a>
+                <router-link to="/privacy-policy">Политика конфиденциальности</router-link>
                 <div class="social-block mt-4">
                     <a class="social" href="https://vk.com">
                         <img src="/images/social/vk.png" alt="vkontakte" width="34px">
@@ -30,22 +30,22 @@
         <div class="right-block w-full sm:w-6 lg:w-4 pt-3">
             <ul class="menu-bottom m-0 p-0">
                 <li class="menu-bottom_item">
-                    <a href="#" class="menu-bottom_link hover:underline">Реквизиты</a>
+                    <router-link class="no-underline hover:underline text-color" to="/requisites">Реквизиты</router-link>
                 </li>
                 <li class="menu-bottom_item">
-                    <a href="#" class="menu-bottom_link hover:underline">Скидки</a>
+                    <router-link class="no-underline hover:underline text-color" to="/discounts">Скидки</router-link>
                 </li> 
                 <li class="menu-bottom_item">
-                    <a href="#" class="menu-bottom_link hover:underline">Доставка</a>
+                    <router-link class="no-underline hover:underline text-color" to="/delivery">Доставка</router-link>
                 </li> 
                 <li class="menu-bottom_item">
-                    <a href="#" class="menu-bottom_link hover:underline">Обмен и возврат</a>
+                    <router-link class="no-underline hover:underline text-color" to="/exchange-return">Обмен и возврат</router-link>
                 </li> 
                 <li class="menu-bottom_item">
-                    <a href="#" class="menu-bottom_link hover:underline">Наши партнеры</a>
+                    <router-link class="no-underline hover:underline text-color" to="/partners">Наши партнеры</router-link>
                 </li> 
                 <li class="menu-bottom_item">
-                    <a href="#" class="menu-bottom_link hover:underline">О компании</a>
+                    <router-link class="no-underline hover:underline text-color" to="/about">О компании</router-link>
                 </li> 
             </ul>
         </div>
