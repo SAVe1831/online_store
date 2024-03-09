@@ -16,6 +16,7 @@ import router from '@/router/index.js'
 import ScrollTop from 'primevue/scrolltop'
 import Toast from 'primevue/toast'
 import ToastService from 'primevue/toastservice'
+import CascadeSelect from 'primevue/cascadeselect'
 
 
 
@@ -42,6 +43,8 @@ app.component('my-brands', Brands);
 app.component('my-footer', Footer);
 app.component('ScrollTop', ScrollTop);
 app.component('Toast', Toast);
+app.component('CascadeSelect', CascadeSelect);
+
 
 
 

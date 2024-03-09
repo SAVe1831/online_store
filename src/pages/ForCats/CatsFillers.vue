@@ -1,7 +1,8 @@
 <template>
     <div class="dry-food-container mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl">
-        <h1>Сухой корм для кошек</h1>
+        <h1>Наполнители для кошачьих туалетов</h1>
         
+
     </div>
 </template>
 
@@ -11,6 +12,4 @@
 </script>
 
 
-<style scoped>
-    
-</style>
+<style scoped></style>
