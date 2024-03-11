@@ -1,3 +1,13 @@
+
+html {
+  height: 100%;
+}
+body {
+  background-color: rgb(244, 234, 234);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
 @media (max-width: 1200px) {
     .p-carousel-prev, .p-carousel-next, .p-carousel-indicators  {
         display: none;
@@ -14,15 +24,6 @@
 }
 .p-datatable .p-column-header-content {
     display: block;
-}
-html {
-  height: 100%;
-}
-body {
-  background-color: rgb(244, 234, 234);
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
 }
 
 body .p-component {
@@ -66,6 +67,31 @@ body .p-component {
 }
 .p-card-body {
     padding: 10px;
+}
+@media (min-width: 320px) {
+.card-content {
+        width: 100%;
+}
+}
+@media (min-width: 460px) {
+.card-content {
+        width: 49%;
+}
+}
+@media (min-width: 760px) {
+.card-content {
+        width: 32%;
+}
+}
+@media (min-width: 1100px) {
+.card-content {
+        width: 23%;
+}
+}
+@media (min-width: 1490px) {
+.card-content {
+        width: 19%;
+}
 }
 :root {
   font-family: "Inter var", sans-serif;
