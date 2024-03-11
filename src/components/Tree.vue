@@ -1,7 +1,7 @@
 <template>
    <div>
-        <div class="background fixed top-0 left-0 w-full h-screen z-4 hidden" @click="collapseAll"></div>
-        <Tree v-model:expandedKeys="expandedKeys" :value="nodes" selectionMode="single" @click="removeHiddenClass" class="catalog absolute w-11 sm:w-6 lg:w-3 bg-orange-100 uppercase border-round-3xl border-2 border-red-300 z-5" style="top: 168px;">
+        <div class="background fixed top-0 left-0 w-full h-screen z-3 hidden" @click="collapseAll"></div>
+        <Tree v-model:expandedKeys="expandedKeys" :value="nodes" selectionMode="single" @click="removeHiddenClass" class="catalog absolute w-11 sm:w-6 lg:w-3 bg-orange-100 uppercase border-round-3xl border-2 border-red-300 z-4" style="top: 168px;">
             <template #url="nodes">
                 <router-link class="no-underline text-color" @click="collapseAll" :to="nodes.node.path">{{ nodes.node.label }}</router-link>
             </template>
@@ -24,15 +24,15 @@ const nodes = ref([
                 label: 'Для кошек',
                 icon: 'fa-solid fa-cat',
                 children: [
-                    {key: '0-0-0', label: 'Сухой корм', path: '/for-cats/dry-food', type: 'url'},
-                    {key: '0-0-1', label: 'Влажный корм', path: '/for-cats/wet-food', type: 'url'},
-                    {key: '0-0-2', label: 'Миски/Поилки', path: '/for-cats/bowls-drinkers', type: 'url'},
-                    {key: '0-0-3', label: 'Лотки/Туалеты', path: '/for-cats/trays-toilets', type: 'url'},
-                    {key: '0-0-4', label: 'Наполнители', path: '/for-cats/fillers', type: 'url'},
-                    {key: '0-0-5', label: 'Когтеточки', path: '/for-cats/scratching-posts', type: 'url'},
-                    {key: '0-0-6', label: 'Переноски', path: '/for-cats/carrying', type: 'url'},
-                    {key: '0-0-7', label: 'Лежанки', path: '/for-cats/beds', type: 'url'},
-                    {key: '0-0-8', label: 'Игрушки', path: '/for-cats/toys', type: 'url'}
+                    {key: '0-0-0', label: 'Сухой корм', path: '/cats-dry-food', type: 'url'},
+                    {key: '0-0-1', label: 'Влажный корм', path: '/cats-wet-food', type: 'url'},
+                    {key: '0-0-2', label: 'Миски/Поилки', path: '/cats-bowls-drinkers', type: 'url'},
+                    {key: '0-0-3', label: 'Лотки/Туалеты', path: '/cats-trays-toilets', type: 'url'},
+                    {key: '0-0-4', label: 'Наполнители', path: '/cats-fillers', type: 'url'},
+                    {key: '0-0-5', label: 'Когтеточки', path: '/cats-scratching-posts', type: 'url'},
+                    {key: '0-0-6', label: 'Переноски', path: '/cats-carrying', type: 'url'},
+                    {key: '0-0-7', label: 'Лежанки', path: '/cats-beds', type: 'url'},
+                    {key: '0-0-8', label: 'Игрушки', path: '/cats-toys', type: 'url'}
                 ]
             },
             { 
@@ -40,16 +40,16 @@ const nodes = ref([
                 label: 'Для собак',
                 icon: 'fa-solid fa-dog',
                 children: [
-                    {key: '0-1-0', label: 'Сухой корм', path: '/for-dogs/dry-food', type: 'url'},
-                    {key: '0-1-1', label: 'Влажный корм', path: 'for-dogs/wet-food', type: 'url'},
-                    {key: '0-1-2', label: 'Миски/Поилки', path: '/for-dogs/bowls-drinkers', type: 'url'},
-                    {key: '0-1-3', label: 'Лотки/Туалеты', path: '/for-dogs/trays-toilets', type: 'url'},
-                    {key: '0-1-4', label: 'Аксессуары', path: '/for-cats/dry-food', type: 'url'},
-                    {key: '0-1-5', label: 'Ошейники/Поводки', path: '/for-cats/dry-food', type: 'url'},
-                    {key: '0-1-6', label: 'Переноски', path: '/for-cats/dry-food', type: 'url'},
-                    {key: '0-1-7', label: 'Лежанки', path: '/for-cats/dry-food', type: 'url'},
-                    {key: '0-1-8', label: 'Клетки/Вольеры', path: '/for-cats/dry-food', type: 'url'},
-                    {key: '0-1-9', label: 'Игрушки', path: '/for-cats/dry-food', type: 'url'}
+                    {key: '0-1-0', label: 'Сухой корм', path: '/dogs-dry-food', type: 'url'},
+                    {key: '0-1-1', label: 'Влажный корм', path: '/dogs-wet-food', type: 'url'},
+                    {key: '0-1-2', label: 'Миски/Поилки', path: '/dogs-bowls-drinkers', type: 'url'},
+                    {key: '0-1-3', label: 'Лотки/Туалеты', path: '/dogs-trays-toilets', type: 'url'},
+                    {key: '0-1-4', label: 'Аксессуары', path: '/dogs-accessories', type: 'url'},
+                    {key: '0-1-5', label: 'Ошейники/Поводки', path: '/dogs-collars-leashes', type: 'url'},
+                    {key: '0-1-6', label: 'Переноски', path: '/dogs-carrying', type: 'url'},
+                    {key: '0-1-7', label: 'Лежанки', path: '/dogs-beds', type: 'url'},
+                    {key: '0-1-8', label: 'Клетки/Вольеры', path: '/dogs-cages-aviaries', type: 'url'},
+                    {key: '0-1-9', label: 'Игрушки', path: '/dogs-toys', type: 'url'}
                 ]
             },
             { 
@@ -57,13 +57,13 @@ const nodes = ref([
                 label: 'Для грызунов',
                 icon: 'pi pi-prime',
                 children: [
-                    {key: '0-2-0', label: 'Корм', path: '/for-cats/dry-food', type: 'url'},
-                    {key: '0-2-1', label: 'Кормушки/Поилки', path: '/for-cats/dry-food', type: 'url'},
-                    {key: '0-2-2', label: 'Подстилки/Наполители', path: '/for-cats/dry-food', type: 'url'},
-                    {key: '0-2-3', label: 'Клетки', path: '/for-cats/dry-food', type: 'url'},
-                    {key: '0-2-4', label: 'Гамаки/Домики', path: '/for-cats/dry-food', type: 'url'},
-                    {key: '0-2-5', label: 'Переноски', path: '/for-cats/dry-food', type: 'url'},
-                    {key: '0-2-6', label: 'Игрушки', path: '/for-cats/dry-food', type: 'url'}
+                    {key: '0-2-0', label: 'Корм', path: '/rodents-food', type: 'url'},
+                    {key: '0-2-1', label: 'Кормушки/Поилки', path: '/rodents-feeders-drinkers', type: 'url'},
+                    {key: '0-2-2', label: 'Подстилки/Наполнители', path: '/rodents-litters-fillers', type: 'url'},
+                    {key: '0-2-3', label: 'Клетки', path: '/rodents-cages', type: 'url'},
+                    {key: '0-2-4', label: 'Гамаки/Домики', path: '/rodents-hammocks-houses', type: 'url'},
+                    {key: '0-2-5', label: 'Переноски', path: '/rodents-carrying', type: 'url'},
+                    {key: '0-2-6', label: 'Игрушки', path: '/rodents-toys', type: 'url'}
                 ]
             },
             { 
@@ -71,12 +71,12 @@ const nodes = ref([
                 label: 'Для птиц',
                 icon: 'fa-solid fa-crow',
                 children: [
-                    {key: '0-3-0', label: 'Корм', path: '/for-cats/dry-food', type: 'url'},
-                    {key: '0-3-1', label: 'Кормушки/Поилки', path: '/for-cats/dry-food', type: 'url'},
-                    {key: '0-3-2', label: 'Клетки', path: '/for-cats/dry-food', type: 'url'},
-                    {key: '0-3-3', label: 'Переноски', path: '/for-cats/dry-food', type: 'url'},
-                    {key: '0-3-4', label: 'Гнёзда/Домики', path: '/for-cats/dry-food', type: 'url'},
-                    {key: '0-3-5', label: 'Игрушки', path: '/for-cats/dry-food', type: 'url'},
+                    {key: '0-3-0', label: 'Корм', path: '/birds-food', type: 'url'},
+                    {key: '0-3-1', label: 'Кормушки/Поилки', path: '/birds-feeders-drinkers', type: 'url'},
+                    {key: '0-3-2', label: 'Клетки', path: '/birds-cages', type: 'url'},
+                    {key: '0-3-3', label: 'Переноски', path: '/birds-carrying', type: 'url'},
+                    {key: '0-3-4', label: 'Гнёзда/Домики', path: '/birds-nests-houses', type: 'url'},
+                    {key: '0-3-5', label: 'Игрушки', path: '/birds-toys', type: 'url'},
                 ]
             }
             

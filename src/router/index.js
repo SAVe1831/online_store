@@ -10,7 +10,7 @@ import Requisites from "@/pages/Requisites.vue"
 import ExchangeReturn from "@/pages/ExchangeReturn.vue"
 import Agreement from "@/pages/Agreement.vue"
 import Partners from "@/pages/Partners.vue"
-import CatsDryFood from "@/pages/ForCats/CatsDryFood.vue"
+import CatsDryFood from "@/pages/ForCats/CatsDryFood/CatsDryFood.vue"
 import CatsWetFood from "@/pages/ForCats/CatsWetFood.vue"
 import CatsBowlsDrinkers from "@/pages/ForCats/CatsBowlsDrinkers.vue"
 import CatsTraysToilets from "@/pages/ForCats/CatsTraysToilets.vue"
@@ -23,6 +23,29 @@ import DogsDryFood from "@/pages/ForDogs/DogsDryFood.vue"
 import DogsWetFood from "@/pages/ForDogs/DogsWetFood.vue"
 import DogsBowlsDrinkers from "@/pages/ForDogs/DogsBowlsDrinkers.vue"
 import DogsTraysToilets from "@/pages/ForDogs/DogsTraysToilets.vue"
+import DogsAccessories from "@/pages/ForDogs/DogsAccessories.vue"
+import DogsCollarsLeashes from "@/pages/ForDogs/DogsCollarsLeashes.vue"
+import DogsCarrying from "@/pages/ForDogs/DogsCarrying.vue"
+import DogsBeds from "@/pages/ForDogs/DogsBeds.vue"
+import DogsCagesAviaries from "@/pages/ForDogs/DogsCagesAviaries.vue"
+import DogsToys from "@/pages/ForDogs/DogsToys.vue"
+import RodentsFood from "@/pages/ForRodents/RodentsFood.vue"
+import RodentsFeedersDrinkers from "@/pages/ForRodents/RodentsFeedersDrinkers.vue"
+import RodentsLittersFillers from "@/pages/ForRodents/RodentsLittersFillers.vue"
+import RodentsCages from "@/pages/ForRodents/RodentsCages.vue"
+import RodentsHammocksHouses from "@/pages/ForRodents/RodentsHammocksHouses.vue"
+import RodentsCarrying from "@/pages/ForRodents/RodentsCarrying.vue"
+import RodentsToys from "@/pages/ForRodents/RodentsToys.vue"
+import BirdsFood from "@/pages/ForBirds/BirdsFood.vue"
+import BirdsFeedersDrinkers from "@/pages/ForBirds/BirdsFeedersDrinkers.vue"
+import BirdsCages from "@/pages/ForBirds/BirdsCages.vue"
+import BirdsCarrying from "@/pages/ForBirds/BirdsCarrying.vue"
+import BirdsNestsHouses from "@/pages/ForBirds/BirdsNestsHouses.vue"
+import BirdsToys from "@/pages/ForBirds/BirdsToys.vue"
+import PurinaDarling from "@/pages/ForCats/CatsDryFood/PurinaDarling.vue"
+
+
+
 
 
 
@@ -82,69 +105,169 @@ const routes = [
         component: Partners
     },
     {
-        path: '/for-cats/dry-food',
-        name: 'dry-food',
+        path: '/cats-dry-food',
+        name: 'cats-dry-food',
         component: CatsDryFood
     },
     {
-        path: '/for-cats/wet-food',
-        name: 'wet-food',
+        path: '/cats-wet-food',
+        name: 'cats-wet-food',
         component: CatsWetFood
     },
     {
-        path: '/for-cats/bowls-drinkers',
-        name: 'bowls-drinkers',
+        path: '/cats-bowls-drinkers',
+        name: 'cats-bowls-drinkers',
         component: CatsBowlsDrinkers
     },
     {
-        path: '/for-cats/trays-toilets',
-        name: 'trays-toilets',
+        path: '/cats-trays-toilets',
+        name: 'cats-trays-toilets',
         component: CatsTraysToilets
     },
     {
-        path: '/for-cats/fillers',
-        name: 'fillers',
+        path: '/cats-fillers',
+        name: 'cats-fillers',
         component: CatsFillers
     },
     {
-        path: '/for-cats/scratching-posts',
-        name: 'scratching-posts',
+        path: '/cats-scratching-posts',
+        name: 'cats-scratching-posts',
         component: CatsScratchingPosts
     },
     {
-        path: '/for-cats/carrying',
-        name: 'carrying',
+        path: '/cats-carrying',
+        name: 'cats-carrying',
         component: CatsCarrying
     },
     {
-        path: '/for-cats/beds',
-        name: 'beds',
+        path: '/cats-beds',
+        name: 'cats-beds',
         component: CatsBeds
     },
     {
-        path: '/for-cats/toys',
-        name: 'toys',
+        path: '/cats-toys',
+        name: 'cats-toys',
         component: CatsToys
     },
     {
-        path: '/for-dogs/dry-food',
+        path: '/dogs-dry-food',
         name: 'dry-food',
         component: DogsDryFood
     },
     {
-        path: '/for-dogs/wet-food',
-        name: 'wet-food',
+        path: '/dogs-wet-food',
+        name: 'dogs-wet-food',
         component: DogsWetFood
     },
     {
-        path: '/for-dogs/bowls-drinkers',
-        name: 'bowls-drinkers',
+        path: '/dogs-bowls-drinkers',
+        name: 'dogs-bowls-drinkers',
         component: DogsBowlsDrinkers
     },
     {
-        path: '/for-dogs/trays-toilets',
-        name: 'trays-toilets',
+        path: '/dogs-trays-toilets',
+        name: 'dogs-trays-toilets',
         component: DogsTraysToilets
+    },
+    {
+        path: '/dogs-accessories',
+        name: 'dogs-accessories',
+        component: DogsAccessories
+    },
+    {
+        path: '/dogs-collars-leashes',
+        name: 'dogs-collars-leashes',
+        component: DogsCollarsLeashes
+    },
+    {
+        path: '/dogs-carrying',
+        name: 'dogs-carrying',
+        component: DogsCarrying
+    },
+    {
+        path: '/dogs-beds',
+        name: 'dogs-beds',
+        component: DogsBeds
+    },
+    {
+        path: '/dogs-cages-aviaries',
+        name: 'dogs-cages-aviaries',
+        component: DogsCagesAviaries
+    },
+    {
+        path: '/dogs-toys',
+        name: 'dogs-toys',
+        component: DogsToys
+    },
+    {
+        path: '/rodents-food',
+        name: 'rodents-food',
+        component: RodentsFood
+    },
+    {
+        path: '/rodents-feeders-drinkers',
+        name: 'rodents-feeders-drinkers',
+        component: RodentsFeedersDrinkers
+    },
+    {
+        path: '/rodents-litters-fillers',
+        name: 'rodents-litters-fillers',
+        component: RodentsLittersFillers
+    },
+    {
+        path: '/rodents-cages',
+        name: 'rodents-cages',
+        component: RodentsCages
+    },
+    {
+        path: '/rodents-hammocks-houses',
+        name: 'rodents-hammocks-houses',
+        component: RodentsHammocksHouses
+    },
+    {
+        path: '/rodents-carrying',
+        name: 'rodents-carrying',
+        component: RodentsCarrying
+    },
+    {
+        path: '/rodents-toys',
+        name: 'rodents-toys',
+        component: RodentsToys
+    },
+    {
+        path: '/birds-food',
+        name: 'birds-food',
+        component: BirdsFood
+    },
+    {
+        path: '/birds-feeders-drinkers',
+        name: 'birds-feeders-drinkers',
+        component: BirdsFeedersDrinkers
+    },
+    {
+        path: '/birds-cages',
+        name: 'birds-cages',
+        component: BirdsCages
+    },
+    {
+        path: '/birds-carrying',
+        name: 'birds-carrying',
+        component: BirdsCarrying
+    },
+    {
+        path: '/birds-nests-houses',
+        name: 'birds-nests-houses',
+        component: BirdsNestsHouses
+    },
+    {
+        path: '/birds-toys',
+        name: 'birds-toys',
+        component: BirdsToys
+    },
+    {
+        path: '/cats-dry-food-purina-darling',
+        name: 'cats-dry-food-purina-darling',
+        component: PurinaDarling
     },
 ]
 

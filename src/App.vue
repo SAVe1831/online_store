@@ -1,4 +1,5 @@
 <template>
+  <Drawer />
   <Navbar></Navbar>
   <div class="app">
       <router-view></router-view>

@@ -1,11 +1,11 @@
 <template>
     <div class="header-top">
         <div class="header-logo flex flex-nowrap justify-content-evenly">
-            <img class="header-logo-item mx-3 w-1 hidden sm:block sm:w-2 xl:w-1" src="/images/nav-cat2.png" height="100px" width="auto">
-            <img class="header-logo-item mr-3 w-1 hidden md:block md:w-2 xl:w-1" src="/images/nav-bird.png" height="100px" width="auto">
-            <img class="header-logo-item mr-3 w-1 hidden lg:block lg:w-2 xl:w-1" src="/images/nav-dog.png" height="100px" width="auto">
+            <img class="header-logo-item mx-3 w-1 hidden sm:block sm:w-2 xl:w-1" src="/images/navbar/nav-cat2.png" height="100px" width="auto">
+            <img class="header-logo-item mr-3 w-1 hidden md:block md:w-2 xl:w-1" src="/images/navbar/nav-bird.png" height="100px" width="auto">
+            <img class="header-logo-item mr-3 w-1 hidden lg:block lg:w-2 xl:w-1" src="/images/navbar/nav-dog.png" height="100px" width="auto">
             <router-link to="/">
-                <svg class="header-logo-item mr-3 w-full" version="1.0" xmlns="http://www.w3.org/2000/svg" width="330px" height="100px" viewBox="0 0 304.000000 92.000000" preserveAspectRatio="xMidYMid meet">
+                <svg class="header-logo-item w-full" version="1.0" xmlns="http://www.w3.org/2000/svg" width="330px" height="100px" viewBox="0 0 304.000000 92.000000" preserveAspectRatio="xMidYMid meet">
                     <g transform="translate(0.000000,92.000000) scale(0.100000,-0.100000)" fill="#C154C1" stroke="none">
                         <path d="M1653 863 c-55 -30 -83 -61 -83 -90 -1 -59 -11 -171 -20 -228 -8 -54 -19 -165 -26 -270 -2 -22 -6 -82 -10 -133 l-7 -93 29 7 c36 8 54 30 54 65 0 33 49 351 55 357 2 2 18 -19 36 -48 41 -66 83 -87 132 -66 35 14 146 117 190 176 14 19 29 31 32 28 4 -4 -7 -89 -24 -190 -48 -280 -52 -310 -46 -316 3 -3 20 10 39 29 30 30 37 46 51 124 9 50 22 108 30 130 43 127 78 285 79 359 1 52 -3 80 -11 83 -17 6 -80 -54 -125 -121 -62 -91 -180 -206 -211 -206 -66 0 -118 133 -119 308 -1 61 -4 112 -7 112 -4 0 -21 -8 -38 -17z"/>
                         <path d="M1012 748 c-13 -13 -16 -47 -6 -72 4 -9 18 -16 34 -16 30 0 40 15 40 60 0 37 -42 54 -68 28z"/>
@@ -20,9 +20,9 @@
                     </g>
                 </svg>
             </router-link>
-            <img class="header-logo-item mr-3 w-1 hidden xl:block xl:w-1" src="/images/nav-rat.png" height="100px" width="auto">
-            <img class="header-logo-item mr-3 w-1 hidden md:block md:w-2 xl:w-1" src="/images/nav-cat.png" height="100px" width="auto">
-            <img class="header-logo-item mr-3 w-1 hidden sm:block sm:w-2 xl:w-1" src="/images/nav-dog2.png" height="100px" width="auto">
+            <img class="header-logo-item mr-3 w-1 hidden xl:block xl:w-1" src="/images/navbar/nav-rat.png" height="100px" width="auto">
+            <img class="header-logo-item mr-3 w-1 hidden md:block md:w-2 xl:w-1" src="/images/navbar/nav-cat.png" height="100px" width="auto">
+            <img class="header-logo-item mr-3 w-1 hidden sm:block sm:w-2 xl:w-1" src="/images/navbar/nav-dog2.png" height="100px" width="auto">
         </div>
         <div class="card">
             <Menubar :model="navbarItems">

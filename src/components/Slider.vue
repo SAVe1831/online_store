@@ -22,10 +22,10 @@ import { ref } from "vue";
 
 
 const products = ref([
-    {image: 'images/cat.jpg' },
-    {image: 'images/dog.jpg' },
-    {image: 'images/rat.jpg' },
-    {image: 'images/bird.jpg' }
+    {image: 'images/slider/slider-cat.jpg' },
+    {image: 'images/slider/slider-dog.jpg' },
+    {image: 'images/slider/slider-rat.jpg' },
+    {image: 'images/slider/slider-bird.jpg' }
 ]);
 </script>
 
