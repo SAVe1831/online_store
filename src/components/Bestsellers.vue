@@ -1,9 +1,17 @@
 <template>
-    <div class="bestsellers-container my-3 bg-red-100 px-1 py-6 lg:px-5 flex flex-wrap justify-content-center border-round-2xl">
+    <div class="bestsellers-container my-3 bg-red-100 px-1 py-3 lg:px-5 flex flex-wrap justify-content-center border-round-2xl">
         <h2 class="mt-0 mb-3  text-center hidden md:block">Хиты продаж</h2>
         <button class="text-2xl bg-red-100 border-round-2xl p-2 font-bold md:hidden my-2 sm:mt-0" @click="toggleCards">Хиты продаж</button>
-        <div v-if="showCards" class="card-container flex flex-wrap justify-content-around">
-            <div class="card-content h-29rem mt-6">
+        <div v-if="showCards" class="card-container flex flex-wrap justify-content-around gap-3">
+            <my-card-item></my-card-item>
+            <my-card-item></my-card-item>
+            <my-card-item></my-card-item>
+            <my-card-item></my-card-item>
+            <my-card-item></my-card-item>
+            <my-card-item></my-card-item>
+        </div>
+    </div>
+            <!-- <div class="card-content h-29rem mt-6">
                 <router-link class="card-link no-underline text-color" to="/cats-dry-food-purina-darling">
                     <Card class="overflow-hidden ml-0 max-w-full h-full shadow-6 hover:shadow-8 transition-duration-300">
                         <template #header>
@@ -164,10 +172,8 @@
                 <div class="btn flex justify-content-center">
                     <Button label="Добавить в корзину" icon="pi pi-cart-plus" class="bg-yellow-400 border-none text-color" />
                 </div>
-            </div>
-            
-        </div>
-    </div>
+            </div> -->
+
 </template>
 
 
@@ -189,38 +195,5 @@ onMounted(() => {
 
 
 <style>
-.p-card-header {
-    height: 200px;
-    display: flex;
-    justify-content: center;
-    padding: 10px;
-}
-.p-card-body {
-    padding: 10px;
-}
-@media (min-width: 320px) {
-    .card-content {
-        width: 100%;
-    }
-}
-@media (min-width: 460px) {
-    .card-content {
-        width: 49%;
-    }
-}
-@media (min-width: 760px) {
-    .card-content {
-        width: 32%;
-    }
-}
-@media (min-width: 1100px) {
-    .card-content {
-        width: 23%;
-    }
-}
-@media (min-width: 1490px) {
-    .card-content {
-        width: 19%;
-    }
-}
+
 </style>

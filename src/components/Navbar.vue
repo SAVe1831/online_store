@@ -32,7 +32,7 @@
                             <Button class="active:bg-green-200" style="width: 35px;" icon="pi pi-search" severity="secondary" />
                             <InputText class="w-8rem sm:w-11rem" placeholder="Поиск..." />
                         </InputGroup>
-                        <Button class="active:bg-green-200" icon="pi pi-shopping-cart" severity="secondary" />
+                        <Button class="active:bg-green-200" @click="openCart" icon="pi pi-shopping-cart" severity="secondary" />
                         <Button class="active:bg-green-200" icon="pi pi-user" severity="secondary" />
                     </div>
                 </template>
@@ -91,6 +91,11 @@ const router = useRouter();
 const navigateTo = (path) => {
   router.push(path);
 };
+
+const openCart = () => {
+    document.querySelector('.cart-background').classList.remove('hidden');
+    document.querySelector('.cart').classList.remove('hidden');
+}
 </script>
 
 

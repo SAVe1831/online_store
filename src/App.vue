@@ -1,9 +1,12 @@
 <template>
-  <Drawer />
+  <my-drawer></my-drawer>
   <Navbar></Navbar>
   <div class="app">
       <router-view></router-view>
   </div>
+
+  
+
   <my-footer></my-footer>
   <ScrollTop />
 </template>

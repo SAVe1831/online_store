@@ -1,11 +1,11 @@
 <template>
-    <div class="fixed top-0 left-0 w-full h-full bg-gray-900 opacity-70 hidden">
+    <div @click="closeCart" class="cart-background hidden fixed top-0 left-0 w-full h-full bg-gray-900 opacity-70 z-4">
     </div>
-    <div class="bg-orange-50 w-4 h-full fixed top-0 right-0 z-5 p-5 hidden">
+    <div class="cart hidden bg-orange-50 w-full sm:w-8 md:w-6 lg:w-5 xl:w-4 h-full sm:border-left-3 border-orange-500 fixed top-0 right-0 z-5 p-1 lg:p-5">
         <div class="flex align-items-center gap-5">
-            <svg class="opacity-40 cursor-pointer hover:hidden" version="1.0" xmlns="http://www.w3.org/2000/svg" width="32px" height="32px"
+            <svg @click="closeCart" class="ml-3 lg:m-0" version="1.0" xmlns="http://www.w3.org/2000/svg" width="50px" height="50px"
                 viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet">
-                <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
+                <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#C154C1" stroke="none">
                     <path d="M2325 4874 c-342 -49 -526 -102 -780 -224 -238 -115 -428 -252 -626
                     -449 -355 -355 -567 -767 -656 -1276 -25 -143 -25 -587 0 -730 89 -509 301
                     -921 656 -1276 356 -356 775 -571 1279 -656 153 -26 571 -26 724 0 504 85 923
@@ -20,8 +20,41 @@
             </svg>
             <h2>Корзина</h2>
         </div>
+        <my-cart-item-list></my-cart-item-list>
+        <div>
+            <div class="my-5 flex">
+                <span>Итого:</span>
+                <div class="flex-1 border-bottom-1"></div>
+                <b>3900 ₽</b>
+            </div>
+            <button class="bg-green-500 w-full p-3 border-round-2xl border-none text-white text-2xl hover:bg-green-600 active:bg-green-800 transition-duration-400 cursor-pointer">Оформить заказ</button>
+        </div>
     </div>
 </template>
 
-<script>
+<script setup>
+
+const closeCart = () => {
+    document.querySelector('.cart-background').classList.add('hidden');
+    document.querySelector('.cart').classList.add('hidden');
+
+}
 </script>
+
+<style scoped>
+svg {
+    cursor: pointer;
+    opacity: .4;
+    transition-duration: 300ms;
+}
+svg:hover {
+    transform: translateX(-15%);
+    opacity: 1;
+}
+button:hover {
+    transform: translateY(-1%);
+}
+button:active {
+    transform: translateY(+1%);
+}
+</style>

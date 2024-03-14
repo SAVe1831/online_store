@@ -19,6 +19,10 @@ import ScrollTop from 'primevue/scrolltop'
 import Toast from 'primevue/toast'
 import ToastService from 'primevue/toastservice'
 import CascadeSelect from 'primevue/cascadeselect'
+import CartItem from '@/components/CartItem.vue'
+import CartItemList from '@/components/CartItemList.vue'
+import CardItem from '@/components/CardItem.vue'
+
 
 
 
@@ -35,7 +39,12 @@ app.use(router);
 app.use(ToastService);
 
 app.component('Navbar', Navbar);
-app.component('Drawer', Drawer);
+app.component('my-drawer', Drawer);
+app.component('my-cart-item', CartItem);
+app.component('my-cart-item-list', CartItemList);
+app.component('my-card-item', CardItem);
+
+
 app.component('Button', Button);
 app.component('InputText', InputText);
 app.component('InputGroup', InputGroup);
@@ -48,6 +57,7 @@ app.component('my-footer', Footer);
 app.component('ScrollTop', ScrollTop);
 app.component('Toast', Toast);
 app.component('CascadeSelect', CascadeSelect);
+
 
 
 
