@@ -6,21 +6,21 @@
                 :is-favorite="false"
                 :onClickFavorite="onClickFavorite"
                 title="Сухой корм для кошек с мясом по-домашнему и овощами. Содержит все необходимые витамины и минеральные вещества" 
-                image-url="/images/products/card-darling.jpg" 
+                image-url="images/products/card-darling.jpg" 
                 :price="390"
                 :is-added="false" 
                 :onClickAdd="onClickAdd"
             ></my-card-item>
             <my-card-item 
                 title="Лакомство для кошек Dreamies Лакомые подушечки с сыром. Угощение приносит не только радость, но и пользу." 
-                image-url="/images/products/card-dreamies.png" 
+                image-url="images/products/card-dreamies.png" 
                 :price="140"
                 :is-added="false"
             ></my-card-item>
-            <my-card-item image-url="/images/products/card-dreamies.png"></my-card-item>
-            <my-card-item image-url="/images/products/card-dreamies.png"></my-card-item>
-            <my-card-item image-url="/images/products/card-dreamies.png"></my-card-item>
-            <my-card-item image-url="/images/products/card-dreamies.png"></my-card-item>
+            <my-card-item image-url="images/products/card-dreamies.png"></my-card-item>
+            <my-card-item image-url="images/products/card-dreamies.png"></my-card-item>
+            <my-card-item image-url="images/products/card-dreamies.png"></my-card-item>
+            <my-card-item image-url="images/products/card-dreamies.png"></my-card-item>
 
         </div>
     </div>
