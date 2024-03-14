@@ -82,31 +82,31 @@ Button[data-v-3d371691]:active {
     transform: translateX(+2%) translateY(+2%);
 }
 
-.hover-translate[data-v-02a093d9]:hover {
+.hover-translate[data-v-8f6f7c47]:hover {
     transform: translateY(-2px);
 }
 @media (min-width: 320px) {
-.card-item[data-v-02a093d9] {
+.card-item[data-v-8f6f7c47] {
         width: 100%;
 }
 }
 @media (min-width: 460px) {
-.card-item[data-v-02a093d9] {
+.card-item[data-v-8f6f7c47] {
         width: 48%;
 }
 }
 @media (min-width: 760px) {
-.card-item[data-v-02a093d9] {
+.card-item[data-v-8f6f7c47] {
         width: 31%;
 }
 }
 @media (min-width: 1200px) {
-.card-item[data-v-02a093d9] {
+.card-item[data-v-8f6f7c47] {
         width: 23%;
 }
 }
 @media (min-width: 1500px) {
-.card-item[data-v-02a093d9] {
+.card-item[data-v-8f6f7c47] {
         width: 19%;
 }
 }

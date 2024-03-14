@@ -31867,21 +31867,21 @@ const _sfc_main$z = {
             "is-favorite": false,
             onClickFavorite,
             title: "Сухой корм для кошек с мясом по-домашнему и овощами. Содержит все необходимые витамины и минеральные вещества",
-            "image-url": "/images/products/card-darling.jpg",
+            "image-url": "images/products/card-darling.jpg",
             price: 390,
             "is-added": false,
             onClickAdd
           }),
           createVNode(_component_my_card_item, {
             title: "Лакомство для кошек Dreamies Лакомые подушечки с сыром. Угощение приносит не только радость, но и пользу.",
-            "image-url": "/images/products/card-dreamies.png",
+            "image-url": "images/products/card-dreamies.png",
             price: 140,
             "is-added": false
           }),
-          createVNode(_component_my_card_item, { "image-url": "/images/products/card-dreamies.png" }),
-          createVNode(_component_my_card_item, { "image-url": "/images/products/card-dreamies.png" }),
-          createVNode(_component_my_card_item, { "image-url": "/images/products/card-dreamies.png" }),
-          createVNode(_component_my_card_item, { "image-url": "/images/products/card-dreamies.png" })
+          createVNode(_component_my_card_item, { "image-url": "images/products/card-dreamies.png" }),
+          createVNode(_component_my_card_item, { "image-url": "images/products/card-dreamies.png" }),
+          createVNode(_component_my_card_item, { "image-url": "images/products/card-dreamies.png" }),
+          createVNode(_component_my_card_item, { "image-url": "images/products/card-dreamies.png" })
         ])
       ]);
     };
@@ -34627,7 +34627,7 @@ function _sfc_render(_ctx, _cache) {
   ]);
 }
 const CartItemList = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render]]);
-const _withScopeId = (n) => (pushScopeId("data-v-02a093d9"), n = n(), popScopeId(), n);
+const _withScopeId = (n) => (pushScopeId("data-v-8f6f7c47"), n = n(), popScopeId(), n);
 const _hoisted_1 = { class: "card-item bg-white p-3 cursor-pointer border-1 border-300 border-round-2xl hover-translate shadow-4 hover:shadow-6 transition-duration-300" };
 const _hoisted_2 = { class: "flex relative justify-content-center w-full h-12rem" };
 const _hoisted_3 = ["src"];
@@ -34655,7 +34655,7 @@ const _sfc_main = {
         createBaseVNode("div", _hoisted_2, [
           createBaseVNode("img", {
             onClick: _cache[0] || (_cache[0] = (...args) => __props.onClickFavorite && __props.onClickFavorite(...args)),
-            src: !__props.isFavorite ? "/images/heart-1.png" : "/images/heart-2.png",
+            src: !__props.isFavorite ? "images/heart-1.png" : "images/heart-2.png",
             alt: "favorite",
             class: "absolute top-0 left-0"
           }, null, 8, _hoisted_3),
@@ -34674,7 +34674,7 @@ const _sfc_main = {
           createBaseVNode("img", {
             onClick: _cache[1] || (_cache[1] = (...args) => __props.onClickAdd && __props.onClickAdd(...args)),
             class: "w-3",
-            src: !__props.isAdded ? "/images/plus.png" : "/images/selected.png",
+            src: !__props.isAdded ? "images/plus.png" : "images/selected.png",
             alt: "add"
           }, null, 8, _hoisted_10)
         ])
@@ -34682,7 +34682,7 @@ const _sfc_main = {
     };
   }
 };
-const CardItem = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-02a093d9"]]);
+const CardItem = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-8f6f7c47"]]);
 const app = createApp(App);
 app.use(PrimeVue);
 app.use(router);
