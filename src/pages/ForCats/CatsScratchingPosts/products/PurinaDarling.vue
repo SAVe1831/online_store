@@ -3,7 +3,7 @@
         <h1>Purina Darling</h1>
         <div class="flex flex-wrap justify-content-around mt-3">
             <div class="w-full sm:w-8 md:w-5 lg:w-4 xl:w-3">
-                <img src="/images/products/card-darling.jpg" class="w-full mt-3" alt="purina-darling">
+                <img src="/images/products/CatDryFood/card-darling.jpg" class="w-full mt-3" alt="purina-darling">
                 <p class="text-justify">
                     Корм сухой полнорационный для взрослых кошек, с мясом по-домашнему и овощами Purina Darling
                 </p>
