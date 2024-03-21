@@ -1,10 +1,10 @@
 <template>
     <div class="card-item bg-white p-3 cursor-pointer border-1 border-300 border-round-2xl hover-translate shadow-4 hover:shadow-6 transition-duration-300">
-        <div class="flex relative justify-content-center w-full h-12rem">
+        <div class="flex relative justify-content-center w-full h-12rem mb-3">
             <img @click="onClickFavorite" :src="!isFavorite ? 'images/heart-1.png' : 'images/heart-2.png'" alt="favorite" class="absolute top-0 left-0">
             <img :src="imageUrl" alt="product" class="w-10rem">
         </div>        
-        <p class="h-6rem overflow-hidden">{{ title }}</p>
+        <p class="h-6rem overflow-hidden"> {{ description }}</p>
         <div class="flex justify-content-between align-items-center">
             <div class="flex flex-column">
                 <span class="font-light text-xl">Цена:</span>
@@ -19,6 +19,7 @@
 defineProps({
     imageUrl: String,
     title: String,
+    description: String,
     price: Number,
     isAdded: Boolean,
     isFavorite: Boolean,

@@ -2,12 +2,11 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import '@/assets/main.css'
 
+
 import PrimeVue from 'primevue/config'
 import Drawer from '@/components/Drawer.vue'
 import Navbar from '@/components/Navbar.vue'
 import Button from 'primevue/button'
-import InputText from 'primevue/inputtext'
-import InputGroup from 'primevue/inputgroup'
 import Slider from '@/components/Slider.vue'
 import Tree from '@/components/Tree.vue'
 import Bestsellers from '@/components/Bestsellers.vue'
@@ -22,6 +21,7 @@ import CascadeSelect from 'primevue/cascadeselect'
 import CartItem from '@/components/CartItem.vue'
 import CartItemList from '@/components/CartItemList.vue'
 import CardItem from '@/components/CardItem.vue'
+import CardItemList from '@/components/CardItemList.vue'
 
 
 
@@ -43,11 +43,11 @@ app.component('my-drawer', Drawer);
 app.component('my-cart-item', CartItem);
 app.component('my-cart-item-list', CartItemList);
 app.component('my-card-item', CardItem);
+app.component('my-card-item-list', CardItemList);
+
 
 
 app.component('Button', Button);
-app.component('InputText', InputText);
-app.component('InputGroup', InputGroup);
 app.component('my-slider', Slider);
 app.component('my-tree', Tree);
 app.component('my-bestsellers', Bestsellers);
@@ -57,6 +57,7 @@ app.component('my-footer', Footer);
 app.component('ScrollTop', ScrollTop);
 app.component('Toast', Toast);
 app.component('CascadeSelect', CascadeSelect);
+
 
 
 

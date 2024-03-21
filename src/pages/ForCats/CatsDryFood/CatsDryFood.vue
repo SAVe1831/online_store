@@ -1,41 +1,21 @@
 <template>
     <div class="dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl">
-        <h1 class="mb-3">Сухой корм для кошек</h1>
-        <div class="card-container flex flex-wrap justify-content-around gap-3">
-            <my-card-item 
-                :is-favorite="false"
-                :onClickFavorite="onClickFavorite"
-                title="Сухой корм для кошек с мясом по-домашнему и овощами. Содержит все необходимые витамины и минеральные вещества" 
-                image-url="images/products/card-darling.jpg" 
-                :price="390"
-                :is-added="false" 
-                :onClickAdd="onClickAdd"
-            ></my-card-item>
-            <my-card-item 
-                title="Лакомство для кошек Dreamies Лакомые подушечки с сыром. Угощение приносит не только радость, но и пользу." 
-                image-url="images/products/card-dreamies.png" 
-                :price="140"
-                :is-added="false"
-            ></my-card-item>
-            <my-card-item image-url="images/products/card-dreamies.png"></my-card-item>
-            <my-card-item image-url="images/products/card-dreamies.png"></my-card-item>
-            <my-card-item image-url="images/products/card-dreamies.png"></my-card-item>
-            <my-card-item image-url="images/products/card-dreamies.png"></my-card-item>
-
-        </div>
+        <h1>Сухой корм для кошек</h1>
+        <my-card-item-list apiUrl="https://106b03ab3546a2ba.mokky.dev/cats-dry-food"></my-card-item-list>
     </div>
-    
+    <!--2/https://m.mirkorma.ru/catalog/tovary-dlya-koshek/lakomstva/podushechki/dreamies-dreamies-lakomye-podushechki-s-syrom-/ 
+        3/ https://zoomag174.ru/whiskas-sukhoy-korm-dlya-kotyat-molochnye-podushechki-indeyka-morkov/ 
+        4/https://yarcheplus.ru/product/sukhoy-korm-dlya-koshek-6017
+        5/https://shop.purina.ru/suhoy-korm-purina-one-dlya-sterilizovannyh-koshek-i-kotov-s-govyadinoy-i-pshenitsey-paket-750-g-2
+        6/https://lenta.com/product/korm-dlya-koshek-perfect-fit-kastrkotov-sterilkoshek-germaniya-650g-370142/?utm_referrer=https%3A%2F%2Fwww.google.com%2F
+        7/https://awardpetfood.ru/product/25921/-->
 </template>
 
-
 <script setup>
-const onClickFavorite = () => {
-    alert('Добавить в избранное')
-}
-const onClickAdd = () => {
-    alert('Добавить в корзину!')
-}
+
 </script>
 
 
-<style scoped></style>
+<style scoped>
+
+</style>
