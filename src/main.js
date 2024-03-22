@@ -22,6 +22,7 @@ import CartItem from '@/components/CartItem.vue'
 import CartItemList from '@/components/CartItemList.vue'
 import CardItem from '@/components/CardItem.vue'
 import CardItemList from '@/components/CardItemList.vue'
+import ProductDetails from '@/components/ProductDetails.vue'
 
 
 
@@ -44,6 +45,8 @@ app.component('my-cart-item', CartItem);
 app.component('my-cart-item-list', CartItemList);
 app.component('my-card-item', CardItem);
 app.component('my-card-item-list', CardItemList);
+app.component('my-product-details', ProductDetails);
+
 
 
 
