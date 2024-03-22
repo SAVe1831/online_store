@@ -75,10 +75,10 @@ body .p-component {
 }
 } 
 
-Button[data-v-6d52b5ff]:hover {
+Button[data-v-29bb3b9d]:hover {
     transform: translateX(-2%) translateY(-2%);
 }
-Button[data-v-6d52b5ff]:active {
+Button[data-v-29bb3b9d]:active {
     transform: translateX(+2%) translateY(+2%);
 }
 

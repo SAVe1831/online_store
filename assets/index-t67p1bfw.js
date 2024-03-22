@@ -9213,7 +9213,7 @@ var PrimeVue = {
 const _withScopeId$3 = (n) => (pushScopeId("data-v-3ccb52f1"), n = n(), popScopeId(), n);
 const _hoisted_1$1w = { class: "cart hidden bg-orange-50 w-full sm:w-8 md:w-6 lg:w-5 xl:w-4 h-full sm:border-left-3 border-orange-500 fixed top-0 right-0 z-5 p-1 lg:p-5" };
 const _hoisted_2$1p = { class: "flex align-items-center gap-5" };
-const _hoisted_3$I = /* @__PURE__ */ _withScopeId$3(() => /* @__PURE__ */ createBaseVNode("g", {
+const _hoisted_3$x = /* @__PURE__ */ _withScopeId$3(() => /* @__PURE__ */ createBaseVNode("g", {
   transform: "translate(0.000000,512.000000) scale(0.100000,-0.100000)",
   fill: "#C154C1",
   stroke: "none"
@@ -9221,7 +9221,7 @@ const _hoisted_3$I = /* @__PURE__ */ _withScopeId$3(() => /* @__PURE__ */ create
   /* @__PURE__ */ createBaseVNode("path", { d: "M2325 4874 c-342 -49 -526 -102 -780 -224 -238 -115 -428 -252 -626\r\n                    -449 -355 -355 -567 -767 -656 -1276 -25 -143 -25 -587 0 -730 89 -509 301\r\n                    -921 656 -1276 356 -356 775 -571 1279 -656 153 -26 571 -26 724 0 504 85 923\r\n                    300 1279 656 356 356 571 775 656 1279 26 153 26 571 0 724 -85 504 -300 923\r\n                    -656 1279 -354 353 -770 568 -1271 655 -91 16 -529 29 -605 18z m172 -1060\r\n                    c56 -42 63 -89 63 -396 l0 -268 510 0 c438 0 516 -2 548 -15 47 -20 79 -50\r\n                    103 -97 18 -35 19 -64 19 -478 0 -414 -1 -443 -19 -478 -24 -47 -56 -77 -103\r\n                    -97 -32 -13 -110 -15 -547 -15 l-510 0 -3 -297 c-3 -264 -5 -302 -21 -331 -24\r\n                    -43 -72 -72 -122 -72 -39 0 -47 7 -685 645 l-645 645 635 636 c349 349 644\r\n                    640 655 644 30 14 86 2 122 -26z" })
 ], -1));
 const _hoisted_4$j = [
-  _hoisted_3$I
+  _hoisted_3$x
 ];
 const _hoisted_5$f = /* @__PURE__ */ _withScopeId$3(() => /* @__PURE__ */ createBaseVNode("h2", null, "Корзина", -1));
 const _hoisted_6$c = /* @__PURE__ */ _withScopeId$3(() => /* @__PURE__ */ createBaseVNode("div", null, [
@@ -9268,7 +9268,7 @@ const _sfc_main$R = {
   }
 };
 const Drawer = /* @__PURE__ */ _export_sfc(_sfc_main$R, [["__scopeId", "data-v-3ccb52f1"]]);
-const _imports_0$5 = "" + new URL("../images/navbar/nav-cat2.png", import.meta.url).href;
+const _imports_0$4 = "" + new URL("../images/navbar/nav-cat2.png", import.meta.url).href;
 const _imports_1$2 = "" + new URL("../images/navbar/nav-bird.png", import.meta.url).href;
 const _imports_2$2 = "" + new URL("../images/navbar/nav-dog.png", import.meta.url).href;
 const _imports_3$1 = "" + new URL("../images/navbar/nav-rat.png", import.meta.url).href;
@@ -10755,7 +10755,7 @@ var script$1$h = {
 };
 var _hoisted_1$1$4 = ["id", "aria-label", "aria-disabled", "aria-expanded", "aria-haspopup", "aria-level", "aria-setsize", "aria-posinset", "data-p-highlight", "data-p-focused", "data-p-disabled"];
 var _hoisted_2$1l = ["onClick", "onMouseenter"];
-var _hoisted_3$H = ["href", "target"];
+var _hoisted_3$w = ["href", "target"];
 var _hoisted_4$i = ["id"];
 var _hoisted_5$e = ["id"];
 function render$1$5(_ctx, _cache, $props, $setup, $data, $options) {
@@ -10820,7 +10820,7 @@ function render$1$5(_ctx, _cache, $props, $setup, $data, $options) {
     }, null, 8, ["root", "active", "class"])) : (openBlock(), createBlock(resolveDynamicComponent($props.root ? "AngleDownIcon" : "AngleRightIcon"), mergeProps({
       key: 1,
       "class": _ctx.cx("submenuIcon")
-    }, $options.getPTOptions(processedItem, index2, "submenuIcon")), null, 16, ["class"]))], 64)) : createCommentVNode("", true)], 16, _hoisted_3$H)), [[_directive_ripple]]) : (openBlock(), createBlock(resolveDynamicComponent($props.templates.item), {
+    }, $options.getPTOptions(processedItem, index2, "submenuIcon")), null, 16, ["class"]))], 64)) : createCommentVNode("", true)], 16, _hoisted_3$w)), [[_directive_ripple]]) : (openBlock(), createBlock(resolveDynamicComponent($props.templates.item), {
       key: 1,
       item: processedItem.item,
       root: $props.root,
@@ -13383,9 +13383,9 @@ function useRouter() {
 }
 const _hoisted_1$1r = { class: "header-top" };
 const _hoisted_2$1k = { class: "header-logo flex flex-nowrap justify-content-evenly" };
-const _hoisted_3$G = /* @__PURE__ */ createBaseVNode("img", {
+const _hoisted_3$v = /* @__PURE__ */ createBaseVNode("img", {
   class: "header-logo-item mx-3 w-1 hidden sm:block sm:w-2 xl:w-1",
-  src: _imports_0$5,
+  src: _imports_0$4,
   height: "100px",
   width: "auto"
 }, null, -1);
@@ -13433,7 +13433,7 @@ const _hoisted_7$a = /* @__PURE__ */ createBaseVNode("img", {
   height: "100px",
   width: "auto"
 }, null, -1);
-const _hoisted_8$6 = /* @__PURE__ */ createBaseVNode("img", {
+const _hoisted_8$5 = /* @__PURE__ */ createBaseVNode("img", {
   class: "header-logo-item mr-3 w-1 hidden md:block md:w-2 xl:w-1",
   src: _imports_4$1,
   height: "100px",
@@ -13503,7 +13503,7 @@ const _sfc_main$Q = {
       return openBlock(), createElementBlock(Fragment, null, [
         createBaseVNode("div", _hoisted_1$1r, [
           createBaseVNode("div", _hoisted_2$1k, [
-            _hoisted_3$G,
+            _hoisted_3$v,
             _hoisted_4$h,
             _hoisted_5$d,
             createVNode(_component_router_link, { to: "/" }, {
@@ -13513,7 +13513,7 @@ const _sfc_main$Q = {
               _: 1
             }),
             _hoisted_7$a,
-            _hoisted_8$6,
+            _hoisted_8$5,
             _hoisted_9$5
           ]),
           createBaseVNode("div", _hoisted_10$4, [
@@ -14575,7 +14575,7 @@ function _toPrimitive$i(t, r) {
 }
 var _hoisted_1$1k = ["aria-live"];
 var _hoisted_2$1e = ["disabled", "aria-label"];
-var _hoisted_3$F = ["data-p-carousel-item-active", "data-p-carousel-item-start", "data-p-carousel-item-end"];
+var _hoisted_3$u = ["data-p-carousel-item-active", "data-p-carousel-item-start", "data-p-carousel-item-end"];
 var _hoisted_4$g = ["aria-hidden", "aria-label", "aria-roledescription", "data-p-carousel-item-active", "data-p-carousel-item-start", "data-p-carousel-item-end"];
 var _hoisted_5$c = ["disabled", "aria-label"];
 var _hoisted_6$a = ["data-p-highlight"];
@@ -14646,7 +14646,7 @@ function render$G(_ctx, _cache, $props, $setup, $data, $options) {
     }), [renderSlot(_ctx.$slots, "item", {
       data: item4,
       index: index2
-    })], 16, _hoisted_3$F);
+    })], 16, _hoisted_3$u);
   }), 128)) : createCommentVNode("", true), (openBlock(true), createElementBlock(Fragment, null, renderList(_ctx.value, function(item4, index2) {
     return openBlock(), createElementBlock("div", mergeProps({
       key: index2,
@@ -14728,7 +14728,7 @@ function render$G(_ctx, _cache, $props, $setup, $data, $options) {
 script$H.render = render$G;
 const _hoisted_1$1j = { class: "w-12 card lg:w-7" };
 const _hoisted_2$1d = { class: "border-1 surface-border border-round" };
-const _hoisted_3$E = { class: "mb-3" };
+const _hoisted_3$t = { class: "mb-3" };
 const _hoisted_4$f = { class: "relative flex align-items-center justify-content-center" };
 const _hoisted_5$b = ["src", "alt"];
 const _sfc_main$P = {
@@ -14751,7 +14751,7 @@ const _sfc_main$P = {
         }, {
           item: withCtx((slotProps) => [
             createBaseVNode("div", _hoisted_2$1d, [
-              createBaseVNode("div", _hoisted_3$E, [
+              createBaseVNode("div", _hoisted_3$t, [
                 createBaseVNode("div", _hoisted_4$f, [
                   createBaseVNode("img", {
                     src: slotProps.data.image,
@@ -16317,7 +16317,7 @@ const _sfc_main$O = {
 };
 const _hoisted_1$1d = { class: "bestsellers-container my-3 bg-red-100 px-1 py-3 lg:px-5 flex flex-wrap justify-content-center border-round-2xl" };
 const _hoisted_2$17 = /* @__PURE__ */ createBaseVNode("h2", { class: "mt-0 mb-3 text-center hidden md:block" }, "Хиты продаж", -1);
-const _hoisted_3$D = {
+const _hoisted_3$s = {
   key: 0,
   class: "card-container flex flex-wrap justify-content-around gap-3"
 };
@@ -16342,7 +16342,7 @@ const _sfc_main$N = {
           class: "text-2xl bg-red-100 border-round-2xl p-2 font-bold md:hidden my-2 sm:mt-0",
           onClick: toggleCards
         }, "Хиты продаж"),
-        showCards.value ? (openBlock(), createElementBlock("div", _hoisted_3$D, [
+        showCards.value ? (openBlock(), createElementBlock("div", _hoisted_3$s, [
           createVNode(_component_my_card_item),
           createVNode(_component_my_card_item),
           createVNode(_component_my_card_item),
@@ -16402,7 +16402,7 @@ function render$A(_ctx, _cache, $props, $setup, $data, $options) {
   }, _ctx.ptm("footer")), [renderSlot(_ctx.$slots, "footer")], 16)) : createCommentVNode("", true)], 16)], 16);
 }
 script$B.render = render$A;
-const _imports_0$4 = "" + new URL("../images/brands/royalCanin.png", import.meta.url).href;
+const _imports_0$3 = "" + new URL("../images/brands/royalCanin.png", import.meta.url).href;
 const _imports_1$1 = "" + new URL("../images/brands/chappi.png", import.meta.url).href;
 const _imports_2$1 = "" + new URL("../images/brands/purina.png", import.meta.url).href;
 const _imports_3 = "" + new URL("../images/brands/whiskas.png", import.meta.url).href;
@@ -16410,7 +16410,7 @@ const _imports_4 = "" + new URL("../images/brands/eukanuba.png", import.meta.url
 const _imports_5 = "" + new URL("../images/brands/blitz.png", import.meta.url).href;
 const _sfc_main$M = {};
 const _hoisted_1$1c = { class: "brands-container mb-3 bg-red-100 p-1 sm:p-5 border-round-2xl" };
-const _hoisted_2$16 = /* @__PURE__ */ createStaticVNode('<h2 class="m-0 text-center">Бренды</h2><div class="card mt-6 flex justify-content-evenly"><img class="w-1" src="' + _imports_0$4 + '" alt="Brand Image"><img class="w-1" src="' + _imports_1$1 + '" alt="Brand Image"><img class="w-1" src="' + _imports_2$1 + '" alt="Brand Image"><img class="w-1" src="' + _imports_3 + '" alt="Brand Image"><img class="w-1" src="' + _imports_4 + '" alt="Brand Image"><img class="w-1" src="' + _imports_5 + '" alt="Brand Image"></div>', 2);
+const _hoisted_2$16 = /* @__PURE__ */ createStaticVNode('<h2 class="m-0 text-center">Бренды</h2><div class="card mt-6 flex justify-content-evenly"><img class="w-1" src="' + _imports_0$3 + '" alt="Brand Image"><img class="w-1" src="' + _imports_1$1 + '" alt="Brand Image"><img class="w-1" src="' + _imports_2$1 + '" alt="Brand Image"><img class="w-1" src="' + _imports_3 + '" alt="Brand Image"><img class="w-1" src="' + _imports_4 + '" alt="Brand Image"><img class="w-1" src="' + _imports_5 + '" alt="Brand Image"></div>', 2);
 const _hoisted_4$e = [
   _hoisted_2$16
 ];
@@ -16418,20 +16418,20 @@ function _sfc_render$I(_ctx, _cache) {
   return openBlock(), createElementBlock("div", _hoisted_1$1c, _hoisted_4$e);
 }
 const Brands = /* @__PURE__ */ _export_sfc(_sfc_main$M, [["render", _sfc_render$I]]);
-const _imports_0$3 = "" + new URL("../images/social/vk.png", import.meta.url).href;
+const _imports_0$2 = "" + new URL("../images/social/vk.png", import.meta.url).href;
 const _imports_1 = "" + new URL("../images/social/ok.png", import.meta.url).href;
 const _imports_2 = "" + new URL("../images/social/telegram.png", import.meta.url).href;
 const _sfc_main$L = {};
 const _hoisted_1$1b = { class: "footer-container flex flex-wrap justify-content-between mt-auto mb-3 p-3 bg-gray-300 border-round-2xl w-full" };
 const _hoisted_2$15 = { class: "left-block w-full sm:w-6 lg:w-4 pt-3 pr-4" };
-const _hoisted_3$C = { class: "footer-info" };
+const _hoisted_3$r = { class: "footer-info" };
 const _hoisted_4$d = /* @__PURE__ */ createBaseVNode("div", { class: "footer-sitename" }, [
   /* @__PURE__ */ createBaseVNode("strong", null, "ZooМаг")
 ], -1);
 const _hoisted_5$a = /* @__PURE__ */ createBaseVNode("div", { class: "footer-sitecopy" }, "© 2018 - 2024", -1);
 const _hoisted_6$9 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
-const _hoisted_7$8 = /* @__PURE__ */ createStaticVNode('<div class="social-block mt-4"><a class="social" href="https://vk.com"><img src="' + _imports_0$3 + '" alt="vkontakte" width="34px"></a><a class="social" href="https://ok.ru/"><img src="' + _imports_1 + '" alt="odnoklassniki" width="34px"></a><a class="social" href="https://web.telegram.org/k/"><img src="' + _imports_2 + '" alt="telegram" width="34px"></a></div>', 1);
-const _hoisted_8$5 = /* @__PURE__ */ createStaticVNode('<div class="middle-block w-full sm:w-6 lg:w-4 pt-3 pr-4"><div class="footer-contacts"><div class="footer-contacts_phone"><a class="no-underline hover:underline text-color" href="tel:+79998887766">Тел +7(999)888-77-66</a></div><div class="footer-contacts__address mt-3">Офис: г. Краснодар, ул. Красных Партизан, 137</div><div class="footer-time mt-3">Пн-Сб с 9:00 до 20:00. Воскресенье - выходной</div></div></div>', 1);
+const _hoisted_7$8 = /* @__PURE__ */ createStaticVNode('<div class="social-block mt-4"><a class="social" href="https://vk.com"><img src="' + _imports_0$2 + '" alt="vkontakte" width="34px"></a><a class="social" href="https://ok.ru/"><img src="' + _imports_1 + '" alt="odnoklassniki" width="34px"></a><a class="social" href="https://web.telegram.org/k/"><img src="' + _imports_2 + '" alt="telegram" width="34px"></a></div>', 1);
+const _hoisted_8$4 = /* @__PURE__ */ createStaticVNode('<div class="middle-block w-full sm:w-6 lg:w-4 pt-3 pr-4"><div class="footer-contacts"><div class="footer-contacts_phone"><a class="no-underline hover:underline text-color" href="tel:+79998887766">Тел +7(999)888-77-66</a></div><div class="footer-contacts__address mt-3">Офис: г. Краснодар, ул. Красных Партизан, 137</div><div class="footer-time mt-3">Пн-Сб с 9:00 до 20:00. Воскресенье - выходной</div></div></div>', 1);
 const _hoisted_9$4 = { class: "right-block w-full sm:w-6 lg:w-4 pt-3" };
 const _hoisted_10$3 = { class: "menu-bottom m-0 p-0" };
 const _hoisted_11$2 = { class: "menu-bottom_item" };
@@ -16444,7 +16444,7 @@ function _sfc_render$H(_ctx, _cache) {
   const _component_router_link = resolveComponent("router-link");
   return openBlock(), createElementBlock("div", _hoisted_1$1b, [
     createBaseVNode("div", _hoisted_2$15, [
-      createBaseVNode("div", _hoisted_3$C, [
+      createBaseVNode("div", _hoisted_3$r, [
         _hoisted_4$d,
         _hoisted_5$a,
         _hoisted_6$9,
@@ -16457,7 +16457,7 @@ function _sfc_render$H(_ctx, _cache) {
         _hoisted_7$8
       ])
     ]),
-    _hoisted_8$5,
+    _hoisted_8$4,
     createBaseVNode("div", _hoisted_9$4, [
       createBaseVNode("ul", _hoisted_10$3, [
         createBaseVNode("li", _hoisted_11$2, [
@@ -16531,14 +16531,14 @@ function _sfc_render$H(_ctx, _cache) {
   ]);
 }
 const Footer = /* @__PURE__ */ _export_sfc(_sfc_main$L, [["render", _sfc_render$H]]);
-const _imports_0$2 = "" + new URL("../images/rat-hello.png", import.meta.url).href;
+const _imports_0$1 = "" + new URL("../images/rat-hello.png", import.meta.url).href;
 const _sfc_main$K = {};
 const _hoisted_1$1a = { class: "main flex-1 mt-8 ml-auto" };
 const _hoisted_2$14 = { class: "flex flex-wrap justify-content-center mt-3" };
-const _hoisted_3$B = /* @__PURE__ */ createBaseVNode("div", { class: "card w-12 sm:w-6 md:w-5 lg:w-3 mx-0 lg:ml-6" }, [
+const _hoisted_3$q = /* @__PURE__ */ createBaseVNode("div", { class: "card w-12 sm:w-6 md:w-5 lg:w-3 mx-0 lg:ml-6" }, [
   /* @__PURE__ */ createBaseVNode("div", null, [
     /* @__PURE__ */ createBaseVNode("img", {
-      src: _imports_0$2,
+      src: _imports_0$1,
       class: "w-12 mt-8 hidden lg:block",
       alt: "rat-hello"
     })
@@ -16551,7 +16551,7 @@ function _sfc_render$G(_ctx, _cache) {
   return openBlock(), createElementBlock("div", _hoisted_1$1a, [
     createBaseVNode("div", _hoisted_2$14, [
       createVNode(_component_my_slider),
-      _hoisted_3$B
+      _hoisted_3$q
     ]),
     createVNode(_component_my_bestsellers),
     createVNode(_component_my_brands, { class: "hidden md:block" })
@@ -18902,7 +18902,7 @@ function _toPrimitive$e(t, r) {
 }
 var _hoisted_1$12 = ["id"];
 var _hoisted_2$Z = ["id", "value", "placeholder", "tabindex", "disabled", "aria-label", "aria-labelledby", "aria-expanded", "aria-controls", "aria-activedescendant"];
-var _hoisted_3$A = ["id", "tabindex", "aria-label", "aria-labelledby", "aria-expanded", "aria-controls", "aria-activedescendant", "aria-disabled"];
+var _hoisted_3$p = ["id", "tabindex", "aria-label", "aria-labelledby", "aria-expanded", "aria-controls", "aria-activedescendant", "aria-disabled"];
 var _hoisted_4$c = ["value", "placeholder", "aria-owns", "aria-activedescendant"];
 var _hoisted_5$9 = ["id"];
 var _hoisted_6$8 = ["id"];
@@ -18981,7 +18981,7 @@ function render$s(_ctx, _cache, $props, $setup, $data, $options) {
     placeholder: _ctx.placeholder
   }, function() {
     return [createTextVNode(toDisplayString($options.label === "p-emptylabel" ? " " : $options.label || "empty"), 1)];
-  })], 16, _hoisted_3$A)), _ctx.showClear && _ctx.modelValue != null ? renderSlot(_ctx.$slots, "clearicon", {
+  })], 16, _hoisted_3$p)), _ctx.showClear && _ctx.modelValue != null ? renderSlot(_ctx.$slots, "clearicon", {
     key: 2,
     "class": normalizeClass(_ctx.cx("clearIcon")),
     onClick: $options.onClearClick,
@@ -22110,7 +22110,7 @@ var _hoisted_2$P = /* @__PURE__ */ createBaseVNode("path", {
   d: "M3.38714 14C3.01681 14 2.70972 13.6929 2.70972 13.3226V0.677419C2.70972 0.307097 3.01681 0 3.38714 0C3.75746 0 4.06456 0.307097 4.06456 0.677419V13.3226C4.06456 13.6929 3.75746 14 3.38714 14Z",
   fill: "currentColor"
 }, null, -1);
-var _hoisted_3$z = /* @__PURE__ */ createBaseVNode("path", {
+var _hoisted_3$o = /* @__PURE__ */ createBaseVNode("path", {
   d: "M10.6129 14C10.4413 14 10.2697 13.9368 10.1342 13.8013L7.87611 11.5432C7.61418 11.2813 7.61418 10.8477 7.87611 10.5858C8.13805 10.3239 8.5716 10.3239 8.83353 10.5858L10.6129 12.3652L12.3922 10.5858C12.6542 10.3239 13.0877 10.3239 13.3497 10.5858C13.6116 10.8477 13.6116 11.2813 13.3497 11.5432L11.0916 13.8013C10.9561 13.9368 10.7845 14 10.6129 14Z",
   fill: "currentColor"
 }, null, -1);
@@ -22118,7 +22118,7 @@ var _hoisted_4$b = /* @__PURE__ */ createBaseVNode("path", {
   d: "M10.6129 14C10.2426 14 9.93552 13.6929 9.93552 13.3226V0.677419C9.93552 0.307097 10.2426 0 10.6129 0C10.9833 0 11.2904 0.307097 11.2904 0.677419V13.3226C11.2904 13.6929 10.9832 14 10.6129 14Z",
   fill: "currentColor"
 }, null, -1);
-var _hoisted_5$8 = [_hoisted_1$S, _hoisted_2$P, _hoisted_3$z, _hoisted_4$b];
+var _hoisted_5$8 = [_hoisted_1$S, _hoisted_2$P, _hoisted_3$o, _hoisted_4$b];
 function render$f(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("svg", mergeProps({
     width: "14",
@@ -25540,7 +25540,7 @@ function _toPrimitive$4(t, r) {
 }
 var _hoisted_1$1$2 = ["aria-label", "aria-expanded", "aria-controls"];
 var _hoisted_2$M = ["id", "aria-modal"];
-var _hoisted_3$y = ["onClick", "onKeydown", "tabindex"];
+var _hoisted_3$n = ["onClick", "onKeydown", "tabindex"];
 function render$4$1(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_CFDropdown = resolveComponent("CFDropdown");
   var _component_CFButton = resolveComponent("CFButton");
@@ -25625,7 +25625,7 @@ function render$4$1(_ctx, _cache, $props, $setup, $data, $options) {
                 return $options.onRowMatchModeChange(matchMode.value);
               }, ["prevent"]), ["enter"])],
               tabindex: i === 0 ? "0" : null
-            }, $options.getColumnPT("filterRowItem", $options.ptmFilterRowItemOptions(matchMode))), toDisplayString(matchMode.label), 17, _hoisted_3$y);
+            }, $options.getColumnPT("filterRowItem", $options.ptmFilterRowItemOptions(matchMode))), toDisplayString(matchMode.label), 17, _hoisted_3$n);
           }), 128)), createBaseVNode("li", mergeProps({
             "class": _ctx.cx("filterSeparator")
           }, $options.getColumnPT("filterSeparator")), null, 16), createBaseVNode("li", mergeProps({
@@ -31464,12 +31464,12 @@ function useToast() {
 }
 const _hoisted_1$N = { class: "feedback-container mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl" };
 const _hoisted_2$K = /* @__PURE__ */ createBaseVNode("h1", null, "Обратная связь", -1);
-const _hoisted_3$x = /* @__PURE__ */ createBaseVNode("b", null, "Ваше имя:", -1);
+const _hoisted_3$m = /* @__PURE__ */ createBaseVNode("b", null, "Ваше имя:", -1);
 const _hoisted_4$8 = /* @__PURE__ */ createBaseVNode("span", { style: { "color": "red" } }, "*", -1);
 const _hoisted_5$6 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
 const _hoisted_6$6 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
 const _hoisted_7$6 = /* @__PURE__ */ createBaseVNode("b", null, "Ваш E-mail:", -1);
-const _hoisted_8$4 = /* @__PURE__ */ createBaseVNode("span", { style: { "color": "red" } }, "*", -1);
+const _hoisted_8$3 = /* @__PURE__ */ createBaseVNode("span", { style: { "color": "red" } }, "*", -1);
 const _hoisted_9$3 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
 const _hoisted_10$2 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
 const _hoisted_11$1 = /* @__PURE__ */ createBaseVNode("b", null, "Телефон:", -1);
@@ -31543,7 +31543,7 @@ const _sfc_main$H = {
           onSubmit: withModifiers(submit, ["prevent", "stop"]),
           class: "container p-5 w-full"
         }, [
-          _hoisted_3$x,
+          _hoisted_3$m,
           _hoisted_4$8,
           _hoisted_5$6,
           withDirectives(createBaseVNode("input", {
@@ -31557,7 +31557,7 @@ const _sfc_main$H = {
           ]),
           _hoisted_6$6,
           _hoisted_7$6,
-          _hoisted_8$4,
+          _hoisted_8$3,
           _hoisted_9$3,
           withDirectives(createBaseVNode("input", {
             class: "mb-3 mt-1",
@@ -31669,12 +31669,12 @@ const PrivacyPolicy = /* @__PURE__ */ _export_sfc(_sfc_main$F, [["render", _sfc_
 const _sfc_main$E = {};
 const _hoisted_1$K = { class: "requisites-container mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl" };
 const _hoisted_2$H = /* @__PURE__ */ createBaseVNode("h1", null, "Реквизиты", -1);
-const _hoisted_3$w = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
+const _hoisted_3$l = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
 const _hoisted_4$7 = /* @__PURE__ */ createBaseVNode("h2", null, "Реквизиты организации:", -1);
 const _hoisted_5$5 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
 const _hoisted_6$5 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
 const _hoisted_7$5 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
-const _hoisted_8$3 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
+const _hoisted_8$2 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
 const _hoisted_9$1 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
 const _hoisted_10$1 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
 const _hoisted_11 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
@@ -31695,7 +31695,7 @@ function _sfc_render$C(_ctx, _cache) {
     createBaseVNode("p", null, [
       createBaseVNode("strong", null, [
         createTextVNode("ВНИМАНИЕ! "),
-        _hoisted_3$w,
+        _hoisted_3$l,
         createTextVNode(" Перед осуществлением платежа свяжитесь с администрацией магазина для определения точной суммы заказа (с учетом "),
         createVNode(_component_router_link, { to: "/discounts" }, {
           default: withCtx(() => [
@@ -31721,7 +31721,7 @@ function _sfc_render$C(_ctx, _cache) {
       createTextVNode(" ИП Иванов Иван Иванович"),
       _hoisted_7$5,
       createTextVNode(" ИНН 0999999999"),
-      _hoisted_8$3,
+      _hoisted_8$2,
       _hoisted_9$1,
       createTextVNode(" ОРГНИП 3333333333"),
       _hoisted_10$1,
@@ -31769,7 +31769,7 @@ const ExchangeReturn = /* @__PURE__ */ _export_sfc(_sfc_main$D, [["render", _sfc
 const _sfc_main$C = {};
 const _hoisted_1$I = { class: "agreement-container mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl" };
 const _hoisted_2$F = /* @__PURE__ */ createBaseVNode("h1", { class: "text-3xl sm:text-4xl" }, "Пользовательское соглашение", -1);
-const _hoisted_3$v = { class: "text-justify" };
+const _hoisted_3$k = { class: "text-justify" };
 const _hoisted_4$6 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
 const _hoisted_5$4 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
 const _hoisted_6$4 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
@@ -31778,7 +31778,7 @@ function _sfc_render$A(_ctx, _cache) {
   const _component_router_link = resolveComponent("router-link");
   return openBlock(), createElementBlock("div", _hoisted_1$I, [
     _hoisted_2$F,
-    createBaseVNode("p", _hoisted_3$v, [
+    createBaseVNode("p", _hoisted_3$k, [
       createTextVNode(" Настоящим Я, действуя своей волей и в своем интересе, при размещении (вводе) своих персональных данных на Интернет сайте zoomag индивидуального предпринимателя Иванова Ивана Ивановича (ИНН: 9999999999, ОГРН: 888888888, Адрес: г. Краснодар ул. Ставропольская д 555 кв 666, далее - Оператор) подтверждаю свое согласие на обработку указанных мной персональных данных Оператором, в соответствии с "),
       createVNode(_component_router_link, { to: "/privacy-policy" }, {
         default: withCtx(() => [
@@ -31874,113 +31874,124 @@ function _sfc_render$t(_ctx, _cache) {
 }
 const CatsScratchingPosts = /* @__PURE__ */ _export_sfc(_sfc_main$v, [["render", _sfc_render$t]]);
 const _sfc_main$u = {};
-const _hoisted_1$A = { class: "dry-food-container mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl" };
+const _hoisted_1$A = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
 const _hoisted_2$x = /* @__PURE__ */ createBaseVNode("h1", null, "Переноски для кошек", -1);
-const _hoisted_3$u = [
-  _hoisted_2$x
-];
 function _sfc_render$s(_ctx, _cache) {
-  return openBlock(), createElementBlock("div", _hoisted_1$A, _hoisted_3$u);
+  const _component_my_card_item_list = resolveComponent("my-card-item-list");
+  return openBlock(), createElementBlock("div", _hoisted_1$A, [
+    _hoisted_2$x,
+    createVNode(_component_my_card_item_list, { apiUrl: "https://106b03ab3546a2ba.mokky.dev/cats-carrying" })
+  ]);
 }
 const CatsCarrying = /* @__PURE__ */ _export_sfc(_sfc_main$u, [["render", _sfc_render$s]]);
 const _sfc_main$t = {};
-const _hoisted_1$z = { class: "dry-food-container mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl" };
+const _hoisted_1$z = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
 const _hoisted_2$w = /* @__PURE__ */ createBaseVNode("h1", null, "Лежанки для кошек", -1);
-const _hoisted_3$t = [
-  _hoisted_2$w
-];
 function _sfc_render$r(_ctx, _cache) {
-  return openBlock(), createElementBlock("div", _hoisted_1$z, _hoisted_3$t);
+  const _component_my_card_item_list = resolveComponent("my-card-item-list");
+  return openBlock(), createElementBlock("div", _hoisted_1$z, [
+    _hoisted_2$w,
+    createVNode(_component_my_card_item_list, { apiUrl: "https://106b03ab3546a2ba.mokky.dev/cats-beds" })
+  ]);
 }
 const CatsBeds = /* @__PURE__ */ _export_sfc(_sfc_main$t, [["render", _sfc_render$r]]);
 const _sfc_main$s = {};
-const _hoisted_1$y = { class: "dry-food-container mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl" };
+const _hoisted_1$y = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
 const _hoisted_2$v = /* @__PURE__ */ createBaseVNode("h1", null, "Игрушки для кошек", -1);
-const _hoisted_3$s = [
-  _hoisted_2$v
-];
 function _sfc_render$q(_ctx, _cache) {
-  return openBlock(), createElementBlock("div", _hoisted_1$y, _hoisted_3$s);
+  const _component_my_card_item_list = resolveComponent("my-card-item-list");
+  return openBlock(), createElementBlock("div", _hoisted_1$y, [
+    _hoisted_2$v,
+    createVNode(_component_my_card_item_list, { apiUrl: "https://106b03ab3546a2ba.mokky.dev/cats-toys" })
+  ]);
 }
 const CatsToys = /* @__PURE__ */ _export_sfc(_sfc_main$s, [["render", _sfc_render$q]]);
 const _sfc_main$r = {};
-const _hoisted_1$x = { class: "dry-food-container mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl" };
+const _hoisted_1$x = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
 const _hoisted_2$u = /* @__PURE__ */ createBaseVNode("h1", null, "Сухой корм для собак", -1);
-const _hoisted_3$r = [
-  _hoisted_2$u
-];
 function _sfc_render$p(_ctx, _cache) {
-  return openBlock(), createElementBlock("div", _hoisted_1$x, _hoisted_3$r);
+  const _component_my_card_item_list = resolveComponent("my-card-item-list");
+  return openBlock(), createElementBlock("div", _hoisted_1$x, [
+    _hoisted_2$u,
+    createVNode(_component_my_card_item_list, { apiUrl: "https://106b03ab3546a2ba.mokky.dev/dogs-dry-food" })
+  ]);
 }
 const DogsDryFood = /* @__PURE__ */ _export_sfc(_sfc_main$r, [["render", _sfc_render$p]]);
 const _sfc_main$q = {};
-const _hoisted_1$w = { class: "dry-food-container mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl" };
+const _hoisted_1$w = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
 const _hoisted_2$t = /* @__PURE__ */ createBaseVNode("h1", null, "Влажный корм для собак", -1);
-const _hoisted_3$q = [
-  _hoisted_2$t
-];
 function _sfc_render$o(_ctx, _cache) {
-  return openBlock(), createElementBlock("div", _hoisted_1$w, _hoisted_3$q);
+  const _component_my_card_item_list = resolveComponent("my-card-item-list");
+  return openBlock(), createElementBlock("div", _hoisted_1$w, [
+    _hoisted_2$t,
+    createVNode(_component_my_card_item_list, { apiUrl: "https://106b03ab3546a2ba.mokky.dev/dogs-wet-food" })
+  ]);
 }
 const DogsWetFood = /* @__PURE__ */ _export_sfc(_sfc_main$q, [["render", _sfc_render$o]]);
 const _sfc_main$p = {};
-const _hoisted_1$v = { class: "dry-food-container mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl" };
+const _hoisted_1$v = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
 const _hoisted_2$s = /* @__PURE__ */ createBaseVNode("h1", null, "Миски и поилки для собак", -1);
-const _hoisted_3$p = [
-  _hoisted_2$s
-];
 function _sfc_render$n(_ctx, _cache) {
-  return openBlock(), createElementBlock("div", _hoisted_1$v, _hoisted_3$p);
+  const _component_my_card_item_list = resolveComponent("my-card-item-list");
+  return openBlock(), createElementBlock("div", _hoisted_1$v, [
+    _hoisted_2$s,
+    createVNode(_component_my_card_item_list, { apiUrl: "https://106b03ab3546a2ba.mokky.dev/dogs-bowls-drinkers" })
+  ]);
 }
 const DogsBowlsDrinkers = /* @__PURE__ */ _export_sfc(_sfc_main$p, [["render", _sfc_render$n]]);
 const _sfc_main$o = {};
-const _hoisted_1$u = { class: "dry-food-container mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl" };
+const _hoisted_1$u = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
 const _hoisted_2$r = /* @__PURE__ */ createBaseVNode("h1", null, "Лотки и туалеты для собак", -1);
-const _hoisted_3$o = [
-  _hoisted_2$r
-];
 function _sfc_render$m(_ctx, _cache) {
-  return openBlock(), createElementBlock("div", _hoisted_1$u, _hoisted_3$o);
+  const _component_my_card_item_list = resolveComponent("my-card-item-list");
+  return openBlock(), createElementBlock("div", _hoisted_1$u, [
+    _hoisted_2$r,
+    createVNode(_component_my_card_item_list, { apiUrl: "https://106b03ab3546a2ba.mokky.dev/dogs-trays-toilets" })
+  ]);
 }
 const DogsTraysToilets = /* @__PURE__ */ _export_sfc(_sfc_main$o, [["render", _sfc_render$m]]);
 const _sfc_main$n = {};
-const _hoisted_1$t = { class: "dry-food-container mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl" };
+const _hoisted_1$t = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
 const _hoisted_2$q = /* @__PURE__ */ createBaseVNode("h1", null, "Аксессуары для собак", -1);
-const _hoisted_3$n = [
-  _hoisted_2$q
-];
 function _sfc_render$l(_ctx, _cache) {
-  return openBlock(), createElementBlock("div", _hoisted_1$t, _hoisted_3$n);
+  const _component_my_card_item_list = resolveComponent("my-card-item-list");
+  return openBlock(), createElementBlock("div", _hoisted_1$t, [
+    _hoisted_2$q,
+    createVNode(_component_my_card_item_list, { apiUrl: "https://106b03ab3546a2ba.mokky.dev/dogs-accessories" })
+  ]);
 }
 const DogsAccessories = /* @__PURE__ */ _export_sfc(_sfc_main$n, [["render", _sfc_render$l]]);
 const _sfc_main$m = {};
-const _hoisted_1$s = { class: "dry-food-container mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl" };
+const _hoisted_1$s = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
 const _hoisted_2$p = /* @__PURE__ */ createBaseVNode("h1", null, "Ошейники и поводки для собак", -1);
-const _hoisted_3$m = [
-  _hoisted_2$p
-];
 function _sfc_render$k(_ctx, _cache) {
-  return openBlock(), createElementBlock("div", _hoisted_1$s, _hoisted_3$m);
+  const _component_my_card_item_list = resolveComponent("my-card-item-list");
+  return openBlock(), createElementBlock("div", _hoisted_1$s, [
+    _hoisted_2$p,
+    createVNode(_component_my_card_item_list, { apiUrl: "https://106b03ab3546a2ba.mokky.dev/dogs-collars-leashes" })
+  ]);
 }
 const DogsCollarsLeashes = /* @__PURE__ */ _export_sfc(_sfc_main$m, [["render", _sfc_render$k]]);
 const _sfc_main$l = {};
-const _hoisted_1$r = { class: "dry-food-container mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl" };
+const _hoisted_1$r = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
 const _hoisted_2$o = /* @__PURE__ */ createBaseVNode("h1", null, "Переноски для собак", -1);
-const _hoisted_3$l = [
-  _hoisted_2$o
-];
 function _sfc_render$j(_ctx, _cache) {
-  return openBlock(), createElementBlock("div", _hoisted_1$r, _hoisted_3$l);
+  const _component_my_card_item_list = resolveComponent("my-card-item-list");
+  return openBlock(), createElementBlock("div", _hoisted_1$r, [
+    _hoisted_2$o,
+    createVNode(_component_my_card_item_list, { apiUrl: "https://106b03ab3546a2ba.mokky.dev/dogs-carrying" })
+  ]);
 }
 const DogsCarrying = /* @__PURE__ */ _export_sfc(_sfc_main$l, [["render", _sfc_render$j]]);
 const _sfc_main$k = {};
-const _hoisted_1$q = { class: "dry-food-container mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl" };
+const _hoisted_1$q = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
 const _hoisted_2$n = /* @__PURE__ */ createBaseVNode("h1", null, "Лежанки для собак", -1);
-const _hoisted_3$k = [
-  _hoisted_2$n
-];
 function _sfc_render$i(_ctx, _cache) {
-  return openBlock(), createElementBlock("div", _hoisted_1$q, _hoisted_3$k);
+  const _component_my_card_item_list = resolveComponent("my-card-item-list");
+  return openBlock(), createElementBlock("div", _hoisted_1$q, [
+    _hoisted_2$n,
+    createVNode(_component_my_card_item_list, { apiUrl: "https://106b03ab3546a2ba.mokky.dev/dogs-beds" })
+  ]);
 }
 const DogsBeds = /* @__PURE__ */ _export_sfc(_sfc_main$k, [["render", _sfc_render$i]]);
 const _sfc_main$j = {};
@@ -32133,57 +32144,6 @@ function _sfc_render$3(_ctx, _cache) {
   return openBlock(), createElementBlock("div", _hoisted_1$b, _hoisted_3$5);
 }
 const BirdsToys = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$3]]);
-const _imports_0$1 = "" + new URL("../images/products/CatDryFood/card-darling.jpg", import.meta.url).href;
-const _sfc_main$4 = {};
-const _hoisted_1$a = { class: "purina-darling-container mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl" };
-const _hoisted_2$7 = /* @__PURE__ */ createBaseVNode("h1", null, "Purina Darling", -1);
-const _hoisted_3$4 = { class: "flex flex-wrap justify-content-around mt-3" };
-const _hoisted_4$4 = { class: "w-full sm:w-8 md:w-5 lg:w-4 xl:w-3" };
-const _hoisted_5$3 = /* @__PURE__ */ createBaseVNode("img", {
-  src: _imports_0$1,
-  class: "w-full mt-3",
-  alt: "purina-darling"
-}, null, -1);
-const _hoisted_6$3 = /* @__PURE__ */ createBaseVNode("p", { class: "text-justify" }, " Корм сухой полнорационный для взрослых кошек, с мясом по-домашнему и овощами Purina Darling ", -1);
-const _hoisted_7$3 = { class: "btn flex justify-content-center" };
-const _hoisted_8$2 = /* @__PURE__ */ createBaseVNode("div", { class: "description w-full lg:w-6" }, [
-  /* @__PURE__ */ createBaseVNode("h3", null, "Состав"),
-  /* @__PURE__ */ createBaseVNode("p", { class: "text-justify" }, " Злаки, продукты переработки растительного сырья (ядра пшеницы), мясо и продукты его переработки (10%), экстракт растительного белка, масла и жиры, дрожжи, витамины, миниральные вещества, овощи, красители, антиоксиданты. "),
-  /* @__PURE__ */ createBaseVNode("h3", null, "Описание"),
-  /* @__PURE__ */ createBaseVNode("p", { class: "text-justify" }, [
-    /* @__PURE__ */ createTextVNode(" Сухой полнорационный корм для взрослых кошек, с мясом «по-домашнему» и овощами, под торговой маркой Purina Darling произведен ООО «Нестле Россия» в России. "),
-    /* @__PURE__ */ createBaseVNode("br"),
-    /* @__PURE__ */ createBaseVNode("br"),
-    /* @__PURE__ */ createTextVNode(" По результатам лабораторных испытаний данный товар подтвердил свое соответствие всем требованиям законодательства и признан качественным и безопасным."),
-    /* @__PURE__ */ createBaseVNode("br"),
-    /* @__PURE__ */ createBaseVNode("br"),
-    /* @__PURE__ */ createTextVNode(" Данный сухой корм безопасен и нетоксичен: в нем не были обнаружены сальмонеллы (бактерии, вызывающие кишечные инфекционные заболевания), токсинообразующие анаэробы (возбудители различных инфекций), кишечная палочка, микотоксины и ГМО. Также в нем нет тяжелых металлов, радионуклидов, антибиотиков и пестицидов."),
-    /* @__PURE__ */ createBaseVNode("br"),
-    /* @__PURE__ */ createBaseVNode("br"),
-    /* @__PURE__ */ createTextVNode(" Корм содержит витамины (B2, B3, B6, D, A, E) и микро-/макроэлементы (фосфор, цинк, кальций, железо, калий, магний, натрий, марганец и селен), аминокислоты и ненасыщенные жирные кислоты (линолевую кислоту). ")
-  ])
-], -1);
-function _sfc_render$2(_ctx, _cache) {
-  const _component_Button = resolveComponent("Button");
-  return openBlock(), createElementBlock("div", _hoisted_1$a, [
-    _hoisted_2$7,
-    createBaseVNode("div", _hoisted_3$4, [
-      createBaseVNode("div", _hoisted_4$4, [
-        _hoisted_5$3,
-        _hoisted_6$3,
-        createBaseVNode("div", _hoisted_7$3, [
-          createVNode(_component_Button, {
-            label: "Добавить в корзину",
-            icon: "pi pi-cart-plus",
-            class: "bg-yellow-400 border-none text-color"
-          })
-        ])
-      ]),
-      _hoisted_8$2
-    ])
-  ]);
-}
-const PurinaDarling = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render$2]]);
 const routes = [
   {
     path: "/",
@@ -32394,11 +32354,6 @@ const routes = [
     path: "/birds-toys",
     name: "birds-toys",
     component: BirdsToys
-  },
-  {
-    path: "/cats-dry-food-purina-darling",
-    name: "cats-dry-food-purina-darling",
-    component: PurinaDarling
   }
 ];
 const router = createRouter({
@@ -32534,7 +32489,7 @@ var script$7 = {
     ChevronUpIcon: script$I
   }
 };
-var _hoisted_1$9 = ["aria-label"];
+var _hoisted_1$a = ["aria-label"];
 function render$6(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createBlock(Transition, mergeProps({
     name: "p-scrolltop",
@@ -32558,7 +32513,7 @@ function render$6(_ctx, _cache, $props, $setup, $data, $options) {
         return [(openBlock(), createBlock(resolveDynamicComponent(_ctx.icon ? "span" : "ChevronUpIcon"), mergeProps({
           "class": [_ctx.cx("icon"), _ctx.icon]
         }, _ctx.ptm("icon")), null, 16, ["class"]))];
-      })], 16, _hoisted_1$9)) : createCommentVNode("", true)];
+      })], 16, _hoisted_1$a)) : createCommentVNode("", true)];
     }),
     _: 3
   }, 16, ["onEnter", "onAfterLeave"]);
@@ -32648,19 +32603,19 @@ var script$6 = {
   name: "ExclamationTriangleIcon",
   "extends": script$T
 };
-var _hoisted_1$8 = /* @__PURE__ */ createBaseVNode("path", {
+var _hoisted_1$9 = /* @__PURE__ */ createBaseVNode("path", {
   d: "M13.4018 13.1893H0.598161C0.49329 13.189 0.390283 13.1615 0.299143 13.1097C0.208003 13.0578 0.131826 12.9832 0.0780112 12.8932C0.0268539 12.8015 0 12.6982 0 12.5931C0 12.4881 0.0268539 12.3848 0.0780112 12.293L6.47985 1.08982C6.53679 1.00399 6.61408 0.933574 6.70484 0.884867C6.7956 0.836159 6.897 0.810669 7 0.810669C7.103 0.810669 7.2044 0.836159 7.29516 0.884867C7.38592 0.933574 7.46321 1.00399 7.52015 1.08982L13.922 12.293C13.9731 12.3848 14 12.4881 14 12.5931C14 12.6982 13.9731 12.8015 13.922 12.8932C13.8682 12.9832 13.792 13.0578 13.7009 13.1097C13.6097 13.1615 13.5067 13.189 13.4018 13.1893ZM1.63046 11.989H12.3695L7 2.59425L1.63046 11.989Z",
   fill: "currentColor"
 }, null, -1);
-var _hoisted_2$6 = /* @__PURE__ */ createBaseVNode("path", {
+var _hoisted_2$7 = /* @__PURE__ */ createBaseVNode("path", {
   d: "M6.99996 8.78801C6.84143 8.78594 6.68997 8.72204 6.57787 8.60993C6.46576 8.49782 6.40186 8.34637 6.39979 8.18784V5.38703C6.39979 5.22786 6.46302 5.0752 6.57557 4.96265C6.68813 4.85009 6.84078 4.78686 6.99996 4.78686C7.15914 4.78686 7.31179 4.85009 7.42435 4.96265C7.5369 5.0752 7.60013 5.22786 7.60013 5.38703V8.18784C7.59806 8.34637 7.53416 8.49782 7.42205 8.60993C7.30995 8.72204 7.15849 8.78594 6.99996 8.78801Z",
   fill: "currentColor"
 }, null, -1);
-var _hoisted_3$3 = /* @__PURE__ */ createBaseVNode("path", {
+var _hoisted_3$4 = /* @__PURE__ */ createBaseVNode("path", {
   d: "M6.99996 11.1887C6.84143 11.1866 6.68997 11.1227 6.57787 11.0106C6.46576 10.8985 6.40186 10.7471 6.39979 10.5885V10.1884C6.39979 10.0292 6.46302 9.87658 6.57557 9.76403C6.68813 9.65147 6.84078 9.58824 6.99996 9.58824C7.15914 9.58824 7.31179 9.65147 7.42435 9.76403C7.5369 9.87658 7.60013 10.0292 7.60013 10.1884V10.5885C7.59806 10.7471 7.53416 10.8985 7.42205 11.0106C7.30995 11.1227 7.15849 11.1866 6.99996 11.1887Z",
   fill: "currentColor"
 }, null, -1);
-var _hoisted_4$3 = [_hoisted_1$8, _hoisted_2$6, _hoisted_3$3];
+var _hoisted_4$4 = [_hoisted_1$9, _hoisted_2$7, _hoisted_3$4];
 function render$5(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("svg", mergeProps({
     width: "14",
@@ -32668,20 +32623,20 @@ function render$5(_ctx, _cache, $props, $setup, $data, $options) {
     viewBox: "0 0 14 14",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg"
-  }, _ctx.pti()), _hoisted_4$3, 16);
+  }, _ctx.pti()), _hoisted_4$4, 16);
 }
 script$6.render = render$5;
 var script$5 = {
   name: "InfoCircleIcon",
   "extends": script$T
 };
-var _hoisted_1$7 = /* @__PURE__ */ createBaseVNode("path", {
+var _hoisted_1$8 = /* @__PURE__ */ createBaseVNode("path", {
   "fill-rule": "evenodd",
   "clip-rule": "evenodd",
   d: "M3.11101 12.8203C4.26215 13.5895 5.61553 14 7 14C8.85652 14 10.637 13.2625 11.9497 11.9497C13.2625 10.637 14 8.85652 14 7C14 5.61553 13.5895 4.26215 12.8203 3.11101C12.0511 1.95987 10.9579 1.06266 9.67879 0.532846C8.3997 0.00303296 6.99224 -0.13559 5.63437 0.134506C4.2765 0.404603 3.02922 1.07129 2.05026 2.05026C1.07129 3.02922 0.404603 4.2765 0.134506 5.63437C-0.13559 6.99224 0.00303296 8.3997 0.532846 9.67879C1.06266 10.9579 1.95987 12.0511 3.11101 12.8203ZM3.75918 2.14976C4.71846 1.50879 5.84628 1.16667 7 1.16667C8.5471 1.16667 10.0308 1.78125 11.1248 2.87521C12.2188 3.96918 12.8333 5.45291 12.8333 7C12.8333 8.15373 12.4912 9.28154 11.8502 10.2408C11.2093 11.2001 10.2982 11.9478 9.23232 12.3893C8.16642 12.8308 6.99353 12.9463 5.86198 12.7212C4.73042 12.4962 3.69102 11.9406 2.87521 11.1248C2.05941 10.309 1.50384 9.26958 1.27876 8.13803C1.05367 7.00647 1.16919 5.83358 1.61071 4.76768C2.05222 3.70178 2.79989 2.79074 3.75918 2.14976ZM7.00002 4.8611C6.84594 4.85908 6.69873 4.79698 6.58977 4.68801C6.48081 4.57905 6.4187 4.43185 6.41669 4.27776V3.88888C6.41669 3.73417 6.47815 3.58579 6.58754 3.4764C6.69694 3.367 6.84531 3.30554 7.00002 3.30554C7.15473 3.30554 7.3031 3.367 7.4125 3.4764C7.52189 3.58579 7.58335 3.73417 7.58335 3.88888V4.27776C7.58134 4.43185 7.51923 4.57905 7.41027 4.68801C7.30131 4.79698 7.1541 4.85908 7.00002 4.8611ZM7.00002 10.6945C6.84594 10.6925 6.69873 10.6304 6.58977 10.5214C6.48081 10.4124 6.4187 10.2652 6.41669 10.1111V6.22225C6.41669 6.06754 6.47815 5.91917 6.58754 5.80977C6.69694 5.70037 6.84531 5.63892 7.00002 5.63892C7.15473 5.63892 7.3031 5.70037 7.4125 5.80977C7.52189 5.91917 7.58335 6.06754 7.58335 6.22225V10.1111C7.58134 10.2652 7.51923 10.4124 7.41027 10.5214C7.30131 10.6304 7.1541 10.6925 7.00002 10.6945Z",
   fill: "currentColor"
 }, null, -1);
-var _hoisted_2$5 = [_hoisted_1$7];
+var _hoisted_2$6 = [_hoisted_1$8];
 function render$4(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("svg", mergeProps({
     width: "14",
@@ -32689,20 +32644,20 @@ function render$4(_ctx, _cache, $props, $setup, $data, $options) {
     viewBox: "0 0 14 14",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg"
-  }, _ctx.pti()), _hoisted_2$5, 16);
+  }, _ctx.pti()), _hoisted_2$6, 16);
 }
 script$5.render = render$4;
 var script$4 = {
   name: "TimesCircleIcon",
   "extends": script$T
 };
-var _hoisted_1$6 = /* @__PURE__ */ createBaseVNode("path", {
+var _hoisted_1$7 = /* @__PURE__ */ createBaseVNode("path", {
   "fill-rule": "evenodd",
   "clip-rule": "evenodd",
   d: "M7 14C5.61553 14 4.26215 13.5895 3.11101 12.8203C1.95987 12.0511 1.06266 10.9579 0.532846 9.67879C0.00303296 8.3997 -0.13559 6.99224 0.134506 5.63437C0.404603 4.2765 1.07129 3.02922 2.05026 2.05026C3.02922 1.07129 4.2765 0.404603 5.63437 0.134506C6.99224 -0.13559 8.3997 0.00303296 9.67879 0.532846C10.9579 1.06266 12.0511 1.95987 12.8203 3.11101C13.5895 4.26215 14 5.61553 14 7C14 8.85652 13.2625 10.637 11.9497 11.9497C10.637 13.2625 8.85652 14 7 14ZM7 1.16667C5.84628 1.16667 4.71846 1.50879 3.75918 2.14976C2.79989 2.79074 2.05222 3.70178 1.61071 4.76768C1.16919 5.83358 1.05367 7.00647 1.27876 8.13803C1.50384 9.26958 2.05941 10.309 2.87521 11.1248C3.69102 11.9406 4.73042 12.4962 5.86198 12.7212C6.99353 12.9463 8.16642 12.8308 9.23232 12.3893C10.2982 11.9478 11.2093 11.2001 11.8502 10.2408C12.4912 9.28154 12.8333 8.15373 12.8333 7C12.8333 5.45291 12.2188 3.96918 11.1248 2.87521C10.0308 1.78125 8.5471 1.16667 7 1.16667ZM4.66662 9.91668C4.58998 9.91704 4.51404 9.90209 4.44325 9.87271C4.37246 9.84333 4.30826 9.8001 4.2544 9.74557C4.14516 9.6362 4.0838 9.48793 4.0838 9.33335C4.0838 9.17876 4.14516 9.0305 4.2544 8.92113L6.17553 7L4.25443 5.07891C4.15139 4.96832 4.09529 4.82207 4.09796 4.67094C4.10063 4.51982 4.16185 4.37563 4.26872 4.26876C4.3756 4.16188 4.51979 4.10066 4.67091 4.09799C4.82204 4.09532 4.96829 4.15142 5.07887 4.25446L6.99997 6.17556L8.92106 4.25446C9.03164 4.15142 9.1779 4.09532 9.32903 4.09799C9.48015 4.10066 9.62434 4.16188 9.73121 4.26876C9.83809 4.37563 9.89931 4.51982 9.90198 4.67094C9.90464 4.82207 9.84855 4.96832 9.74551 5.07891L7.82441 7L9.74554 8.92113C9.85478 9.0305 9.91614 9.17876 9.91614 9.33335C9.91614 9.48793 9.85478 9.6362 9.74554 9.74557C9.69168 9.8001 9.62748 9.84333 9.55669 9.87271C9.4859 9.90209 9.40996 9.91704 9.33332 9.91668C9.25668 9.91704 9.18073 9.90209 9.10995 9.87271C9.03916 9.84333 8.97495 9.8001 8.9211 9.74557L6.99997 7.82444L5.07884 9.74557C5.02499 9.8001 4.96078 9.84333 4.88999 9.87271C4.81921 9.90209 4.74326 9.91704 4.66662 9.91668Z",
   fill: "currentColor"
 }, null, -1);
-var _hoisted_2$4 = [_hoisted_1$6];
+var _hoisted_2$5 = [_hoisted_1$7];
 function render$3(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("svg", mergeProps({
     width: "14",
@@ -32710,7 +32665,7 @@ function render$3(_ctx, _cache, $props, $setup, $data, $options) {
     viewBox: "0 0 14 14",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg"
-  }, _ctx.pti()), _hoisted_2$4, 16);
+  }, _ctx.pti()), _hoisted_2$5, 16);
 }
 script$4.render = render$3;
 var script$2$1 = {
@@ -32919,7 +32874,7 @@ function _toPrimitive$1(t, r) {
   }
   return ("string" === r ? String : Number)(t);
 }
-var _hoisted_1$5 = ["aria-label"];
+var _hoisted_1$6 = ["aria-label"];
 function render$1$1(_ctx, _cache, $props, $setup, $data, $options) {
   var _directive_ripple = resolveDirective("ripple");
   return openBlock(), createElementBlock("div", mergeProps({
@@ -32960,7 +32915,7 @@ function render$1$1(_ctx, _cache, $props, $setup, $data, $options) {
     autofocus: ""
   }, _objectSpread$1(_objectSpread$1(_objectSpread$1({}, $props.closeButtonProps), _ctx.ptm("button")), _ctx.ptm("closeButton"))), [(openBlock(), createBlock(resolveDynamicComponent($props.templates.closeicon || "TimesIcon"), mergeProps({
     "class": [_ctx.cx("closeIcon"), $props.closeIcon]
-  }, _objectSpread$1(_objectSpread$1({}, _ctx.ptm("buttonIcon")), _ctx.ptm("closeIcon"))), null, 16, ["class"]))], 16, _hoisted_1$5)), [[_directive_ripple]])], 16)) : createCommentVNode("", true)], 16))], 16);
+  }, _objectSpread$1(_objectSpread$1({}, _ctx.ptm("buttonIcon")), _ctx.ptm("closeIcon"))), null, 16, ["class"]))], 16, _hoisted_1$6)), [[_directive_ripple]])], 16)) : createCommentVNode("", true)], 16))], 16);
 }
 script$1$1.render = render$1$1;
 function _toConsumableArray(arr) {
@@ -33538,7 +33493,7 @@ var script$1 = {
   }
 };
 var _hoisted_1$1$1 = ["id", "aria-label", "aria-selected", "aria-expanded", "aria-level", "aria-setsize", "aria-posinset", "data-p-item-group", "data-p-highlight", "data-p-focus", "data-p-disabled"];
-var _hoisted_2$3 = ["onClick", "onMousemove"];
+var _hoisted_2$4 = ["onClick", "onMousemove"];
 function render$1(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_AngleRightIcon = resolveComponent("AngleRightIcon");
   var _component_CascadeSelectSub = resolveComponent("CascadeSelectSub", true);
@@ -33592,7 +33547,7 @@ function render$1(_ctx, _cache, $props, $setup, $data, $options) {
       key: 2,
       "class": _ctx.cx("groupIcon"),
       "aria-hidden": "true"
-    }, $options.getPTOptions(processedOption, index2, "groupIcon")), null, 16, ["class"]))], 64)) : createCommentVNode("", true)], 16, _hoisted_2$3)), [[_directive_ripple]]), $options.isOptionGroup(processedOption) && $options.isOptionActive(processedOption) ? (openBlock(), createBlock(_component_CascadeSelectSub, {
+    }, $options.getPTOptions(processedOption, index2, "groupIcon")), null, 16, ["class"]))], 64)) : createCommentVNode("", true)], 16, _hoisted_2$4)), [[_directive_ripple]]), $options.isOptionGroup(processedOption) && $options.isOptionActive(processedOption) ? (openBlock(), createBlock(_component_CascadeSelectSub, {
       key: 0,
       role: "group",
       "class": normalizeClass(_ctx.cx("sublist")),
@@ -34377,7 +34332,7 @@ function _toPrimitive(t, r) {
   }
   return ("string" === r ? String : Number)(t);
 }
-var _hoisted_1$4 = ["id", "disabled", "placeholder", "tabindex", "aria-label", "aria-labelledby", "aria-expanded", "aria-controls", "aria-activedescendant"];
+var _hoisted_1$5 = ["id", "disabled", "placeholder", "tabindex", "aria-label", "aria-labelledby", "aria-expanded", "aria-controls", "aria-activedescendant"];
 function render2(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_SpinnerIcon = resolveComponent("SpinnerIcon");
   var _component_CascadeSelectSub = resolveComponent("CascadeSelectSub");
@@ -34419,7 +34374,7 @@ function render2(_ctx, _cache, $props, $setup, $data, $options) {
     onKeydown: _cache[2] || (_cache[2] = function() {
       return $options.onKeyDown && $options.onKeyDown.apply($options, arguments);
     })
-  }, _objectSpread(_objectSpread({}, _ctx.inputProps), _ctx.ptm("input"))), null, 16, _hoisted_1$4)], 16), createBaseVNode("span", mergeProps({
+  }, _objectSpread(_objectSpread({}, _ctx.inputProps), _ctx.ptm("input"))), null, 16, _hoisted_1$5)], 16), createBaseVNode("span", mergeProps({
     "class": _ctx.cx("label")
   }, _ctx.ptm("label")), [renderSlot(_ctx.$slots, "value", {
     value: _ctx.modelValue,
@@ -34519,30 +34474,24 @@ function render2(_ctx, _cache, $props, $setup, $data, $options) {
   }, 8, ["appendTo"])], 16);
 }
 script.render = render2;
-const _sfc_main$3 = {};
-const _withScopeId$2 = (n) => (pushScopeId("data-v-6d52b5ff"), n = n(), popScopeId(), n);
-const _hoisted_1$3 = { class: "flex flex-nowrap justify-content-between border-1 border-gray-300 border-round-2xl p-1 lg:p-2 w-full h-7rem" };
-const _hoisted_2$2 = /* @__PURE__ */ _withScopeId$2(() => /* @__PURE__ */ createBaseVNode("div", { class: "w-4 flex justify-content-center" }, [
-  /* @__PURE__ */ createBaseVNode("img", {
-    alt: "product photo",
-    src: _imports_0$1,
-    class: "h-full w-auto"
-  })
-], -1));
-const _hoisted_3$2 = { class: "w-9 flex flex-column justify-content-between ml-2" };
-const _hoisted_4$2 = /* @__PURE__ */ _withScopeId$2(() => /* @__PURE__ */ createBaseVNode("p", { class: "w-full m-0 h-4rem overflow-hidden text-xs lg:text-base" }, "Сухой корм для кошек с мясом по-домашнему и овощами. Содержит все необходимые витамины и минеральные вещества.", -1));
-const _hoisted_5$2 = { class: "flex justify-content-between align-items-center" };
-const _hoisted_6$2 = /* @__PURE__ */ _withScopeId$2(() => /* @__PURE__ */ createBaseVNode("b", null, "390 руб.", -1));
-const _hoisted_7$2 = { class: "btn flex justify-content-center" };
-function _sfc_render$1(_ctx, _cache) {
+const _sfc_main$4 = {};
+const _withScopeId$2 = (n) => (pushScopeId("data-v-29bb3b9d"), n = n(), popScopeId(), n);
+const _hoisted_1$4 = { class: "flex flex-nowrap justify-content-between border-1 border-gray-300 border-round-2xl p-1 lg:p-2 w-full h-7rem" };
+const _hoisted_2$3 = /* @__PURE__ */ _withScopeId$2(() => /* @__PURE__ */ createBaseVNode("div", { class: "w-4 flex justify-content-center" }, null, -1));
+const _hoisted_3$3 = { class: "w-9 flex flex-column justify-content-between ml-2" };
+const _hoisted_4$3 = /* @__PURE__ */ _withScopeId$2(() => /* @__PURE__ */ createBaseVNode("p", { class: "w-full m-0 h-4rem overflow-hidden text-xs lg:text-base" }, "Сухой корм для кошек с мясом по-домашнему и овощами. Содержит все необходимые витамины и минеральные вещества.", -1));
+const _hoisted_5$3 = { class: "flex justify-content-between align-items-center" };
+const _hoisted_6$3 = /* @__PURE__ */ _withScopeId$2(() => /* @__PURE__ */ createBaseVNode("b", null, "390 руб.", -1));
+const _hoisted_7$3 = { class: "btn flex justify-content-center" };
+function _sfc_render$2(_ctx, _cache) {
   const _component_Button = resolveComponent("Button");
-  return openBlock(), createElementBlock("div", _hoisted_1$3, [
-    _hoisted_2$2,
-    createBaseVNode("div", _hoisted_3$2, [
-      _hoisted_4$2,
-      createBaseVNode("div", _hoisted_5$2, [
-        _hoisted_6$2,
-        createBaseVNode("div", _hoisted_7$2, [
+  return openBlock(), createElementBlock("div", _hoisted_1$4, [
+    _hoisted_2$3,
+    createBaseVNode("div", _hoisted_3$3, [
+      _hoisted_4$3,
+      createBaseVNode("div", _hoisted_5$3, [
+        _hoisted_6$3,
+        createBaseVNode("div", _hoisted_7$3, [
           createVNode(_component_Button, {
             label: "Удалить",
             class: "bg-red-400 border-none text-color hover:bg-red-600 transition-400"
@@ -34552,29 +34501,29 @@ function _sfc_render$1(_ctx, _cache) {
     ])
   ]);
 }
-const CartItem = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$1], ["__scopeId", "data-v-6d52b5ff"]]);
-const _sfc_main$2 = {};
-const _hoisted_1$2 = { class: "flex flex-column gap-2" };
-function _sfc_render(_ctx, _cache) {
+const CartItem = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render$2], ["__scopeId", "data-v-29bb3b9d"]]);
+const _sfc_main$3 = {};
+const _hoisted_1$3 = { class: "flex flex-column gap-2" };
+function _sfc_render$1(_ctx, _cache) {
   const _component_my_cart_item = resolveComponent("my-cart-item");
-  return openBlock(), createElementBlock("div", _hoisted_1$2, [
+  return openBlock(), createElementBlock("div", _hoisted_1$3, [
     createVNode(_component_my_cart_item),
     createVNode(_component_my_cart_item)
   ]);
 }
-const CartItemList = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render]]);
+const CartItemList = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$1]]);
 const _withScopeId$1 = (n) => (pushScopeId("data-v-ff6a3e42"), n = n(), popScopeId(), n);
-const _hoisted_1$1 = { class: "card-item bg-white p-3 cursor-pointer border-1 border-300 border-round-2xl hover-translate shadow-4 hover:shadow-6 transition-duration-300" };
-const _hoisted_2$1 = { class: "flex relative justify-content-center w-full h-12rem mb-3" };
-const _hoisted_3$1 = ["src"];
-const _hoisted_4$1 = ["src"];
-const _hoisted_5$1 = { class: "h-6rem overflow-hidden" };
-const _hoisted_6$1 = { class: "flex justify-content-between align-items-center" };
-const _hoisted_7$1 = { class: "flex flex-column" };
+const _hoisted_1$2 = { class: "card-item bg-white p-3 cursor-pointer border-1 border-300 border-round-2xl hover-translate shadow-4 hover:shadow-6 transition-duration-300" };
+const _hoisted_2$2 = { class: "flex relative justify-content-center w-full h-12rem mb-3" };
+const _hoisted_3$2 = ["src"];
+const _hoisted_4$2 = ["src"];
+const _hoisted_5$2 = { class: "h-6rem overflow-hidden" };
+const _hoisted_6$2 = { class: "flex justify-content-between align-items-center" };
+const _hoisted_7$2 = { class: "flex flex-column" };
 const _hoisted_8$1 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createBaseVNode("span", { class: "font-light text-xl" }, "Цена:", -1));
 const _hoisted_9 = { class: "text-xl" };
 const _hoisted_10 = ["src"];
-const _sfc_main$1 = {
+const _sfc_main$2 = {
   __name: "CardItem",
   props: {
     imageUrl: String,
@@ -34588,23 +34537,23 @@ const _sfc_main$1 = {
   },
   setup(__props) {
     return (_ctx, _cache) => {
-      return openBlock(), createElementBlock("div", _hoisted_1$1, [
-        createBaseVNode("div", _hoisted_2$1, [
+      return openBlock(), createElementBlock("div", _hoisted_1$2, [
+        createBaseVNode("div", _hoisted_2$2, [
           createBaseVNode("img", {
             onClick: _cache[0] || (_cache[0] = (...args) => __props.onClickFavorite && __props.onClickFavorite(...args)),
             src: !__props.isFavorite ? "images/heart-1.png" : "images/heart-2.png",
             alt: "favorite",
             class: "absolute top-0 left-0"
-          }, null, 8, _hoisted_3$1),
+          }, null, 8, _hoisted_3$2),
           createBaseVNode("img", {
             src: __props.imageUrl,
             alt: "product",
             class: "w-10rem"
-          }, null, 8, _hoisted_4$1)
+          }, null, 8, _hoisted_4$2)
         ]),
-        createBaseVNode("p", _hoisted_5$1, toDisplayString(__props.description), 1),
-        createBaseVNode("div", _hoisted_6$1, [
-          createBaseVNode("div", _hoisted_7$1, [
+        createBaseVNode("p", _hoisted_5$2, toDisplayString(__props.description), 1),
+        createBaseVNode("div", _hoisted_6$2, [
+          createBaseVNode("div", _hoisted_7$2, [
             _hoisted_8$1,
             createBaseVNode("b", _hoisted_9, toDisplayString(__props.price) + " ₽", 1)
           ]),
@@ -34619,26 +34568,26 @@ const _sfc_main$1 = {
     };
   }
 };
-const CardItem = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-ff6a3e42"]]);
+const CardItem = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-ff6a3e42"]]);
 const _imports_0 = "" + new URL("../images/search.png", import.meta.url).href;
 const _withScopeId = (n) => (pushScopeId("data-v-954709ca"), n = n(), popScopeId(), n);
-const _hoisted_1 = { class: "flex flex-column sm:flex-row pb-4 justify-content-end" };
-const _hoisted_2 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createBaseVNode("option", { value: "description" }, "По алфавиту", -1));
-const _hoisted_3 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createBaseVNode("option", { value: "price" }, "По цене(возрастание)", -1));
-const _hoisted_4 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createBaseVNode("option", { value: "-price" }, "По цене(убывание)", -1));
-const _hoisted_5 = [
-  _hoisted_2,
-  _hoisted_3,
-  _hoisted_4
+const _hoisted_1$1 = { class: "flex flex-column sm:flex-row pb-4 justify-content-end" };
+const _hoisted_2$1 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createBaseVNode("option", { value: "description" }, "По алфавиту", -1));
+const _hoisted_3$1 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createBaseVNode("option", { value: "price" }, "По цене(возрастание)", -1));
+const _hoisted_4$1 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createBaseVNode("option", { value: "-price" }, "По цене(убывание)", -1));
+const _hoisted_5$1 = [
+  _hoisted_2$1,
+  _hoisted_3$1,
+  _hoisted_4$1
 ];
-const _hoisted_6 = { class: "relative sm:ml-5 mt-3 sm:mt-0" };
-const _hoisted_7 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createBaseVNode("img", {
+const _hoisted_6$1 = { class: "relative sm:ml-5 mt-3 sm:mt-0" };
+const _hoisted_7$1 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createBaseVNode("img", {
   class: "absolute",
   style: { "width": "24px" },
   src: _imports_0
 }, null, -1));
 const _hoisted_8 = { class: "card-container flex flex-wrap justify-content-around gap-3" };
-const _sfc_main = {
+const _sfc_main$1 = {
   __name: "CardItemList",
   props: {
     items: Array,
@@ -34684,13 +34633,13 @@ const _sfc_main = {
     return (_ctx, _cache) => {
       const _component_my_card_item = resolveComponent("my-card-item");
       return openBlock(), createElementBlock("div", null, [
-        createBaseVNode("div", _hoisted_1, [
+        createBaseVNode("div", _hoisted_1$1, [
           createBaseVNode("select", {
             onChange: _cache[0] || (_cache[0] = ($event) => onChangeSelect($event)),
             class: "h-2rem w-15rem px-2 border-none border-round-xl"
-          }, _hoisted_5, 32),
-          createBaseVNode("div", _hoisted_6, [
-            _hoisted_7,
+          }, _hoisted_5$1, 32),
+          createBaseVNode("div", _hoisted_6$1, [
+            _hoisted_7$1,
             createBaseVNode("input", {
               onChange: _cache[1] || (_cache[1] = ($event) => onChangeSearch($event)),
               class: "h-2rem w-15rem pl-5 pr-1 border-none border-round-xl",
@@ -34718,7 +34667,51 @@ const _sfc_main = {
     };
   }
 };
-const CardItemList = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-954709ca"]]);
+const CardItemList = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-954709ca"]]);
+const _sfc_main = {};
+const _hoisted_1 = { class: "purina-darling-container mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl" };
+const _hoisted_2 = /* @__PURE__ */ createBaseVNode("h1", null, "Purina Darling", -1);
+const _hoisted_3 = { class: "flex flex-wrap justify-content-around mt-3" };
+const _hoisted_4 = { class: "w-full sm:w-8 md:w-5 lg:w-4 xl:w-3" };
+const _hoisted_5 = /* @__PURE__ */ createBaseVNode("p", { class: "text-justify" }, " Корм сухой полнорационный для взрослых кошек, с мясом по-домашнему и овощами Purina Darling ", -1);
+const _hoisted_6 = { class: "btn flex justify-content-center" };
+const _hoisted_7 = /* @__PURE__ */ createBaseVNode("div", { class: "description w-full lg:w-6" }, [
+  /* @__PURE__ */ createBaseVNode("h3", null, "Состав"),
+  /* @__PURE__ */ createBaseVNode("p", { class: "text-justify" }, " Злаки, продукты переработки растительного сырья (ядра пшеницы), мясо и продукты его переработки (10%), экстракт растительного белка, масла и жиры, дрожжи, витамины, миниральные вещества, овощи, красители, антиоксиданты. "),
+  /* @__PURE__ */ createBaseVNode("h3", null, "Описание"),
+  /* @__PURE__ */ createBaseVNode("p", { class: "text-justify" }, [
+    /* @__PURE__ */ createTextVNode(" Сухой полнорационный корм для взрослых кошек, с мясом «по-домашнему» и овощами, под торговой маркой Purina Darling произведен ООО «Нестле Россия» в России. "),
+    /* @__PURE__ */ createBaseVNode("br"),
+    /* @__PURE__ */ createBaseVNode("br"),
+    /* @__PURE__ */ createTextVNode(" По результатам лабораторных испытаний данный товар подтвердил свое соответствие всем требованиям законодательства и признан качественным и безопасным."),
+    /* @__PURE__ */ createBaseVNode("br"),
+    /* @__PURE__ */ createBaseVNode("br"),
+    /* @__PURE__ */ createTextVNode(" Данный сухой корм безопасен и нетоксичен: в нем не были обнаружены сальмонеллы (бактерии, вызывающие кишечные инфекционные заболевания), токсинообразующие анаэробы (возбудители различных инфекций), кишечная палочка, микотоксины и ГМО. Также в нем нет тяжелых металлов, радионуклидов, антибиотиков и пестицидов."),
+    /* @__PURE__ */ createBaseVNode("br"),
+    /* @__PURE__ */ createBaseVNode("br"),
+    /* @__PURE__ */ createTextVNode(" Корм содержит витамины (B2, B3, B6, D, A, E) и микро-/макроэлементы (фосфор, цинк, кальций, железо, калий, магний, натрий, марганец и селен), аминокислоты и ненасыщенные жирные кислоты (линолевую кислоту). ")
+  ])
+], -1);
+function _sfc_render(_ctx, _cache) {
+  const _component_Button = resolveComponent("Button");
+  return openBlock(), createElementBlock("div", _hoisted_1, [
+    _hoisted_2,
+    createBaseVNode("div", _hoisted_3, [
+      createBaseVNode("div", _hoisted_4, [
+        _hoisted_5,
+        createBaseVNode("div", _hoisted_6, [
+          createVNode(_component_Button, {
+            label: "Добавить в корзину",
+            icon: "pi pi-cart-plus",
+            class: "bg-yellow-400 border-none text-color"
+          })
+        ])
+      ]),
+      _hoisted_7
+    ])
+  ]);
+}
+const ProductDetails = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render]]);
 const app = createApp(App);
 app.use(PrimeVue);
 app.use(router);
@@ -34729,6 +34722,7 @@ app.component("my-cart-item", CartItem);
 app.component("my-cart-item-list", CartItemList);
 app.component("my-card-item", CardItem);
 app.component("my-card-item-list", CardItemList);
+app.component("my-product-details", ProductDetails);
 app.component("Button", script$M);
 app.component("my-slider", _sfc_main$P);
 app.component("my-tree", _sfc_main$O);
