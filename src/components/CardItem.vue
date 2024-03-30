@@ -16,17 +16,21 @@
 </template>
 
 <script setup>
-defineProps({
+
+const props = defineProps({
+    id: Number,
     imageUrl: String,
-    title: String,
     description: String,
     price: Number,
     isAdded: Boolean,
     isFavorite: Boolean,
     onClickAdd: Function,
     onClickFavorite: Function
-
 })
+
+
+
+
 </script>
 
 <style scoped>

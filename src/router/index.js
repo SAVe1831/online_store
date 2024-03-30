@@ -42,6 +42,8 @@ import BirdsCages from "@/pages/ForBirds/BirdsCages.vue"
 import BirdsCarrying from "@/pages/ForBirds/BirdsCarrying.vue"
 import BirdsNestsHouses from "@/pages/ForBirds/BirdsNestsHouses.vue"
 import BirdsToys from "@/pages/ForBirds/BirdsToys.vue"
+import Favorites from "@/pages/Favorites.vue"
+
 
 
 
@@ -262,6 +264,11 @@ const routes = [
         path: '/birds-toys',
         name: 'birds-toys',
         component: BirdsToys
+    },
+    {
+        path: '/favorites',
+        name: 'favorites',
+        component: Favorites
     },
     
 ]

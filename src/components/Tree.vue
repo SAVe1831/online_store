@@ -1,7 +1,7 @@
 <template>
    <div>
         <div class="background fixed top-0 left-0 w-full h-screen z-3 hidden" @click="collapseAll"></div>
-        <Tree v-model:expandedKeys="expandedKeys" :value="nodes" selectionMode="single" @click="removeHiddenClass" class="catalog absolute w-11 sm:w-6 lg:w-3 bg-orange-100 uppercase border-round-3xl border-2 border-red-300 z-4" style="top: 168px;">
+        <Tree v-model:expandedKeys="expandedKeys" :value="nodes" selectionMode="single" @click="removeHiddenClass" class="catalog absolute w-19rem bg-orange-100 uppercase border-round-3xl border-2 border-red-300 z-4">
             <template #url="nodes">
                 <router-link class="no-underline text-color" @click="collapseAll" :to="nodes.node.path">{{ nodes.node.label }}</router-link>
             </template>
@@ -110,19 +110,11 @@ const collapseAll = () => {
 .p-treenode-content:hover {
     background-color: rgb(249, 200, 166);
 }
-@media (max-width: 575px) {
+
+@media (min-width: 320px) {
     .catalog {
-        left: 13px;
-    }
-}
-@media (min-width: 576px) and (max-width: 768px) {
-    .catalog {
-        left: 160px;
-    }
-} 
-@media (min-width: 769px) and (max-width: 991px) {
-    .catalog {
-        left: 220px;
+        top: 169px;
+        right: 8px;
     }
 } 
 @media (min-width: 992px) {

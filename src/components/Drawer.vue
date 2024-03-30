@@ -1,9 +1,9 @@
 <template>
-    <div @click="closeCart" class="cart-background hidden fixed top-0 left-0 w-full h-full bg-gray-900 opacity-70 z-4">
+    <div @click="closeDrawer" class="cart-background fixed top-0 left-0 w-full h-full bg-gray-900 opacity-70 z-4">
     </div>
-    <div class="cart hidden bg-orange-50 w-full sm:w-8 md:w-6 lg:w-5 xl:w-4 h-full sm:border-left-3 border-orange-500 fixed top-0 right-0 z-5 p-1 lg:p-5">
+    <div class="cart bg-orange-50 w-full sm:w-8 md:w-6 lg:w-5 xl:w-4 h-full sm:border-left-3 border-orange-500 fixed top-0 right-0 z-5 p-1 lg:py-1 lg:px-3">
         <div class="flex align-items-center gap-5">
-            <svg @click="closeCart" class="ml-3 lg:m-0" version="1.0" xmlns="http://www.w3.org/2000/svg" width="50px" height="50px"
+            <svg @click="closeDrawer" class="ml-3 lg:m-0" version="1.0" xmlns="http://www.w3.org/2000/svg" width="50px" height="50px"
                 viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet">
                 <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#C154C1" stroke="none">
                     <path d="M2325 4874 c-342 -49 -526 -102 -780 -224 -238 -115 -428 -252 -626
@@ -25,20 +25,49 @@
             <div class="my-5 flex">
                 <span>Итого:</span>
                 <div class="flex-1 border-bottom-1"></div>
-                <b>3900 ₽</b>
+                <b>{{totalPrice}} ₽</b>
             </div>
-            <button class="bg-green-500 w-full p-3 border-round-2xl border-none text-white text-2xl hover:bg-green-600 active:bg-green-800 transition-duration-400 cursor-pointer">Оформить заказ</button>
+            <button class="checkout bg-green-500 w-full p-3 border-round-2xl border-none text-white text-2xl hover:bg-green-600 active:bg-green-800 transition-duration-400 cursor-pointer"
+                :disabled="buttonDisabled" 
+                @click="createOrder"> 
+                Оформить заказ
+            </button>
         </div>
     </div>
 </template>
 
 <script setup>
+import { ref, inject, computed } from "vue"
+import axios from 'axios'
 
-const closeCart = () => {
-    document.querySelector('.cart-background').classList.add('hidden');
-    document.querySelector('.cart').classList.add('hidden');
+const { cart } = inject('cart')
 
+const props = defineProps({
+    closeDrawer: Function,
+    totalPrice: Number
+})
+
+const isCreating = ref(false)
+
+const orderId = ref(null)
+const createOrder = async () => {
+    try {
+        const {data} = await axios.post('https://0e157e836a1fe779.mokky.dev/orders', {
+            items: cart.value,
+            totalPrice: props.totalPrice.value
+        })
+
+        cart.value = [];
+        orderId.value = data.id;
+    } catch (error) {
+        console.log(error)
+    } finally {
+        isCreating.value = false
+    }
 }
+
+const cartIsEmpty = computed(() => cart.value.length === 0)
+const buttonDisabled = computed(() => isCreating.value || cartIsEmpty.value)
 </script>
 
 <style scoped>

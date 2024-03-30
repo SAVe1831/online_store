@@ -28,9 +28,11 @@
             <Menubar :model="navbarItems">
                 <template #end>
                     <div class="flex align-items-center gap-2">
-                        <Button class="active:bg-green-200" icon="pi pi-heart" severity="secondary" />
-                        <Button class="active:bg-green-200" @click="openCart" icon="pi pi-shopping-cart" severity="secondary" />
-                        <Button class="active:bg-green-200" icon="pi pi-user" severity="secondary" />
+                        <router-link to="/favorites">
+                            <Button class="active:bg-green-200 p-1" severity="secondary"><i class="pi pi-heart" style="font-size: 1.5rem"></i></Button>
+                        </router-link>
+                        <Button class="active:bg-green-200 p-1" @click="openDrawer" severity="secondary"><i class="pi pi-shopping-cart mr-1" style="font-size: 1.5rem"></i><span class="text-red-600">{{ totalPrice }}₽</span></Button>
+                        <Button class="active:bg-green-200 p-1" severity="secondary"><i class="pi pi-user" style="font-size: 1.5rem"></i></Button>
                     </div>
                 </template>
             </Menubar>
@@ -45,6 +47,11 @@
 import Menubar from 'primevue/menubar'
 import { ref } from "vue"
 import { useRouter } from 'vue-router'
+
+const props = defineProps({
+    openDrawer: Function,
+    totalPrice: Number
+})
 
 const navbarItems = ref([
     {
@@ -89,10 +96,6 @@ const navigateTo = (path) => {
   router.push(path);
 };
 
-const openCart = () => {
-    document.querySelector('.cart-background').classList.remove('hidden');
-    document.querySelector('.cart').classList.remove('hidden');
-}
 </script>
 
 
