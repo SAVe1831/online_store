@@ -20,31 +20,36 @@
             </svg>
             <h2>Корзина</h2>
         </div>
-        <my-cart-item-list></my-cart-item-list>
-        <div>
-            <div class="my-5 flex">
-                <span>Итого:</span>
-                <div class="flex-1 border-bottom-1"></div>
-                <b>{{totalPrice}} ₽</b>
+        <div v-if="!totalPrice || orderId" class="flex flex-column align-items-center mt-5">
+            <p class="text-3xl">Здесь пусто...</p>
+            <img class="w-8 " src="/images/cart-empty.png" alt="Пустая корзина">
+            <p class="text-3xl">Добавьте какой-нибудь товар</p>
+        </div>
+        <div v-else>
+            <my-cart-item-list></my-cart-item-list>
+            <div>
+                <div class="my-5 flex">
+                    <span>Итого:</span>
+                    <div class="flex-1 border-bottom-1"></div>
+                    <b>{{totalPrice}} ₽</b>
+                </div>
+                <button class="checkout bg-green-500 w-full p-3 border-round-2xl border-none text-white text-2xl hover:bg-green-600 active:bg-green-800 transition-duration-400 cursor-pointer"
+                    @click="createOrder"> 
+                    Оформить заказ
+                </button>
             </div>
-            <button class="checkout bg-green-500 w-full p-3 border-round-2xl border-none text-white text-2xl hover:bg-green-600 active:bg-green-800 transition-duration-400 cursor-pointer"
-                :disabled="buttonDisabled" 
-                @click="createOrder"> 
-                Оформить заказ
-            </button>
         </div>
     </div>
 </template>
 
 <script setup>
-import { ref, inject, computed } from "vue"
+import { ref, inject } from "vue"
 import axios from 'axios'
 
-const { cart } = inject('cart')
+const { cart, totalPrice } = inject('cart')
 
 const props = defineProps({
-    closeDrawer: Function,
-    totalPrice: Number
+    closeDrawer: Function
 })
 
 const isCreating = ref(false)
@@ -52,22 +57,23 @@ const isCreating = ref(false)
 const orderId = ref(null)
 const createOrder = async () => {
     try {
+        isCreating.value = true;
         const {data} = await axios.post('https://0e157e836a1fe779.mokky.dev/orders', {
             items: cart.value,
-            totalPrice: props.totalPrice.value
+            totalPrice: totalPrice.value
         })
 
         cart.value = [];
-        orderId.value = data.id;
+        orderId.value = data.id
     } catch (error) {
         console.log(error)
     } finally {
-        isCreating.value = false
+        isCreating.value = false;
+        localStorage.removeItem('cart', JSON.stringify(cart.value));
+
     }
 }
 
-const cartIsEmpty = computed(() => cart.value.length === 0)
-const buttonDisabled = computed(() => isCreating.value || cartIsEmpty.value)
 </script>
 
 <style scoped>

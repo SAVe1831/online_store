@@ -31,7 +31,7 @@
 
 
 <script setup>
-import { onMounted, ref, watch, reactive, inject, provide } from 'vue'
+import { onMounted, ref, watch, reactive, inject } from 'vue'
 import axios from 'axios'
 
 const props = defineProps({
@@ -59,12 +59,32 @@ const onChangeSearch = (event) => {
 const { cart } = inject('cart');
 
 const addToCart = (item) => {
-  if (!item.isAdded) {
-    cart.value.push(item);
-    item.isAdded = true;
+  // Извлекаем данные из localStorage
+  const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
+
+  // Проверяем, есть ли товар уже в корзине
+  const index = storedCart.findIndex(cartItem => cartItem.id === item.id);
+
+  if (index === -1) {
+    // Если товара нет в корзине, добавляем его
+    storedCart.push(item);
+    item.isAdded = true; // Устанавливаем флаг isAdded в true
+
+    // Обновляем данные в localStorage
+    localStorage.setItem('cart', JSON.stringify(storedCart));
+
+    // Обновляем состояние корзины в приложении Vue
+    cart.value = storedCart;
   } else {
-    cart.value.splice(cart.value.indexOf(item), 1);
-    item.isAdded = false;
+    // Если товар уже есть в корзине, удаляем его
+    storedCart.splice(index, 1);
+    item.isAdded = false; // Устанавливаем флаг isAdded в false
+
+    // Обновляем данные в localStorage
+    localStorage.setItem('cart', JSON.stringify(storedCart));
+
+    // Обновляем состояние корзины в приложении Vue
+    cart.value = storedCart;
   }
 }
 
@@ -136,8 +156,18 @@ const fetchItems = async () => {
 }
 
 onMounted(async () => {
-    await fetchItems();
-    await fetchFavorites()
+  const localCart = localStorage.getItem('cart');
+  cart.value = localCart ? JSON.parse(localCart) : []
+
+  await fetchItems();
+  await fetchFavorites();
+
+  
+
+  items.value = items.value.map((item) => ({
+    ...item,
+    isAdded: cart.value.some((cartItem) => cartItem.id === item.id)
+  }))
 })
 watch(filters, fetchItems)
 

@@ -28,9 +28,6 @@ const props = defineProps({
     onClickFavorite: Function
 })
 
-
-
-
 </script>
 
 <style scoped>

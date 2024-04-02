@@ -1,5 +1,5 @@
 <template>
-  <my-drawer v-if="drawerOpen" :close-drawer="closeDrawer" :total-price="totalPrice"></my-drawer>
+  <my-drawer v-if="drawerOpen" :close-drawer="closeDrawer"></my-drawer>
   <Navbar :open-drawer="openDrawer" :total-price="totalPrice"></Navbar>
   <div class="app">
       <router-view></router-view>
@@ -12,9 +12,11 @@
 <script setup>
 import { ref, provide, computed } from 'vue';
 
-const drawerOpen = ref(false);
+const cart = ref([]);
 
 const totalPrice = computed(() => cart.value.reduce((acc, item) => acc + item.price, 0))
+
+const drawerOpen = ref(false);
 
 const openDrawer = () => {
   drawerOpen.value = true;
@@ -24,17 +26,26 @@ const closeDrawer = () => {
   drawerOpen.value = false;
 }
 
-const cart = ref([]);
-
 const removeFromCart = (item) => {
   cart.value.splice(cart.value.indexOf(item), 1)
-  item.isAdded = false
+  const storedCart = JSON.parse(localStorage.getItem('cart'));
+  const index = storedCart.findIndex(cartItem => cartItem.id === item.id);
+  if (index !== -1) {
+    storedCart.splice(index, 1);
+    localStorage.setItem('cart', JSON.stringify(storedCart));
+    cart.value = storedCart;
+  }
+  item.isAdded = false;
 }
 
 provide('cart', {
   cart,
-  removeFromCart
+  removeFromCart,
+  totalPrice,
+  isAdded: computed(() => cart.value.some(item => item.isAdded))
 })
+
+
 
 </script>
 
