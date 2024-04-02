@@ -7020,22 +7020,31 @@ const _hoisted_1$1y = { class: "app" };
 const _sfc_main$T = {
   __name: "App",
   setup(__props) {
-    const drawerOpen = ref(false);
+    const cart = ref([]);
     const totalPrice = computed(() => cart.value.reduce((acc, item4) => acc + item4.price, 0));
+    const drawerOpen = ref(false);
     const openDrawer = () => {
       drawerOpen.value = true;
     };
     const closeDrawer = () => {
       drawerOpen.value = false;
     };
-    const cart = ref([]);
     const removeFromCart = (item4) => {
       cart.value.splice(cart.value.indexOf(item4), 1);
+      const storedCart = JSON.parse(localStorage.getItem("cart"));
+      const index2 = storedCart.findIndex((cartItem) => cartItem.id === item4.id);
+      if (index2 !== -1) {
+        storedCart.splice(index2, 1);
+        localStorage.setItem("cart", JSON.stringify(storedCart));
+        cart.value = storedCart;
+      }
       item4.isAdded = false;
     };
     provide("cart", {
       cart,
-      removeFromCart
+      removeFromCart,
+      totalPrice,
+      isAdded: computed(() => cart.value.some((item4) => item4.isAdded))
     });
     return (_ctx, _cache) => {
       const _component_my_drawer = resolveComponent("my-drawer");
@@ -7046,9 +7055,8 @@ const _sfc_main$T = {
       return openBlock(), createElementBlock(Fragment, null, [
         drawerOpen.value ? (openBlock(), createBlock(_component_my_drawer, {
           key: 0,
-          "close-drawer": closeDrawer,
-          "total-price": totalPrice.value
-        }, null, 8, ["total-price"])) : createCommentVNode("", true),
+          "close-drawer": closeDrawer
+        })) : createCommentVNode("", true),
         createVNode(_component_Navbar, {
           "open-drawer": openDrawer,
           "total-price": totalPrice.value
@@ -9230,6 +9238,7 @@ var PrimeVue = {
     app2.provide(PrimeVueSymbol, PrimeVue2);
   }
 };
+const _imports_0$5 = "" + new URL("../images/cart-empty.png", import.meta.url).href;
 function bind(fn, thisArg) {
   return function wrap() {
     return fn.apply(thisArg, arguments);
@@ -11260,7 +11269,7 @@ const _export_sfc = (sfc, props) => {
   }
   return target;
 };
-const _withScopeId$2 = (n) => (pushScopeId("data-v-0272d82c"), n = n(), popScopeId(), n);
+const _withScopeId$2 = (n) => (pushScopeId("data-v-0dbd6aea"), n = n(), popScopeId(), n);
 const _hoisted_1$1x = { class: "cart bg-orange-50 w-full sm:w-8 md:w-6 lg:w-5 xl:w-4 h-full sm:border-left-3 border-orange-500 fixed top-0 right-0 z-5 p-1 lg:py-1 lg:px-3" };
 const _hoisted_2$1q = { class: "flex align-items-center gap-5" };
 const _hoisted_3$i = /* @__PURE__ */ _withScopeId$2(() => /* @__PURE__ */ createBaseVNode("g", {
@@ -11274,26 +11283,41 @@ const _hoisted_4$j = [
   _hoisted_3$i
 ];
 const _hoisted_5$f = /* @__PURE__ */ _withScopeId$2(() => /* @__PURE__ */ createBaseVNode("h2", null, "Корзина", -1));
-const _hoisted_6$c = { class: "my-5 flex" };
-const _hoisted_7$b = /* @__PURE__ */ _withScopeId$2(() => /* @__PURE__ */ createBaseVNode("span", null, "Итого:", -1));
-const _hoisted_8$6 = /* @__PURE__ */ _withScopeId$2(() => /* @__PURE__ */ createBaseVNode("div", { class: "flex-1 border-bottom-1" }, null, -1));
-const _hoisted_9$6 = ["disabled"];
+const _hoisted_6$c = {
+  key: 0,
+  class: "flex flex-column align-items-center mt-5"
+};
+const _hoisted_7$b = /* @__PURE__ */ _withScopeId$2(() => /* @__PURE__ */ createBaseVNode("p", { class: "text-3xl" }, "Здесь пусто...", -1));
+const _hoisted_8$6 = /* @__PURE__ */ _withScopeId$2(() => /* @__PURE__ */ createBaseVNode("img", {
+  class: "w-8",
+  src: _imports_0$5,
+  alt: "Пустая корзина"
+}, null, -1));
+const _hoisted_9$6 = /* @__PURE__ */ _withScopeId$2(() => /* @__PURE__ */ createBaseVNode("p", { class: "text-3xl" }, "Добавьте какой-нибудь товар", -1));
+const _hoisted_10$5 = [
+  _hoisted_7$b,
+  _hoisted_8$6,
+  _hoisted_9$6
+];
+const _hoisted_11$4 = { key: 1 };
+const _hoisted_12$4 = { class: "my-5 flex" };
+const _hoisted_13$4 = /* @__PURE__ */ _withScopeId$2(() => /* @__PURE__ */ createBaseVNode("span", null, "Итого:", -1));
+const _hoisted_14$4 = /* @__PURE__ */ _withScopeId$2(() => /* @__PURE__ */ createBaseVNode("div", { class: "flex-1 border-bottom-1" }, null, -1));
 const _sfc_main$S = {
   __name: "Drawer",
   props: {
-    closeDrawer: Function,
-    totalPrice: Number
+    closeDrawer: Function
   },
   setup(__props) {
-    const { cart } = inject("cart");
-    const props = __props;
+    const { cart, totalPrice } = inject("cart");
     const isCreating = ref(false);
     const orderId = ref(null);
     const createOrder = async () => {
       try {
+        isCreating.value = true;
         const { data: data23 } = await axios.post("https://0e157e836a1fe779.mokky.dev/orders", {
           items: cart.value,
-          totalPrice: props.totalPrice.value
+          totalPrice: totalPrice.value
         });
         cart.value = [];
         orderId.value = data23.id;
@@ -11301,10 +11325,9 @@ const _sfc_main$S = {
         console.log(error);
       } finally {
         isCreating.value = false;
+        localStorage.removeItem("cart", JSON.stringify(cart.value));
       }
     };
-    const cartIsEmpty = computed(() => cart.value.length === 0);
-    const buttonDisabled = computed(() => isCreating.value || cartIsEmpty.value);
     return (_ctx, _cache) => {
       const _component_my_cart_item_list = resolveComponent("my-cart-item-list");
       return openBlock(), createElementBlock(Fragment, null, [
@@ -11326,25 +11349,26 @@ const _sfc_main$S = {
             }, _hoisted_4$j)),
             _hoisted_5$f
           ]),
-          createVNode(_component_my_cart_item_list),
-          createBaseVNode("div", null, [
-            createBaseVNode("div", _hoisted_6$c, [
-              _hoisted_7$b,
-              _hoisted_8$6,
-              createBaseVNode("b", null, toDisplayString(__props.totalPrice) + " ₽", 1)
-            ]),
-            createBaseVNode("button", {
-              class: "checkout bg-green-500 w-full p-3 border-round-2xl border-none text-white text-2xl hover:bg-green-600 active:bg-green-800 transition-duration-400 cursor-pointer",
-              disabled: buttonDisabled.value,
-              onClick: createOrder
-            }, " Оформить заказ ", 8, _hoisted_9$6)
-          ])
+          !unref(totalPrice) || orderId.value ? (openBlock(), createElementBlock("div", _hoisted_6$c, _hoisted_10$5)) : (openBlock(), createElementBlock("div", _hoisted_11$4, [
+            createVNode(_component_my_cart_item_list),
+            createBaseVNode("div", null, [
+              createBaseVNode("div", _hoisted_12$4, [
+                _hoisted_13$4,
+                _hoisted_14$4,
+                createBaseVNode("b", null, toDisplayString(unref(totalPrice)) + " ₽", 1)
+              ]),
+              createBaseVNode("button", {
+                class: "checkout bg-green-500 w-full p-3 border-round-2xl border-none text-white text-2xl hover:bg-green-600 active:bg-green-800 transition-duration-400 cursor-pointer",
+                onClick: createOrder
+              }, " Оформить заказ ")
+            ])
+          ]))
         ])
       ], 64);
     };
   }
 };
-const Drawer = /* @__PURE__ */ _export_sfc(_sfc_main$S, [["__scopeId", "data-v-0272d82c"]]);
+const Drawer = /* @__PURE__ */ _export_sfc(_sfc_main$S, [["__scopeId", "data-v-0dbd6aea"]]);
 const _imports_0$4 = "" + new URL("../images/navbar/nav-cat2.png", import.meta.url).href;
 const _imports_1$2 = "" + new URL("../images/navbar/nav-bird.png", import.meta.url).href;
 const _imports_2$2 = "" + new URL("../images/navbar/nav-dog.png", import.meta.url).href;
@@ -34602,7 +34626,8 @@ const _sfc_main$4 = {
     id: Number,
     imageUrl: String,
     description: String,
-    price: Number
+    price: Number,
+    isAdded: Boolean
   },
   emits: ["onClickRemove"],
   setup(__props, { emit: __emit }) {
@@ -34634,7 +34659,7 @@ const _sfc_main$4 = {
     };
   }
 };
-const CartItem = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["__scopeId", "data-v-825c8e07"]]);
+const CartItem = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["__scopeId", "data-v-f85a5d41"]]);
 const _hoisted_1$3 = { class: "flex flex-column gap-2" };
 const _sfc_main$3 = {
   __name: "CartItemList",
@@ -34656,7 +34681,7 @@ const _sfc_main$3 = {
     };
   }
 };
-const _withScopeId$1 = (n) => (pushScopeId("data-v-72e9005c"), n = n(), popScopeId(), n);
+const _withScopeId$1 = (n) => (pushScopeId("data-v-acad3437"), n = n(), popScopeId(), n);
 const _hoisted_1$2 = { class: "card-item bg-white p-3 cursor-pointer border-1 border-300 border-round-2xl hover-translate shadow-4 hover:shadow-6 transition-duration-300" };
 const _hoisted_2$2 = { class: "flex relative justify-content-center w-full h-12rem mb-3" };
 const _hoisted_3$2 = ["src"];
@@ -34712,9 +34737,9 @@ const _sfc_main$2 = {
     };
   }
 };
-const CardItem = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-72e9005c"]]);
+const CardItem = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-acad3437"]]);
 const _imports_0 = "" + new URL("../images/search.png", import.meta.url).href;
-const _withScopeId = (n) => (pushScopeId("data-v-5ad3d422"), n = n(), popScopeId(), n);
+const _withScopeId = (n) => (pushScopeId("data-v-401103c4"), n = n(), popScopeId(), n);
 const _hoisted_1$1 = { class: "flex flex-column sm:flex-row pb-4 justify-content-end" };
 const _hoisted_2$1 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createBaseVNode("option", { value: "description" }, "По алфавиту", -1));
 const _hoisted_3$1 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createBaseVNode("option", { value: "price" }, "По цене(возрастание)", -1));
@@ -34753,12 +34778,18 @@ const _sfc_main$1 = {
     };
     const { cart } = inject("cart");
     const addToCart = (item4) => {
-      if (!item4.isAdded) {
-        cart.value.push(item4);
+      const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
+      const index2 = storedCart.findIndex((cartItem) => cartItem.id === item4.id);
+      if (index2 === -1) {
+        storedCart.push(item4);
         item4.isAdded = true;
+        localStorage.setItem("cart", JSON.stringify(storedCart));
+        cart.value = storedCart;
       } else {
-        cart.value.splice(cart.value.indexOf(item4), 1);
+        storedCart.splice(index2, 1);
         item4.isAdded = false;
+        localStorage.setItem("cart", JSON.stringify(storedCart));
+        cart.value = storedCart;
       }
     };
     const addToFavorites = async (item4) => {
@@ -34819,8 +34850,14 @@ const _sfc_main$1 = {
       }
     };
     onMounted(async () => {
+      const localCart = localStorage.getItem("cart");
+      cart.value = localCart ? JSON.parse(localCart) : [];
       await fetchItems();
       await fetchFavorites();
+      items2.value = items2.value.map((item4) => ({
+        ...item4,
+        isAdded: cart.value.some((cartItem) => cartItem.id === item4.id)
+      }));
     });
     watch(filters, fetchItems);
     return (_ctx, _cache) => {
@@ -34860,7 +34897,7 @@ const _sfc_main$1 = {
     };
   }
 };
-const CardItemList = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-5ad3d422"]]);
+const CardItemList = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-401103c4"]]);
 const _sfc_main = {};
 const _hoisted_1 = { class: "purina-darling-container mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl" };
 const _hoisted_2 = /* @__PURE__ */ createBaseVNode("h1", null, "Purina Darling", -1);
