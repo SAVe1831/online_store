@@ -6,8 +6,8 @@
   for (const link of document.querySelectorAll('link[rel="modulepreload"]')) {
     processPreload(link);
   }
-  new MutationObserver((mutations) => {
-    for (const mutation of mutations) {
+  new MutationObserver((mutations2) => {
+    for (const mutation of mutations2) {
       if (mutation.type !== "childList") {
         continue;
       }
@@ -57,7 +57,7 @@ const isOn = (key) => key.charCodeAt(0) === 111 && key.charCodeAt(1) === 110 && 
 (key.charCodeAt(2) > 122 || key.charCodeAt(2) < 97);
 const isModelListener = (key) => key.startsWith("onUpdate:");
 const extend$1 = Object.assign;
-const remove = (arr, el) => {
+const remove$1 = (arr, el) => {
   const i = arr.indexOf(el);
   if (i > -1) {
     arr.splice(i, 1);
@@ -520,11 +520,11 @@ const createDep = (cleanup, computed2) => {
 const targetMap = /* @__PURE__ */ new WeakMap();
 const ITERATE_KEY = Symbol("");
 const MAP_KEY_ITERATE_KEY = Symbol("");
-function track(target, type, key) {
+function track(target2, type, key) {
   if (shouldTrack && activeEffect) {
-    let depsMap = targetMap.get(target);
+    let depsMap = targetMap.get(target2);
     if (!depsMap) {
-      targetMap.set(target, depsMap = /* @__PURE__ */ new Map());
+      targetMap.set(target2, depsMap = /* @__PURE__ */ new Map());
     }
     let dep = depsMap.get(key);
     if (!dep) {
@@ -536,15 +536,15 @@ function track(target, type, key) {
     );
   }
 }
-function trigger(target, type, key, newValue, oldValue, oldTarget) {
-  const depsMap = targetMap.get(target);
+function trigger(target2, type, key, newValue, oldValue, oldTarget) {
+  const depsMap = targetMap.get(target2);
   if (!depsMap) {
     return;
   }
   let deps = [];
   if (type === "clear") {
     deps = [...depsMap.values()];
-  } else if (key === "length" && isArray$2(target)) {
+  } else if (key === "length" && isArray$2(target2)) {
     const newLength = Number(newValue);
     depsMap.forEach((dep, key2) => {
       if (key2 === "length" || !isSymbol(key2) && key2 >= newLength) {
@@ -557,9 +557,9 @@ function trigger(target, type, key, newValue, oldValue, oldTarget) {
     }
     switch (type) {
       case "add":
-        if (!isArray$2(target)) {
+        if (!isArray$2(target2)) {
           deps.push(depsMap.get(ITERATE_KEY));
-          if (isMap(target)) {
+          if (isMap(target2)) {
             deps.push(depsMap.get(MAP_KEY_ITERATE_KEY));
           }
         } else if (isIntegerKey(key)) {
@@ -567,15 +567,15 @@ function trigger(target, type, key, newValue, oldValue, oldTarget) {
         }
         break;
       case "delete":
-        if (!isArray$2(target)) {
+        if (!isArray$2(target2)) {
           deps.push(depsMap.get(ITERATE_KEY));
-          if (isMap(target)) {
+          if (isMap(target2)) {
             deps.push(depsMap.get(MAP_KEY_ITERATE_KEY));
           }
         }
         break;
       case "set":
-        if (isMap(target)) {
+        if (isMap(target2)) {
           deps.push(depsMap.get(ITERATE_KEY));
         }
         break;
@@ -635,7 +635,7 @@ class BaseReactiveHandler {
     this._isReadonly = _isReadonly;
     this._shallow = _shallow;
   }
-  get(target, key, receiver) {
+  get(target2, key, receiver) {
     const isReadonly2 = this._isReadonly, shallow = this._shallow;
     if (key === "__v_isReactive") {
       return !isReadonly2;
@@ -644,14 +644,14 @@ class BaseReactiveHandler {
     } else if (key === "__v_isShallow") {
       return shallow;
     } else if (key === "__v_raw") {
-      if (receiver === (isReadonly2 ? shallow ? shallowReadonlyMap : readonlyMap : shallow ? shallowReactiveMap : reactiveMap).get(target) || // receiver is not the reactive proxy, but has the same prototype
+      if (receiver === (isReadonly2 ? shallow ? shallowReadonlyMap : readonlyMap : shallow ? shallowReactiveMap : reactiveMap).get(target2) || // receiver is not the reactive proxy, but has the same prototype
       // this means the reciever is a user proxy of the reactive proxy
-      Object.getPrototypeOf(target) === Object.getPrototypeOf(receiver)) {
-        return target;
+      Object.getPrototypeOf(target2) === Object.getPrototypeOf(receiver)) {
+        return target2;
       }
       return;
     }
-    const targetIsArray = isArray$2(target);
+    const targetIsArray = isArray$2(target2);
     if (!isReadonly2) {
       if (targetIsArray && hasOwn(arrayInstrumentations, key)) {
         return Reflect.get(arrayInstrumentations, key, receiver);
@@ -660,12 +660,12 @@ class BaseReactiveHandler {
         return hasOwnProperty$1;
       }
     }
-    const res = Reflect.get(target, key, receiver);
+    const res = Reflect.get(target2, key, receiver);
     if (isSymbol(key) ? builtInSymbols.has(key) : isNonTrackableKeys(key)) {
       return res;
     }
     if (!isReadonly2) {
-      track(target, "get", key);
+      track(target2, "get", key);
     }
     if (shallow) {
       return res;
@@ -683,15 +683,15 @@ class MutableReactiveHandler extends BaseReactiveHandler {
   constructor(shallow = false) {
     super(false, shallow);
   }
-  set(target, key, value2, receiver) {
-    let oldValue = target[key];
+  set(target2, key, value2, receiver) {
+    let oldValue = target2[key];
     if (!this._shallow) {
       const isOldValueReadonly = isReadonly(oldValue);
       if (!isShallow(value2) && !isReadonly(value2)) {
         oldValue = toRaw(oldValue);
         value2 = toRaw(value2);
       }
-      if (!isArray$2(target) && isRef(oldValue) && !isRef(value2)) {
+      if (!isArray$2(target2) && isRef(oldValue) && !isRef(value2)) {
         if (isOldValueReadonly) {
           return false;
         } else {
@@ -700,50 +700,50 @@ class MutableReactiveHandler extends BaseReactiveHandler {
         }
       }
     }
-    const hadKey = isArray$2(target) && isIntegerKey(key) ? Number(key) < target.length : hasOwn(target, key);
-    const result = Reflect.set(target, key, value2, receiver);
-    if (target === toRaw(receiver)) {
+    const hadKey = isArray$2(target2) && isIntegerKey(key) ? Number(key) < target2.length : hasOwn(target2, key);
+    const result = Reflect.set(target2, key, value2, receiver);
+    if (target2 === toRaw(receiver)) {
       if (!hadKey) {
-        trigger(target, "add", key, value2);
+        trigger(target2, "add", key, value2);
       } else if (hasChanged(value2, oldValue)) {
-        trigger(target, "set", key, value2);
+        trigger(target2, "set", key, value2);
       }
     }
     return result;
   }
-  deleteProperty(target, key) {
-    const hadKey = hasOwn(target, key);
-    target[key];
-    const result = Reflect.deleteProperty(target, key);
+  deleteProperty(target2, key) {
+    const hadKey = hasOwn(target2, key);
+    target2[key];
+    const result = Reflect.deleteProperty(target2, key);
     if (result && hadKey) {
-      trigger(target, "delete", key, void 0);
+      trigger(target2, "delete", key, void 0);
     }
     return result;
   }
-  has(target, key) {
-    const result = Reflect.has(target, key);
+  has(target2, key) {
+    const result = Reflect.has(target2, key);
     if (!isSymbol(key) || !builtInSymbols.has(key)) {
-      track(target, "has", key);
+      track(target2, "has", key);
     }
     return result;
   }
-  ownKeys(target) {
+  ownKeys(target2) {
     track(
-      target,
+      target2,
       "iterate",
-      isArray$2(target) ? "length" : ITERATE_KEY
+      isArray$2(target2) ? "length" : ITERATE_KEY
     );
-    return Reflect.ownKeys(target);
+    return Reflect.ownKeys(target2);
   }
 }
 class ReadonlyReactiveHandler extends BaseReactiveHandler {
   constructor(shallow = false) {
     super(true, shallow);
   }
-  set(target, key) {
+  set(target2, key) {
     return true;
   }
-  deleteProperty(target, key) {
+  deleteProperty(target2, key) {
     return true;
   }
 }
@@ -754,9 +754,9 @@ const shallowReactiveHandlers = /* @__PURE__ */ new MutableReactiveHandler(
 );
 const toShallow = (value2) => value2;
 const getProto = (v) => Reflect.getPrototypeOf(v);
-function get(target, key, isReadonly2 = false, isShallow2 = false) {
-  target = target["__v_raw"];
-  const rawTarget = toRaw(target);
+function get(target2, key, isReadonly2 = false, isShallow2 = false) {
+  target2 = target2["__v_raw"];
+  const rawTarget = toRaw(target2);
   const rawKey = toRaw(key);
   if (!isReadonly2) {
     if (hasChanged(key, rawKey)) {
@@ -767,16 +767,16 @@ function get(target, key, isReadonly2 = false, isShallow2 = false) {
   const { has: has2 } = getProto(rawTarget);
   const wrap = isShallow2 ? toShallow : isReadonly2 ? toReadonly : toReactive;
   if (has2.call(rawTarget, key)) {
-    return wrap(target.get(key));
+    return wrap(target2.get(key));
   } else if (has2.call(rawTarget, rawKey)) {
-    return wrap(target.get(rawKey));
-  } else if (target !== rawTarget) {
-    target.get(key);
+    return wrap(target2.get(rawKey));
+  } else if (target2 !== rawTarget) {
+    target2.get(key);
   }
 }
 function has(key, isReadonly2 = false) {
-  const target = this["__v_raw"];
-  const rawTarget = toRaw(target);
+  const target2 = this["__v_raw"];
+  const rawTarget = toRaw(target2);
   const rawKey = toRaw(key);
   if (!isReadonly2) {
     if (hasChanged(key, rawKey)) {
@@ -784,86 +784,86 @@ function has(key, isReadonly2 = false) {
     }
     track(rawTarget, "has", rawKey);
   }
-  return key === rawKey ? target.has(key) : target.has(key) || target.has(rawKey);
+  return key === rawKey ? target2.has(key) : target2.has(key) || target2.has(rawKey);
 }
-function size(target, isReadonly2 = false) {
-  target = target["__v_raw"];
-  !isReadonly2 && track(toRaw(target), "iterate", ITERATE_KEY);
-  return Reflect.get(target, "size", target);
+function size(target2, isReadonly2 = false) {
+  target2 = target2["__v_raw"];
+  !isReadonly2 && track(toRaw(target2), "iterate", ITERATE_KEY);
+  return Reflect.get(target2, "size", target2);
 }
-function add(value2) {
+function add$1(value2) {
   value2 = toRaw(value2);
-  const target = toRaw(this);
-  const proto = getProto(target);
-  const hadKey = proto.has.call(target, value2);
+  const target2 = toRaw(this);
+  const proto = getProto(target2);
+  const hadKey = proto.has.call(target2, value2);
   if (!hadKey) {
-    target.add(value2);
-    trigger(target, "add", value2, value2);
+    target2.add(value2);
+    trigger(target2, "add", value2, value2);
   }
   return this;
 }
 function set(key, value2) {
   value2 = toRaw(value2);
-  const target = toRaw(this);
-  const { has: has2, get: get2 } = getProto(target);
-  let hadKey = has2.call(target, key);
+  const target2 = toRaw(this);
+  const { has: has2, get: get2 } = getProto(target2);
+  let hadKey = has2.call(target2, key);
   if (!hadKey) {
     key = toRaw(key);
-    hadKey = has2.call(target, key);
+    hadKey = has2.call(target2, key);
   }
-  const oldValue = get2.call(target, key);
-  target.set(key, value2);
+  const oldValue = get2.call(target2, key);
+  target2.set(key, value2);
   if (!hadKey) {
-    trigger(target, "add", key, value2);
+    trigger(target2, "add", key, value2);
   } else if (hasChanged(value2, oldValue)) {
-    trigger(target, "set", key, value2);
+    trigger(target2, "set", key, value2);
   }
   return this;
 }
 function deleteEntry(key) {
-  const target = toRaw(this);
-  const { has: has2, get: get2 } = getProto(target);
-  let hadKey = has2.call(target, key);
+  const target2 = toRaw(this);
+  const { has: has2, get: get2 } = getProto(target2);
+  let hadKey = has2.call(target2, key);
   if (!hadKey) {
     key = toRaw(key);
-    hadKey = has2.call(target, key);
+    hadKey = has2.call(target2, key);
   }
-  get2 ? get2.call(target, key) : void 0;
-  const result = target.delete(key);
+  get2 ? get2.call(target2, key) : void 0;
+  const result = target2.delete(key);
   if (hadKey) {
-    trigger(target, "delete", key, void 0);
+    trigger(target2, "delete", key, void 0);
   }
   return result;
 }
 function clear() {
-  const target = toRaw(this);
-  const hadItems = target.size !== 0;
-  const result = target.clear();
+  const target2 = toRaw(this);
+  const hadItems = target2.size !== 0;
+  const result = target2.clear();
   if (hadItems) {
-    trigger(target, "clear", void 0, void 0);
+    trigger(target2, "clear", void 0, void 0);
   }
   return result;
 }
 function createForEach(isReadonly2, isShallow2) {
   return function forEach2(callback, thisArg) {
     const observed = this;
-    const target = observed["__v_raw"];
-    const rawTarget = toRaw(target);
+    const target2 = observed["__v_raw"];
+    const rawTarget = toRaw(target2);
     const wrap = isShallow2 ? toShallow : isReadonly2 ? toReadonly : toReactive;
     !isReadonly2 && track(rawTarget, "iterate", ITERATE_KEY);
-    return target.forEach((value2, key) => {
+    return target2.forEach((value2, key) => {
       return callback.call(thisArg, wrap(value2), wrap(key), observed);
     });
   };
 }
 function createIterableMethod(method, isReadonly2, isShallow2) {
   return function(...args) {
-    const target = this["__v_raw"];
-    const rawTarget = toRaw(target);
+    const target2 = this["__v_raw"];
+    const rawTarget = toRaw(target2);
     const targetIsMap = isMap(rawTarget);
     const isPair = method === "entries" || method === Symbol.iterator && targetIsMap;
     const isKeyOnly = method === "keys" && targetIsMap;
-    const innerIterator = target[method](...args);
+    const innerIterator = target2[method](...args);
     const wrap = isShallow2 ? toShallow : isReadonly2 ? toReadonly : toReactive;
     !isReadonly2 && track(
       rawTarget,
@@ -900,7 +900,7 @@ function createInstrumentations() {
       return size(this);
     },
     has,
-    add,
+    add: add$1,
     set,
     delete: deleteEntry,
     clear,
@@ -914,7 +914,7 @@ function createInstrumentations() {
       return size(this);
     },
     has,
-    add,
+    add: add$1,
     set,
     delete: deleteEntry,
     clear,
@@ -990,16 +990,16 @@ const [
 ] = /* @__PURE__ */ createInstrumentations();
 function createInstrumentationGetter(isReadonly2, shallow) {
   const instrumentations = shallow ? isReadonly2 ? shallowReadonlyInstrumentations : shallowInstrumentations : isReadonly2 ? readonlyInstrumentations : mutableInstrumentations;
-  return (target, key, receiver) => {
+  return (target2, key, receiver) => {
     if (key === "__v_isReactive") {
       return !isReadonly2;
     } else if (key === "__v_isReadonly") {
       return isReadonly2;
     } else if (key === "__v_raw") {
-      return target;
+      return target2;
     }
     return Reflect.get(
-      hasOwn(instrumentations, key) && key in target ? instrumentations : target,
+      hasOwn(instrumentations, key) && key in target2 ? instrumentations : target2,
       key,
       receiver
     );
@@ -1035,56 +1035,56 @@ function targetTypeMap(rawType) {
 function getTargetType(value2) {
   return value2["__v_skip"] || !Object.isExtensible(value2) ? 0 : targetTypeMap(toRawType(value2));
 }
-function reactive(target) {
-  if (isReadonly(target)) {
-    return target;
+function reactive(target2) {
+  if (isReadonly(target2)) {
+    return target2;
   }
   return createReactiveObject(
-    target,
+    target2,
     false,
     mutableHandlers,
     mutableCollectionHandlers,
     reactiveMap
   );
 }
-function shallowReactive(target) {
+function shallowReactive(target2) {
   return createReactiveObject(
-    target,
+    target2,
     false,
     shallowReactiveHandlers,
     shallowCollectionHandlers,
     shallowReactiveMap
   );
 }
-function readonly(target) {
+function readonly(target2) {
   return createReactiveObject(
-    target,
+    target2,
     true,
     readonlyHandlers,
     readonlyCollectionHandlers,
     readonlyMap
   );
 }
-function createReactiveObject(target, isReadonly2, baseHandlers, collectionHandlers, proxyMap) {
-  if (!isObject$1(target)) {
-    return target;
+function createReactiveObject(target2, isReadonly2, baseHandlers, collectionHandlers, proxyMap) {
+  if (!isObject$1(target2)) {
+    return target2;
   }
-  if (target["__v_raw"] && !(isReadonly2 && target["__v_isReactive"])) {
-    return target;
+  if (target2["__v_raw"] && !(isReadonly2 && target2["__v_isReactive"])) {
+    return target2;
   }
-  const existingProxy = proxyMap.get(target);
+  const existingProxy = proxyMap.get(target2);
   if (existingProxy) {
     return existingProxy;
   }
-  const targetType = getTargetType(target);
+  const targetType = getTargetType(target2);
   if (targetType === 0) {
-    return target;
+    return target2;
   }
   const proxy = new Proxy(
-    target,
+    target2,
     targetType === 2 ? collectionHandlers : baseHandlers
   );
-  proxyMap.set(target, proxy);
+  proxyMap.set(target2, proxy);
   return proxy;
 }
 function isReactive(value2) {
@@ -1103,8 +1103,8 @@ function isProxy(value2) {
   return isReactive(value2) || isReadonly(value2);
 }
 function toRaw(observed) {
-  const raw = observed && observed["__v_raw"];
-  return raw ? toRaw(raw) : observed;
+  const raw2 = observed && observed["__v_raw"];
+  return raw2 ? toRaw(raw2) : observed;
 }
 function markRaw(value2) {
   if (Object.isExtensible(value2)) {
@@ -1232,14 +1232,14 @@ function unref(ref2) {
   return isRef(ref2) ? ref2.value : ref2;
 }
 const shallowUnwrapHandlers = {
-  get: (target, key, receiver) => unref(Reflect.get(target, key, receiver)),
-  set: (target, key, value2, receiver) => {
-    const oldValue = target[key];
+  get: (target2, key, receiver) => unref(Reflect.get(target2, key, receiver)),
+  set: (target2, key, value2, receiver) => {
+    const oldValue = target2[key];
     if (isRef(oldValue) && !isRef(value2)) {
       oldValue.value = value2;
       return true;
     } else {
-      return Reflect.set(target, key, value2, receiver);
+      return Reflect.set(target2, key, value2, receiver);
     }
   }
 };
@@ -1333,20 +1333,20 @@ function formatProps(props) {
   }
   return res;
 }
-function formatProp(key, value2, raw) {
+function formatProp(key, value2, raw2) {
   if (isString$1(value2)) {
     value2 = JSON.stringify(value2);
-    return raw ? value2 : [`${key}=${value2}`];
+    return raw2 ? value2 : [`${key}=${value2}`];
   } else if (typeof value2 === "number" || typeof value2 === "boolean" || value2 == null) {
-    return raw ? value2 : [`${key}=${value2}`];
+    return raw2 ? value2 : [`${key}=${value2}`];
   } else if (isRef(value2)) {
     value2 = formatProp(key, toRaw(value2.value), true);
-    return raw ? value2 : [`${key}=Ref<`, value2, `>`];
+    return raw2 ? value2 : [`${key}=Ref<`, value2, `>`];
   } else if (isFunction$1(value2)) {
     return [`${key}=fn${value2.name ? `<${value2.name}>` : ``}`];
   } else {
     value2 = toRaw(value2);
-    return raw ? value2 : [`${key}=`, value2];
+    return raw2 ? value2 : [`${key}=`, value2];
   }
 }
 function callWithErrorHandling(fn, instance, type, args) {
@@ -1594,12 +1594,12 @@ function normalizeEmitsOptions(comp, appContext, asMixin = false) {
   if (cached !== void 0) {
     return cached;
   }
-  const raw = comp.emits;
+  const raw2 = comp.emits;
   let normalized = {};
   let hasExtends = false;
   if (!isFunction$1(comp)) {
-    const extendEmits = (raw2) => {
-      const normalizedFromExtend = normalizeEmitsOptions(raw2, appContext, true);
+    const extendEmits = (raw22) => {
+      const normalizedFromExtend = normalizeEmitsOptions(raw22, appContext, true);
       if (normalizedFromExtend) {
         hasExtends = true;
         extend$1(normalized, normalizedFromExtend);
@@ -1615,28 +1615,28 @@ function normalizeEmitsOptions(comp, appContext, asMixin = false) {
       comp.mixins.forEach(extendEmits);
     }
   }
-  if (!raw && !hasExtends) {
+  if (!raw2 && !hasExtends) {
     if (isObject$1(comp)) {
       cache.set(comp, null);
     }
     return null;
   }
-  if (isArray$2(raw)) {
-    raw.forEach((key) => normalized[key] = null);
+  if (isArray$2(raw2)) {
+    raw2.forEach((key) => normalized[key] = null);
   } else {
-    extend$1(normalized, raw);
+    extend$1(normalized, raw2);
   }
   if (isObject$1(comp)) {
     cache.set(comp, normalized);
   }
   return normalized;
 }
-function isEmitListener(options3, key) {
-  if (!options3 || !isOn(key)) {
+function isEmitListener(options4, key) {
+  if (!options4 || !isOn(key)) {
     return false;
   }
   key = key.slice(2).replace(/Once$/, "");
-  return hasOwn(options3, key[0].toLowerCase() + key.slice(1)) || hasOwn(options3, hyphenate(key)) || hasOwn(options3, key);
+  return hasOwn(options4, key[0].toLowerCase() + key.slice(1)) || hasOwn(options4, hyphenate(key)) || hasOwn(options4, key);
 }
 let currentRenderingInstance = null;
 let currentScopeId = null;
@@ -1706,13 +1706,13 @@ function renderComponentRoot(instance) {
     if (vnode.shapeFlag & 4) {
       const proxyToUse = withProxy || proxy;
       const thisProxy = false ? new Proxy(proxyToUse, {
-        get(target, key, receiver) {
+        get(target2, key, receiver) {
           warn$1(
             `Property '${String(
               key
             )}' was accessed via 'this'. Avoid using 'this' in templates.`
           );
-          return Reflect.get(target, key, receiver);
+          return Reflect.get(target2, key, receiver);
         }
       }) : proxyToUse;
       result = normalizeVNode(
@@ -1755,10 +1755,10 @@ function renderComponentRoot(instance) {
     handleError(err, instance, 1);
     result = createVNode(Comment);
   }
-  let root17 = result;
+  let root18 = result;
   if (fallthroughAttrs && inheritAttrs !== false) {
     const keys = Object.keys(fallthroughAttrs);
-    const { shapeFlag } = root17;
+    const { shapeFlag } = root18;
     if (keys.length) {
       if (shapeFlag & (1 | 6)) {
         if (propsOptions && keys.some(isModelListener)) {
@@ -1767,19 +1767,19 @@ function renderComponentRoot(instance) {
             propsOptions
           );
         }
-        root17 = cloneVNode(root17, fallthroughAttrs);
+        root18 = cloneVNode(root18, fallthroughAttrs);
       }
     }
   }
   if (vnode.dirs) {
-    root17 = cloneVNode(root17);
-    root17.dirs = root17.dirs ? root17.dirs.concat(vnode.dirs) : vnode.dirs;
+    root18 = cloneVNode(root18);
+    root18.dirs = root18.dirs ? root18.dirs.concat(vnode.dirs) : vnode.dirs;
   }
   if (vnode.transition) {
-    root17.transition = vnode.transition;
+    root18.transition = vnode.transition;
   }
   {
-    result = root17;
+    result = root18;
   }
   setCurrentRenderingInstance(prev);
   return result;
@@ -1861,11 +1861,11 @@ function hasPropsChanged(prevProps, nextProps, emitsOptions) {
 }
 function updateHOCHostEl({ vnode, parent }, el) {
   while (parent) {
-    const root17 = parent.subTree;
-    if (root17.suspense && root17.suspense.activeBranch === vnode) {
-      root17.el = vnode.el;
+    const root18 = parent.subTree;
+    if (root18.suspense && root18.suspense.activeBranch === vnode) {
+      root18.el = vnode.el;
     }
-    if (root17 === vnode) {
+    if (root18 === vnode) {
       (vnode = parent.vnode).el = el;
       parent = parent.parent;
     } else {
@@ -1937,8 +1937,8 @@ const useSSRContext = () => {
   }
 };
 const INITIAL_WATCHER_VALUE = {};
-function watch(source, cb, options3) {
-  return doWatch(source, cb, options3);
+function watch(source, cb, options4) {
+  return doWatch(source, cb, options4);
 }
 function doWatch(source, cb, {
   immediate,
@@ -2071,7 +2071,7 @@ function doWatch(source, cb, {
   const unwatch = () => {
     effect2.stop();
     if (scope) {
-      remove(scope.effects, effect2);
+      remove$1(scope.effects, effect2);
     }
   };
   if (cb) {
@@ -2092,7 +2092,7 @@ function doWatch(source, cb, {
     ssrCleanup.push(unwatch);
   return unwatch;
 }
-function instanceWatch(source, value2, options3) {
+function instanceWatch(source, value2, options4) {
   const publicThis = this.proxy;
   const getter = isString$1(source) ? source.includes(".") ? createPathGetter(publicThis, source) : () => publicThis[source] : source.bind(publicThis, publicThis);
   let cb;
@@ -2100,10 +2100,10 @@ function instanceWatch(source, value2, options3) {
     cb = value2;
   } else {
     cb = value2.handler;
-    options3 = value2;
+    options4 = value2;
   }
   const reset = setCurrentInstance(this);
-  const res = doWatch(getter, cb.bind(publicThis), options3);
+  const res = doWatch(getter, cb.bind(publicThis), options4);
   reset();
   return res;
 }
@@ -2522,24 +2522,24 @@ function getTransitionRawChildren(children, keepComment = false, parentKey) {
 }
 /*! #__NO_SIDE_EFFECTS__ */
 // @__NO_SIDE_EFFECTS__
-function defineComponent(options3, extraOptions) {
-  return isFunction$1(options3) ? (
+function defineComponent(options4, extraOptions) {
+  return isFunction$1(options4) ? (
     // #8326: extend call and options.name access are considered side-effects
     // by Rollup, so we have to wrap it in a pure-annotated IIFE.
-    /* @__PURE__ */ (() => extend$1({ name: options3.name }, extraOptions, { setup: options3 }))()
-  ) : options3;
+    /* @__PURE__ */ (() => extend$1({ name: options4.name }, extraOptions, { setup: options4 }))()
+  ) : options4;
 }
 const isAsyncWrapper = (i) => !!i.type.__asyncLoader;
 const isKeepAlive = (vnode) => vnode.type.__isKeepAlive;
-function onActivated(hook, target) {
-  registerKeepAliveHook(hook, "a", target);
+function onActivated(hook, target2) {
+  registerKeepAliveHook(hook, "a", target2);
 }
-function onDeactivated(hook, target) {
-  registerKeepAliveHook(hook, "da", target);
+function onDeactivated(hook, target2) {
+  registerKeepAliveHook(hook, "da", target2);
 }
-function registerKeepAliveHook(hook, type, target = currentInstance) {
+function registerKeepAliveHook(hook, type, target2 = currentInstance) {
   const wrappedHook = hook.__wdc || (hook.__wdc = () => {
-    let current = target;
+    let current = target2;
     while (current) {
       if (current.isDeactivated) {
         return;
@@ -2548,18 +2548,18 @@ function registerKeepAliveHook(hook, type, target = currentInstance) {
     }
     return hook();
   });
-  injectHook(type, wrappedHook, target);
-  if (target) {
-    let current = target.parent;
+  injectHook(type, wrappedHook, target2);
+  if (target2) {
+    let current = target2.parent;
     while (current && current.parent) {
       if (isKeepAlive(current.parent.vnode)) {
-        injectToKeepAliveRoot(wrappedHook, type, target, current);
+        injectToKeepAliveRoot(wrappedHook, type, target2, current);
       }
       current = current.parent;
     }
   }
 }
-function injectToKeepAliveRoot(hook, type, target, keepAliveRoot) {
+function injectToKeepAliveRoot(hook, type, target2, keepAliveRoot) {
   const injected = injectHook(
     type,
     hook,
@@ -2568,19 +2568,19 @@ function injectToKeepAliveRoot(hook, type, target, keepAliveRoot) {
     /* prepend */
   );
   onUnmounted(() => {
-    remove(keepAliveRoot[type], injected);
-  }, target);
+    remove$1(keepAliveRoot[type], injected);
+  }, target2);
 }
-function injectHook(type, hook, target = currentInstance, prepend = false) {
-  if (target) {
-    const hooks = target[type] || (target[type] = []);
+function injectHook(type, hook, target2 = currentInstance, prepend = false) {
+  if (target2) {
+    const hooks = target2[type] || (target2[type] = []);
     const wrappedHook = hook.__weh || (hook.__weh = (...args) => {
-      if (target.isUnmounted) {
+      if (target2.isUnmounted) {
         return;
       }
       pauseTracking();
-      const reset = setCurrentInstance(target);
-      const res = callWithAsyncErrorHandling(hook, target, type, args);
+      const reset = setCurrentInstance(target2);
+      const res = callWithAsyncErrorHandling(hook, target2, type, args);
       reset();
       resetTracking();
       return res;
@@ -2593,9 +2593,9 @@ function injectHook(type, hook, target = currentInstance, prepend = false) {
     return wrappedHook;
   }
 }
-const createHook = (lifecycle) => (hook, target = currentInstance) => (
+const createHook = (lifecycle) => (hook, target2 = currentInstance) => (
   // post-create lifecycle registrations are noops during SSR (except for serverPrefetch)
-  (!isInSSRComponentSetup || lifecycle === "sp") && injectHook(lifecycle, (...args) => hook(...args), target)
+  (!isInSSRComponentSetup || lifecycle === "sp") && injectHook(lifecycle, (...args) => hook(...args), target2)
 );
 const onBeforeMount = createHook("bm");
 const onMounted = createHook("m");
@@ -2610,8 +2610,8 @@ const onRenderTriggered = createHook(
 const onRenderTracked = createHook(
   "rtc"
 );
-function onErrorCaptured(hook, target = currentInstance) {
-  injectHook("ec", hook, target);
+function onErrorCaptured(hook, target2 = currentInstance) {
+  injectHook("ec", hook, target2);
 }
 function renderList(source, renderItem, cache, index2) {
   let ret;
@@ -2833,13 +2833,13 @@ const PublicInstanceProxyHandlers = {
     let normalizedProps;
     return !!accessCache[key] || data23 !== EMPTY_OBJ && hasOwn(data23, key) || hasSetupBinding(setupState, key) || (normalizedProps = propsOptions[0]) && hasOwn(normalizedProps, key) || hasOwn(ctx, key) || hasOwn(publicPropertiesMap, key) || hasOwn(appContext.config.globalProperties, key);
   },
-  defineProperty(target, key, descriptor) {
+  defineProperty(target2, key, descriptor) {
     if (descriptor.get != null) {
-      target._.accessCache[key] = 0;
+      target2._.accessCache[key] = 0;
     } else if (hasOwn(descriptor, "value")) {
-      this.set(target, key, descriptor.value, null);
+      this.set(target2, key, descriptor.value, null);
     }
-    return Reflect.defineProperty(target, key, descriptor);
+    return Reflect.defineProperty(target2, key, descriptor);
   }
 };
 function normalizePropsOrEmits(props) {
@@ -2850,12 +2850,12 @@ function normalizePropsOrEmits(props) {
 }
 let shouldCacheAccess = true;
 function applyOptions(instance) {
-  const options3 = resolveMergedOptions(instance);
+  const options4 = resolveMergedOptions(instance);
   const publicThis = instance.proxy;
   const ctx = instance.ctx;
   shouldCacheAccess = false;
-  if (options3.beforeCreate) {
-    callHook$1(options3.beforeCreate, instance, "bc");
+  if (options4.beforeCreate) {
+    callHook$1(options4.beforeCreate, instance, "bc");
   }
   const {
     // state
@@ -2889,7 +2889,7 @@ function applyOptions(instance) {
     components,
     directives,
     filters
-  } = options3;
+  } = options4;
   const checkDuplicateProperties = null;
   if (injectOptions) {
     resolveInjections(injectOptions, ctx, checkDuplicateProperties);
@@ -3026,22 +3026,22 @@ function callHook$1(hook, instance, type) {
     type
   );
 }
-function createWatcher(raw, ctx, publicThis, key) {
+function createWatcher(raw2, ctx, publicThis, key) {
   const getter = key.includes(".") ? createPathGetter(publicThis, key) : () => publicThis[key];
-  if (isString$1(raw)) {
-    const handler8 = ctx[raw];
+  if (isString$1(raw2)) {
+    const handler8 = ctx[raw2];
     if (isFunction$1(handler8)) {
       watch(getter, handler8);
     }
-  } else if (isFunction$1(raw)) {
-    watch(getter, raw.bind(publicThis));
-  } else if (isObject$1(raw)) {
-    if (isArray$2(raw)) {
-      raw.forEach((r) => createWatcher(r, ctx, publicThis, key));
+  } else if (isFunction$1(raw2)) {
+    watch(getter, raw2.bind(publicThis));
+  } else if (isObject$1(raw2)) {
+    if (isArray$2(raw2)) {
+      raw2.forEach((r) => createWatcher(r, ctx, publicThis, key));
     } else {
-      const handler8 = isFunction$1(raw.handler) ? raw.handler.bind(publicThis) : ctx[raw.handler];
+      const handler8 = isFunction$1(raw2.handler) ? raw2.handler.bind(publicThis) : ctx[raw2.handler];
       if (isFunction$1(handler8)) {
-        watch(getter, handler8, raw);
+        watch(getter, handler8, raw2);
       }
     }
   } else
@@ -3145,15 +3145,15 @@ function mergeDataFn(to, from) {
 function mergeInject(to, from) {
   return mergeObjectOptions(normalizeInject(to), normalizeInject(from));
 }
-function normalizeInject(raw) {
-  if (isArray$2(raw)) {
+function normalizeInject(raw2) {
+  if (isArray$2(raw2)) {
     const res = {};
-    for (let i = 0; i < raw.length; i++) {
-      res[raw[i]] = raw[i];
+    for (let i = 0; i < raw2.length; i++) {
+      res[raw2[i]] = raw2[i];
     }
     return res;
   }
-  return raw;
+  return raw2;
 }
 function mergeAsArray(to, from) {
   return to ? [...new Set([].concat(to, from))] : from;
@@ -3232,15 +3232,15 @@ function createAppAPI(render3, hydrate) {
       },
       set config(v) {
       },
-      use(plugin, ...options3) {
+      use(plugin, ...options4) {
         if (installedPlugins.has(plugin))
           ;
         else if (plugin && isFunction$1(plugin.install)) {
           installedPlugins.add(plugin);
-          plugin.install(app2, ...options3);
+          plugin.install(app2, ...options4);
         } else if (isFunction$1(plugin)) {
           installedPlugins.add(plugin);
-          plugin(app2, ...options3);
+          plugin(app2, ...options4);
         } else
           ;
         return app2;
@@ -3364,7 +3364,7 @@ function updateProps(instance, rawProps, rawPrevProps, optimized) {
     vnode: { patchFlag }
   } = instance;
   const rawCurrentProps = toRaw(props);
-  const [options3] = instance.propsOptions;
+  const [options4] = instance.propsOptions;
   let hasAttrsChanged = false;
   if (
     // always force full diff in dev
@@ -3380,7 +3380,7 @@ function updateProps(instance, rawProps, rawPrevProps, optimized) {
           continue;
         }
         const value2 = rawProps[key];
-        if (options3) {
+        if (options4) {
           if (hasOwn(attrs, key)) {
             if (value2 !== attrs[key]) {
               attrs[key] = value2;
@@ -3389,7 +3389,7 @@ function updateProps(instance, rawProps, rawPrevProps, optimized) {
           } else {
             const camelizedKey = camelize(key);
             props[camelizedKey] = resolvePropValue(
-              options3,
+              options4,
               rawCurrentProps,
               camelizedKey,
               value2,
@@ -3415,12 +3415,12 @@ function updateProps(instance, rawProps, rawPrevProps, optimized) {
       !hasOwn(rawProps, key) && // it's possible the original props was passed in as kebab-case
       // and converted to camelCase (#955)
       ((kebabKey = hyphenate(key)) === key || !hasOwn(rawProps, kebabKey))) {
-        if (options3) {
+        if (options4) {
           if (rawPrevProps && // for camelCase
           (rawPrevProps[key] !== void 0 || // for kebab-case
           rawPrevProps[kebabKey] !== void 0)) {
             props[key] = resolvePropValue(
-              options3,
+              options4,
               rawCurrentProps,
               key,
               void 0,
@@ -3447,7 +3447,7 @@ function updateProps(instance, rawProps, rawPrevProps, optimized) {
   }
 }
 function setFullProps(instance, rawProps, props, attrs) {
-  const [options3, needCastKeys] = instance.propsOptions;
+  const [options4, needCastKeys] = instance.propsOptions;
   let hasAttrsChanged = false;
   let rawCastValues;
   if (rawProps) {
@@ -3457,7 +3457,7 @@ function setFullProps(instance, rawProps, props, attrs) {
       }
       const value2 = rawProps[key];
       let camelKey;
-      if (options3 && hasOwn(options3, camelKey = camelize(key))) {
+      if (options4 && hasOwn(options4, camelKey = camelize(key))) {
         if (!needCastKeys || !needCastKeys.includes(camelKey)) {
           props[camelKey] = value2;
         } else {
@@ -3477,7 +3477,7 @@ function setFullProps(instance, rawProps, props, attrs) {
     for (let i = 0; i < needCastKeys.length; i++) {
       const key = needCastKeys[i];
       props[key] = resolvePropValue(
-        options3,
+        options4,
         rawCurrentProps,
         key,
         castValues[key],
@@ -3488,8 +3488,8 @@ function setFullProps(instance, rawProps, props, attrs) {
   }
   return hasAttrsChanged;
 }
-function resolvePropValue(options3, props, key, value2, instance, isAbsent) {
-  const opt = options3[key];
+function resolvePropValue(options4, props, key, value2, instance, isAbsent) {
+  const opt = options4[key];
   if (opt != null) {
     const hasDefault = hasOwn(opt, "default");
     if (hasDefault && value2 === void 0) {
@@ -3532,14 +3532,14 @@ function normalizePropsOptions(comp, appContext, asMixin = false) {
   if (cached) {
     return cached;
   }
-  const raw = comp.props;
+  const raw2 = comp.props;
   const normalized = {};
   const needCastKeys = [];
   let hasExtends = false;
   if (!isFunction$1(comp)) {
-    const extendProps = (raw2) => {
+    const extendProps = (raw22) => {
       hasExtends = true;
-      const [props, keys] = normalizePropsOptions(raw2, appContext, true);
+      const [props, keys] = normalizePropsOptions(raw22, appContext, true);
       extend$1(normalized, props);
       if (keys)
         needCastKeys.push(...keys);
@@ -3554,24 +3554,24 @@ function normalizePropsOptions(comp, appContext, asMixin = false) {
       comp.mixins.forEach(extendProps);
     }
   }
-  if (!raw && !hasExtends) {
+  if (!raw2 && !hasExtends) {
     if (isObject$1(comp)) {
       cache.set(comp, EMPTY_ARR);
     }
     return EMPTY_ARR;
   }
-  if (isArray$2(raw)) {
-    for (let i = 0; i < raw.length; i++) {
-      const normalizedKey = camelize(raw[i]);
+  if (isArray$2(raw2)) {
+    for (let i = 0; i < raw2.length; i++) {
+      const normalizedKey = camelize(raw2[i]);
       if (validatePropName(normalizedKey)) {
         normalized[normalizedKey] = EMPTY_OBJ;
       }
     }
-  } else if (raw) {
-    for (const key in raw) {
+  } else if (raw2) {
+    for (const key in raw2) {
       const normalizedKey = camelize(key);
       if (validatePropName(normalizedKey)) {
-        const opt = raw[key];
+        const opt = raw2[key];
         const prop = normalized[normalizedKey] = isArray$2(opt) || isFunction$1(opt) ? { type: opt } : extend$1({}, opt);
         if (prop) {
           const booleanIndex = getTypeIndex(Boolean, prop.type);
@@ -3744,7 +3744,7 @@ function setRef(rawRef, oldRawRef, parentSuspense, vnode, isUnmount = false) {
         if (rawRef.f) {
           const existing = _isString ? hasOwn(setupState, ref3) ? setupState[ref3] : refs[ref3] : ref3.value;
           if (isUnmount) {
-            isArray$2(existing) && remove(existing, refValue);
+            isArray$2(existing) && remove$1(existing, refValue);
           } else {
             if (!isArray$2(existing)) {
               if (_isString) {
@@ -3783,12 +3783,12 @@ function setRef(rawRef, oldRawRef, parentSuspense, vnode, isUnmount = false) {
   }
 }
 const queuePostRenderEffect = queueEffectWithSuspense;
-function createRenderer(options3) {
-  return baseCreateRenderer(options3);
+function createRenderer(options4) {
+  return baseCreateRenderer(options4);
 }
-function baseCreateRenderer(options3, createHydrationFns) {
-  const target = getGlobalThis();
-  target.__VUE__ = true;
+function baseCreateRenderer(options4, createHydrationFns) {
+  const target2 = getGlobalThis();
+  target2.__VUE__ = true;
   const {
     insert: hostInsert,
     remove: hostRemove,
@@ -3802,7 +3802,7 @@ function baseCreateRenderer(options3, createHydrationFns) {
     nextSibling: hostNextSibling,
     setScopeId: hostSetScopeId = NOOP,
     insertStaticContent: hostInsertStaticContent
-  } = options3;
+  } = options4;
   const patch = (n1, n2, container2, anchor = null, parentComponent = null, parentSuspense = null, namespace = void 0, slotScopeIds = null, optimized = !!n2.dynamicChildren) => {
     if (n1 === n2) {
       return;
@@ -5063,7 +5063,7 @@ function baseCreateRenderer(options3, createHydrationFns) {
     pc: patchChildren,
     pbc: patchBlockChildren,
     n: getNextHostNode,
-    o: options3
+    o: options4
   };
   let hydrate;
   let hydrateNode;
@@ -5160,16 +5160,16 @@ function locateNonHydratedAsyncRoot(instance) {
 }
 const isTeleport = (type) => type.__isTeleport;
 const isTeleportDisabled = (props) => props && (props.disabled || props.disabled === "");
-const isTargetSVG = (target) => typeof SVGElement !== "undefined" && target instanceof SVGElement;
-const isTargetMathML = (target) => typeof MathMLElement === "function" && target instanceof MathMLElement;
+const isTargetSVG = (target2) => typeof SVGElement !== "undefined" && target2 instanceof SVGElement;
+const isTargetMathML = (target2) => typeof MathMLElement === "function" && target2 instanceof MathMLElement;
 const resolveTarget = (props, select) => {
   const targetSelector = props && props.to;
   if (isString$1(targetSelector)) {
     if (!select) {
       return null;
     } else {
-      const target = select(targetSelector);
-      return target;
+      const target2 = select(targetSelector);
+      return target2;
     }
   } else {
     return targetSelector;
@@ -5192,13 +5192,13 @@ const TeleportImpl = {
       const mainAnchor = n2.anchor = createText("");
       insert2(placeholder, container2, anchor);
       insert2(mainAnchor, container2, anchor);
-      const target = n2.target = resolveTarget(n2.props, querySelector);
+      const target2 = n2.target = resolveTarget(n2.props, querySelector);
       const targetAnchor = n2.targetAnchor = createText("");
-      if (target) {
-        insert2(targetAnchor, target);
-        if (namespace === "svg" || isTargetSVG(target)) {
+      if (target2) {
+        insert2(targetAnchor, target2);
+        if (namespace === "svg" || isTargetSVG(target2)) {
           namespace = "svg";
-        } else if (namespace === "mathml" || isTargetMathML(target)) {
+        } else if (namespace === "mathml" || isTargetMathML(target2)) {
           namespace = "mathml";
         }
       }
@@ -5218,20 +5218,20 @@ const TeleportImpl = {
       };
       if (disabled2) {
         mount(container2, mainAnchor);
-      } else if (target) {
-        mount(target, targetAnchor);
+      } else if (target2) {
+        mount(target2, targetAnchor);
       }
     } else {
       n2.el = n1.el;
       const mainAnchor = n2.anchor = n1.anchor;
-      const target = n2.target = n1.target;
+      const target2 = n2.target = n1.target;
       const targetAnchor = n2.targetAnchor = n1.targetAnchor;
       const wasDisabled = isTeleportDisabled(n1.props);
-      const currentContainer = wasDisabled ? container2 : target;
+      const currentContainer = wasDisabled ? container2 : target2;
       const currentAnchor = wasDisabled ? mainAnchor : targetAnchor;
-      if (namespace === "svg" || isTargetSVG(target)) {
+      if (namespace === "svg" || isTargetSVG(target2)) {
         namespace = "svg";
-      } else if (namespace === "mathml" || isTargetMathML(target)) {
+      } else if (namespace === "mathml" || isTargetMathML(target2)) {
         namespace = "mathml";
       }
       if (dynamicChildren) {
@@ -5290,7 +5290,7 @@ const TeleportImpl = {
         } else if (wasDisabled) {
           moveTeleport(
             n2,
-            target,
+            target2,
             targetAnchor,
             internals,
             1
@@ -5301,8 +5301,8 @@ const TeleportImpl = {
     updateCssVars(n2);
   },
   remove(vnode, parentComponent, parentSuspense, optimized, { um: unmount, o: { remove: hostRemove } }, doRemove) {
-    const { shapeFlag, children, anchor, targetAnchor, target, props } = vnode;
-    if (target) {
+    const { shapeFlag, children, anchor, targetAnchor, target: target2, props } = vnode;
+    if (target2) {
       hostRemove(targetAnchor);
     }
     doRemove && hostRemove(anchor);
@@ -5351,12 +5351,12 @@ function moveTeleport(vnode, container2, parentAnchor, { o: { insert: insert2 },
 function hydrateTeleport(node2, vnode, parentComponent, parentSuspense, slotScopeIds, optimized, {
   o: { nextSibling, parentNode, querySelector }
 }, hydrateChildren) {
-  const target = vnode.target = resolveTarget(
+  const target2 = vnode.target = resolveTarget(
     vnode.props,
     querySelector
   );
-  if (target) {
-    const targetNode = target._lpa || target.firstChild;
+  if (target2) {
+    const targetNode = target2._lpa || target2.firstChild;
     if (vnode.shapeFlag & 16) {
       if (isTeleportDisabled(vnode.props)) {
         vnode.anchor = hydrateChildren(
@@ -5376,14 +5376,14 @@ function hydrateTeleport(node2, vnode, parentComponent, parentSuspense, slotScop
           targetAnchor = nextSibling(targetAnchor);
           if (targetAnchor && targetAnchor.nodeType === 8 && targetAnchor.data === "teleport anchor") {
             vnode.targetAnchor = targetAnchor;
-            target._lpa = vnode.targetAnchor && nextSibling(vnode.targetAnchor);
+            target2._lpa = vnode.targetAnchor && nextSibling(vnode.targetAnchor);
             break;
           }
         }
         hydrateChildren(
           targetNode,
           vnode,
-          target,
+          target2,
           parentComponent,
           parentSuspense,
           slotScopeIds,
@@ -5971,9 +5971,9 @@ function getAttrsProxy(instance) {
   return instance.attrsProxy || (instance.attrsProxy = new Proxy(
     instance.attrs,
     {
-      get(target, key) {
+      get(target2, key) {
         track(instance, "get", "$attrs");
-        return target[key];
+        return target2[key];
       }
     }
   ));
@@ -5996,15 +5996,15 @@ function createSetupContext(instance) {
 function getExposeProxy(instance) {
   if (instance.exposed) {
     return instance.exposeProxy || (instance.exposeProxy = new Proxy(proxyRefs(markRaw(instance.exposed)), {
-      get(target, key) {
-        if (key in target) {
-          return target[key];
+      get(target2, key) {
+        if (key in target2) {
+          return target2[key];
         } else if (key in publicPropertiesMap) {
           return publicPropertiesMap[key](instance);
         }
       },
-      has(target, key) {
-        return key in target || key in publicPropertiesMap;
+      has(target2, key) {
+        return key in target2 || key in publicPropertiesMap;
       }
     }));
   }
@@ -6549,11 +6549,11 @@ function patchDOMProp(el, key, value2, prevChildren, parentComponent, parentSusp
   }
   needRemove && el.removeAttribute(key);
 }
-function addEventListener(el, event2, handler8, options3) {
-  el.addEventListener(event2, handler8, options3);
+function addEventListener(el, event2, handler8, options4) {
+  el.addEventListener(event2, handler8, options4);
 }
-function removeEventListener(el, event2, handler8, options3) {
-  el.removeEventListener(event2, handler8, options3);
+function removeEventListener(el, event2, handler8, options4) {
+  el.removeEventListener(event2, handler8, options4);
 }
 const veiKey = Symbol("_vei");
 function patchEvent(el, rawName, prevValue, nextValue, instance = null) {
@@ -6562,29 +6562,29 @@ function patchEvent(el, rawName, prevValue, nextValue, instance = null) {
   if (nextValue && existingInvoker) {
     existingInvoker.value = nextValue;
   } else {
-    const [name, options3] = parseName(rawName);
+    const [name, options4] = parseName(rawName);
     if (nextValue) {
       const invoker = invokers[rawName] = createInvoker(nextValue, instance);
-      addEventListener(el, name, invoker, options3);
+      addEventListener(el, name, invoker, options4);
     } else if (existingInvoker) {
-      removeEventListener(el, name, existingInvoker, options3);
+      removeEventListener(el, name, existingInvoker, options4);
       invokers[rawName] = void 0;
     }
   }
 }
 const optionsModifierRE = /(?:Once|Passive|Capture)$/;
 function parseName(name) {
-  let options3;
+  let options4;
   if (optionsModifierRE.test(name)) {
-    options3 = {};
+    options4 = {};
     let m;
     while (m = name.match(optionsModifierRE)) {
       name = name.slice(0, name.length - m[0].length);
-      options3[m[0].toLowerCase()] = true;
+      options4[m[0].toLowerCase()] = true;
     }
   }
   const event2 = name[2] === ":" ? name.slice(3) : hyphenate(name.slice(2));
-  return [event2, options3];
+  return [event2, options4];
 }
 let cachedNow = 0;
 const p = /* @__PURE__ */ Promise.resolve();
@@ -6788,7 +6788,7 @@ function applyTranslation(c) {
     return c;
   }
 }
-function hasCSSTransform(el, root17, moveClass) {
+function hasCSSTransform(el, root18, moveClass) {
   const clone = el.cloneNode();
   const _vtc = el[vtcKey];
   if (_vtc) {
@@ -6798,7 +6798,7 @@ function hasCSSTransform(el, root17, moveClass) {
   }
   moveClass.split(/\s+/).forEach((c) => c && clone.classList.add(c));
   clone.style.display = "none";
-  const container2 = root17.nodeType === 1 ? root17 : root17.parentNode;
+  const container2 = root18.nodeType === 1 ? root18 : root18.parentNode;
   container2.appendChild(clone);
   const { hasTransform } = getTransitionInfo(clone);
   container2.removeChild(clone);
@@ -6812,10 +6812,10 @@ function onCompositionStart(e) {
   e.target.composing = true;
 }
 function onCompositionEnd(e) {
-  const target = e.target;
-  if (target.composing) {
-    target.composing = false;
-    target.dispatchEvent(new Event("input"));
+  const target2 = e.target;
+  if (target2.composing) {
+    target2.composing = false;
+    target2.dispatchEvent(new Event("input"));
   }
 }
 const assignKey = Symbol("_assign");
@@ -7016,8 +7016,8 @@ function normalizeContainer(container2) {
   }
   return container2;
 }
-const _hoisted_1$1y = { class: "app" };
-const _sfc_main$T = {
+const _hoisted_1$1z = { class: "app" };
+const _sfc_main$U = {
   __name: "App",
   setup(__props) {
     const cart = ref([]);
@@ -7043,8 +7043,7 @@ const _sfc_main$T = {
     provide("cart", {
       cart,
       removeFromCart,
-      totalPrice,
-      isAdded: computed(() => cart.value.some((item4) => item4.isAdded))
+      totalPrice
     });
     return (_ctx, _cache) => {
       const _component_my_drawer = resolveComponent("my-drawer");
@@ -7061,13 +7060,494 @@ const _sfc_main$T = {
           "open-drawer": openDrawer,
           "total-price": totalPrice.value
         }, null, 8, ["total-price"]),
-        createBaseVNode("div", _hoisted_1$1y, [
+        createBaseVNode("div", _hoisted_1$1z, [
           createVNode(_component_router_view)
         ]),
         createVNode(_component_my_footer),
         createVNode(_component_ScrollTop)
       ], 64);
     };
+  }
+};
+const parents = /* @__PURE__ */ new Set();
+const coords = /* @__PURE__ */ new WeakMap();
+const siblings = /* @__PURE__ */ new WeakMap();
+const animations = /* @__PURE__ */ new WeakMap();
+const intersections = /* @__PURE__ */ new WeakMap();
+const intervals = /* @__PURE__ */ new WeakMap();
+const options = /* @__PURE__ */ new WeakMap();
+const debounces = /* @__PURE__ */ new WeakMap();
+const enabled = /* @__PURE__ */ new WeakSet();
+let root;
+let scrollX = 0;
+let scrollY = 0;
+const TGT = "__aa_tgt";
+const DEL = "__aa_del";
+const NEW = "__aa_new";
+const handleMutations = (mutations2) => {
+  const elements = getElements(mutations2);
+  if (elements) {
+    elements.forEach((el) => animate(el));
+  }
+};
+const handleResizes = (entries) => {
+  entries.forEach((entry) => {
+    if (entry.target === root)
+      updateAllPos();
+    if (coords.has(entry.target))
+      updatePos(entry.target);
+  });
+};
+function observePosition(el) {
+  const oldObserver = intersections.get(el);
+  oldObserver === null || oldObserver === void 0 ? void 0 : oldObserver.disconnect();
+  let rect = coords.get(el);
+  let invocations = 0;
+  const buffer = 5;
+  if (!rect) {
+    rect = getCoords(el);
+    coords.set(el, rect);
+  }
+  const { offsetWidth, offsetHeight } = root;
+  const rootMargins = [
+    rect.top - buffer,
+    offsetWidth - (rect.left + buffer + rect.width),
+    offsetHeight - (rect.top + buffer + rect.height),
+    rect.left - buffer
+  ];
+  const rootMargin = rootMargins.map((px) => `${-1 * Math.floor(px)}px`).join(" ");
+  const observer = new IntersectionObserver(() => {
+    ++invocations > 1 && updatePos(el);
+  }, {
+    root,
+    threshold: 1,
+    rootMargin
+  });
+  observer.observe(el);
+  intersections.set(el, observer);
+}
+function updatePos(el) {
+  clearTimeout(debounces.get(el));
+  const optionsOrPlugin = getOptions(el);
+  const delay = isPlugin(optionsOrPlugin) ? 500 : optionsOrPlugin.duration;
+  debounces.set(el, setTimeout(async () => {
+    const currentAnimation = animations.get(el);
+    try {
+      await (currentAnimation === null || currentAnimation === void 0 ? void 0 : currentAnimation.finished);
+      coords.set(el, getCoords(el));
+      observePosition(el);
+    } catch {
+    }
+  }, delay));
+}
+function updateAllPos() {
+  clearTimeout(debounces.get(root));
+  debounces.set(root, setTimeout(() => {
+    parents.forEach((parent) => forEach$1(parent, (el) => lowPriority(() => updatePos(el))));
+  }, 100));
+}
+function poll(el) {
+  setTimeout(() => {
+    intervals.set(el, setInterval(() => lowPriority(updatePos.bind(null, el)), 2e3));
+  }, Math.round(2e3 * Math.random()));
+}
+function lowPriority(callback) {
+  if (typeof requestIdleCallback === "function") {
+    requestIdleCallback(() => callback());
+  } else {
+    requestAnimationFrame(() => callback());
+  }
+}
+let mutations;
+let resize;
+if (typeof window !== "undefined") {
+  root = document.documentElement;
+  mutations = new MutationObserver(handleMutations);
+  resize = new ResizeObserver(handleResizes);
+  window.addEventListener("scroll", () => {
+    scrollY = window.scrollY;
+    scrollX = window.scrollX;
+  });
+  resize.observe(root);
+}
+function getElements(mutations2) {
+  const observedNodes = mutations2.reduce((nodes, mutation) => {
+    return [
+      ...nodes,
+      ...Array.from(mutation.addedNodes),
+      ...Array.from(mutation.removedNodes)
+    ];
+  }, []);
+  const onlyCommentNodesObserved = observedNodes.every((node2) => node2.nodeName === "#comment");
+  if (onlyCommentNodesObserved)
+    return false;
+  return mutations2.reduce((elements, mutation) => {
+    if (elements === false)
+      return false;
+    if (mutation.target instanceof Element) {
+      target(mutation.target);
+      if (!elements.has(mutation.target)) {
+        elements.add(mutation.target);
+        for (let i = 0; i < mutation.target.children.length; i++) {
+          const child = mutation.target.children.item(i);
+          if (!child)
+            continue;
+          if (DEL in child) {
+            return false;
+          }
+          target(mutation.target, child);
+          elements.add(child);
+        }
+      }
+      if (mutation.removedNodes.length) {
+        for (let i = 0; i < mutation.removedNodes.length; i++) {
+          const child = mutation.removedNodes[i];
+          if (DEL in child) {
+            return false;
+          }
+          if (child instanceof Element) {
+            elements.add(child);
+            target(mutation.target, child);
+            siblings.set(child, [
+              mutation.previousSibling,
+              mutation.nextSibling
+            ]);
+          }
+        }
+      }
+    }
+    return elements;
+  }, /* @__PURE__ */ new Set());
+}
+function target(el, child) {
+  if (!child && !(TGT in el))
+    Object.defineProperty(el, TGT, { value: el });
+  else if (child && !(TGT in child))
+    Object.defineProperty(child, TGT, { value: el });
+}
+function animate(el) {
+  var _a;
+  const isMounted = el.isConnected;
+  const preExisting = coords.has(el);
+  if (isMounted && siblings.has(el))
+    siblings.delete(el);
+  if (animations.has(el)) {
+    (_a = animations.get(el)) === null || _a === void 0 ? void 0 : _a.cancel();
+  }
+  if (NEW in el) {
+    add(el);
+  } else if (preExisting && isMounted) {
+    remain(el);
+  } else if (preExisting && !isMounted) {
+    remove(el);
+  } else {
+    add(el);
+  }
+}
+function raw(str) {
+  return Number(str.replace(/[^0-9.\-]/g, ""));
+}
+function getScrollOffset(el) {
+  let p2 = el.parentElement;
+  while (p2) {
+    if (p2.scrollLeft || p2.scrollTop) {
+      return { x: p2.scrollLeft, y: p2.scrollTop };
+    }
+    p2 = p2.parentElement;
+  }
+  return { x: 0, y: 0 };
+}
+function getCoords(el) {
+  const rect = el.getBoundingClientRect();
+  const { x, y } = getScrollOffset(el);
+  return {
+    top: rect.top + y,
+    left: rect.left + x,
+    width: rect.width,
+    height: rect.height
+  };
+}
+function getTransitionSizes(el, oldCoords, newCoords) {
+  let widthFrom = oldCoords.width;
+  let heightFrom = oldCoords.height;
+  let widthTo = newCoords.width;
+  let heightTo = newCoords.height;
+  const styles = getComputedStyle(el);
+  const sizing = styles.getPropertyValue("box-sizing");
+  if (sizing === "content-box") {
+    const paddingY = raw(styles.paddingTop) + raw(styles.paddingBottom) + raw(styles.borderTopWidth) + raw(styles.borderBottomWidth);
+    const paddingX = raw(styles.paddingLeft) + raw(styles.paddingRight) + raw(styles.borderRightWidth) + raw(styles.borderLeftWidth);
+    widthFrom -= paddingX;
+    widthTo -= paddingX;
+    heightFrom -= paddingY;
+    heightTo -= paddingY;
+  }
+  return [widthFrom, widthTo, heightFrom, heightTo].map(Math.round);
+}
+function getOptions(el) {
+  return TGT in el && options.has(el[TGT]) ? options.get(el[TGT]) : { duration: 250, easing: "ease-in-out" };
+}
+function getTarget(el) {
+  if (TGT in el)
+    return el[TGT];
+  return void 0;
+}
+function isEnabled(el) {
+  const target2 = getTarget(el);
+  return target2 ? enabled.has(target2) : false;
+}
+function forEach$1(parent, ...callbacks) {
+  callbacks.forEach((callback) => callback(parent, options.has(parent)));
+  for (let i = 0; i < parent.children.length; i++) {
+    const child = parent.children.item(i);
+    if (child) {
+      callbacks.forEach((callback) => callback(child, options.has(child)));
+    }
+  }
+}
+function getPluginTuple(pluginReturn) {
+  if (Array.isArray(pluginReturn))
+    return pluginReturn;
+  return [pluginReturn];
+}
+function isPlugin(config) {
+  return typeof config === "function";
+}
+function remain(el) {
+  const oldCoords = coords.get(el);
+  const newCoords = getCoords(el);
+  if (!isEnabled(el))
+    return coords.set(el, newCoords);
+  let animation;
+  if (!oldCoords)
+    return;
+  const pluginOrOptions = getOptions(el);
+  if (typeof pluginOrOptions !== "function") {
+    const deltaX = oldCoords.left - newCoords.left;
+    const deltaY = oldCoords.top - newCoords.top;
+    const [widthFrom, widthTo, heightFrom, heightTo] = getTransitionSizes(el, oldCoords, newCoords);
+    const start = {
+      transform: `translate(${deltaX}px, ${deltaY}px)`
+    };
+    const end = {
+      transform: `translate(0, 0)`
+    };
+    if (widthFrom !== widthTo) {
+      start.width = `${widthFrom}px`;
+      end.width = `${widthTo}px`;
+    }
+    if (heightFrom !== heightTo) {
+      start.height = `${heightFrom}px`;
+      end.height = `${heightTo}px`;
+    }
+    animation = el.animate([start, end], {
+      duration: pluginOrOptions.duration,
+      easing: pluginOrOptions.easing
+    });
+  } else {
+    const [keyframes] = getPluginTuple(pluginOrOptions(el, "remain", oldCoords, newCoords));
+    animation = new Animation(keyframes);
+    animation.play();
+  }
+  animations.set(el, animation);
+  coords.set(el, newCoords);
+  animation.addEventListener("finish", updatePos.bind(null, el));
+}
+function add(el) {
+  if (NEW in el)
+    delete el[NEW];
+  const newCoords = getCoords(el);
+  coords.set(el, newCoords);
+  const pluginOrOptions = getOptions(el);
+  if (!isEnabled(el))
+    return;
+  let animation;
+  if (typeof pluginOrOptions !== "function") {
+    animation = el.animate([
+      { transform: "scale(.98)", opacity: 0 },
+      { transform: "scale(0.98)", opacity: 0, offset: 0.5 },
+      { transform: "scale(1)", opacity: 1 }
+    ], {
+      duration: pluginOrOptions.duration * 1.5,
+      easing: "ease-in"
+    });
+  } else {
+    const [keyframes] = getPluginTuple(pluginOrOptions(el, "add", newCoords));
+    animation = new Animation(keyframes);
+    animation.play();
+  }
+  animations.set(el, animation);
+  animation.addEventListener("finish", updatePos.bind(null, el));
+}
+function cleanUp(el, styles) {
+  var _a;
+  el.remove();
+  coords.delete(el);
+  siblings.delete(el);
+  animations.delete(el);
+  (_a = intersections.get(el)) === null || _a === void 0 ? void 0 : _a.disconnect();
+  setTimeout(() => {
+    if (DEL in el)
+      delete el[DEL];
+    Object.defineProperty(el, NEW, { value: true, configurable: true });
+    if (styles && el instanceof HTMLElement) {
+      for (const style in styles) {
+        el.style[style] = "";
+      }
+    }
+  }, 0);
+}
+function remove(el) {
+  var _a;
+  if (!siblings.has(el) || !coords.has(el))
+    return;
+  const [prev, next] = siblings.get(el);
+  Object.defineProperty(el, DEL, { value: true, configurable: true });
+  const finalX = window.scrollX;
+  const finalY = window.scrollY;
+  if (next && next.parentNode && next.parentNode instanceof Element) {
+    next.parentNode.insertBefore(el, next);
+  } else if (prev && prev.parentNode) {
+    prev.parentNode.appendChild(el);
+  } else {
+    (_a = getTarget(el)) === null || _a === void 0 ? void 0 : _a.appendChild(el);
+  }
+  if (!isEnabled(el))
+    return cleanUp(el);
+  const [top, left, width2, height] = deletePosition(el);
+  const optionsOrPlugin = getOptions(el);
+  const oldCoords = coords.get(el);
+  if (finalX !== scrollX || finalY !== scrollY) {
+    adjustScroll(el, finalX, finalY, optionsOrPlugin);
+  }
+  let animation;
+  let styleReset = {
+    position: "absolute",
+    top: `${top}px`,
+    left: `${left}px`,
+    width: `${width2}px`,
+    height: `${height}px`,
+    margin: "0",
+    pointerEvents: "none",
+    transformOrigin: "center",
+    zIndex: "100"
+  };
+  if (!isPlugin(optionsOrPlugin)) {
+    Object.assign(el.style, styleReset);
+    animation = el.animate([
+      {
+        transform: "scale(1)",
+        opacity: 1
+      },
+      {
+        transform: "scale(.98)",
+        opacity: 0
+      }
+    ], { duration: optionsOrPlugin.duration, easing: "ease-out" });
+  } else {
+    const [keyframes, options4] = getPluginTuple(optionsOrPlugin(el, "remove", oldCoords));
+    if ((options4 === null || options4 === void 0 ? void 0 : options4.styleReset) !== false) {
+      styleReset = (options4 === null || options4 === void 0 ? void 0 : options4.styleReset) || styleReset;
+      Object.assign(el.style, styleReset);
+    }
+    animation = new Animation(keyframes);
+    animation.play();
+  }
+  animations.set(el, animation);
+  animation.addEventListener("finish", cleanUp.bind(null, el, styleReset));
+}
+function adjustScroll(el, finalX, finalY, optionsOrPlugin) {
+  const scrollDeltaX = scrollX - finalX;
+  const scrollDeltaY = scrollY - finalY;
+  const scrollBefore = document.documentElement.style.scrollBehavior;
+  const scrollBehavior = getComputedStyle(root).scrollBehavior;
+  if (scrollBehavior === "smooth") {
+    document.documentElement.style.scrollBehavior = "auto";
+  }
+  window.scrollTo(window.scrollX + scrollDeltaX, window.scrollY + scrollDeltaY);
+  if (!el.parentElement)
+    return;
+  const parent = el.parentElement;
+  let lastHeight = parent.clientHeight;
+  let lastWidth = parent.clientWidth;
+  const startScroll = performance.now();
+  function smoothScroll() {
+    requestAnimationFrame(() => {
+      if (!isPlugin(optionsOrPlugin)) {
+        const deltaY = lastHeight - parent.clientHeight;
+        const deltaX = lastWidth - parent.clientWidth;
+        if (startScroll + optionsOrPlugin.duration > performance.now()) {
+          window.scrollTo({
+            left: window.scrollX - deltaX,
+            top: window.scrollY - deltaY
+          });
+          lastHeight = parent.clientHeight;
+          lastWidth = parent.clientWidth;
+          smoothScroll();
+        } else {
+          document.documentElement.style.scrollBehavior = scrollBefore;
+        }
+      }
+    });
+  }
+  smoothScroll();
+}
+function deletePosition(el) {
+  const oldCoords = coords.get(el);
+  const [width2, , height] = getTransitionSizes(el, oldCoords, getCoords(el));
+  let offsetParent = el.parentElement;
+  while (offsetParent && (getComputedStyle(offsetParent).position === "static" || offsetParent instanceof HTMLBodyElement)) {
+    offsetParent = offsetParent.parentElement;
+  }
+  if (!offsetParent)
+    offsetParent = document.body;
+  const parentStyles = getComputedStyle(offsetParent);
+  const parentCoords = coords.get(offsetParent) || getCoords(offsetParent);
+  const top = Math.round(oldCoords.top - parentCoords.top) - raw(parentStyles.borderTopWidth);
+  const left = Math.round(oldCoords.left - parentCoords.left) - raw(parentStyles.borderLeftWidth);
+  return [top, left, width2, height];
+}
+function autoAnimate(el, config = {}) {
+  if (mutations && resize) {
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const isDisabledDueToReduceMotion = mediaQuery.matches && !isPlugin(config) && !config.disrespectUserMotionPreference;
+    if (!isDisabledDueToReduceMotion) {
+      enabled.add(el);
+      if (getComputedStyle(el).position === "static") {
+        Object.assign(el.style, { position: "relative" });
+      }
+      forEach$1(el, updatePos, poll, (element) => resize === null || resize === void 0 ? void 0 : resize.observe(element));
+      if (isPlugin(config)) {
+        options.set(el, config);
+      } else {
+        options.set(el, { duration: 250, easing: "ease-in-out", ...config });
+      }
+      mutations.observe(el, { childList: true });
+      parents.add(el);
+    }
+  }
+  return Object.freeze({
+    parent: el,
+    enable: () => {
+      enabled.add(el);
+    },
+    disable: () => {
+      enabled.delete(el);
+    },
+    isEnabled: () => enabled.has(el)
+  });
+}
+const vAutoAnimate$1 = {
+  mounted: (el, binding) => {
+    autoAnimate(el, binding.value || {});
+  },
+  // ignore ssr see #96:
+  getSSRProps: () => ({})
+};
+const vAutoAnimate = vAutoAnimate$1;
+const autoAnimatePlugin = {
+  install(app2) {
+    app2.directive("auto-animate", vAutoAnimate);
   }
 };
 function _createForOfIteratorHelper$1$2(o, allowArrayLike) {
@@ -7440,7 +7920,7 @@ var DomHandler = {
     }
     return 0;
   },
-  absolutePosition: function absolutePosition(element, target) {
+  absolutePosition: function absolutePosition(element, target2) {
     var gutter = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : true;
     if (element) {
       var elementDimensions = element.offsetParent ? {
@@ -7449,9 +7929,9 @@ var DomHandler = {
       } : this.getHiddenElementDimensions(element);
       var elementOuterHeight = elementDimensions.height;
       var elementOuterWidth = elementDimensions.width;
-      var targetOuterHeight = target.offsetHeight;
-      var targetOuterWidth = target.offsetWidth;
-      var targetOffset = target.getBoundingClientRect();
+      var targetOuterHeight = target2.offsetHeight;
+      var targetOuterWidth = target2.offsetWidth;
+      var targetOffset = target2.getBoundingClientRect();
       var windowScrollTop = this.getWindowScrollTop();
       var windowScrollLeft = this.getWindowScrollLeft();
       var viewport = this.getViewport();
@@ -7475,15 +7955,15 @@ var DomHandler = {
       gutter && (element.style.marginTop = origin === "bottom" ? "calc(var(--p-anchor-gutter) * -1)" : "calc(var(--p-anchor-gutter))");
     }
   },
-  relativePosition: function relativePosition(element, target) {
+  relativePosition: function relativePosition(element, target2) {
     var gutter = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : true;
     if (element) {
       var elementDimensions = element.offsetParent ? {
         width: element.offsetWidth,
         height: element.offsetHeight
       } : this.getHiddenElementDimensions(element);
-      var targetHeight = target.offsetHeight;
-      var targetOffset = target.getBoundingClientRect();
+      var targetHeight = target2.offsetHeight;
+      var targetOffset = target2.getBoundingClientRect();
       var viewport = this.getViewport();
       var top, left, origin = "top";
       if (targetOffset.top + targetHeight + elementDimensions.height > viewport.height) {
@@ -7541,14 +8021,14 @@ var DomHandler = {
     return parent;
   },
   getParents: function getParents(element) {
-    var parents = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : [];
+    var parents2 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : [];
     var parent = this.getParentNode(element);
-    return parent === null ? parents : this.getParents(parent, parents.concat([parent]));
+    return parent === null ? parents2 : this.getParents(parent, parents2.concat([parent]));
   },
   getScrollableParents: function getScrollableParents(element) {
     var scrollableParents = [];
     if (element) {
-      var parents = this.getParents(element);
+      var parents2 = this.getParents(element);
       var overflowRegex = /(auto|scroll)/;
       var overflowCheck = function overflowCheck2(node2) {
         try {
@@ -7558,7 +8038,7 @@ var DomHandler = {
           return false;
         }
       };
-      var _iterator = _createForOfIteratorHelper$1$2(parents), _step;
+      var _iterator = _createForOfIteratorHelper$1$2(parents2), _step;
       try {
         for (_iterator.s(); !(_step = _iterator.n()).done; ) {
           var parent = _step.value;
@@ -7659,13 +8139,13 @@ var DomHandler = {
   getUserAgent: function getUserAgent() {
     return navigator.userAgent;
   },
-  appendChild: function appendChild(element, target) {
-    if (this.isElement(target))
-      target.appendChild(element);
-    else if (target.el && target.elElement)
-      target.elElement.appendChild(element);
+  appendChild: function appendChild(element, target2) {
+    if (this.isElement(target2))
+      target2.appendChild(element);
+    else if (target2.el && target2.elElement)
+      target2.elElement.appendChild(element);
     else
-      throw new Error("Cannot append " + target + " to " + element);
+      throw new Error("Cannot append " + target2 + " to " + element);
   },
   isElement: function isElement(obj) {
     return (typeof HTMLElement === "undefined" ? "undefined" : _typeof$3$2(HTMLElement)) === "object" ? obj instanceof HTMLElement : obj && _typeof$3$2(obj) === "object" && obj !== null && obj.nodeType === 1 && typeof obj.nodeName === "string";
@@ -7766,8 +8246,8 @@ var DomHandler = {
   isClient: function isClient() {
     return !!(typeof window !== "undefined" && window.document && window.document.createElement);
   },
-  focus: function focus(el, options3) {
-    el && document.activeElement !== el && el.focus(options3);
+  focus: function focus(el, options4) {
+    el && document.activeElement !== el && el.focus(options4);
   },
   isFocusableElement: function isFocusableElement(element) {
     var selector = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : "";
@@ -7916,14 +8396,14 @@ function _classCallCheck$1(instance, Constructor) {
     throw new TypeError("Cannot call a class as a function");
   }
 }
-function _defineProperties$1(target, props) {
+function _defineProperties$1(target2, props) {
   for (var i = 0; i < props.length; i++) {
     var descriptor = props[i];
     descriptor.enumerable = descriptor.enumerable || false;
     descriptor.configurable = true;
     if ("value" in descriptor)
       descriptor.writable = true;
-    Object.defineProperty(target, _toPropertyKey$1$5(descriptor.key), descriptor);
+    Object.defineProperty(target2, _toPropertyKey$1$5(descriptor.key), descriptor);
   }
 }
 function _createClass$1(Constructor, protoProps, staticProps) {
@@ -8503,14 +8983,14 @@ function _classCallCheck(instance, Constructor) {
     throw new TypeError("Cannot call a class as a function");
   }
 }
-function _defineProperties(target, props) {
+function _defineProperties(target2, props) {
   for (var i = 0; i < props.length; i++) {
     var descriptor = props[i];
     descriptor.enumerable = descriptor.enumerable || false;
     descriptor.configurable = true;
     if ("value" in descriptor)
       descriptor.writable = true;
-    Object.defineProperty(target, _toPropertyKey$r(descriptor.key), descriptor);
+    Object.defineProperty(target2, _toPropertyKey$r(descriptor.key), descriptor);
   }
 }
 function _createClass(Constructor, protoProps, staticProps) {
@@ -9228,8 +9708,8 @@ function switchTheme(currentTheme, newTheme, linkElementId, callback) {
   }
 }
 var PrimeVue = {
-  install: function install(app2, options3) {
-    var configOptions = options3 ? _objectSpread$o(_objectSpread$o({}, defaultOptions), options3) : _objectSpread$o({}, defaultOptions);
+  install: function install(app2, options4) {
+    var configOptions = options4 ? _objectSpread$o(_objectSpread$o({}, defaultOptions), options4) : _objectSpread$o({}, defaultOptions);
     var PrimeVue2 = {
       config: reactive(configOptions),
       changeTheme: switchTheme
@@ -9532,13 +10012,13 @@ const toJSONObject = (obj) => {
       }
       if (!("toJSON" in source)) {
         stack2[i] = source;
-        const target = isArray$1(source) ? [] : {};
+        const target2 = isArray$1(source) ? [] : {};
         forEach(source, (value2, key) => {
           const reducedValue = visit(value2, i + 1);
-          !isUndefined(reducedValue) && (target[key] = reducedValue);
+          !isUndefined(reducedValue) && (target2[key] = reducedValue);
         });
         stack2[i] = void 0;
-        return target;
+        return target2;
       }
     }
     return source;
@@ -9691,23 +10171,23 @@ function isFlatArray(arr) {
 const predicates = utils$1.toFlatObject(utils$1, {}, null, function filter3(prop) {
   return /^is[A-Z]/.test(prop);
 });
-function toFormData(obj, formData, options3) {
+function toFormData(obj, formData, options4) {
   if (!utils$1.isObject(obj)) {
     throw new TypeError("target must be an object");
   }
   formData = formData || new FormData();
-  options3 = utils$1.toFlatObject(options3, {
+  options4 = utils$1.toFlatObject(options4, {
     metaTokens: true,
     dots: false,
     indexes: false
   }, false, function defined(option, source) {
     return !utils$1.isUndefined(source[option]);
   });
-  const metaTokens = options3.metaTokens;
-  const visitor = options3.visitor || defaultVisitor;
-  const dots = options3.dots;
-  const indexes = options3.indexes;
-  const _Blob = options3.Blob || typeof Blob !== "undefined" && Blob;
+  const metaTokens = options4.metaTokens;
+  const visitor = options4.visitor || defaultVisitor;
+  const dots = options4.dots;
+  const indexes = options4.indexes;
+  const _Blob = options4.Blob || typeof Blob !== "undefined" && Blob;
   const useBlob = _Blob && utils$1.isSpecCompliantForm(formData);
   if (!utils$1.isFunction(visitor)) {
     throw new TypeError("visitor must be a function");
@@ -9797,9 +10277,9 @@ function encode$1(str) {
     return charMap[match];
   });
 }
-function AxiosURLSearchParams(params, options3) {
+function AxiosURLSearchParams(params, options4) {
   this._pairs = [];
-  params && toFormData(params, this, options3);
+  params && toFormData(params, this, options4);
 }
 const prototype = AxiosURLSearchParams.prototype;
 prototype.append = function append(name, value2) {
@@ -9816,17 +10296,17 @@ prototype.toString = function toString2(encoder) {
 function encode(val) {
   return encodeURIComponent(val).replace(/%3A/gi, ":").replace(/%24/g, "$").replace(/%2C/gi, ",").replace(/%20/g, "+").replace(/%5B/gi, "[").replace(/%5D/gi, "]");
 }
-function buildURL(url, params, options3) {
+function buildURL(url, params, options4) {
   if (!params) {
     return url;
   }
-  const _encode = options3 && options3.encode || encode;
-  const serializeFn = options3 && options3.serialize;
+  const _encode = options4 && options4.encode || encode;
+  const serializeFn = options4 && options4.serialize;
   let serializedParams;
   if (serializeFn) {
-    serializedParams = serializeFn(params, options3);
+    serializedParams = serializeFn(params, options4);
   } else {
-    serializedParams = utils$1.isURLSearchParams(params) ? params.toString() : new AxiosURLSearchParams(params, options3).toString(_encode);
+    serializedParams = utils$1.isURLSearchParams(params) ? params.toString() : new AxiosURLSearchParams(params, options4).toString(_encode);
   }
   if (serializedParams) {
     const hashmarkIndex = url.indexOf("#");
@@ -9849,12 +10329,12 @@ class InterceptorManager {
    *
    * @return {Number} An ID used to remove interceptor later
    */
-  use(fulfilled, rejected, options3) {
+  use(fulfilled, rejected, options4) {
     this.handlers.push({
       fulfilled,
       rejected,
-      synchronous: options3 ? options3.synchronous : false,
-      runWhen: options3 ? options3.runWhen : null
+      synchronous: options4 ? options4.synchronous : false,
+      runWhen: options4 ? options4.runWhen : null
     });
     return this.handlers.length - 1;
   }
@@ -9933,7 +10413,7 @@ const platform = {
   ...utils,
   ...platform$1
 };
-function toURLEncodedForm(data23, options3) {
+function toURLEncodedForm(data23, options4) {
   return toFormData(data23, new platform.classes.URLSearchParams(), Object.assign({
     visitor: function(value2, key, path, helpers) {
       if (platform.isNode && utils$1.isBuffer(value2)) {
@@ -9942,7 +10422,7 @@ function toURLEncodedForm(data23, options3) {
       }
       return helpers.defaultVisitor.apply(this, arguments);
     }
-  }, options3));
+  }, options4));
 }
 function parsePropPath(name) {
   return utils$1.matchAll(/\w+|\[(\w*)]/g, name).map((match) => {
@@ -9962,27 +10442,27 @@ function arrayToObject(arr) {
   return obj;
 }
 function formDataToJSON(formData) {
-  function buildPath(path, value2, target, index2) {
+  function buildPath(path, value2, target2, index2) {
     let name = path[index2++];
     if (name === "__proto__")
       return true;
     const isNumericKey = Number.isFinite(+name);
     const isLast = index2 >= path.length;
-    name = !name && utils$1.isArray(target) ? target.length : name;
+    name = !name && utils$1.isArray(target2) ? target2.length : name;
     if (isLast) {
-      if (utils$1.hasOwnProp(target, name)) {
-        target[name] = [target[name], value2];
+      if (utils$1.hasOwnProp(target2, name)) {
+        target2[name] = [target2[name], value2];
       } else {
-        target[name] = value2;
+        target2[name] = value2;
       }
       return !isNumericKey;
     }
-    if (!target[name] || !utils$1.isObject(target[name])) {
-      target[name] = [];
+    if (!target2[name] || !utils$1.isObject(target2[name])) {
+      target2[name] = [];
     }
-    const result = buildPath(path, value2, target[name], index2);
-    if (result && utils$1.isArray(target[name])) {
-      target[name] = arrayToObject(target[name]);
+    const result = buildPath(path, value2, target2[name], index2);
+    if (result && utils$1.isArray(target2[name])) {
+      target2[name] = arrayToObject(target2[name]);
     }
     return !isNumericKey;
   }
@@ -10326,7 +10806,7 @@ class AxiosHeaders {
   }
   static concat(first3, ...targets) {
     const computed2 = new this(first3);
-    targets.forEach((target) => computed2.set(target));
+    targets.forEach((target2) => computed2.set(target2));
     return computed2;
   }
   static accessor(header) {
@@ -10778,9 +11258,9 @@ const headersToObject = (thing) => thing instanceof AxiosHeaders$1 ? thing.toJSO
 function mergeConfig(config1, config2) {
   config2 = config2 || {};
   const config = {};
-  function getMergedValue(target, source, caseless) {
-    if (utils$1.isPlainObject(target) && utils$1.isPlainObject(source)) {
-      return utils$1.merge.call({ caseless }, target, source);
+  function getMergedValue(target2, source, caseless) {
+    if (utils$1.isPlainObject(target2) && utils$1.isPlainObject(source)) {
+      return utils$1.merge.call({ caseless }, target2, source);
     } else if (utils$1.isPlainObject(source)) {
       return utils$1.merge({}, source);
     } else if (utils$1.isArray(source)) {
@@ -10883,18 +11363,18 @@ validators$1.transitional = function transitional(validator3, version2, message)
     return validator3 ? validator3(value2, opt, opts) : true;
   };
 };
-function assertOptions(options3, schema, allowUnknown) {
-  if (typeof options3 !== "object") {
+function assertOptions(options4, schema, allowUnknown) {
+  if (typeof options4 !== "object") {
     throw new AxiosError("options must be an object", AxiosError.ERR_BAD_OPTION_VALUE);
   }
-  const keys = Object.keys(options3);
+  const keys = Object.keys(options4);
   let i = keys.length;
   while (i-- > 0) {
     const opt = keys[i];
     const validator3 = schema[opt];
     if (validator3) {
-      const value2 = options3[opt];
-      const result = value2 === void 0 || validator3(value2, opt, options3);
+      const value2 = options4[opt];
+      const result = value2 === void 0 || validator3(value2, opt, options4);
       if (result !== true) {
         throw new AxiosError("option " + opt + " must be " + result, AxiosError.ERR_BAD_OPTION_VALUE);
       }
@@ -11263,47 +11743,47 @@ axios.getAdapter = adapters.getAdapter;
 axios.HttpStatusCode = HttpStatusCode$1;
 axios.default = axios;
 const _export_sfc = (sfc, props) => {
-  const target = sfc.__vccOpts || sfc;
+  const target2 = sfc.__vccOpts || sfc;
   for (const [key, val] of props) {
-    target[key] = val;
+    target2[key] = val;
   }
-  return target;
+  return target2;
 };
-const _withScopeId$2 = (n) => (pushScopeId("data-v-0dbd6aea"), n = n(), popScopeId(), n);
-const _hoisted_1$1x = { class: "cart bg-orange-50 w-full sm:w-8 md:w-6 lg:w-5 xl:w-4 h-full sm:border-left-3 border-orange-500 fixed top-0 right-0 z-5 p-1 lg:py-1 lg:px-3" };
-const _hoisted_2$1q = { class: "flex align-items-center gap-5" };
-const _hoisted_3$i = /* @__PURE__ */ _withScopeId$2(() => /* @__PURE__ */ createBaseVNode("g", {
+const _withScopeId$3 = (n) => (pushScopeId("data-v-b8907bcd"), n = n(), popScopeId(), n);
+const _hoisted_1$1y = { class: "cart bg-orange-50 w-full sm:w-8 md:w-6 lg:w-5 xl:w-4 h-full sm:border-left-3 border-orange-500 fixed top-0 right-0 z-5 p-1 lg:py-1 lg:px-3" };
+const _hoisted_2$1r = { class: "flex align-items-center gap-5" };
+const _hoisted_3$j = /* @__PURE__ */ _withScopeId$3(() => /* @__PURE__ */ createBaseVNode("g", {
   transform: "translate(0.000000,512.000000) scale(0.100000,-0.100000)",
   fill: "#C154C1",
   stroke: "none"
 }, [
   /* @__PURE__ */ createBaseVNode("path", { d: "M2325 4874 c-342 -49 -526 -102 -780 -224 -238 -115 -428 -252 -626\r\n                    -449 -355 -355 -567 -767 -656 -1276 -25 -143 -25 -587 0 -730 89 -509 301\r\n                    -921 656 -1276 356 -356 775 -571 1279 -656 153 -26 571 -26 724 0 504 85 923\r\n                    300 1279 656 356 356 571 775 656 1279 26 153 26 571 0 724 -85 504 -300 923\r\n                    -656 1279 -354 353 -770 568 -1271 655 -91 16 -529 29 -605 18z m172 -1060\r\n                    c56 -42 63 -89 63 -396 l0 -268 510 0 c438 0 516 -2 548 -15 47 -20 79 -50\r\n                    103 -97 18 -35 19 -64 19 -478 0 -414 -1 -443 -19 -478 -24 -47 -56 -77 -103\r\n                    -97 -32 -13 -110 -15 -547 -15 l-510 0 -3 -297 c-3 -264 -5 -302 -21 -331 -24\r\n                    -43 -72 -72 -122 -72 -39 0 -47 7 -685 645 l-645 645 635 636 c349 349 644\r\n                    640 655 644 30 14 86 2 122 -26z" })
 ], -1));
-const _hoisted_4$j = [
-  _hoisted_3$i
+const _hoisted_4$k = [
+  _hoisted_3$j
 ];
-const _hoisted_5$f = /* @__PURE__ */ _withScopeId$2(() => /* @__PURE__ */ createBaseVNode("h2", null, "Корзина", -1));
-const _hoisted_6$c = {
+const _hoisted_5$g = /* @__PURE__ */ _withScopeId$3(() => /* @__PURE__ */ createBaseVNode("h2", null, "Корзина", -1));
+const _hoisted_6$d = {
   key: 0,
   class: "flex flex-column align-items-center mt-5"
 };
-const _hoisted_7$b = /* @__PURE__ */ _withScopeId$2(() => /* @__PURE__ */ createBaseVNode("p", { class: "text-3xl" }, "Здесь пусто...", -1));
-const _hoisted_8$6 = /* @__PURE__ */ _withScopeId$2(() => /* @__PURE__ */ createBaseVNode("img", {
-  class: "w-8",
+const _hoisted_7$c = /* @__PURE__ */ _withScopeId$3(() => /* @__PURE__ */ createBaseVNode("p", { class: "text-2xl" }, "Здесь пусто...", -1));
+const _hoisted_8$7 = /* @__PURE__ */ _withScopeId$3(() => /* @__PURE__ */ createBaseVNode("img", {
+  class: "w-6",
   src: _imports_0$5,
   alt: "Пустая корзина"
 }, null, -1));
-const _hoisted_9$6 = /* @__PURE__ */ _withScopeId$2(() => /* @__PURE__ */ createBaseVNode("p", { class: "text-3xl" }, "Добавьте какой-нибудь товар", -1));
+const _hoisted_9$6 = /* @__PURE__ */ _withScopeId$3(() => /* @__PURE__ */ createBaseVNode("p", { class: "text-2xl" }, "Добавьте какой-нибудь товар", -1));
 const _hoisted_10$5 = [
-  _hoisted_7$b,
-  _hoisted_8$6,
+  _hoisted_7$c,
+  _hoisted_8$7,
   _hoisted_9$6
 ];
 const _hoisted_11$4 = { key: 1 };
 const _hoisted_12$4 = { class: "my-5 flex" };
-const _hoisted_13$4 = /* @__PURE__ */ _withScopeId$2(() => /* @__PURE__ */ createBaseVNode("span", null, "Итого:", -1));
-const _hoisted_14$4 = /* @__PURE__ */ _withScopeId$2(() => /* @__PURE__ */ createBaseVNode("div", { class: "flex-1 border-bottom-1" }, null, -1));
-const _sfc_main$S = {
+const _hoisted_13$4 = /* @__PURE__ */ _withScopeId$3(() => /* @__PURE__ */ createBaseVNode("span", null, "Итого:", -1));
+const _hoisted_14$4 = /* @__PURE__ */ _withScopeId$3(() => /* @__PURE__ */ createBaseVNode("div", { class: "flex-1 border-bottom-1" }, null, -1));
+const _sfc_main$T = {
   __name: "Drawer",
   props: {
     closeDrawer: Function
@@ -11330,13 +11810,14 @@ const _sfc_main$S = {
     };
     return (_ctx, _cache) => {
       const _component_my_cart_item_list = resolveComponent("my-cart-item-list");
+      const _directive_auto_animate = resolveDirective("auto-animate");
       return openBlock(), createElementBlock(Fragment, null, [
         createBaseVNode("div", {
           onClick: _cache[0] || (_cache[0] = (...args) => __props.closeDrawer && __props.closeDrawer(...args)),
           class: "cart-background fixed top-0 left-0 w-full h-full bg-gray-900 opacity-70 z-4"
         }),
-        createBaseVNode("div", _hoisted_1$1x, [
-          createBaseVNode("div", _hoisted_2$1q, [
+        createBaseVNode("div", _hoisted_1$1y, [
+          createBaseVNode("div", _hoisted_2$1r, [
             (openBlock(), createElementBlock("svg", {
               onClick: _cache[1] || (_cache[1] = (...args) => __props.closeDrawer && __props.closeDrawer(...args)),
               class: "ml-3 lg:m-0",
@@ -11346,11 +11827,13 @@ const _sfc_main$S = {
               height: "50px",
               viewBox: "0 0 512.000000 512.000000",
               preserveAspectRatio: "xMidYMid meet"
-            }, _hoisted_4$j)),
-            _hoisted_5$f
+            }, _hoisted_4$k)),
+            _hoisted_5$g
           ]),
-          !unref(totalPrice) || orderId.value ? (openBlock(), createElementBlock("div", _hoisted_6$c, _hoisted_10$5)) : (openBlock(), createElementBlock("div", _hoisted_11$4, [
-            createVNode(_component_my_cart_item_list),
+          !unref(totalPrice) || orderId.value ? (openBlock(), createElementBlock("div", _hoisted_6$d, _hoisted_10$5)) : (openBlock(), createElementBlock("div", _hoisted_11$4, [
+            withDirectives(createVNode(_component_my_cart_item_list, null, null, 512), [
+              [_directive_auto_animate]
+            ]),
             createBaseVNode("div", null, [
               createBaseVNode("div", _hoisted_12$4, [
                 _hoisted_13$4,
@@ -11368,7 +11851,7 @@ const _sfc_main$S = {
     };
   }
 };
-const Drawer = /* @__PURE__ */ _export_sfc(_sfc_main$S, [["__scopeId", "data-v-0dbd6aea"]]);
+const Drawer = /* @__PURE__ */ _export_sfc(_sfc_main$T, [["__scopeId", "data-v-b8907bcd"]]);
 const _imports_0$4 = "" + new URL("../images/navbar/nav-cat2.png", import.meta.url).href;
 const _imports_1$2 = "" + new URL("../images/navbar/nav-bird.png", import.meta.url).href;
 const _imports_2$2 = "" + new URL("../images/navbar/nav-dog.png", import.meta.url).href;
@@ -11440,12 +11923,12 @@ function tryOnMounted(fn) {
 }
 var _id = 0;
 function useStyle(css2) {
-  var options3 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+  var options4 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
   var isLoaded = ref(false);
   var cssRef = ref(css2);
   var styleRef = ref(null);
   var defaultDocument = DomHandler.isClient() ? window.document : void 0;
-  var _options$document = options3.document, document2 = _options$document === void 0 ? defaultDocument : _options$document, _options$immediate = options3.immediate, immediate = _options$immediate === void 0 ? true : _options$immediate, _options$manual = options3.manual, manual = _options$manual === void 0 ? false : _options$manual, _options$name = options3.name, name = _options$name === void 0 ? "style_".concat(++_id) : _options$name, _options$id = options3.id, id = _options$id === void 0 ? void 0 : _options$id, _options$media = options3.media, media = _options$media === void 0 ? void 0 : _options$media, _options$nonce = options3.nonce, nonce = _options$nonce === void 0 ? void 0 : _options$nonce, _options$props = options3.props, props = _options$props === void 0 ? {} : _options$props;
+  var _options$document = options4.document, document2 = _options$document === void 0 ? defaultDocument : _options$document, _options$immediate = options4.immediate, immediate = _options$immediate === void 0 ? true : _options$immediate, _options$manual = options4.manual, manual = _options$manual === void 0 ? false : _options$manual, _options$name = options4.name, name = _options$name === void 0 ? "style_".concat(++_id) : _options$name, _options$id = options4.id, id = _options$id === void 0 ? void 0 : _options$id, _options$media = options4.media, media = _options$media === void 0 ? void 0 : _options$media, _options$nonce = options4.nonce, nonce = _options$nonce === void 0 ? void 0 : _options$nonce, _options$props = options4.props, props = _options$props === void 0 ? {} : _options$props;
   var stop = function stop2() {
   };
   var load = function load2(_css) {
@@ -11613,10 +12096,10 @@ var BaseStyle = {
   classes: classes$h,
   inlineStyles: inlineStyles$4,
   loadStyle: function loadStyle() {
-    var options3 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
+    var options4 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
     return this.css ? useStyle(this.css, _objectSpread$m({
       name: this.name
-    }, options3)) : {};
+    }, options4)) : {};
   },
   getStyleSheet: function getStyleSheet() {
     var extendedCSS = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : "";
@@ -11693,10 +12176,10 @@ function _toPrimitive$1$4(t, r) {
 var BaseComponentStyle = BaseStyle.extend({
   name: "common",
   loadGlobalStyle: function loadGlobalStyle(globalCSS) {
-    var options3 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    var options4 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
     return useStyle(globalCSS, _objectSpread$1$4({
       name: "global"
-    }, options3));
+    }, options4));
   }
 });
 function _typeof$o(o) {
@@ -11856,14 +12339,14 @@ var script$U = {
       var _this$_getHostInstanc;
       return this[name] || ((_this$_getHostInstanc = this._getHostInstance(this)) === null || _this$_getHostInstanc === void 0 ? void 0 : _this$_getHostInstanc[name]);
     },
-    _getOptionValue: function _getOptionValue(options3) {
+    _getOptionValue: function _getOptionValue(options4) {
       var key = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : "";
       var params = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : {};
       var fKeys = ObjectUtils.toFlatCase(key).split(".");
       var fKey = fKeys.shift();
-      return fKey ? ObjectUtils.isObject(options3) ? this._getOptionValue(ObjectUtils.getItemValue(options3[Object.keys(options3).find(function(k) {
+      return fKey ? ObjectUtils.isObject(options4) ? this._getOptionValue(ObjectUtils.getItemValue(options4[Object.keys(options4).find(function(k) {
         return ObjectUtils.toFlatCase(k) === fKey;
-      }) || ""], params), fKeys.join("."), params) : void 0 : ObjectUtils.getItemValue(options3, params);
+      }) || ""], params), fKeys.join("."), params) : void 0 : ObjectUtils.getItemValue(options4, params);
     },
     _getPTValue: function _getPTValue() {
       var _this$$config6;
@@ -12113,13 +12596,13 @@ var script$S = {
   name: "BarsIcon",
   "extends": script$T
 };
-var _hoisted_1$1w = /* @__PURE__ */ createBaseVNode("path", {
+var _hoisted_1$1x = /* @__PURE__ */ createBaseVNode("path", {
   "fill-rule": "evenodd",
   "clip-rule": "evenodd",
   d: "M13.3226 3.6129H0.677419C0.497757 3.6129 0.325452 3.54152 0.198411 3.41448C0.0713707 3.28744 0 3.11514 0 2.93548C0 2.75581 0.0713707 2.58351 0.198411 2.45647C0.325452 2.32943 0.497757 2.25806 0.677419 2.25806H13.3226C13.5022 2.25806 13.6745 2.32943 13.8016 2.45647C13.9286 2.58351 14 2.75581 14 2.93548C14 3.11514 13.9286 3.28744 13.8016 3.41448C13.6745 3.54152 13.5022 3.6129 13.3226 3.6129ZM13.3226 7.67741H0.677419C0.497757 7.67741 0.325452 7.60604 0.198411 7.479C0.0713707 7.35196 0 7.17965 0 6.99999C0 6.82033 0.0713707 6.64802 0.198411 6.52098C0.325452 6.39394 0.497757 6.32257 0.677419 6.32257H13.3226C13.5022 6.32257 13.6745 6.39394 13.8016 6.52098C13.9286 6.64802 14 6.82033 14 6.99999C14 7.17965 13.9286 7.35196 13.8016 7.479C13.6745 7.60604 13.5022 7.67741 13.3226 7.67741ZM0.677419 11.7419H13.3226C13.5022 11.7419 13.6745 11.6706 13.8016 11.5435C13.9286 11.4165 14 11.2442 14 11.0645C14 10.8848 13.9286 10.7125 13.8016 10.5855C13.6745 10.4585 13.5022 10.3871 13.3226 10.3871H0.677419C0.497757 10.3871 0.325452 10.4585 0.198411 10.5855C0.0713707 10.7125 0 10.8848 0 11.0645C0 11.2442 0.0713707 11.4165 0.198411 11.5435C0.325452 11.6706 0.497757 11.7419 0.677419 11.7419Z",
   fill: "currentColor"
 }, null, -1);
-var _hoisted_2$1p = [_hoisted_1$1w];
+var _hoisted_2$1q = [_hoisted_1$1x];
 function render$R(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("svg", mergeProps({
     width: "14",
@@ -12127,7 +12610,7 @@ function render$R(_ctx, _cache, $props, $setup, $data, $options) {
     viewBox: "0 0 14 14",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg"
-  }, _ctx.pti()), _hoisted_2$1p, 16);
+  }, _ctx.pti()), _hoisted_2$1q, 16);
 }
 script$S.render = render$R;
 var inlineStyles$3 = {
@@ -12139,7 +12622,7 @@ var inlineStyles$3 = {
   }
 };
 var classes$g = {
-  root: function root(_ref2) {
+  root: function root2(_ref2) {
     var instance = _ref2.instance;
     return ["p-menubar p-component", {
       "p-menubar-mobile": instance.queryMatches,
@@ -12175,11 +12658,11 @@ var script$R = {
   name: "AngleDownIcon",
   "extends": script$T
 };
-var _hoisted_1$1v = /* @__PURE__ */ createBaseVNode("path", {
+var _hoisted_1$1w = /* @__PURE__ */ createBaseVNode("path", {
   d: "M3.58659 4.5007C3.68513 4.50023 3.78277 4.51945 3.87379 4.55723C3.9648 4.59501 4.04735 4.65058 4.11659 4.7207L7.11659 7.7207L10.1166 4.7207C10.2619 4.65055 10.4259 4.62911 10.5843 4.65956C10.7427 4.69002 10.8871 4.77074 10.996 4.88976C11.1049 5.00877 11.1726 5.15973 11.1889 5.32022C11.2052 5.48072 11.1693 5.6422 11.0866 5.7807L7.58659 9.2807C7.44597 9.42115 7.25534 9.50004 7.05659 9.50004C6.85784 9.50004 6.66722 9.42115 6.52659 9.2807L3.02659 5.7807C2.88614 5.64007 2.80725 5.44945 2.80725 5.2507C2.80725 5.05195 2.88614 4.86132 3.02659 4.7207C3.09932 4.64685 3.18675 4.58911 3.28322 4.55121C3.37969 4.51331 3.48305 4.4961 3.58659 4.5007Z",
   fill: "currentColor"
 }, null, -1);
-var _hoisted_2$1o = [_hoisted_1$1v];
+var _hoisted_2$1p = [_hoisted_1$1w];
 function render$Q(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("svg", mergeProps({
     width: "14",
@@ -12187,18 +12670,18 @@ function render$Q(_ctx, _cache, $props, $setup, $data, $options) {
     viewBox: "0 0 14 14",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg"
-  }, _ctx.pti()), _hoisted_2$1o, 16);
+  }, _ctx.pti()), _hoisted_2$1p, 16);
 }
 script$R.render = render$Q;
 var script$Q = {
   name: "AngleRightIcon",
   "extends": script$T
 };
-var _hoisted_1$1u = /* @__PURE__ */ createBaseVNode("path", {
+var _hoisted_1$1v = /* @__PURE__ */ createBaseVNode("path", {
   d: "M5.25 11.1728C5.14929 11.1694 5.05033 11.1455 4.9592 11.1025C4.86806 11.0595 4.78666 10.9984 4.72 10.9228C4.57955 10.7822 4.50066 10.5916 4.50066 10.3928C4.50066 10.1941 4.57955 10.0035 4.72 9.86283L7.72 6.86283L4.72 3.86283C4.66067 3.71882 4.64765 3.55991 4.68275 3.40816C4.71785 3.25642 4.79932 3.11936 4.91585 3.01602C5.03238 2.91268 5.17819 2.84819 5.33305 2.83149C5.4879 2.81479 5.64411 2.84671 5.78 2.92283L9.28 6.42283C9.42045 6.56346 9.49934 6.75408 9.49934 6.95283C9.49934 7.15158 9.42045 7.34221 9.28 7.48283L5.78 10.9228C5.71333 10.9984 5.63193 11.0595 5.5408 11.1025C5.44966 11.1455 5.35071 11.1694 5.25 11.1728Z",
   fill: "currentColor"
 }, null, -1);
-var _hoisted_2$1n = [_hoisted_1$1u];
+var _hoisted_2$1o = [_hoisted_1$1v];
 function render$P(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("svg", mergeProps({
     width: "14",
@@ -12206,7 +12689,7 @@ function render$P(_ctx, _cache, $props, $setup, $data, $options) {
     viewBox: "0 0 14 14",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg"
-  }, _ctx.pti()), _hoisted_2$1n, 16);
+  }, _ctx.pti()), _hoisted_2$1o, 16);
 }
 script$Q.render = render$P;
 function _typeof$m(o) {
@@ -12327,14 +12810,14 @@ var BaseDirective = {
     var _ref, _binding$instance, _vnode$ctx;
     return (_ref = (binding === null || binding === void 0 || (_binding$instance = binding.instance) === null || _binding$instance === void 0 ? void 0 : _binding$instance.$primevue) || (vnode === null || vnode === void 0 || (_vnode$ctx = vnode.ctx) === null || _vnode$ctx === void 0 || (_vnode$ctx = _vnode$ctx.appContext) === null || _vnode$ctx === void 0 || (_vnode$ctx = _vnode$ctx.config) === null || _vnode$ctx === void 0 || (_vnode$ctx = _vnode$ctx.globalProperties) === null || _vnode$ctx === void 0 ? void 0 : _vnode$ctx.$primevue)) === null || _ref === void 0 ? void 0 : _ref.config;
   },
-  _getOptionValue: function _getOptionValue2(options3) {
+  _getOptionValue: function _getOptionValue2(options4) {
     var key = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : "";
     var params = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : {};
     var fKeys = ObjectUtils.toFlatCase(key).split(".");
     var fKey = fKeys.shift();
-    return fKey ? ObjectUtils.isObject(options3) ? BaseDirective._getOptionValue(ObjectUtils.getItemValue(options3[Object.keys(options3).find(function(k) {
+    return fKey ? ObjectUtils.isObject(options4) ? BaseDirective._getOptionValue(ObjectUtils.getItemValue(options4[Object.keys(options4).find(function(k) {
       return ObjectUtils.toFlatCase(k) === fKey;
-    }) || ""], params), fKeys.join("."), params) : void 0 : ObjectUtils.getItemValue(options3, params);
+    }) || ""], params), fKeys.join("."), params) : void 0 : ObjectUtils.getItemValue(options4, params);
   },
   _getPTValue: function _getPTValue2() {
     var _instance$binding, _instance$$config;
@@ -12417,14 +12900,14 @@ var BaseDirective = {
     var instance = el === null || el === void 0 ? void 0 : el.$instance;
     var selfHook = BaseDirective._usePT(instance, BaseDirective._getPT(binding === null || binding === void 0 || (_binding$value = binding.value) === null || _binding$value === void 0 ? void 0 : _binding$value.pt, directiveName), BaseDirective._getOptionValue, "hooks.".concat(name));
     var defaultHook = BaseDirective._useDefaultPT(instance, config === null || config === void 0 || (_config$pt = config.pt) === null || _config$pt === void 0 || (_config$pt = _config$pt.directives) === null || _config$pt === void 0 ? void 0 : _config$pt[directiveName], BaseDirective._getOptionValue, "hooks.".concat(name));
-    var options3 = {
+    var options4 = {
       el,
       binding,
       vnode,
       prevVnode
     };
-    selfHook === null || selfHook === void 0 || selfHook(instance, options3);
-    defaultHook === null || defaultHook === void 0 || defaultHook(instance, options3);
+    selfHook === null || selfHook === void 0 || selfHook(instance, options4);
+    defaultHook === null || defaultHook === void 0 || defaultHook(instance, options4);
   },
   _mergeProps: function _mergeProps2() {
     var fn = arguments.length > 1 ? arguments[1] : void 0;
@@ -12434,13 +12917,13 @@ var BaseDirective = {
     return ObjectUtils.isFunction(fn) ? fn.apply(void 0, args) : mergeProps.apply(void 0, args);
   },
   _extend: function _extend(name) {
-    var options3 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    var options4 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
     var handleHook = function handleHook2(hook, el, binding, vnode, prevVnode) {
       var _el$$instance$hook, _el$$instance7;
       el._$instances = el._$instances || {};
       var config = BaseDirective._getConfig(binding, vnode);
       var $prevInstance = el._$instances[name] || {};
-      var $options = ObjectUtils.isEmpty($prevInstance) ? _objectSpread$j(_objectSpread$j({}, options3), options3 === null || options3 === void 0 ? void 0 : options3.methods) : {};
+      var $options = ObjectUtils.isEmpty($prevInstance) ? _objectSpread$j(_objectSpread$j({}, options4), options4 === null || options4 === void 0 ? void 0 : options4.methods) : {};
       el._$instances[name] = _objectSpread$j(_objectSpread$j({}, $prevInstance), {}, {
         /* new instance variables to pass in directive methods */
         $name: name,
@@ -12454,7 +12937,7 @@ var BaseDirective = {
           inlineStyles: void 0,
           loadStyle: function loadStyle2() {
           }
-        }, options3 === null || options3 === void 0 ? void 0 : options3.style),
+        }, options4 === null || options4 === void 0 ? void 0 : options4.style),
         $config: config,
         /* computed instance variables */
         defaultPT: function defaultPT2() {
@@ -12540,13 +13023,13 @@ var BaseDirective = {
     };
   },
   extend: function extend3() {
-    var _BaseDirective$_getMe = BaseDirective._getMeta.apply(BaseDirective, arguments), _BaseDirective$_getMe2 = _slicedToArray$2(_BaseDirective$_getMe, 2), name = _BaseDirective$_getMe2[0], options3 = _BaseDirective$_getMe2[1];
+    var _BaseDirective$_getMe = BaseDirective._getMeta.apply(BaseDirective, arguments), _BaseDirective$_getMe2 = _slicedToArray$2(_BaseDirective$_getMe, 2), name = _BaseDirective$_getMe2[0], options4 = _BaseDirective$_getMe2[1];
     return _objectSpread$j({
       extend: function extend4() {
         var _BaseDirective$_getMe3 = BaseDirective._getMeta.apply(BaseDirective, arguments), _BaseDirective$_getMe4 = _slicedToArray$2(_BaseDirective$_getMe3, 2), _name = _BaseDirective$_getMe4[0], _options = _BaseDirective$_getMe4[1];
-        return BaseDirective.extend(_name, _objectSpread$j(_objectSpread$j(_objectSpread$j({}, options3), options3 === null || options3 === void 0 ? void 0 : options3.methods), _options));
+        return BaseDirective.extend(_name, _objectSpread$j(_objectSpread$j(_objectSpread$j({}, options4), options4 === null || options4 === void 0 ? void 0 : options4.methods), _options));
       }
-    }, BaseDirective._extend(name, options3));
+    }, BaseDirective._extend(name, options4));
   }
 };
 var classes$f = {
@@ -12637,19 +13120,19 @@ var Ripple = BaseRipple.extend("ripple", {
     },
     onMouseDown: function onMouseDown(event2) {
       var _this = this;
-      var target = event2.currentTarget;
-      var ink = this.getInk(target);
+      var target2 = event2.currentTarget;
+      var ink = this.getInk(target2);
       if (!ink || getComputedStyle(ink, null).display === "none") {
         return;
       }
       !this.isUnstyled() && DomHandler.removeClass(ink, "p-ink-active");
       ink.setAttribute("data-p-ink-active", "false");
       if (!DomHandler.getHeight(ink) && !DomHandler.getWidth(ink)) {
-        var d = Math.max(DomHandler.getOuterWidth(target), DomHandler.getOuterHeight(target));
+        var d = Math.max(DomHandler.getOuterWidth(target2), DomHandler.getOuterHeight(target2));
         ink.style.height = d + "px";
         ink.style.width = d + "px";
       }
-      var offset = DomHandler.getOffset(target);
+      var offset = DomHandler.getOffset(target2);
       var x = event2.pageX - offset.left + document.body.scrollTop - DomHandler.getWidth(ink) / 2;
       var y = event2.pageY - offset.top + document.body.scrollLeft - DomHandler.getHeight(ink) / 2;
       ink.style.top = y + "px";
@@ -12855,10 +13338,10 @@ var script$1$h = {
   }
 };
 var _hoisted_1$1$4 = ["id", "aria-label", "aria-disabled", "aria-expanded", "aria-haspopup", "aria-level", "aria-setsize", "aria-posinset", "data-p-highlight", "data-p-focused", "data-p-disabled"];
-var _hoisted_2$1m = ["onClick", "onMouseenter"];
-var _hoisted_3$h = ["href", "target"];
-var _hoisted_4$i = ["id"];
-var _hoisted_5$e = ["id"];
+var _hoisted_2$1n = ["onClick", "onMouseenter"];
+var _hoisted_3$i = ["href", "target"];
+var _hoisted_4$j = ["id"];
+var _hoisted_5$f = ["id"];
 function render$1$5(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_MenubarSub = resolveComponent("MenubarSub", true);
   var _directive_ripple = resolveDirective("ripple");
@@ -12911,7 +13394,7 @@ function render$1$5(_ctx, _cache, $props, $setup, $data, $options) {
     }, $options.getPTOptions(processedItem, index2, "icon")), null, 16)) : createCommentVNode("", true), createBaseVNode("span", mergeProps({
       id: $options.getItemLabelId(processedItem),
       "class": _ctx.cx("label")
-    }, $options.getPTOptions(processedItem, index2, "label")), toDisplayString($options.getItemLabel(processedItem)), 17, _hoisted_4$i), $options.getItemProp(processedItem, "items") ? (openBlock(), createElementBlock(Fragment, {
+    }, $options.getPTOptions(processedItem, index2, "label")), toDisplayString($options.getItemLabel(processedItem)), 17, _hoisted_4$j), $options.getItemProp(processedItem, "items") ? (openBlock(), createElementBlock(Fragment, {
       key: 2
     }, [$props.templates.submenuicon ? (openBlock(), createBlock(resolveDynamicComponent($props.templates.submenuicon), {
       key: 0,
@@ -12921,14 +13404,14 @@ function render$1$5(_ctx, _cache, $props, $setup, $data, $options) {
     }, null, 8, ["root", "active", "class"])) : (openBlock(), createBlock(resolveDynamicComponent($props.root ? "AngleDownIcon" : "AngleRightIcon"), mergeProps({
       key: 1,
       "class": _ctx.cx("submenuIcon")
-    }, $options.getPTOptions(processedItem, index2, "submenuIcon")), null, 16, ["class"]))], 64)) : createCommentVNode("", true)], 16, _hoisted_3$h)), [[_directive_ripple]]) : (openBlock(), createBlock(resolveDynamicComponent($props.templates.item), {
+    }, $options.getPTOptions(processedItem, index2, "submenuIcon")), null, 16, ["class"]))], 64)) : createCommentVNode("", true)], 16, _hoisted_3$i)), [[_directive_ripple]]) : (openBlock(), createBlock(resolveDynamicComponent($props.templates.item), {
       key: 1,
       item: processedItem.item,
       root: $props.root,
       hasSubmenu: $options.getItemProp(processedItem, "items"),
       label: $options.getItemLabel(processedItem),
       props: $options.getMenuItemProps(processedItem, index2)
-    }, null, 8, ["item", "root", "hasSubmenu", "label", "props"]))], 16, _hoisted_2$1m), $options.isItemVisible(processedItem) && $options.isItemGroup(processedItem) ? (openBlock(), createBlock(_component_MenubarSub, {
+    }, null, 8, ["item", "root", "hasSubmenu", "label", "props"]))], 16, _hoisted_2$1n), $options.isItemVisible(processedItem) && $options.isItemGroup(processedItem) ? (openBlock(), createBlock(_component_MenubarSub, {
       key: 0,
       menuId: $props.menuId,
       role: "menu",
@@ -12956,7 +13439,7 @@ function render$1$5(_ctx, _cache, $props, $setup, $data, $options) {
       "class": [_ctx.cx("separator"), $options.getItemProp(processedItem, "class")],
       style: $options.getItemProp(processedItem, "style"),
       role: "separator"
-    }, _ctx.ptm("separator")), null, 16, _hoisted_5$e)) : createCommentVNode("", true)], 64);
+    }, _ctx.ptm("separator")), null, 16, _hoisted_5$f)) : createCommentVNode("", true)], 64);
   }), 128))], 16);
 }
 script$1$h.render = render$1$5;
@@ -13164,7 +13647,7 @@ var script$P = {
     onItemClick: function onItemClick2(event2) {
       var originalEvent = event2.originalEvent, processedItem = event2.processedItem;
       var grouped = this.isProccessedItemGroup(processedItem);
-      var root17 = ObjectUtils.isEmpty(processedItem.parent);
+      var root18 = ObjectUtils.isEmpty(processedItem.parent);
       var selected2 = this.isSelected(processedItem);
       if (selected2) {
         var index2 = processedItem.index, key = processedItem.key, level = processedItem.level, parentKey = processedItem.parentKey;
@@ -13176,13 +13659,13 @@ var script$P = {
           level,
           parentKey
         };
-        this.dirty = !root17;
+        this.dirty = !root18;
         DomHandler.focus(this.menubar);
       } else {
         if (grouped) {
           this.onItemChange(event2);
         } else {
-          var rootProcessedItem = root17 ? processedItem : this.activeItemPath.find(function(p2) {
+          var rootProcessedItem = root18 ? processedItem : this.activeItemPath.find(function(p2) {
             return p2.parentKey === "";
           });
           this.hide(originalEvent);
@@ -13205,8 +13688,8 @@ var script$P = {
     },
     onArrowDownKey: function onArrowDownKey(event2) {
       var processedItem = this.visibleItems[this.focusedItemInfo.index];
-      var root17 = processedItem ? ObjectUtils.isEmpty(processedItem.parent) : null;
-      if (root17) {
+      var root18 = processedItem ? ObjectUtils.isEmpty(processedItem.parent) : null;
+      if (root18) {
         var grouped = this.isProccessedItemGroup(processedItem);
         if (grouped) {
           this.onItemChange({
@@ -13228,8 +13711,8 @@ var script$P = {
     onArrowUpKey: function onArrowUpKey(event2) {
       var _this3 = this;
       var processedItem = this.visibleItems[this.focusedItemInfo.index];
-      var root17 = ObjectUtils.isEmpty(processedItem.parent);
-      if (root17) {
+      var root18 = ObjectUtils.isEmpty(processedItem.parent);
+      if (root18) {
         var grouped = this.isProccessedItemGroup(processedItem);
         if (grouped) {
           this.onItemChange({
@@ -13612,7 +14095,7 @@ function _toPrimitive$k(t, r) {
   }
   return ("string" === r ? String : Number)(t);
 }
-var _hoisted_1$1t = ["aria-haspopup", "aria-expanded", "aria-controls", "aria-label"];
+var _hoisted_1$1u = ["aria-haspopup", "aria-expanded", "aria-controls", "aria-label"];
 function render$O(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_BarsIcon = resolveComponent("BarsIcon");
   var _component_MenubarSub = resolveComponent("MenubarSub");
@@ -13648,7 +14131,7 @@ function render$O(_ctx, _cache, $props, $setup, $data, $options) {
       })
     }, _objectSpread$i(_objectSpread$i({}, _ctx.buttonProps), _ctx.ptm("button"))), [renderSlot(_ctx.$slots, "menubuttonicon", {}, function() {
       return [createVNode(_component_BarsIcon, normalizeProps(guardReactiveProps(_ctx.ptm("menubuttonicon"))), null, 16)];
-    })], 16, _hoisted_1$1t)) : createCommentVNode("", true)];
+    })], 16, _hoisted_1$1u)) : createCommentVNode("", true)];
   }), createVNode(_component_MenubarSub, {
     ref: $options.menubarRef,
     id: $data.id,
@@ -14089,20 +14572,20 @@ const BASE_PATH_PARSER_OPTIONS = {
 };
 const REGEX_CHARS_RE = /[.+*?^${}()[\]/\\]/g;
 function tokensToParser(segments, extraOptions) {
-  const options3 = assign({}, BASE_PATH_PARSER_OPTIONS, extraOptions);
+  const options4 = assign({}, BASE_PATH_PARSER_OPTIONS, extraOptions);
   const score = [];
-  let pattern = options3.start ? "^" : "";
+  let pattern = options4.start ? "^" : "";
   const keys = [];
   for (const segment of segments) {
     const segmentScores = segment.length ? [] : [
       90
       /* PathScore.Root */
     ];
-    if (options3.strict && !segment.length)
+    if (options4.strict && !segment.length)
       pattern += "/";
     for (let tokenIndex = 0; tokenIndex < segment.length; tokenIndex++) {
       const token = segment[tokenIndex];
-      let subSegmentScore = 40 + (options3.sensitive ? 0.25 : 0);
+      let subSegmentScore = 40 + (options4.sensitive ? 0.25 : 0);
       if (token.type === 0) {
         if (!tokenIndex)
           pattern += "/";
@@ -14144,17 +14627,17 @@ function tokensToParser(segments, extraOptions) {
     }
     score.push(segmentScores);
   }
-  if (options3.strict && options3.end) {
+  if (options4.strict && options4.end) {
     const i = score.length - 1;
     score[i][score[i].length - 1] += 0.7000000000000001;
   }
-  if (!options3.strict)
+  if (!options4.strict)
     pattern += "/?";
-  if (options3.end)
+  if (options4.end)
     pattern += "$";
-  else if (options3.strict)
+  else if (options4.strict)
     pattern += "(?:/|$)";
-  const re = new RegExp(pattern, options3.sensitive ? "" : "i");
+  const re = new RegExp(pattern, options4.sensitive ? "" : "i");
   function parse(path) {
     const match = path.match(re);
     const params = {};
@@ -14366,8 +14849,8 @@ function tokenizePath(path) {
   finalizeSegment();
   return tokens;
 }
-function createRouteRecordMatcher(record, parent, options3) {
-  const parser = tokensToParser(tokenizePath(record.path), options3);
+function createRouteRecordMatcher(record, parent, options4) {
+  const parser = tokensToParser(tokenizePath(record.path), options4);
   const matcher = assign(parser, {
     record,
     parent,
@@ -14392,7 +14875,7 @@ function createRouterMatcher(routes2, globalOptions) {
     const isRootAdd = !originalRecord;
     const mainNormalizedRecord = normalizeRouteRecord(record);
     mainNormalizedRecord.aliasOf = originalRecord && originalRecord.record;
-    const options3 = mergeOptions(globalOptions, record);
+    const options4 = mergeOptions(globalOptions, record);
     const normalizedRecords = [
       mainNormalizedRecord
     ];
@@ -14420,7 +14903,7 @@ function createRouterMatcher(routes2, globalOptions) {
         const connectingSlash = parentPath[parentPath.length - 1] === "/" ? "" : "/";
         normalizedRecord.path = parent.record.path + (path && connectingSlash + path);
       }
-      matcher = createRouteRecordMatcher(normalizedRecord, parent, options3);
+      matcher = createRouteRecordMatcher(normalizedRecord, parent, options4);
       if (originalRecord) {
         originalRecord.alias.push(matcher);
       } else {
@@ -14586,11 +15069,11 @@ function mergeMetaFields(matched) {
   return matched.reduce((meta, record) => assign(meta, record.meta), {});
 }
 function mergeOptions(defaults2, partialOptions) {
-  const options3 = {};
+  const options4 = {};
   for (const key in defaults2) {
-    options3[key] = key in partialOptions ? partialOptions[key] : defaults2[key];
+    options4[key] = key in partialOptions ? partialOptions[key] : defaults2[key];
   }
-  return options3;
+  return options4;
 }
 function isRecordChildOf(record, parent) {
   return parent.children.some((child) => child === record || isRecordChildOf(record, child));
@@ -14753,8 +15236,8 @@ function extractComponentsGuards(matched, guardType, to, from) {
       if (guardType !== "beforeRouteEnter" && !record.instances[name])
         continue;
       if (isRouteComponent(rawComponent)) {
-        const options3 = rawComponent.__vccOpts || rawComponent;
-        const guard = options3[guardType];
+        const options4 = rawComponent.__vccOpts || rawComponent;
+        const guard = options4[guardType];
         guard && guards.push(guardToPromiseFn(guard, to, from, record, name));
       } else {
         let componentPromise = rawComponent();
@@ -14763,8 +15246,8 @@ function extractComponentsGuards(matched, guardType, to, from) {
             return Promise.reject(new Error(`Couldn't resolve component "${name}" at "${record.path}"`));
           const resolvedComponent = isESModule(resolved) ? resolved.default : resolved;
           record.components[name] = resolvedComponent;
-          const options3 = resolvedComponent.__vccOpts || resolvedComponent;
-          const guard = options3[guardType];
+          const options4 = resolvedComponent.__vccOpts || resolvedComponent;
+          const guard = options4[guardType];
           return guard && guardToPromiseFn(guard, to, from, record, name)();
         }));
       }
@@ -14839,15 +15322,15 @@ const RouterLinkImpl = /* @__PURE__ */ defineComponent({
   useLink,
   setup(props, { slots }) {
     const link = reactive(useLink(props));
-    const { options: options3 } = inject(routerKey);
+    const { options: options4 } = inject(routerKey);
     const elClass = computed(() => ({
-      [getLinkClass(props.activeClass, options3.linkActiveClass, "router-link-active")]: link.isActive,
+      [getLinkClass(props.activeClass, options4.linkActiveClass, "router-link-active")]: link.isActive,
       // [getLinkClass(
       //   props.inactiveClass,
       //   options.linkInactiveClass,
       //   'router-link-inactive'
       // )]: !link.isExactActive,
-      [getLinkClass(props.exactActiveClass, options3.linkExactActiveClass, "router-link-exact-active")]: link.isExactActive
+      [getLinkClass(props.exactActiveClass, options4.linkExactActiveClass, "router-link-exact-active")]: link.isExactActive
     }));
     return () => {
       const children = slots.default && slots.default(link);
@@ -14871,8 +15354,8 @@ function guardEvent(e) {
   if (e.button !== void 0 && e.button !== 0)
     return;
   if (e.currentTarget && e.currentTarget.getAttribute) {
-    const target = e.currentTarget.getAttribute("target");
-    if (/\b_blank\b/i.test(target))
+    const target2 = e.currentTarget.getAttribute("target");
+    if (/\b_blank\b/i.test(target2))
       return;
   }
   if (e.preventDefault)
@@ -14981,17 +15464,17 @@ function normalizeSlot(slot, data23) {
   return slotContent.length === 1 ? slotContent[0] : slotContent;
 }
 const RouterView = RouterViewImpl;
-function createRouter(options3) {
-  const matcher = createRouterMatcher(options3.routes, options3);
-  const parseQuery$1 = options3.parseQuery || parseQuery;
-  const stringifyQuery$1 = options3.stringifyQuery || stringifyQuery;
-  const routerHistory = options3.history;
+function createRouter(options4) {
+  const matcher = createRouterMatcher(options4.routes, options4);
+  const parseQuery$1 = options4.parseQuery || parseQuery;
+  const stringifyQuery$1 = options4.stringifyQuery || stringifyQuery;
+  const routerHistory = options4.history;
   const beforeGuards = useCallbacks();
   const beforeResolveGuards = useCallbacks();
   const afterGuards = useCallbacks();
   const currentRoute = shallowRef(START_LOCATION_NORMALIZED);
   let pendingLocation = START_LOCATION_NORMALIZED;
-  if (isBrowser && options3.scrollBehavior && "scrollRestoration" in history) {
+  if (isBrowser && options4.scrollBehavior && "scrollRestoration" in history) {
     history.scrollRestoration = "manual";
   }
   const normalizeParams = applyToParams.bind(null, (paramValue) => "" + paramValue);
@@ -15382,7 +15865,7 @@ function createRouter(options3) {
     return err;
   }
   function handleScroll(to, from, isPush, isFirstNavigation) {
-    const { scrollBehavior } = options3;
+    const { scrollBehavior } = options4;
     if (!isBrowser || !scrollBehavior)
       return Promise.resolve();
     const scrollPosition = !isPush && getSavedScrollPosition(getScrollKey(to.fullPath, 0)) || (isFirstNavigation || !isPush) && history.state && history.state.scroll || null;
@@ -15399,7 +15882,7 @@ function createRouter(options3) {
     hasRoute,
     getRoutes,
     resolve: resolve2,
-    options: options3,
+    options: options4,
     push,
     replace,
     go,
@@ -15482,27 +15965,27 @@ function extractChangingRecords(to, from) {
 function useRouter() {
   return inject(routerKey);
 }
-const _hoisted_1$1s = { class: "header-top" };
-const _hoisted_2$1l = { class: "header-logo flex flex-nowrap justify-content-evenly" };
-const _hoisted_3$g = /* @__PURE__ */ createBaseVNode("img", {
+const _hoisted_1$1t = { class: "header-top" };
+const _hoisted_2$1m = { class: "header-logo flex flex-nowrap justify-content-evenly" };
+const _hoisted_3$h = /* @__PURE__ */ createBaseVNode("img", {
   class: "header-logo-item mx-3 w-1 hidden sm:block sm:w-2 xl:w-1",
   src: _imports_0$4,
   height: "100px",
   width: "auto"
 }, null, -1);
-const _hoisted_4$h = /* @__PURE__ */ createBaseVNode("img", {
+const _hoisted_4$i = /* @__PURE__ */ createBaseVNode("img", {
   class: "header-logo-item mr-3 w-1 hidden md:block md:w-2 xl:w-1",
   src: _imports_1$2,
   height: "100px",
   width: "auto"
 }, null, -1);
-const _hoisted_5$d = /* @__PURE__ */ createBaseVNode("img", {
+const _hoisted_5$e = /* @__PURE__ */ createBaseVNode("img", {
   class: "header-logo-item mr-3 w-1 hidden lg:block lg:w-2 xl:w-1",
   src: _imports_2$2,
   height: "100px",
   width: "auto"
 }, null, -1);
-const _hoisted_6$b = /* @__PURE__ */ createBaseVNode("svg", {
+const _hoisted_6$c = /* @__PURE__ */ createBaseVNode("svg", {
   class: "header-logo-item w-full",
   version: "1.0",
   xmlns: "http://www.w3.org/2000/svg",
@@ -15528,13 +16011,13 @@ const _hoisted_6$b = /* @__PURE__ */ createBaseVNode("svg", {
     /* @__PURE__ */ createBaseVNode("path", { d: "M1229 411 c-43 -36 -109 -157 -109 -200 0 -71 60 -109 154 -97 66 9 118 44 152 101 20 35 25 53 20 77 -9 44 -43 78 -78 78 -33 0 -34 -2 -8 -56 19 -39 20 -45 7 -77 -28 -66 -103 -91 -126 -41 -9 21 -8 33 9 72 12 25 24 49 28 52 4 3 15 17 25 33 13 19 26 27 50 28 23 1 26 3 10 6 -16 3 -22 11 -20 26 2 19 -4 22 -38 25 -32 2 -47 -3 -76 -27z" })
   ])
 ], -1);
-const _hoisted_7$a = /* @__PURE__ */ createBaseVNode("img", {
+const _hoisted_7$b = /* @__PURE__ */ createBaseVNode("img", {
   class: "header-logo-item mr-3 w-1 hidden xl:block xl:w-1",
   src: _imports_3$1,
   height: "100px",
   width: "auto"
 }, null, -1);
-const _hoisted_8$5 = /* @__PURE__ */ createBaseVNode("img", {
+const _hoisted_8$6 = /* @__PURE__ */ createBaseVNode("img", {
   class: "header-logo-item mr-3 w-1 hidden md:block md:w-2 xl:w-1",
   src: _imports_4$1,
   height: "100px",
@@ -15562,7 +16045,7 @@ const _hoisted_15$3 = /* @__PURE__ */ createBaseVNode("i", {
   style: { "font-size": "1.5rem" }
 }, null, -1);
 const _hoisted_16$3 = { class: "catalog" };
-const _sfc_main$R = {
+const _sfc_main$S = {
   __name: "Navbar",
   props: {
     openDrawer: Function,
@@ -15615,19 +16098,19 @@ const _sfc_main$R = {
       const _component_Button = resolveComponent("Button");
       const _component_my_tree = resolveComponent("my-tree");
       return openBlock(), createElementBlock(Fragment, null, [
-        createBaseVNode("div", _hoisted_1$1s, [
-          createBaseVNode("div", _hoisted_2$1l, [
-            _hoisted_3$g,
-            _hoisted_4$h,
-            _hoisted_5$d,
+        createBaseVNode("div", _hoisted_1$1t, [
+          createBaseVNode("div", _hoisted_2$1m, [
+            _hoisted_3$h,
+            _hoisted_4$i,
+            _hoisted_5$e,
             createVNode(_component_router_link, { to: "/" }, {
               default: withCtx(() => [
-                _hoisted_6$b
+                _hoisted_6$c
               ]),
               _: 1
             }),
-            _hoisted_7$a,
-            _hoisted_8$5,
+            _hoisted_7$b,
+            _hoisted_8$6,
             _hoisted_9$5
           ]),
           createBaseVNode("div", _hoisted_10$4, [
@@ -15682,7 +16165,7 @@ const _sfc_main$R = {
   }
 };
 var classes$e = {
-  root: function root2(_ref) {
+  root: function root3(_ref) {
     var props = _ref.props, instance = _ref.instance;
     return ["p-badge p-component", {
       "p-badge-no-gutter": ObjectUtils.isNotEmpty(props.value) && String(props.value).length === 1,
@@ -15742,11 +16225,11 @@ var script$N = {
   name: "SpinnerIcon",
   "extends": script$T
 };
-var _hoisted_1$1r = /* @__PURE__ */ createBaseVNode("path", {
+var _hoisted_1$1s = /* @__PURE__ */ createBaseVNode("path", {
   d: "M6.99701 14C5.85441 13.999 4.72939 13.7186 3.72012 13.1832C2.71084 12.6478 1.84795 11.8737 1.20673 10.9284C0.565504 9.98305 0.165424 8.89526 0.041387 7.75989C-0.0826496 6.62453 0.073125 5.47607 0.495122 4.4147C0.917119 3.35333 1.59252 2.4113 2.46241 1.67077C3.33229 0.930247 4.37024 0.413729 5.4857 0.166275C6.60117 -0.0811796 7.76026 -0.0520535 8.86188 0.251112C9.9635 0.554278 10.9742 1.12227 11.8057 1.90555C11.915 2.01493 11.9764 2.16319 11.9764 2.31778C11.9764 2.47236 11.915 2.62062 11.8057 2.73C11.7521 2.78503 11.688 2.82877 11.6171 2.85864C11.5463 2.8885 11.4702 2.90389 11.3933 2.90389C11.3165 2.90389 11.2404 2.8885 11.1695 2.85864C11.0987 2.82877 11.0346 2.78503 10.9809 2.73C9.9998 1.81273 8.73246 1.26138 7.39226 1.16876C6.05206 1.07615 4.72086 1.44794 3.62279 2.22152C2.52471 2.99511 1.72683 4.12325 1.36345 5.41602C1.00008 6.70879 1.09342 8.08723 1.62775 9.31926C2.16209 10.5513 3.10478 11.5617 4.29713 12.1803C5.48947 12.7989 6.85865 12.988 8.17414 12.7157C9.48963 12.4435 10.6711 11.7264 11.5196 10.6854C12.3681 9.64432 12.8319 8.34282 12.8328 7C12.8328 6.84529 12.8943 6.69692 13.0038 6.58752C13.1132 6.47812 13.2616 6.41667 13.4164 6.41667C13.5712 6.41667 13.7196 6.47812 13.8291 6.58752C13.9385 6.69692 14 6.84529 14 7C14 8.85651 13.2622 10.637 11.9489 11.9497C10.6356 13.2625 8.85432 14 6.99701 14Z",
   fill: "currentColor"
 }, null, -1);
-var _hoisted_2$1k = [_hoisted_1$1r];
+var _hoisted_2$1l = [_hoisted_1$1s];
 function render$M(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("svg", mergeProps({
     width: "14",
@@ -15754,7 +16237,7 @@ function render$M(_ctx, _cache, $props, $setup, $data, $options) {
     viewBox: "0 0 14 14",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg"
-  }, _ctx.pti()), _hoisted_2$1k, 16);
+  }, _ctx.pti()), _hoisted_2$1l, 16);
 }
 script$N.render = render$M;
 function _typeof$k(o) {
@@ -15791,7 +16274,7 @@ function _toPrimitive$j(t, r) {
   return ("string" === r ? String : Number)(t);
 }
 var classes$d = {
-  root: function root3(_ref) {
+  root: function root4(_ref) {
     var instance = _ref.instance, props = _ref.props;
     return ["p-button p-component", _defineProperty$j(_defineProperty$j(_defineProperty$j(_defineProperty$j(_defineProperty$j(_defineProperty$j(_defineProperty$j(_defineProperty$j({
       "p-button-icon-only": instance.hasIcon && !props.label && !props.badge,
@@ -15929,7 +16412,7 @@ var script$M = {
     ripple: Ripple
   }
 };
-var _hoisted_1$1q = ["aria-label", "disabled", "data-pc-severity"];
+var _hoisted_1$1r = ["aria-label", "disabled", "data-pc-severity"];
 function render$L(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_SpinnerIcon = resolveComponent("SpinnerIcon");
   var _component_Badge = resolveComponent("Badge");
@@ -15971,19 +16454,38 @@ function render$L(_ctx, _cache, $props, $setup, $data, $options) {
       severity: _ctx.badgeSeverity,
       unstyled: _ctx.unstyled
     }, _ctx.ptm("badge")), null, 16, ["value", "class", "severity", "unstyled"])) : createCommentVNode("", true)];
-  })], 16, _hoisted_1$1q)), [[_directive_ripple]]);
+  })], 16, _hoisted_1$1r)), [[_directive_ripple]]);
 }
 script$M.render = render$L;
 var script$L = {
   name: "ChevronDownIcon",
   "extends": script$T
 };
-var _hoisted_1$1p = /* @__PURE__ */ createBaseVNode("path", {
+var _hoisted_1$1q = /* @__PURE__ */ createBaseVNode("path", {
   d: "M7.01744 10.398C6.91269 10.3985 6.8089 10.378 6.71215 10.3379C6.61541 10.2977 6.52766 10.2386 6.45405 10.1641L1.13907 4.84913C1.03306 4.69404 0.985221 4.5065 1.00399 4.31958C1.02276 4.13266 1.10693 3.95838 1.24166 3.82747C1.37639 3.69655 1.55301 3.61742 1.74039 3.60402C1.92777 3.59062 2.11386 3.64382 2.26584 3.75424L7.01744 8.47394L11.769 3.75424C11.9189 3.65709 12.097 3.61306 12.2748 3.62921C12.4527 3.64535 12.6199 3.72073 12.7498 3.84328C12.8797 3.96582 12.9647 4.12842 12.9912 4.30502C13.0177 4.48162 12.9841 4.662 12.8958 4.81724L7.58083 10.1322C7.50996 10.2125 7.42344 10.2775 7.32656 10.3232C7.22968 10.3689 7.12449 10.3944 7.01744 10.398Z",
   fill: "currentColor"
 }, null, -1);
-var _hoisted_2$1j = [_hoisted_1$1p];
+var _hoisted_2$1k = [_hoisted_1$1q];
 function render$K(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("svg", mergeProps({
+    width: "14",
+    height: "14",
+    viewBox: "0 0 14 14",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg"
+  }, _ctx.pti()), _hoisted_2$1k, 16);
+}
+script$L.render = render$K;
+var script$K = {
+  name: "ChevronLeftIcon",
+  "extends": script$T
+};
+var _hoisted_1$1p = /* @__PURE__ */ createBaseVNode("path", {
+  d: "M9.61296 13C9.50997 13.0005 9.40792 12.9804 9.3128 12.9409C9.21767 12.9014 9.13139 12.8433 9.05902 12.7701L3.83313 7.54416C3.68634 7.39718 3.60388 7.19795 3.60388 6.99022C3.60388 6.78249 3.68634 6.58325 3.83313 6.43628L9.05902 1.21039C9.20762 1.07192 9.40416 0.996539 9.60724 1.00012C9.81032 1.00371 10.0041 1.08597 10.1477 1.22959C10.2913 1.37322 10.3736 1.56698 10.3772 1.77005C10.3808 1.97313 10.3054 2.16968 10.1669 2.31827L5.49496 6.99022L10.1669 11.6622C10.3137 11.8091 10.3962 12.0084 10.3962 12.2161C10.3962 12.4238 10.3137 12.6231 10.1669 12.7701C10.0945 12.8433 10.0083 12.9014 9.91313 12.9409C9.81801 12.9804 9.71596 13.0005 9.61296 13Z",
+  fill: "currentColor"
+}, null, -1);
+var _hoisted_2$1j = [_hoisted_1$1p];
+function render$J(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("svg", mergeProps({
     width: "14",
     height: "14",
@@ -15992,17 +16494,17 @@ function render$K(_ctx, _cache, $props, $setup, $data, $options) {
     xmlns: "http://www.w3.org/2000/svg"
   }, _ctx.pti()), _hoisted_2$1j, 16);
 }
-script$L.render = render$K;
-var script$K = {
-  name: "ChevronLeftIcon",
+script$K.render = render$J;
+var script$J = {
+  name: "ChevronRightIcon",
   "extends": script$T
 };
 var _hoisted_1$1o = /* @__PURE__ */ createBaseVNode("path", {
-  d: "M9.61296 13C9.50997 13.0005 9.40792 12.9804 9.3128 12.9409C9.21767 12.9014 9.13139 12.8433 9.05902 12.7701L3.83313 7.54416C3.68634 7.39718 3.60388 7.19795 3.60388 6.99022C3.60388 6.78249 3.68634 6.58325 3.83313 6.43628L9.05902 1.21039C9.20762 1.07192 9.40416 0.996539 9.60724 1.00012C9.81032 1.00371 10.0041 1.08597 10.1477 1.22959C10.2913 1.37322 10.3736 1.56698 10.3772 1.77005C10.3808 1.97313 10.3054 2.16968 10.1669 2.31827L5.49496 6.99022L10.1669 11.6622C10.3137 11.8091 10.3962 12.0084 10.3962 12.2161C10.3962 12.4238 10.3137 12.6231 10.1669 12.7701C10.0945 12.8433 10.0083 12.9014 9.91313 12.9409C9.81801 12.9804 9.71596 13.0005 9.61296 13Z",
+  d: "M4.38708 13C4.28408 13.0005 4.18203 12.9804 4.08691 12.9409C3.99178 12.9014 3.9055 12.8433 3.83313 12.7701C3.68634 12.6231 3.60388 12.4238 3.60388 12.2161C3.60388 12.0084 3.68634 11.8091 3.83313 11.6622L8.50507 6.99022L3.83313 2.31827C3.69467 2.16968 3.61928 1.97313 3.62287 1.77005C3.62645 1.56698 3.70872 1.37322 3.85234 1.22959C3.99596 1.08597 4.18972 1.00371 4.3928 1.00012C4.59588 0.996539 4.79242 1.07192 4.94102 1.21039L10.1669 6.43628C10.3137 6.58325 10.3962 6.78249 10.3962 6.99022C10.3962 7.19795 10.3137 7.39718 10.1669 7.54416L4.94102 12.7701C4.86865 12.8433 4.78237 12.9014 4.68724 12.9409C4.59212 12.9804 4.49007 13.0005 4.38708 13Z",
   fill: "currentColor"
 }, null, -1);
 var _hoisted_2$1i = [_hoisted_1$1o];
-function render$J(_ctx, _cache, $props, $setup, $data, $options) {
+function render$I(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("svg", mergeProps({
     width: "14",
     height: "14",
@@ -16011,17 +16513,17 @@ function render$J(_ctx, _cache, $props, $setup, $data, $options) {
     xmlns: "http://www.w3.org/2000/svg"
   }, _ctx.pti()), _hoisted_2$1i, 16);
 }
-script$K.render = render$J;
-var script$J = {
-  name: "ChevronRightIcon",
+script$J.render = render$I;
+var script$I = {
+  name: "ChevronUpIcon",
   "extends": script$T
 };
 var _hoisted_1$1n = /* @__PURE__ */ createBaseVNode("path", {
-  d: "M4.38708 13C4.28408 13.0005 4.18203 12.9804 4.08691 12.9409C3.99178 12.9014 3.9055 12.8433 3.83313 12.7701C3.68634 12.6231 3.60388 12.4238 3.60388 12.2161C3.60388 12.0084 3.68634 11.8091 3.83313 11.6622L8.50507 6.99022L3.83313 2.31827C3.69467 2.16968 3.61928 1.97313 3.62287 1.77005C3.62645 1.56698 3.70872 1.37322 3.85234 1.22959C3.99596 1.08597 4.18972 1.00371 4.3928 1.00012C4.59588 0.996539 4.79242 1.07192 4.94102 1.21039L10.1669 6.43628C10.3137 6.58325 10.3962 6.78249 10.3962 6.99022C10.3962 7.19795 10.3137 7.39718 10.1669 7.54416L4.94102 12.7701C4.86865 12.8433 4.78237 12.9014 4.68724 12.9409C4.59212 12.9804 4.49007 13.0005 4.38708 13Z",
+  d: "M12.2097 10.4113C12.1057 10.4118 12.0027 10.3915 11.9067 10.3516C11.8107 10.3118 11.7237 10.2532 11.6506 10.1792L6.93602 5.46461L2.22139 10.1476C2.07272 10.244 1.89599 10.2877 1.71953 10.2717C1.54307 10.2556 1.3771 10.1808 1.24822 10.0593C1.11933 9.93766 1.035 9.77633 1.00874 9.6011C0.982477 9.42587 1.0158 9.2469 1.10338 9.09287L6.37701 3.81923C6.52533 3.6711 6.72639 3.58789 6.93602 3.58789C7.14565 3.58789 7.3467 3.6711 7.49502 3.81923L12.7687 9.09287C12.9168 9.24119 13 9.44225 13 9.65187C13 9.8615 12.9168 10.0626 12.7687 10.2109C12.616 10.3487 12.4151 10.4207 12.2097 10.4113Z",
   fill: "currentColor"
 }, null, -1);
 var _hoisted_2$1h = [_hoisted_1$1n];
-function render$I(_ctx, _cache, $props, $setup, $data, $options) {
+function render$H(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("svg", mergeProps({
     width: "14",
     height: "14",
@@ -16030,28 +16532,9 @@ function render$I(_ctx, _cache, $props, $setup, $data, $options) {
     xmlns: "http://www.w3.org/2000/svg"
   }, _ctx.pti()), _hoisted_2$1h, 16);
 }
-script$J.render = render$I;
-var script$I = {
-  name: "ChevronUpIcon",
-  "extends": script$T
-};
-var _hoisted_1$1m = /* @__PURE__ */ createBaseVNode("path", {
-  d: "M12.2097 10.4113C12.1057 10.4118 12.0027 10.3915 11.9067 10.3516C11.8107 10.3118 11.7237 10.2532 11.6506 10.1792L6.93602 5.46461L2.22139 10.1476C2.07272 10.244 1.89599 10.2877 1.71953 10.2717C1.54307 10.2556 1.3771 10.1808 1.24822 10.0593C1.11933 9.93766 1.035 9.77633 1.00874 9.6011C0.982477 9.42587 1.0158 9.2469 1.10338 9.09287L6.37701 3.81923C6.52533 3.6711 6.72639 3.58789 6.93602 3.58789C7.14565 3.58789 7.3467 3.6711 7.49502 3.81923L12.7687 9.09287C12.9168 9.24119 13 9.44225 13 9.65187C13 9.8615 12.9168 10.0626 12.7687 10.2109C12.616 10.3487 12.4151 10.4207 12.2097 10.4113Z",
-  fill: "currentColor"
-}, null, -1);
-var _hoisted_2$1g = [_hoisted_1$1m];
-function render$H(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("svg", mergeProps({
-    width: "14",
-    height: "14",
-    viewBox: "0 0 14 14",
-    fill: "none",
-    xmlns: "http://www.w3.org/2000/svg"
-  }, _ctx.pti()), _hoisted_2$1g, 16);
-}
 script$I.render = render$H;
 var classes$c = {
-  root: function root4(_ref) {
+  root: function root5(_ref) {
     var instance = _ref.instance;
     return ["p-carousel p-component", {
       "p-carousel-vertical": instance.isVertical(),
@@ -16705,13 +17188,13 @@ function _toPrimitive$i(t, r) {
   }
   return ("string" === r ? String : Number)(t);
 }
-var _hoisted_1$1l = ["aria-live"];
-var _hoisted_2$1f = ["disabled", "aria-label"];
-var _hoisted_3$f = ["data-p-carousel-item-active", "data-p-carousel-item-start", "data-p-carousel-item-end"];
-var _hoisted_4$g = ["aria-hidden", "aria-label", "aria-roledescription", "data-p-carousel-item-active", "data-p-carousel-item-start", "data-p-carousel-item-end"];
-var _hoisted_5$c = ["disabled", "aria-label"];
-var _hoisted_6$a = ["data-p-highlight"];
-var _hoisted_7$9 = ["tabindex", "aria-label", "aria-current", "onClick"];
+var _hoisted_1$1m = ["aria-live"];
+var _hoisted_2$1g = ["disabled", "aria-label"];
+var _hoisted_3$g = ["data-p-carousel-item-active", "data-p-carousel-item-start", "data-p-carousel-item-end"];
+var _hoisted_4$h = ["aria-hidden", "aria-label", "aria-roledescription", "data-p-carousel-item-active", "data-p-carousel-item-start", "data-p-carousel-item-end"];
+var _hoisted_5$d = ["disabled", "aria-label"];
+var _hoisted_6$b = ["data-p-highlight"];
+var _hoisted_7$a = ["tabindex", "aria-label", "aria-current", "onClick"];
 function render$G(_ctx, _cache, $props, $setup, $data, $options) {
   var _directive_ripple = resolveDirective("ripple");
   return openBlock(), createElementBlock("div", mergeProps({
@@ -16740,7 +17223,7 @@ function render$G(_ctx, _cache, $props, $setup, $data, $options) {
     return [(openBlock(), createBlock(resolveDynamicComponent($options.isVertical() ? "ChevronUpIcon" : "ChevronLeftIcon"), mergeProps({
       "class": _ctx.cx("previousButtonIcon")
     }, _ctx.ptm("previousButtonIcon")), null, 16, ["class"]))];
-  })], 16, _hoisted_2$1f)), [[_directive_ripple]]) : createCommentVNode("", true), createBaseVNode("div", mergeProps({
+  })], 16, _hoisted_2$1g)), [[_directive_ripple]]) : createCommentVNode("", true), createBaseVNode("div", mergeProps({
     "class": _ctx.cx("itemsContent"),
     style: [{
       height: $options.isVertical() ? _ctx.verticalViewPortHeight : "auto"
@@ -16778,7 +17261,7 @@ function render$G(_ctx, _cache, $props, $setup, $data, $options) {
     }), [renderSlot(_ctx.$slots, "item", {
       data: item4,
       index: index2
-    })], 16, _hoisted_3$f);
+    })], 16, _hoisted_3$g);
   }), 128)) : createCommentVNode("", true), (openBlock(true), createElementBlock(Fragment, null, renderList(_ctx.value, function(item4, index2) {
     return openBlock(), createElementBlock("div", mergeProps({
       key: index2,
@@ -16796,7 +17279,7 @@ function render$G(_ctx, _cache, $props, $setup, $data, $options) {
     }), [renderSlot(_ctx.$slots, "item", {
       data: item4,
       index: index2
-    })], 16, _hoisted_4$g);
+    })], 16, _hoisted_4$h);
   }), 128)), $options.isCircular() ? (openBlock(true), createElementBlock(Fragment, {
     key: 1
   }, renderList(_ctx.value.slice(0, $data.d_numVisible), function(item4, index2) {
@@ -16827,7 +17310,7 @@ function render$G(_ctx, _cache, $props, $setup, $data, $options) {
     return [(openBlock(), createBlock(resolveDynamicComponent($options.isVertical() ? "ChevronDownIcon" : "ChevronRightIcon"), mergeProps({
       "class": _ctx.cx("nextButtonIcon")
     }, _ctx.ptm("nextButtonIcon")), null, 16, ["class"]))];
-  })], 16, _hoisted_5$c)), [[_directive_ripple]]) : createCommentVNode("", true)], 16, _hoisted_1$1l), $options.totalIndicators >= 0 && _ctx.showIndicators ? (openBlock(), createElementBlock("ul", mergeProps({
+  })], 16, _hoisted_5$d)), [[_directive_ripple]]) : createCommentVNode("", true)], 16, _hoisted_1$1m), $options.totalIndicators >= 0 && _ctx.showIndicators ? (openBlock(), createElementBlock("ul", mergeProps({
     key: 0,
     ref: "indicatorContent",
     "class": [_ctx.cx("indicators"), _ctx.indicatorsContentClass],
@@ -16851,19 +17334,19 @@ function render$G(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: function onClick5($event) {
         return $options.onIndicatorClick($event, i);
       }
-    }, _ctx.ptm("indicatorButton", $options.getIndicatorPTOptions(i))), null, 16, _hoisted_7$9)], 16, _hoisted_6$a);
+    }, _ctx.ptm("indicatorButton", $options.getIndicatorPTOptions(i))), null, 16, _hoisted_7$a)], 16, _hoisted_6$b);
   }), 128))], 16)) : createCommentVNode("", true)], 16), _ctx.$slots.footer ? (openBlock(), createElementBlock("div", mergeProps({
     key: 1,
     "class": _ctx.cx("footer")
   }, _ctx.ptm("footer")), [renderSlot(_ctx.$slots, "footer")], 16)) : createCommentVNode("", true)], 16);
 }
 script$H.render = render$G;
-const _hoisted_1$1k = { class: "w-12 card lg:w-7" };
-const _hoisted_2$1e = { class: "border-1 surface-border border-round" };
-const _hoisted_3$e = { class: "mb-3" };
-const _hoisted_4$f = { class: "relative flex align-items-center justify-content-center" };
-const _hoisted_5$b = ["src", "alt"];
-const _sfc_main$Q = {
+const _hoisted_1$1l = { class: "w-12 card lg:w-7" };
+const _hoisted_2$1f = { class: "border-1 surface-border border-round" };
+const _hoisted_3$f = { class: "mb-3" };
+const _hoisted_4$g = { class: "relative flex align-items-center justify-content-center" };
+const _hoisted_5$c = ["src", "alt"];
+const _sfc_main$R = {
   __name: "Slider",
   setup(__props) {
     const products = ref([
@@ -16873,7 +17356,7 @@ const _sfc_main$Q = {
       { image: "images/slider/slider-bird.jpg" }
     ]);
     return (_ctx, _cache) => {
-      return openBlock(), createElementBlock("div", _hoisted_1$1k, [
+      return openBlock(), createElementBlock("div", _hoisted_1$1l, [
         createVNode(unref(script$H), {
           value: products.value,
           numVisible: 1,
@@ -16882,14 +17365,14 @@ const _sfc_main$Q = {
           autoplayInterval: 3e3
         }, {
           item: withCtx((slotProps) => [
-            createBaseVNode("div", _hoisted_2$1e, [
-              createBaseVNode("div", _hoisted_3$e, [
-                createBaseVNode("div", _hoisted_4$f, [
+            createBaseVNode("div", _hoisted_2$1f, [
+              createBaseVNode("div", _hoisted_3$f, [
+                createBaseVNode("div", _hoisted_4$g, [
                   createBaseVNode("img", {
                     src: slotProps.data.image,
                     alt: slotProps.data.name,
                     class: "w-full border-round"
-                  }, null, 8, _hoisted_5$b)
+                  }, null, 8, _hoisted_5$c)
                 ])
               ])
             ])
@@ -16904,13 +17387,13 @@ var script$G = {
   name: "SearchIcon",
   "extends": script$T
 };
-var _hoisted_1$1j = /* @__PURE__ */ createBaseVNode("path", {
+var _hoisted_1$1k = /* @__PURE__ */ createBaseVNode("path", {
   "fill-rule": "evenodd",
   "clip-rule": "evenodd",
   d: "M2.67602 11.0265C3.6661 11.688 4.83011 12.0411 6.02086 12.0411C6.81149 12.0411 7.59438 11.8854 8.32483 11.5828C8.87005 11.357 9.37808 11.0526 9.83317 10.6803L12.9769 13.8241C13.0323 13.8801 13.0983 13.9245 13.171 13.9548C13.2438 13.985 13.3219 14.0003 13.4007 14C13.4795 14.0003 13.5575 13.985 13.6303 13.9548C13.7031 13.9245 13.7691 13.8801 13.8244 13.8241C13.9367 13.7116 13.9998 13.5592 13.9998 13.4003C13.9998 13.2414 13.9367 13.089 13.8244 12.9765L10.6807 9.8328C11.053 9.37773 11.3573 8.86972 11.5831 8.32452C11.8857 7.59408 12.0414 6.81119 12.0414 6.02056C12.0414 4.8298 11.6883 3.66579 11.0268 2.67572C10.3652 1.68564 9.42494 0.913972 8.32483 0.45829C7.22472 0.00260857 6.01418 -0.116618 4.84631 0.115686C3.67844 0.34799 2.60568 0.921393 1.76369 1.76338C0.921698 2.60537 0.348296 3.67813 0.115991 4.84601C-0.116313 6.01388 0.00291375 7.22441 0.458595 8.32452C0.914277 9.42464 1.68595 10.3649 2.67602 11.0265ZM3.35565 2.0158C4.14456 1.48867 5.07206 1.20731 6.02086 1.20731C7.29317 1.20731 8.51338 1.71274 9.41304 2.6124C10.3127 3.51206 10.8181 4.73226 10.8181 6.00457C10.8181 6.95337 10.5368 7.88088 10.0096 8.66978C9.48251 9.45868 8.73328 10.0736 7.85669 10.4367C6.98011 10.7997 6.01554 10.8947 5.08496 10.7096C4.15439 10.5245 3.2996 10.0676 2.62869 9.39674C1.95778 8.72583 1.50089 7.87104 1.31579 6.94046C1.13068 6.00989 1.22568 5.04532 1.58878 4.16874C1.95187 3.29215 2.56675 2.54292 3.35565 2.0158Z",
   fill: "currentColor"
 }, null, -1);
-var _hoisted_2$1d = [_hoisted_1$1j];
+var _hoisted_2$1e = [_hoisted_1$1k];
 function render$F(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("svg", mergeProps({
     width: "14",
@@ -16918,11 +17401,11 @@ function render$F(_ctx, _cache, $props, $setup, $data, $options) {
     viewBox: "0 0 14 14",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg"
-  }, _ctx.pti()), _hoisted_2$1d, 16);
+  }, _ctx.pti()), _hoisted_2$1e, 16);
 }
 script$G.render = render$F;
 var classes$b = {
-  root: function root5(_ref) {
+  root: function root6(_ref) {
     var props = _ref.props;
     return ["p-tree p-component", {
       "p-tree-selectable": props.selectionMode != null,
@@ -16971,11 +17454,11 @@ var script$F = {
   name: "CheckIcon",
   "extends": script$T
 };
-var _hoisted_1$1i = /* @__PURE__ */ createBaseVNode("path", {
+var _hoisted_1$1j = /* @__PURE__ */ createBaseVNode("path", {
   d: "M4.86199 11.5948C4.78717 11.5923 4.71366 11.5745 4.64596 11.5426C4.57826 11.5107 4.51779 11.4652 4.46827 11.4091L0.753985 7.69483C0.683167 7.64891 0.623706 7.58751 0.580092 7.51525C0.536478 7.44299 0.509851 7.36177 0.502221 7.27771C0.49459 7.19366 0.506156 7.10897 0.536046 7.03004C0.565935 6.95111 0.613367 6.88 0.674759 6.82208C0.736151 6.76416 0.8099 6.72095 0.890436 6.69571C0.970973 6.67046 1.05619 6.66385 1.13966 6.67635C1.22313 6.68886 1.30266 6.72017 1.37226 6.76792C1.44186 6.81567 1.4997 6.8786 1.54141 6.95197L4.86199 10.2503L12.6397 2.49483C12.7444 2.42694 12.8689 2.39617 12.9932 2.40745C13.1174 2.41873 13.2343 2.47141 13.3251 2.55705C13.4159 2.64268 13.4753 2.75632 13.4938 2.87973C13.5123 3.00315 13.4888 3.1292 13.4271 3.23768L5.2557 11.4091C5.20618 11.4652 5.14571 11.5107 5.07801 11.5426C5.01031 11.5745 4.9368 11.5923 4.86199 11.5948Z",
   fill: "currentColor"
 }, null, -1);
-var _hoisted_2$1c = [_hoisted_1$1i];
+var _hoisted_2$1d = [_hoisted_1$1j];
 function render$E(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("svg", mergeProps({
     width: "14",
@@ -16983,11 +17466,11 @@ function render$E(_ctx, _cache, $props, $setup, $data, $options) {
     viewBox: "0 0 14 14",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg"
-  }, _ctx.pti()), _hoisted_2$1c, 16);
+  }, _ctx.pti()), _hoisted_2$1d, 16);
 }
 script$F.render = render$E;
 var classes$a = {
-  root: function root6(_ref) {
+  root: function root7(_ref) {
     var instance = _ref.instance, props = _ref.props;
     return ["p-checkbox p-component", {
       "p-highlight": instance.checked,
@@ -17156,8 +17639,8 @@ var script$E = {
     CheckIcon: script$F
   }
 };
-var _hoisted_1$1h = ["data-p-highlight", "data-p-disabled"];
-var _hoisted_2$1b = ["id", "value", "name", "checked", "tabindex", "disabled", "readonly", "required", "aria-labelledby", "aria-label"];
+var _hoisted_1$1i = ["data-p-highlight", "data-p-disabled"];
+var _hoisted_2$1c = ["id", "value", "name", "checked", "tabindex", "disabled", "readonly", "required", "aria-labelledby", "aria-label"];
 function render$D(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_CheckIcon = resolveComponent("CheckIcon");
   return openBlock(), createElementBlock("div", mergeProps({
@@ -17188,7 +17671,7 @@ function render$D(_ctx, _cache, $props, $setup, $data, $options) {
     onChange: _cache[2] || (_cache[2] = function() {
       return $options.onChange && $options.onChange.apply($options, arguments);
     })
-  }, $options.getPTOptions("input")), null, 16, _hoisted_2$1b), createBaseVNode("div", mergeProps({
+  }, $options.getPTOptions("input")), null, 16, _hoisted_2$1c), createBaseVNode("div", mergeProps({
     "class": _ctx.cx("box")
   }, $options.getPTOptions("box")), [renderSlot(_ctx.$slots, "icon", {
     checked: $options.checked,
@@ -17198,18 +17681,18 @@ function render$D(_ctx, _cache, $props, $setup, $data, $options) {
       key: 0,
       "class": _ctx.cx("icon")
     }, $options.getPTOptions("icon")), null, 16, ["class"])) : createCommentVNode("", true)];
-  })], 16)], 16, _hoisted_1$1h);
+  })], 16)], 16, _hoisted_1$1i);
 }
 script$E.render = render$D;
 var script$D = {
   name: "MinusIcon",
   "extends": script$T
 };
-var _hoisted_1$1g = /* @__PURE__ */ createBaseVNode("path", {
+var _hoisted_1$1h = /* @__PURE__ */ createBaseVNode("path", {
   d: "M13.2222 7.77778H0.777778C0.571498 7.77778 0.373667 7.69584 0.227806 7.54998C0.0819442 7.40412 0 7.20629 0 7.00001C0 6.79373 0.0819442 6.5959 0.227806 6.45003C0.373667 6.30417 0.571498 6.22223 0.777778 6.22223H13.2222C13.4285 6.22223 13.6263 6.30417 13.7722 6.45003C13.9181 6.5959 14 6.79373 14 7.00001C14 7.20629 13.9181 7.40412 13.7722 7.54998C13.6263 7.69584 13.4285 7.77778 13.2222 7.77778Z",
   fill: "currentColor"
 }, null, -1);
-var _hoisted_2$1a = [_hoisted_1$1g];
+var _hoisted_2$1b = [_hoisted_1$1h];
 function render$C(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("svg", mergeProps({
     width: "14",
@@ -17217,7 +17700,7 @@ function render$C(_ctx, _cache, $props, $setup, $data, $options) {
     viewBox: "0 0 14 14",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg"
-  }, _ctx.pti()), _hoisted_2$1a, 16);
+  }, _ctx.pti()), _hoisted_2$1b, 16);
 }
 script$D.render = render$C;
 var script$2$4 = {
@@ -17590,9 +18073,9 @@ var script$1$c = {
         togglerElement.click();
         return false;
       }
-      var target = this.findBeforeClickableNode(event2.currentTarget);
-      if (target) {
-        this.focusRowChange(event2.currentTarget, target);
+      var target2 = this.findBeforeClickableNode(event2.currentTarget);
+      if (target2) {
+        this.focusRowChange(event2.currentTarget, target2);
       }
     },
     onEnterKey: function onEnterKey2(event2) {
@@ -18261,8 +18744,8 @@ var script$C = {
     SpinnerIcon: script$N
   }
 };
-var _hoisted_1$1f = ["placeholder"];
-var _hoisted_2$19 = ["aria-labelledby", "aria-label"];
+var _hoisted_1$1g = ["placeholder"];
+var _hoisted_2$1a = ["aria-labelledby", "aria-label"];
 function render$B(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_SpinnerIcon = resolveComponent("SpinnerIcon");
   var _component_SearchIcon = resolveComponent("SearchIcon");
@@ -18297,7 +18780,7 @@ function render$B(_ctx, _cache, $props, $setup, $data, $options) {
     onKeydown: _cache[1] || (_cache[1] = function() {
       return $options.onFilterKeydown && $options.onFilterKeydown.apply($options, arguments);
     })
-  }, _ctx.ptm("input")), null, 16, _hoisted_1$1f), [[vModelText, $data.filterValue]]), renderSlot(_ctx.$slots, "searchicon", {
+  }, _ctx.ptm("input")), null, 16, _hoisted_1$1g), [[vModelText, $data.filterValue]]), renderSlot(_ctx.$slots, "searchicon", {
     "class": normalizeClass(_ctx.cx("searchIcon"))
   }, function() {
     return [createVNode(_component_SearchIcon, mergeProps({
@@ -18330,10 +18813,10 @@ function render$B(_ctx, _cache, $props, $setup, $data, $options) {
       unstyled: _ctx.unstyled,
       pt: _ctx.pt
     }, null, 8, ["node", "templates", "level", "index", "expandedKeys", "onNodeToggle", "onNodeClick", "selectionMode", "selectionKeys", "onCheckboxChange", "loadingMode", "unstyled", "pt"]);
-  }), 128))], 16, _hoisted_2$19)], 16)], 16);
+  }), 128))], 16, _hoisted_2$1a)], 16)], 16);
 }
 script$C.render = render$B;
-const _sfc_main$P = {
+const _sfc_main$Q = {
   __name: "Tree",
   setup(__props) {
     const nodes = ref([
@@ -18446,13 +18929,13 @@ const _sfc_main$P = {
     };
   }
 };
-const _hoisted_1$1e = { class: "bestsellers-container my-3 bg-red-100 px-1 py-3 lg:px-5 flex flex-wrap justify-content-center border-round-2xl" };
-const _hoisted_2$18 = /* @__PURE__ */ createBaseVNode("h2", { class: "mt-0 mb-3 text-center hidden md:block" }, "Хиты продаж", -1);
-const _hoisted_3$d = {
+const _hoisted_1$1f = { class: "bestsellers-container my-3 bg-red-100 px-1 py-3 lg:px-5 flex flex-wrap justify-content-center border-round-2xl" };
+const _hoisted_2$19 = /* @__PURE__ */ createBaseVNode("h2", { class: "mt-0 mb-3 text-center hidden md:block" }, "Хиты продаж", -1);
+const _hoisted_3$e = {
   key: 0,
   class: "card-container flex flex-wrap justify-content-around gap-3"
 };
-const _sfc_main$O = {
+const _sfc_main$P = {
   __name: "Bestsellers",
   setup(__props) {
     const showCards = ref(false);
@@ -18466,20 +18949,15 @@ const _sfc_main$O = {
       }
     });
     return (_ctx, _cache) => {
-      const _component_my_card_item = resolveComponent("my-card-item");
-      return openBlock(), createElementBlock("div", _hoisted_1$1e, [
-        _hoisted_2$18,
+      const _component_my_card_item_list = resolveComponent("my-card-item-list");
+      return openBlock(), createElementBlock("div", _hoisted_1$1f, [
+        _hoisted_2$19,
         createBaseVNode("button", {
           class: "text-2xl bg-red-100 border-round-2xl p-2 font-bold md:hidden my-2 sm:mt-0",
           onClick: toggleCards
         }, "Хиты продаж"),
-        showCards.value ? (openBlock(), createElementBlock("div", _hoisted_3$d, [
-          createVNode(_component_my_card_item),
-          createVNode(_component_my_card_item),
-          createVNode(_component_my_card_item),
-          createVNode(_component_my_card_item),
-          createVNode(_component_my_card_item),
-          createVNode(_component_my_card_item)
+        showCards.value ? (openBlock(), createElementBlock("div", _hoisted_3$e, [
+          createVNode(_component_my_card_item_list, { apiUrl: "https://0e157e836a1fe779.mokky.dev/bestsellers" })
         ])) : createCommentVNode("", true)
       ]);
     };
@@ -18539,30 +19017,30 @@ const _imports_2$1 = "" + new URL("../images/brands/purina.png", import.meta.url
 const _imports_3 = "" + new URL("../images/brands/whiskas.png", import.meta.url).href;
 const _imports_4 = "" + new URL("../images/brands/eukanuba.png", import.meta.url).href;
 const _imports_5 = "" + new URL("../images/brands/blitz.png", import.meta.url).href;
-const _sfc_main$N = {};
-const _hoisted_1$1d = { class: "brands-container mb-3 bg-red-100 p-1 sm:p-5 border-round-2xl" };
-const _hoisted_2$17 = /* @__PURE__ */ createStaticVNode('<h2 class="m-0 text-center">Бренды</h2><div class="card mt-6 flex justify-content-evenly"><img class="w-1" src="' + _imports_0$3 + '" alt="Brand Image"><img class="w-1" src="' + _imports_1$1 + '" alt="Brand Image"><img class="w-1" src="' + _imports_2$1 + '" alt="Brand Image"><img class="w-1" src="' + _imports_3 + '" alt="Brand Image"><img class="w-1" src="' + _imports_4 + '" alt="Brand Image"><img class="w-1" src="' + _imports_5 + '" alt="Brand Image"></div>', 2);
-const _hoisted_4$e = [
-  _hoisted_2$17
+const _sfc_main$O = {};
+const _hoisted_1$1e = { class: "brands-container mb-3 bg-red-100 p-1 sm:p-5 border-round-2xl" };
+const _hoisted_2$18 = /* @__PURE__ */ createStaticVNode('<h2 class="m-0 text-center">Бренды</h2><div class="card mt-6 flex justify-content-evenly"><img class="w-1" src="' + _imports_0$3 + '" alt="Brand Image"><img class="w-1" src="' + _imports_1$1 + '" alt="Brand Image"><img class="w-1" src="' + _imports_2$1 + '" alt="Brand Image"><img class="w-1" src="' + _imports_3 + '" alt="Brand Image"><img class="w-1" src="' + _imports_4 + '" alt="Brand Image"><img class="w-1" src="' + _imports_5 + '" alt="Brand Image"></div>', 2);
+const _hoisted_4$f = [
+  _hoisted_2$18
 ];
 function _sfc_render$H(_ctx, _cache) {
-  return openBlock(), createElementBlock("div", _hoisted_1$1d, _hoisted_4$e);
+  return openBlock(), createElementBlock("div", _hoisted_1$1e, _hoisted_4$f);
 }
-const Brands = /* @__PURE__ */ _export_sfc(_sfc_main$N, [["render", _sfc_render$H]]);
+const Brands = /* @__PURE__ */ _export_sfc(_sfc_main$O, [["render", _sfc_render$H]]);
 const _imports_0$2 = "" + new URL("../images/social/vk.png", import.meta.url).href;
 const _imports_1 = "" + new URL("../images/social/ok.png", import.meta.url).href;
 const _imports_2 = "" + new URL("../images/social/telegram.png", import.meta.url).href;
-const _sfc_main$M = {};
-const _hoisted_1$1c = { class: "footer-container flex flex-wrap justify-content-between mt-auto mb-3 p-3 bg-gray-300 border-round-2xl w-full" };
-const _hoisted_2$16 = { class: "left-block w-full sm:w-6 lg:w-4 pt-3 pr-4" };
-const _hoisted_3$c = { class: "footer-info" };
-const _hoisted_4$d = /* @__PURE__ */ createBaseVNode("div", { class: "footer-sitename" }, [
+const _sfc_main$N = {};
+const _hoisted_1$1d = { class: "footer-container flex flex-wrap justify-content-between mt-auto mb-3 p-3 bg-gray-300 border-round-2xl w-full" };
+const _hoisted_2$17 = { class: "left-block w-full sm:w-6 lg:w-4 pt-3 pr-4" };
+const _hoisted_3$d = { class: "footer-info" };
+const _hoisted_4$e = /* @__PURE__ */ createBaseVNode("div", { class: "footer-sitename" }, [
   /* @__PURE__ */ createBaseVNode("strong", null, "ZooМаг")
 ], -1);
-const _hoisted_5$a = /* @__PURE__ */ createBaseVNode("div", { class: "footer-sitecopy" }, "© 2018 - 2024", -1);
-const _hoisted_6$9 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
-const _hoisted_7$8 = /* @__PURE__ */ createStaticVNode('<div class="social-block mt-4"><a class="social" href="https://vk.com"><img src="' + _imports_0$2 + '" alt="vkontakte" width="34px"></a><a class="social" href="https://ok.ru/"><img src="' + _imports_1 + '" alt="odnoklassniki" width="34px"></a><a class="social" href="https://web.telegram.org/k/"><img src="' + _imports_2 + '" alt="telegram" width="34px"></a></div>', 1);
-const _hoisted_8$4 = /* @__PURE__ */ createStaticVNode('<div class="middle-block w-full sm:w-6 lg:w-4 pt-3 pr-4"><div class="footer-contacts"><div class="footer-contacts_phone"><a class="no-underline hover:underline text-color" href="tel:+79998887766">Тел +7(999)888-77-66</a></div><div class="footer-contacts__address mt-3">Офис: г. Краснодар, ул. Красных Партизан, 137</div><div class="footer-time mt-3">Пн-Сб с 9:00 до 20:00. Воскресенье - выходной</div></div></div>', 1);
+const _hoisted_5$b = /* @__PURE__ */ createBaseVNode("div", { class: "footer-sitecopy" }, "© 2018 - 2024", -1);
+const _hoisted_6$a = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
+const _hoisted_7$9 = /* @__PURE__ */ createStaticVNode('<div class="social-block mt-4"><a class="social" href="https://vk.com"><img src="' + _imports_0$2 + '" alt="vkontakte" width="34px"></a><a class="social" href="https://ok.ru/"><img src="' + _imports_1 + '" alt="odnoklassniki" width="34px"></a><a class="social" href="https://web.telegram.org/k/"><img src="' + _imports_2 + '" alt="telegram" width="34px"></a></div>', 1);
+const _hoisted_8$5 = /* @__PURE__ */ createStaticVNode('<div class="middle-block w-full sm:w-6 lg:w-4 pt-3 pr-4"><div class="footer-contacts"><div class="footer-contacts_phone"><a class="no-underline hover:underline text-color" href="tel:+79998887766">Тел +7(999)888-77-66</a></div><div class="footer-contacts__address mt-3">Офис: г. Краснодар, ул. Красных Партизан, 137</div><div class="footer-time mt-3">Пн-Сб с 9:00 до 20:00. Воскресенье - выходной</div></div></div>', 1);
 const _hoisted_9$4 = { class: "right-block w-full sm:w-6 lg:w-4 pt-3" };
 const _hoisted_10$3 = { class: "menu-bottom m-0 p-0" };
 const _hoisted_11$2 = { class: "menu-bottom_item" };
@@ -18573,22 +19051,22 @@ const _hoisted_15$2 = { class: "menu-bottom_item" };
 const _hoisted_16$2 = { class: "menu-bottom_item" };
 function _sfc_render$G(_ctx, _cache) {
   const _component_router_link = resolveComponent("router-link");
-  return openBlock(), createElementBlock("div", _hoisted_1$1c, [
-    createBaseVNode("div", _hoisted_2$16, [
-      createBaseVNode("div", _hoisted_3$c, [
-        _hoisted_4$d,
-        _hoisted_5$a,
-        _hoisted_6$9,
+  return openBlock(), createElementBlock("div", _hoisted_1$1d, [
+    createBaseVNode("div", _hoisted_2$17, [
+      createBaseVNode("div", _hoisted_3$d, [
+        _hoisted_4$e,
+        _hoisted_5$b,
+        _hoisted_6$a,
         createVNode(_component_router_link, { to: "/privacy-policy" }, {
           default: withCtx(() => [
             createTextVNode("Политика конфиденциальности")
           ]),
           _: 1
         }),
-        _hoisted_7$8
+        _hoisted_7$9
       ])
     ]),
-    _hoisted_8$4,
+    _hoisted_8$5,
     createBaseVNode("div", _hoisted_9$4, [
       createBaseVNode("ul", _hoisted_10$3, [
         createBaseVNode("li", _hoisted_11$2, [
@@ -18661,12 +19139,12 @@ function _sfc_render$G(_ctx, _cache) {
     ])
   ]);
 }
-const Footer = /* @__PURE__ */ _export_sfc(_sfc_main$M, [["render", _sfc_render$G]]);
+const Footer = /* @__PURE__ */ _export_sfc(_sfc_main$N, [["render", _sfc_render$G]]);
 const _imports_0$1 = "" + new URL("../images/rat-hello.png", import.meta.url).href;
-const _sfc_main$L = {};
-const _hoisted_1$1b = { class: "main flex-1 mt-8 ml-auto" };
-const _hoisted_2$15 = { class: "flex flex-wrap justify-content-center mt-3" };
-const _hoisted_3$b = /* @__PURE__ */ createBaseVNode("div", { class: "card w-12 sm:w-6 md:w-5 lg:w-3 mx-0 lg:ml-6" }, [
+const _sfc_main$M = {};
+const _hoisted_1$1c = { class: "main flex-1 mt-8 ml-auto" };
+const _hoisted_2$16 = { class: "flex flex-wrap justify-content-center mt-3" };
+const _hoisted_3$c = /* @__PURE__ */ createBaseVNode("div", { class: "card w-12 sm:w-6 md:w-5 lg:w-3 mx-0 lg:ml-6" }, [
   /* @__PURE__ */ createBaseVNode("div", null, [
     /* @__PURE__ */ createBaseVNode("img", {
       src: _imports_0$1,
@@ -18679,19 +19157,19 @@ function _sfc_render$F(_ctx, _cache) {
   const _component_my_slider = resolveComponent("my-slider");
   const _component_my_bestsellers = resolveComponent("my-bestsellers");
   const _component_my_brands = resolveComponent("my-brands");
-  return openBlock(), createElementBlock("div", _hoisted_1$1b, [
-    createBaseVNode("div", _hoisted_2$15, [
+  return openBlock(), createElementBlock("div", _hoisted_1$1c, [
+    createBaseVNode("div", _hoisted_2$16, [
       createVNode(_component_my_slider),
-      _hoisted_3$b
+      _hoisted_3$c
     ]),
     createVNode(_component_my_bestsellers),
     createVNode(_component_my_brands, { class: "hidden md:block" })
   ]);
 }
-const Home = /* @__PURE__ */ _export_sfc(_sfc_main$L, [["render", _sfc_render$F]]);
-const _sfc_main$K = {};
-const _hoisted_1$1a = { class: "delivery-container mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl" };
-const _hoisted_2$14 = /* @__PURE__ */ createStaticVNode('<h1>Условия доставки</h1><p class="text-justify"> Покупка товаров для животных не должна быть обременительной для обладателей четвероногих друзей, поэтому у ZooМаг есть услуга доставки зоотоваров и кормов для животных. Вам не придется тратить свое время на то, чтобы сходить за покупками. Вместо похода по магазинам, вы сможете провести больше времени с вашим другом или заняться более нужными и приятными делами. Кроме того, доставка не займет много времени и будет выполнена в установленные сроки. А еще у нас вы сможете получить скидки (можно ознакомиться внизу данного раздела). Именно поэтому приобретать товары для животных на ZooМаг легко! </p><h2>1. Доставка зоотоваров по г. Краснодар</h2><p class="text-justify"> При заказе на сумму от 900 руб. - доставка бесплатно.<br>При заказе на сумму до 900 руб. - стоимость доставки 160 руб.<br> Доставка осуществляется в течение 1-2 РАБОЧИХ дней. Как правило, мы стараемся осуществить доставку День-в-День или на следующий рабочий, но иногда просим запас по времени, чтобы обеспечить вашу заявку в полном объеме. Не рассчитывайте, что Вам всё сделают в последний день! Это как минимум безответственно перед Вашим питомцем, если б он смог Вам сообщить, что у него заканчивается корм, он бы так и сделал, поэтому в первую очередь именно Вы должны сделать заказ заранее.<br> Время доставки с 13:00 до 16:00 и с 17:00 до 23:00, другое время согласовывается по телефону с менеджером.<br> Доставка в выходные дни не осуществляется. Возможно согласование доставки на выходной день при заказе до 10:00 пятницы. Дневная доставка возможна только на следующий рабочий день после оформления заказа.<br> Предоплата необязательна, возможна полная оплата при получении. </p><h2>2. Доставка зоотоваров в пригороды г. Краснодар</h2><p class="text-justify"> При заказе на сумму от 1900 руб. - доставка бесплатно.<br>При заказе на сумму до 1900 руб. - доставка от 200 руб.<br> Доставка осуществляется в течение 2-3 рабочих дней. Время доставки с 20:00 до 24:00, другое время согласовывается по телефону с менеджером.<br> Доставка в выходные дни не осуществляется. Возможно согласование доставки на выходной день при заказе до 10:00 пятницы.<br> Предоплата необязательна, возможна полная оплата при получении. </p><h2>3. Доставка зоотоваров по Краснодарскому краю в зоне до 200 км от Краснодара</h2><p class="text-justify"> При заказе на сумму от 2900 руб. - доставка бесплатно по графику.<br> При заказе на сумму до 2900 руб. - доставка от 300 руб по графику.<br><br><strong>Предоплата 50%</strong>. Оплата остатка при получении заказа.<br><br> Внимание! Бесплатная доставка по Краснодарскому краю (далее 30 км от административной границы Краснодара) осуществляется согласно графику. </p><h2>4. Доставка зоотоваров в г. Сочи</h2><p> Предоплата заказа 100%.<br> Стоимость доставки по тарифам выбранной транспортной компании.<br></p><h2>5. Доставка зоотоваров в Ставропольский край</h2><p> Предоплата заказа 100%.<br> Стоимость доставки по тарифам выбранной транспортной компании.<br></p><h2>6. Доставка зоотоваров в Республику Крым и Севастополь</h2><p> Предоплата заказа 100%.<br> Стоимость доставки по тарифам выбранной транспортной компании.<br></p><h2>7. Доставка по России</h2><p class="text-justify text-xs"> (Белгородская область, Брянская область, Владимирская область, Воронежская область, Ивановская область, Калужская область, Костромская область, Курская область, Липецкая область, Орловская область, Рязанская область, Смоленская область, Тамбовская область, Тверская область, Тульская область, Ярославская область, Вологодская область, Новгородская область, Псковская область, Кировская область, Нижегородская область, Пензенская область, Пермский край, Самарская область, Саратовская область, Астраханская область, Волгоградская область, Ростовская область, а так же другие регионы России). </p><p> Предоплата заказа 100%.<br> Стоимость доставки по тарифам выбранной транспортной компании.<br><br> Хотите задать вопрос: мы на связи по Московскому времени с 10:00 до 17:00.<br> Скорость доставки зависит от работы транспортной компании.<br></p><h2>8. Самовывоз</h2>', 18);
+const Home = /* @__PURE__ */ _export_sfc(_sfc_main$M, [["render", _sfc_render$F]]);
+const _sfc_main$L = {};
+const _hoisted_1$1b = { class: "delivery-container mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl" };
+const _hoisted_2$15 = /* @__PURE__ */ createStaticVNode('<h1>Условия доставки</h1><p class="text-justify"> Покупка товаров для животных не должна быть обременительной для обладателей четвероногих друзей, поэтому у ZooМаг есть услуга доставки зоотоваров и кормов для животных. Вам не придется тратить свое время на то, чтобы сходить за покупками. Вместо похода по магазинам, вы сможете провести больше времени с вашим другом или заняться более нужными и приятными делами. Кроме того, доставка не займет много времени и будет выполнена в установленные сроки. А еще у нас вы сможете получить скидки (можно ознакомиться внизу данного раздела). Именно поэтому приобретать товары для животных на ZooМаг легко! </p><h2>1. Доставка зоотоваров по г. Краснодар</h2><p class="text-justify"> При заказе на сумму от 900 руб. - доставка бесплатно.<br>При заказе на сумму до 900 руб. - стоимость доставки 160 руб.<br> Доставка осуществляется в течение 1-2 РАБОЧИХ дней. Как правило, мы стараемся осуществить доставку День-в-День или на следующий рабочий, но иногда просим запас по времени, чтобы обеспечить вашу заявку в полном объеме. Не рассчитывайте, что Вам всё сделают в последний день! Это как минимум безответственно перед Вашим питомцем, если б он смог Вам сообщить, что у него заканчивается корм, он бы так и сделал, поэтому в первую очередь именно Вы должны сделать заказ заранее.<br> Время доставки с 13:00 до 16:00 и с 17:00 до 23:00, другое время согласовывается по телефону с менеджером.<br> Доставка в выходные дни не осуществляется. Возможно согласование доставки на выходной день при заказе до 10:00 пятницы. Дневная доставка возможна только на следующий рабочий день после оформления заказа.<br> Предоплата необязательна, возможна полная оплата при получении. </p><h2>2. Доставка зоотоваров в пригороды г. Краснодар</h2><p class="text-justify"> При заказе на сумму от 1900 руб. - доставка бесплатно.<br>При заказе на сумму до 1900 руб. - доставка от 200 руб.<br> Доставка осуществляется в течение 2-3 рабочих дней. Время доставки с 20:00 до 24:00, другое время согласовывается по телефону с менеджером.<br> Доставка в выходные дни не осуществляется. Возможно согласование доставки на выходной день при заказе до 10:00 пятницы.<br> Предоплата необязательна, возможна полная оплата при получении. </p><h2>3. Доставка зоотоваров по Краснодарскому краю в зоне до 200 км от Краснодара</h2><p class="text-justify"> При заказе на сумму от 2900 руб. - доставка бесплатно по графику.<br> При заказе на сумму до 2900 руб. - доставка от 300 руб по графику.<br><br><strong>Предоплата 50%</strong>. Оплата остатка при получении заказа.<br><br> Внимание! Бесплатная доставка по Краснодарскому краю (далее 30 км от административной границы Краснодара) осуществляется согласно графику. </p><h2>4. Доставка зоотоваров в г. Сочи</h2><p> Предоплата заказа 100%.<br> Стоимость доставки по тарифам выбранной транспортной компании.<br></p><h2>5. Доставка зоотоваров в Ставропольский край</h2><p> Предоплата заказа 100%.<br> Стоимость доставки по тарифам выбранной транспортной компании.<br></p><h2>6. Доставка зоотоваров в Республику Крым и Севастополь</h2><p> Предоплата заказа 100%.<br> Стоимость доставки по тарифам выбранной транспортной компании.<br></p><h2>7. Доставка по России</h2><p class="text-justify text-xs"> (Белгородская область, Брянская область, Владимирская область, Воронежская область, Ивановская область, Калужская область, Костромская область, Курская область, Липецкая область, Орловская область, Рязанская область, Смоленская область, Тамбовская область, Тверская область, Тульская область, Ярославская область, Вологодская область, Новгородская область, Псковская область, Кировская область, Нижегородская область, Пензенская область, Пермский край, Самарская область, Саратовская область, Астраханская область, Волгоградская область, Ростовская область, а так же другие регионы России). </p><p> Предоплата заказа 100%.<br> Стоимость доставки по тарифам выбранной транспортной компании.<br><br> Хотите задать вопрос: мы на связи по Московскому времени с 10:00 до 17:00.<br> Скорость доставки зависит от работы транспортной компании.<br></p><h2>8. Самовывоз</h2>', 18);
 const _hoisted_20$2 = { class: "text-justify" };
 const _hoisted_21$3 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
 const _hoisted_22$1 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
@@ -18701,8 +19179,8 @@ const _hoisted_25 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
 const _hoisted_26 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
 function _sfc_render$E(_ctx, _cache) {
   const _component_router_link = resolveComponent("router-link");
-  return openBlock(), createElementBlock("div", _hoisted_1$1a, [
-    _hoisted_2$14,
+  return openBlock(), createElementBlock("div", _hoisted_1$1b, [
+    _hoisted_2$15,
     createBaseVNode("p", _hoisted_20$2, [
       createTextVNode(" Услуга самовывоза не предоставляется. Да, совсем не предоставляется. Вы можете согласовать с Менеджером место и время, например, Торговый Центр, где Вы будете ждать курьера (именно так - Вы будете ждать курьера, а не курьер Вас), курьер подъедет в согласованный промежуток времени и выдаст Вам заказ."),
       _hoisted_21$3,
@@ -18728,18 +19206,18 @@ function _sfc_render$E(_ctx, _cache) {
     ])
   ]);
 }
-const Delivery = /* @__PURE__ */ _export_sfc(_sfc_main$K, [["render", _sfc_render$E]]);
+const Delivery = /* @__PURE__ */ _export_sfc(_sfc_main$L, [["render", _sfc_render$E]]);
 var script$A = {
   name: "ArrowDownIcon",
   "extends": script$T
 };
-var _hoisted_1$19 = /* @__PURE__ */ createBaseVNode("path", {
+var _hoisted_1$1a = /* @__PURE__ */ createBaseVNode("path", {
   "fill-rule": "evenodd",
   "clip-rule": "evenodd",
   d: "M6.99994 14C6.91097 14.0004 6.82281 13.983 6.74064 13.9489C6.65843 13.9148 6.58387 13.8646 6.52133 13.8013L1.10198 8.38193C0.982318 8.25351 0.917175 8.08367 0.920272 7.90817C0.923368 7.73267 0.994462 7.56523 1.11858 7.44111C1.24269 7.317 1.41014 7.2459 1.58563 7.2428C1.76113 7.23971 1.93098 7.30485 2.0594 7.42451L6.32263 11.6877V0.677419C6.32263 0.497756 6.394 0.325452 6.52104 0.198411C6.64808 0.0713706 6.82039 0 7.00005 0C7.17971 0 7.35202 0.0713706 7.47906 0.198411C7.6061 0.325452 7.67747 0.497756 7.67747 0.677419V11.6877L11.9407 7.42451C12.0691 7.30485 12.2389 7.23971 12.4144 7.2428C12.5899 7.2459 12.7574 7.317 12.8815 7.44111C13.0056 7.56523 13.0767 7.73267 13.0798 7.90817C13.0829 8.08367 13.0178 8.25351 12.8981 8.38193L7.47875 13.8013C7.41621 13.8646 7.34164 13.9148 7.25944 13.9489C7.17727 13.983 7.08912 14.0004 7.00015 14C7.00012 14 7.00009 14 7.00005 14C7.00001 14 6.99998 14 6.99994 14Z",
   fill: "currentColor"
 }, null, -1);
-var _hoisted_2$13 = [_hoisted_1$19];
+var _hoisted_2$14 = [_hoisted_1$1a];
 function render$z(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("svg", mergeProps({
     width: "14",
@@ -18747,20 +19225,20 @@ function render$z(_ctx, _cache, $props, $setup, $data, $options) {
     viewBox: "0 0 14 14",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg"
-  }, _ctx.pti()), _hoisted_2$13, 16);
+  }, _ctx.pti()), _hoisted_2$14, 16);
 }
 script$A.render = render$z;
 var script$z = {
   name: "ArrowUpIcon",
   "extends": script$T
 };
-var _hoisted_1$18 = /* @__PURE__ */ createBaseVNode("path", {
+var _hoisted_1$19 = /* @__PURE__ */ createBaseVNode("path", {
   "fill-rule": "evenodd",
   "clip-rule": "evenodd",
   d: "M6.51551 13.799C6.64205 13.9255 6.813 13.9977 6.99193 14C7.17087 13.9977 7.34182 13.9255 7.46835 13.799C7.59489 13.6725 7.66701 13.5015 7.66935 13.3226V2.31233L11.9326 6.57554C11.9951 6.63887 12.0697 6.68907 12.1519 6.72319C12.2341 6.75731 12.3223 6.77467 12.4113 6.77425C12.5003 6.77467 12.5885 6.75731 12.6707 6.72319C12.7529 6.68907 12.8274 6.63887 12.89 6.57554C13.0168 6.44853 13.0881 6.27635 13.0881 6.09683C13.0881 5.91732 13.0168 5.74514 12.89 5.61812L7.48846 0.216594C7.48274 0.210436 7.4769 0.204374 7.47094 0.198411C7.3439 0.0713707 7.1716 0 6.99193 0C6.81227 0 6.63997 0.0713707 6.51293 0.198411C6.50704 0.204296 6.50128 0.210278 6.49563 0.216354L1.09386 5.61812C0.974201 5.74654 0.909057 5.91639 0.912154 6.09189C0.91525 6.26738 0.986345 6.43483 1.11046 6.55894C1.23457 6.68306 1.40202 6.75415 1.57752 6.75725C1.75302 6.76035 1.92286 6.6952 2.05128 6.57554L6.31451 2.31231V13.3226C6.31685 13.5015 6.38898 13.6725 6.51551 13.799Z",
   fill: "currentColor"
 }, null, -1);
-var _hoisted_2$12 = [_hoisted_1$18];
+var _hoisted_2$13 = [_hoisted_1$19];
 function render$y(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("svg", mergeProps({
     width: "14",
@@ -18768,7 +19246,7 @@ function render$y(_ctx, _cache, $props, $setup, $data, $options) {
     viewBox: "0 0 14 14",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg"
-  }, _ctx.pti()), _hoisted_2$12, 16);
+  }, _ctx.pti()), _hoisted_2$13, 16);
 }
 script$z.render = render$y;
 function _typeof$h(o) {
@@ -18861,14 +19339,35 @@ var script$y = {
   name: "AngleDoubleLeftIcon",
   "extends": script$T
 };
-var _hoisted_1$17 = /* @__PURE__ */ createBaseVNode("path", {
+var _hoisted_1$18 = /* @__PURE__ */ createBaseVNode("path", {
   "fill-rule": "evenodd",
   "clip-rule": "evenodd",
   d: "M5.71602 11.164C5.80782 11.2021 5.9063 11.2215 6.00569 11.221C6.20216 11.2301 6.39427 11.1612 6.54025 11.0294C6.68191 10.8875 6.76148 10.6953 6.76148 10.4948C6.76148 10.2943 6.68191 10.1021 6.54025 9.96024L3.51441 6.9344L6.54025 3.90855C6.624 3.76126 6.65587 3.59011 6.63076 3.42254C6.60564 3.25498 6.525 3.10069 6.40175 2.98442C6.2785 2.86815 6.11978 2.79662 5.95104 2.7813C5.78229 2.76598 5.61329 2.80776 5.47112 2.89994L1.97123 6.39983C1.82957 6.54167 1.75 6.73393 1.75 6.9344C1.75 7.13486 1.82957 7.32712 1.97123 7.46896L5.47112 10.9991C5.54096 11.0698 5.62422 11.1259 5.71602 11.164ZM11.0488 10.9689C11.1775 11.1156 11.3585 11.2061 11.5531 11.221C11.7477 11.2061 11.9288 11.1156 12.0574 10.9689C12.1815 10.8302 12.25 10.6506 12.25 10.4645C12.25 10.2785 12.1815 10.0989 12.0574 9.96024L9.03158 6.93439L12.0574 3.90855C12.1248 3.76739 12.1468 3.60881 12.1204 3.45463C12.0939 3.30045 12.0203 3.15826 11.9097 3.04765C11.7991 2.93703 11.6569 2.86343 11.5027 2.83698C11.3486 2.81053 11.19 2.83252 11.0488 2.89994L7.51865 6.36957C7.37699 6.51141 7.29742 6.70367 7.29742 6.90414C7.29742 7.1046 7.37699 7.29686 7.51865 7.4387L11.0488 10.9689Z",
   fill: "currentColor"
 }, null, -1);
-var _hoisted_2$11 = [_hoisted_1$17];
+var _hoisted_2$12 = [_hoisted_1$18];
 function render$x(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("svg", mergeProps({
+    width: "14",
+    height: "14",
+    viewBox: "0 0 14 14",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg"
+  }, _ctx.pti()), _hoisted_2$12, 16);
+}
+script$y.render = render$x;
+var script$x = {
+  name: "BlankIcon",
+  "extends": script$T
+};
+var _hoisted_1$17 = /* @__PURE__ */ createBaseVNode("rect", {
+  width: "1",
+  height: "1",
+  fill: "currentColor",
+  "fill-opacity": "0"
+}, null, -1);
+var _hoisted_2$11 = [_hoisted_1$17];
+function render$w(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("svg", mergeProps({
     width: "14",
     height: "14",
@@ -18877,37 +19376,16 @@ function render$x(_ctx, _cache, $props, $setup, $data, $options) {
     xmlns: "http://www.w3.org/2000/svg"
   }, _ctx.pti()), _hoisted_2$11, 16);
 }
-script$y.render = render$x;
-var script$x = {
-  name: "BlankIcon",
-  "extends": script$T
-};
-var _hoisted_1$16 = /* @__PURE__ */ createBaseVNode("rect", {
-  width: "1",
-  height: "1",
-  fill: "currentColor",
-  "fill-opacity": "0"
-}, null, -1);
-var _hoisted_2$10 = [_hoisted_1$16];
-function render$w(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("svg", mergeProps({
-    width: "14",
-    height: "14",
-    viewBox: "0 0 14 14",
-    fill: "none",
-    xmlns: "http://www.w3.org/2000/svg"
-  }, _ctx.pti()), _hoisted_2$10, 16);
-}
 script$x.render = render$w;
 var script$w = {
   name: "TimesIcon",
   "extends": script$T
 };
-var _hoisted_1$15 = /* @__PURE__ */ createBaseVNode("path", {
+var _hoisted_1$16 = /* @__PURE__ */ createBaseVNode("path", {
   d: "M8.01186 7.00933L12.27 2.75116C12.341 2.68501 12.398 2.60524 12.4375 2.51661C12.4769 2.42798 12.4982 2.3323 12.4999 2.23529C12.5016 2.13827 12.4838 2.0419 12.4474 1.95194C12.4111 1.86197 12.357 1.78024 12.2884 1.71163C12.2198 1.64302 12.138 1.58893 12.0481 1.55259C11.9581 1.51625 11.8617 1.4984 11.7647 1.50011C11.6677 1.50182 11.572 1.52306 11.4834 1.56255C11.3948 1.60204 11.315 1.65898 11.2488 1.72997L6.99067 5.98814L2.7325 1.72997C2.59553 1.60234 2.41437 1.53286 2.22718 1.53616C2.03999 1.53946 1.8614 1.61529 1.72901 1.74767C1.59663 1.88006 1.5208 2.05865 1.5175 2.24584C1.5142 2.43303 1.58368 2.61419 1.71131 2.75116L5.96948 7.00933L1.71131 11.2675C1.576 11.403 1.5 11.5866 1.5 11.7781C1.5 11.9696 1.576 12.1532 1.71131 12.2887C1.84679 12.424 2.03043 12.5 2.2219 12.5C2.41338 12.5 2.59702 12.424 2.7325 12.2887L6.99067 8.03052L11.2488 12.2887C11.3843 12.424 11.568 12.5 11.7594 12.5C11.9509 12.5 12.1346 12.424 12.27 12.2887C12.4053 12.1532 12.4813 11.9696 12.4813 11.7781C12.4813 11.5866 12.4053 11.403 12.27 11.2675L8.01186 7.00933Z",
   fill: "currentColor"
 }, null, -1);
-var _hoisted_2$$ = [_hoisted_1$15];
+var _hoisted_2$10 = [_hoisted_1$16];
 function render$v(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("svg", mergeProps({
     width: "14",
@@ -18915,7 +19393,7 @@ function render$v(_ctx, _cache, $props, $setup, $data, $options) {
     viewBox: "0 0 14 14",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg"
-  }, _ctx.pti()), _hoisted_2$$, 16);
+  }, _ctx.pti()), _hoisted_2$10, 16);
 }
 script$w.render = render$v;
 var OverlayEventBus = primebus();
@@ -19236,8 +19714,8 @@ var script$u = {
     isBoth: function isBoth() {
       return this.orientation === "both";
     },
-    scrollTo: function scrollTo(options3) {
-      this.element && this.element.scrollTo(options3);
+    scrollTo: function scrollTo(options4) {
+      this.element && this.element.scrollTo(options4);
     },
     scrollToIndex: function scrollToIndex(index2) {
       var _this = this;
@@ -19562,7 +20040,7 @@ var script$u = {
     },
     onScrollPositionChange: function onScrollPositionChange(event2) {
       var _this8 = this;
-      var target = event2.target;
+      var target2 = event2.target;
       var both = this.isBoth();
       var horizontal = this.isHorizontal();
       var contentPos = this.getContentPosition();
@@ -19588,8 +20066,8 @@ var script$u = {
         }
         return _this8.getLast(lastValue, _isCols);
       };
-      var scrollTop = calculateScrollPos(target.scrollTop, contentPos.top);
-      var scrollLeft = calculateScrollPos(target.scrollLeft, contentPos.left);
+      var scrollTop = calculateScrollPos(target2.scrollTop, contentPos.top);
+      var scrollLeft = calculateScrollPos(target2.scrollLeft, contentPos.left);
       var newFirst = both ? {
         rows: 0,
         cols: 0
@@ -19729,7 +20207,7 @@ var script$u = {
         this.resizeListener = null;
       }
     },
-    getOptions: function getOptions(renderedIndex) {
+    getOptions: function getOptions2(renderedIndex) {
       var count = (this.items || []).length;
       var index2 = this.isBoth() ? this.first.rows + renderedIndex : this.first + renderedIndex;
       return {
@@ -19818,7 +20296,7 @@ var script$u = {
     SpinnerIcon: script$N
   }
 };
-var _hoisted_1$14 = ["tabindex"];
+var _hoisted_1$15 = ["tabindex"];
 function render$t(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_SpinnerIcon = resolveComponent("SpinnerIcon");
   return !_ctx.disabled ? (openBlock(), createElementBlock("div", mergeProps({
@@ -19878,7 +20356,7 @@ function render$t(_ctx, _cache, $props, $setup, $data, $options) {
       spin: "",
       "class": "p-virtualscroller-loading-icon"
     }, _ctx.ptm("loadingIcon")), null, 16)];
-  })], 16)) : createCommentVNode("", true)], 16, _hoisted_1$14)) : (openBlock(), createElementBlock(Fragment, {
+  })], 16)) : createCommentVNode("", true)], 16, _hoisted_1$15)) : (openBlock(), createElementBlock(Fragment, {
     key: 1
   }, [renderSlot(_ctx.$slots, "default"), renderSlot(_ctx.$slots, "content", {
     items: _ctx.items,
@@ -19888,7 +20366,7 @@ function render$t(_ctx, _cache, $props, $setup, $data, $options) {
 }
 script$u.render = render$t;
 var classes$7 = {
-  root: function root7(_ref) {
+  root: function root8(_ref) {
     var instance = _ref.instance, props = _ref.props, state = _ref.state;
     return ["p-dropdown p-component p-inputwrapper", {
       "p-disabled": props.disabled,
@@ -20252,7 +20730,7 @@ var script$t = {
     modelValue: function modelValue() {
       this.isModelValueChanged = true;
     },
-    options: function options() {
+    options: function options2() {
       this.autoUpdateModel();
     }
   },
@@ -20569,9 +21047,9 @@ var script$t = {
     onEndKey: function onEndKey3(event2) {
       var pressedInInputText = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : false;
       if (pressedInInputText) {
-        var target = event2.currentTarget;
-        var len = target.value.length;
-        target.setSelectionRange(len, len);
+        var target2 = event2.currentTarget;
+        var len = target2.value.length;
+        target2.setSelectionRange(len, len);
         this.focusedOptionIndex = -1;
       } else {
         this.changeFocusedOptionIndex(event2, this.findLastOptionIndex());
@@ -20863,9 +21341,9 @@ var script$t = {
         value: value2
       });
     },
-    flatOptions: function flatOptions(options3) {
+    flatOptions: function flatOptions(options4) {
       var _this14 = this;
-      return (options3 || []).reduce(function(result, option, index2) {
+      return (options4 || []).reduce(function(result, option, index2) {
         result.push({
           optionGroup: option,
           group: true,
@@ -20892,9 +21370,9 @@ var script$t = {
   computed: {
     visibleOptions: function visibleOptions() {
       var _this15 = this;
-      var options3 = this.optionGroupLabel ? this.flatOptions(this.options) : this.options || [];
+      var options4 = this.optionGroupLabel ? this.flatOptions(this.options) : this.options || [];
       if (this.filterValue) {
-        var filteredOptions = FilterService.filter(options3, this.searchFields, this.filterValue, this.filterMatchMode, this.filterLocale);
+        var filteredOptions = FilterService.filter(options4, this.searchFields, this.filterValue, this.filterMatchMode, this.filterLocale);
         if (this.optionGroupLabel) {
           var optionGroups = this.options || [];
           var filtered = [];
@@ -20910,7 +21388,7 @@ var script$t = {
         }
         return filteredOptions;
       }
-      return options3;
+      return options4;
     },
     hasSelectedOption: function hasSelectedOption() {
       return ObjectUtils.isNotEmpty(this.modelValue);
@@ -21031,13 +21509,13 @@ function _toPrimitive$e(t, r) {
   }
   return ("string" === r ? String : Number)(t);
 }
-var _hoisted_1$13 = ["id"];
-var _hoisted_2$_ = ["id", "value", "placeholder", "tabindex", "disabled", "aria-label", "aria-labelledby", "aria-expanded", "aria-controls", "aria-activedescendant"];
-var _hoisted_3$a = ["id", "tabindex", "aria-label", "aria-labelledby", "aria-expanded", "aria-controls", "aria-activedescendant", "aria-disabled"];
-var _hoisted_4$c = ["value", "placeholder", "aria-owns", "aria-activedescendant"];
-var _hoisted_5$9 = ["id"];
-var _hoisted_6$8 = ["id"];
-var _hoisted_7$7 = ["id", "aria-label", "aria-selected", "aria-disabled", "aria-setsize", "aria-posinset", "onClick", "onMousemove", "data-p-highlight", "data-p-focused", "data-p-disabled"];
+var _hoisted_1$14 = ["id"];
+var _hoisted_2$$ = ["id", "value", "placeholder", "tabindex", "disabled", "aria-label", "aria-labelledby", "aria-expanded", "aria-controls", "aria-activedescendant"];
+var _hoisted_3$b = ["id", "tabindex", "aria-label", "aria-labelledby", "aria-expanded", "aria-controls", "aria-activedescendant", "aria-disabled"];
+var _hoisted_4$d = ["value", "placeholder", "aria-owns", "aria-activedescendant"];
+var _hoisted_5$a = ["id"];
+var _hoisted_6$9 = ["id"];
+var _hoisted_7$8 = ["id", "aria-label", "aria-selected", "aria-disabled", "aria-setsize", "aria-posinset", "onClick", "onMousemove", "data-p-highlight", "data-p-focused", "data-p-disabled"];
 function render$s(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_SpinnerIcon = resolveComponent("SpinnerIcon");
   var _component_CheckIcon = resolveComponent("CheckIcon");
@@ -21083,7 +21561,7 @@ function render$s(_ctx, _cache, $props, $setup, $data, $options) {
     onInput: _cache[3] || (_cache[3] = function() {
       return $options.onEditableInput && $options.onEditableInput.apply($options, arguments);
     })
-  }, _objectSpread$e(_objectSpread$e({}, _ctx.inputProps), _ctx.ptm("input"))), null, 16, _hoisted_2$_)) : (openBlock(), createElementBlock("span", mergeProps({
+  }, _objectSpread$e(_objectSpread$e({}, _ctx.inputProps), _ctx.ptm("input"))), null, 16, _hoisted_2$$)) : (openBlock(), createElementBlock("span", mergeProps({
     key: 1,
     ref: "focusInput",
     id: _ctx.inputId,
@@ -21112,7 +21590,7 @@ function render$s(_ctx, _cache, $props, $setup, $data, $options) {
     placeholder: _ctx.placeholder
   }, function() {
     return [createTextVNode(toDisplayString($options.label === "p-emptylabel" ? " " : $options.label || "empty"), 1)];
-  })], 16, _hoisted_3$a)), _ctx.showClear && _ctx.modelValue != null ? renderSlot(_ctx.$slots, "clearicon", {
+  })], 16, _hoisted_3$b)), _ctx.showClear && _ctx.modelValue != null ? renderSlot(_ctx.$slots, "clearicon", {
     key: 2,
     "class": normalizeClass(_ctx.cx("clearIcon")),
     onClick: $options.onClearClick,
@@ -21217,7 +21695,7 @@ function render$s(_ctx, _cache, $props, $setup, $data, $options) {
             onInput: _cache[12] || (_cache[12] = function() {
               return $options.onFilterChange && $options.onFilterChange.apply($options, arguments);
             })
-          }, _objectSpread$e(_objectSpread$e({}, _ctx.filterInputProps), _ctx.ptm("filterInput"))), null, 16, _hoisted_4$c), renderSlot(_ctx.$slots, "filtericon", {
+          }, _objectSpread$e(_objectSpread$e({}, _ctx.filterInputProps), _ctx.ptm("filterInput"))), null, 16, _hoisted_4$d), renderSlot(_ctx.$slots, "filtericon", {
             "class": normalizeClass(_ctx.cx("filterIcon"))
           }, function() {
             return [(openBlock(), createBlock(resolveDynamicComponent(_ctx.filterIcon ? "span" : "SearchIcon"), mergeProps({
@@ -21273,7 +21751,7 @@ function render$s(_ctx, _cache, $props, $setup, $data, $options) {
                   return [createBaseVNode("span", mergeProps({
                     "class": _ctx.cx("itemGroupLabel")
                   }, _ctx.ptm("itemGroupLabel")), toDisplayString($options.getOptionGroupLabel(option.optionGroup)), 17)];
-                })], 16, _hoisted_6$8)) : withDirectives((openBlock(), createElementBlock("li", mergeProps({
+                })], 16, _hoisted_6$9)) : withDirectives((openBlock(), createElementBlock("li", mergeProps({
                   key: 1,
                   id: $data.id + "_" + $options.getOptionIndex(i, getItemOptions),
                   "class": _ctx.cx("item", {
@@ -21313,7 +21791,7 @@ function render$s(_ctx, _cache, $props, $setup, $data, $options) {
                   return [createBaseVNode("span", mergeProps({
                     "class": _ctx.cx("itemLabel")
                   }, _ctx.ptm("itemLabel")), toDisplayString($options.getOptionLabel(option)), 17)];
-                })], 16, _hoisted_7$7)), [[_directive_ripple]])], 64);
+                })], 16, _hoisted_7$8)), [[_directive_ripple]])], 64);
               }), 128)), $data.filterValue && (!items2 || items2 && items2.length === 0) ? (openBlock(), createElementBlock("li", mergeProps({
                 key: 0,
                 "class": _ctx.cx("emptyMessage"),
@@ -21330,15 +21808,15 @@ function render$s(_ctx, _cache, $props, $setup, $data, $options) {
                 "data-p-hidden-accessible": true
               }), [renderSlot(_ctx.$slots, "empty", {}, function() {
                 return [createTextVNode(toDisplayString($options.emptyMessageText), 1)];
-              })], 16)) : createCommentVNode("", true)], 16, _hoisted_5$9)];
+              })], 16)) : createCommentVNode("", true)], 16, _hoisted_5$a)];
             }),
             _: 2
           }, [_ctx.$slots.loader ? {
             name: "loader",
             fn: withCtx(function(_ref2) {
-              var options3 = _ref2.options;
+              var options4 = _ref2.options;
               return [renderSlot(_ctx.$slots, "loader", {
-                options: options3
+                options: options4
               })];
             }),
             key: "0"
@@ -21376,18 +21854,18 @@ function render$s(_ctx, _cache, $props, $setup, $data, $options) {
       }, 16, ["onEnter", "onAfterEnter", "onLeave", "onAfterLeave"])];
     }),
     _: 3
-  }, 8, ["appendTo"])], 16, _hoisted_1$13);
+  }, 8, ["appendTo"])], 16, _hoisted_1$14);
 }
 script$t.render = render$s;
 var script$s = {
   name: "AngleUpIcon",
   "extends": script$T
 };
-var _hoisted_1$12 = /* @__PURE__ */ createBaseVNode("path", {
+var _hoisted_1$13 = /* @__PURE__ */ createBaseVNode("path", {
   d: "M10.4134 9.49931C10.3148 9.49977 10.2172 9.48055 10.1262 9.44278C10.0352 9.405 9.95263 9.34942 9.88338 9.27931L6.88338 6.27931L3.88338 9.27931C3.73811 9.34946 3.57409 9.3709 3.41567 9.34044C3.25724 9.30999 3.11286 9.22926 3.00395 9.11025C2.89504 8.99124 2.82741 8.84028 2.8111 8.67978C2.79478 8.51928 2.83065 8.35781 2.91338 8.21931L6.41338 4.71931C6.55401 4.57886 6.74463 4.49997 6.94338 4.49997C7.14213 4.49997 7.33276 4.57886 7.47338 4.71931L10.9734 8.21931C11.1138 8.35994 11.1927 8.55056 11.1927 8.74931C11.1927 8.94806 11.1138 9.13868 10.9734 9.27931C10.9007 9.35315 10.8132 9.41089 10.7168 9.44879C10.6203 9.48669 10.5169 9.5039 10.4134 9.49931Z",
   fill: "currentColor"
 }, null, -1);
-var _hoisted_2$Z = [_hoisted_1$12];
+var _hoisted_2$_ = [_hoisted_1$13];
 function render$r(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("svg", mergeProps({
     width: "14",
@@ -21395,11 +21873,11 @@ function render$r(_ctx, _cache, $props, $setup, $data, $options) {
     viewBox: "0 0 14 14",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg"
-  }, _ctx.pti()), _hoisted_2$Z, 16);
+  }, _ctx.pti()), _hoisted_2$_, 16);
 }
 script$s.render = render$r;
 var classes$6 = {
-  root: function root8(_ref) {
+  root: function root9(_ref) {
     var instance = _ref.instance, props = _ref.props;
     return ["p-inputtext p-component", {
       "p-filled": instance.filled,
@@ -21462,7 +21940,7 @@ var script$r = {
     }
   }
 };
-var _hoisted_1$11 = ["value"];
+var _hoisted_1$12 = ["value"];
 function render$q(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("input", mergeProps({
     "class": _ctx.cx("root"),
@@ -21470,11 +21948,11 @@ function render$q(_ctx, _cache, $props, $setup, $data, $options) {
     onInput: _cache[0] || (_cache[0] = function() {
       return $options.onInput && $options.onInput.apply($options, arguments);
     })
-  }, $options.getPTOptions("root")), null, 16, _hoisted_1$11);
+  }, $options.getPTOptions("root")), null, 16, _hoisted_1$12);
 }
 script$r.render = render$q;
 var classes$5 = {
-  root: function root9(_ref) {
+  root: function root10(_ref) {
     var instance = _ref.instance, props = _ref.props;
     return ["p-inputnumber p-component p-inputwrapper", {
       "p-inputwrapper-filled": instance.filled || props.allowEmpty === false,
@@ -21823,7 +22301,7 @@ var script$q = {
     this.constructParser();
   },
   methods: {
-    getOptions: function getOptions2() {
+    getOptions: function getOptions3() {
       return {
         localeMatcher: this.localeMatcher,
         style: this.mode,
@@ -22714,13 +23192,13 @@ var script$p = {
   name: "AngleDoubleRightIcon",
   "extends": script$T
 };
-var _hoisted_1$10 = /* @__PURE__ */ createBaseVNode("path", {
+var _hoisted_1$11 = /* @__PURE__ */ createBaseVNode("path", {
   "fill-rule": "evenodd",
   "clip-rule": "evenodd",
   d: "M7.68757 11.1451C7.7791 11.1831 7.8773 11.2024 7.9764 11.2019C8.07769 11.1985 8.17721 11.1745 8.26886 11.1312C8.36052 11.088 8.44238 11.0265 8.50943 10.9505L12.0294 7.49085C12.1707 7.34942 12.25 7.15771 12.25 6.95782C12.25 6.75794 12.1707 6.56622 12.0294 6.42479L8.50943 2.90479C8.37014 2.82159 8.20774 2.78551 8.04633 2.80192C7.88491 2.81833 7.73309 2.88635 7.6134 2.99588C7.4937 3.10541 7.41252 3.25061 7.38189 3.40994C7.35126 3.56927 7.37282 3.73423 7.44337 3.88033L10.4605 6.89748L7.44337 9.91463C7.30212 10.0561 7.22278 10.2478 7.22278 10.4477C7.22278 10.6475 7.30212 10.8393 7.44337 10.9807C7.51301 11.0512 7.59603 11.1071 7.68757 11.1451ZM1.94207 10.9505C2.07037 11.0968 2.25089 11.1871 2.44493 11.2019C2.63898 11.1871 2.81949 11.0968 2.94779 10.9505L6.46779 7.49085C6.60905 7.34942 6.68839 7.15771 6.68839 6.95782C6.68839 6.75793 6.60905 6.56622 6.46779 6.42479L2.94779 2.90479C2.80704 2.83757 2.6489 2.81563 2.49517 2.84201C2.34143 2.86839 2.19965 2.94178 2.08936 3.05207C1.97906 3.16237 1.90567 3.30415 1.8793 3.45788C1.85292 3.61162 1.87485 3.76975 1.94207 3.9105L4.95922 6.92765L1.94207 9.9448C1.81838 10.0831 1.75 10.2621 1.75 10.4477C1.75 10.6332 1.81838 10.8122 1.94207 10.9505Z",
   fill: "currentColor"
 }, null, -1);
-var _hoisted_2$Y = [_hoisted_1$10];
+var _hoisted_2$Z = [_hoisted_1$11];
 function render$o(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("svg", mergeProps({
     width: "14",
@@ -22728,18 +23206,18 @@ function render$o(_ctx, _cache, $props, $setup, $data, $options) {
     viewBox: "0 0 14 14",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg"
-  }, _ctx.pti()), _hoisted_2$Y, 16);
+  }, _ctx.pti()), _hoisted_2$Z, 16);
 }
 script$p.render = render$o;
 var script$o = {
   name: "AngleLeftIcon",
   "extends": script$T
 };
-var _hoisted_1$$ = /* @__PURE__ */ createBaseVNode("path", {
+var _hoisted_1$10 = /* @__PURE__ */ createBaseVNode("path", {
   d: "M8.75 11.185C8.65146 11.1854 8.55381 11.1662 8.4628 11.1284C8.37179 11.0906 8.28924 11.0351 8.22 10.965L4.72 7.46496C4.57955 7.32433 4.50066 7.13371 4.50066 6.93496C4.50066 6.73621 4.57955 6.54558 4.72 6.40496L8.22 2.93496C8.36095 2.84357 8.52851 2.80215 8.69582 2.81733C8.86312 2.83252 9.02048 2.90344 9.14268 3.01872C9.26487 3.134 9.34483 3.28696 9.36973 3.4531C9.39463 3.61924 9.36303 3.78892 9.28 3.93496L6.28 6.93496L9.28 9.93496C9.42045 10.0756 9.49934 10.2662 9.49934 10.465C9.49934 10.6637 9.42045 10.8543 9.28 10.995C9.13526 11.1257 8.9448 11.1939 8.75 11.185Z",
   fill: "currentColor"
 }, null, -1);
-var _hoisted_2$X = [_hoisted_1$$];
+var _hoisted_2$Y = [_hoisted_1$10];
 function render$n(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("svg", mergeProps({
     width: "14",
@@ -22747,7 +23225,7 @@ function render$n(_ctx, _cache, $props, $setup, $data, $options) {
     viewBox: "0 0 14 14",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg"
-  }, _ctx.pti()), _hoisted_2$X, 16);
+  }, _ctx.pti()), _hoisted_2$Y, 16);
 }
 script$o.render = render$n;
 var script$a$1 = {
@@ -23099,7 +23577,7 @@ var script$3$2 = {
     ripple: Ripple
   }
 };
-var _hoisted_1$_ = ["aria-label", "aria-current", "onClick", "data-p-highlight"];
+var _hoisted_1$$ = ["aria-label", "aria-current", "onClick", "data-p-highlight"];
 function render$3$2(_ctx, _cache, $props, $setup, $data, $options) {
   var _directive_ripple = resolveDirective("ripple");
   return openBlock(), createElementBlock("span", mergeProps({
@@ -23118,7 +23596,7 @@ function render$3$2(_ctx, _cache, $props, $setup, $data, $options) {
       }
     }, $options.getPTOptions(pageLink - 1, "pageButton"), {
       "data-p-highlight": pageLink - 1 === $props.page
-    }), [createTextVNode(toDisplayString(pageLink), 1)], 16, _hoisted_1$_)), [[_directive_ripple]]);
+    }), [createTextVNode(toDisplayString(pageLink), 1)], 16, _hoisted_1$$)), [[_directive_ripple]]);
   }), 128))], 16);
 }
 script$3$2.render = render$3$2;
@@ -23633,7 +24111,7 @@ function render$m(_ctx, _cache, $props, $setup, $data, $options) {
 }
 script$n.render = render$m;
 var classes$4 = {
-  root: function root10(_ref) {
+  root: function root11(_ref) {
     var instance = _ref.instance, props = _ref.props;
     return ["p-datatable p-component", {
       "p-datatable-hoverable-rows": props.rowHover || props.selectionMode,
@@ -23823,11 +24301,11 @@ var script$m = {
   name: "PencilIcon",
   "extends": script$T
 };
-var _hoisted_1$Z = /* @__PURE__ */ createBaseVNode("path", {
+var _hoisted_1$_ = /* @__PURE__ */ createBaseVNode("path", {
   d: "M0.609628 13.959C0.530658 13.9599 0.452305 13.9451 0.379077 13.9156C0.305849 13.8861 0.239191 13.8424 0.18294 13.787C0.118447 13.7234 0.0688234 13.6464 0.0376166 13.5614C0.00640987 13.4765 -0.00560954 13.3857 0.00241768 13.2956L0.25679 10.1501C0.267698 10.0041 0.331934 9.86709 0.437312 9.76516L9.51265 0.705715C10.0183 0.233014 10.6911 -0.0203041 11.3835 0.00127367C12.0714 0.00660201 12.7315 0.27311 13.2298 0.746671C13.7076 1.23651 13.9824 1.88848 13.9992 2.57201C14.0159 3.25554 13.7733 3.92015 13.32 4.4327L4.23648 13.5331C4.13482 13.6342 4.0017 13.6978 3.85903 13.7133L0.667067 14L0.609628 13.959ZM1.43018 10.4696L1.25787 12.714L3.50619 12.5092L12.4502 3.56444C12.6246 3.35841 12.7361 3.10674 12.7714 2.83933C12.8067 2.57193 12.7644 2.30002 12.6495 2.05591C12.5346 1.8118 12.3519 1.60575 12.1231 1.46224C11.8943 1.31873 11.6291 1.2438 11.3589 1.24633C11.1813 1.23508 11.0033 1.25975 10.8355 1.31887C10.6677 1.37798 10.5136 1.47033 10.3824 1.59036L1.43018 10.4696Z",
   fill: "currentColor"
 }, null, -1);
-var _hoisted_2$W = [_hoisted_1$Z];
+var _hoisted_2$X = [_hoisted_1$_];
 function render$l(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("svg", mergeProps({
     width: "14",
@@ -23835,11 +24313,11 @@ function render$l(_ctx, _cache, $props, $setup, $data, $options) {
     viewBox: "0 0 14 14",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg"
-  }, _ctx.pti()), _hoisted_2$W, 16);
+  }, _ctx.pti()), _hoisted_2$X, 16);
 }
 script$m.render = render$l;
 var classes$3 = {
-  root: function root11(_ref) {
+  root: function root12(_ref) {
     var instance = _ref.instance, props = _ref.props;
     return ["p-radiobutton p-component", {
       "p-highlight": instance.checked,
@@ -23948,8 +24426,8 @@ var script$l = {
     }
   }
 };
-var _hoisted_1$Y = ["data-p-highlight", "data-p-disabled"];
-var _hoisted_2$V = ["id", "value", "name", "checked", "tabindex", "disabled", "readonly", "aria-labelledby", "aria-label"];
+var _hoisted_1$Z = ["data-p-highlight", "data-p-disabled"];
+var _hoisted_2$W = ["id", "value", "name", "checked", "tabindex", "disabled", "readonly", "aria-labelledby", "aria-label"];
 function render$k(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("div", mergeProps({
     "class": _ctx.cx("root")
@@ -23978,11 +24456,11 @@ function render$k(_ctx, _cache, $props, $setup, $data, $options) {
     onChange: _cache[2] || (_cache[2] = function() {
       return $options.onChange && $options.onChange.apply($options, arguments);
     })
-  }, $options.getPTOptions("input")), null, 16, _hoisted_2$V), createBaseVNode("div", mergeProps({
+  }, $options.getPTOptions("input")), null, 16, _hoisted_2$W), createBaseVNode("div", mergeProps({
     "class": _ctx.cx("box")
   }, $options.getPTOptions("box")), [createBaseVNode("div", mergeProps({
     "class": _ctx.cx("icon")
-  }, $options.getPTOptions("icon")), null, 16)], 16)], 16, _hoisted_1$Y);
+  }, $options.getPTOptions("icon")), null, 16)], 16)], 16, _hoisted_1$Z);
 }
 script$l.render = render$k;
 var FocusTrapStyle = {};
@@ -24097,9 +24575,9 @@ var FocusTrap = BaseFocusTrap.extend("focustrap", {
       el.$_pfocustrap_focusinlistener && el.removeEventListener("focusin", el.$_pfocustrap_focusinlistener) && (el.$_pfocustrap_focusinlistener = null);
       el.$_pfocustrap_focusoutlistener && el.removeEventListener("focusout", el.$_pfocustrap_focusoutlistener) && (el.$_pfocustrap_focusoutlistener = null);
     },
-    autoFocus: function autoFocus(options3) {
+    autoFocus: function autoFocus(options4) {
       this.autoElementFocus(this.$el, {
-        value: _objectSpread$c(_objectSpread$c({}, options3), {}, {
+        value: _objectSpread$c(_objectSpread$c({}, options4), {}, {
           autoFocus: true
         })
       });
@@ -24153,12 +24631,33 @@ var script$k = {
   name: "FilterIcon",
   "extends": script$T
 };
-var _hoisted_1$X = /* @__PURE__ */ createBaseVNode("path", {
+var _hoisted_1$Y = /* @__PURE__ */ createBaseVNode("path", {
   d: "M8.64708 14H5.35296C5.18981 13.9979 5.03395 13.9321 4.91858 13.8167C4.8032 13.7014 4.73745 13.5455 4.73531 13.3824V7L0.329431 0.98C0.259794 0.889466 0.217389 0.780968 0.20718 0.667208C0.19697 0.553448 0.219379 0.439133 0.271783 0.337647C0.324282 0.236453 0.403423 0.151519 0.500663 0.0920138C0.597903 0.0325088 0.709548 0.000692754 0.823548 0H13.1765C13.2905 0.000692754 13.4021 0.0325088 13.4994 0.0920138C13.5966 0.151519 13.6758 0.236453 13.7283 0.337647C13.7807 0.439133 13.8031 0.553448 13.7929 0.667208C13.7826 0.780968 13.7402 0.889466 13.6706 0.98L9.26472 7V13.3824C9.26259 13.5455 9.19683 13.7014 9.08146 13.8167C8.96609 13.9321 8.81022 13.9979 8.64708 14ZM5.97061 12.7647H8.02943V6.79412C8.02878 6.66289 8.07229 6.53527 8.15296 6.43177L11.9412 1.23529H2.05884L5.86355 6.43177C5.94422 6.53527 5.98773 6.66289 5.98708 6.79412L5.97061 12.7647Z",
   fill: "currentColor"
 }, null, -1);
-var _hoisted_2$U = [_hoisted_1$X];
+var _hoisted_2$V = [_hoisted_1$Y];
 function render$j(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("svg", mergeProps({
+    width: "14",
+    height: "14",
+    viewBox: "0 0 14 14",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg"
+  }, _ctx.pti()), _hoisted_2$V, 16);
+}
+script$k.render = render$j;
+var script$j = {
+  name: "FilterSlashIcon",
+  "extends": script$T
+};
+var _hoisted_1$X = /* @__PURE__ */ createBaseVNode("path", {
+  "fill-rule": "evenodd",
+  "clip-rule": "evenodd",
+  d: "M13.4994 0.0920138C13.5967 0.151519 13.6758 0.236453 13.7283 0.337647C13.7807 0.439133 13.8031 0.553448 13.7929 0.667208C13.7827 0.780968 13.7403 0.889466 13.6707 0.98L11.406 4.06823C11.3099 4.19928 11.1656 4.28679 11.005 4.3115C10.8444 4.33621 10.6805 4.2961 10.5495 4.2C10.4184 4.1039 10.3309 3.95967 10.3062 3.79905C10.2815 3.63843 10.3216 3.47458 10.4177 3.34353L11.9412 1.23529H7.41184C7.24803 1.23529 7.09093 1.17022 6.97509 1.05439C6.85926 0.938558 6.79419 0.781457 6.79419 0.617647C6.79419 0.453837 6.85926 0.296736 6.97509 0.180905C7.09093 0.0650733 7.24803 0 7.41184 0H13.1765C13.2905 0.000692754 13.4022 0.0325088 13.4994 0.0920138ZM4.20008 0.181168H4.24126L13.2013 9.03411C13.3169 9.14992 13.3819 9.3069 13.3819 9.47058C13.3819 9.63426 13.3169 9.79124 13.2013 9.90705C13.1445 9.96517 13.0766 10.0112 13.0016 10.0423C12.9266 10.0735 12.846 10.0891 12.7648 10.0882C12.6836 10.0886 12.6032 10.0728 12.5283 10.0417C12.4533 10.0106 12.3853 9.96479 12.3283 9.90705L9.3142 6.92587L9.26479 6.99999V13.3823C9.26265 13.5455 9.19689 13.7014 9.08152 13.8167C8.96615 13.9321 8.81029 13.9979 8.64714 14H5.35302C5.18987 13.9979 5.03401 13.9321 4.91864 13.8167C4.80327 13.7014 4.73751 13.5455 4.73537 13.3823V6.99999L0.329492 1.02117C0.259855 0.930634 0.21745 0.822137 0.207241 0.708376C0.197031 0.594616 0.21944 0.480301 0.271844 0.378815C0.324343 0.277621 0.403484 0.192687 0.500724 0.133182C0.597964 0.073677 0.709609 0.041861 0.823609 0.0411682H3.86243C3.92448 0.0461551 3.9855 0.060022 4.04361 0.0823446C4.10037 0.10735 4.15311 0.140655 4.20008 0.181168ZM8.02949 6.79411C8.02884 6.66289 8.07235 6.53526 8.15302 6.43176L8.42478 6.05293L3.55773 1.23529H2.0589L5.84714 6.43176C5.92781 6.53526 5.97132 6.66289 5.97067 6.79411V12.7647H8.02949V6.79411Z",
+  fill: "currentColor"
+}, null, -1);
+var _hoisted_2$U = [_hoisted_1$X];
+function render$i(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("svg", mergeProps({
     width: "14",
     height: "14",
@@ -24167,19 +24666,17 @@ function render$j(_ctx, _cache, $props, $setup, $data, $options) {
     xmlns: "http://www.w3.org/2000/svg"
   }, _ctx.pti()), _hoisted_2$U, 16);
 }
-script$k.render = render$j;
-var script$j = {
-  name: "FilterSlashIcon",
+script$j.render = render$i;
+var script$i = {
+  name: "PlusIcon",
   "extends": script$T
 };
 var _hoisted_1$W = /* @__PURE__ */ createBaseVNode("path", {
-  "fill-rule": "evenodd",
-  "clip-rule": "evenodd",
-  d: "M13.4994 0.0920138C13.5967 0.151519 13.6758 0.236453 13.7283 0.337647C13.7807 0.439133 13.8031 0.553448 13.7929 0.667208C13.7827 0.780968 13.7403 0.889466 13.6707 0.98L11.406 4.06823C11.3099 4.19928 11.1656 4.28679 11.005 4.3115C10.8444 4.33621 10.6805 4.2961 10.5495 4.2C10.4184 4.1039 10.3309 3.95967 10.3062 3.79905C10.2815 3.63843 10.3216 3.47458 10.4177 3.34353L11.9412 1.23529H7.41184C7.24803 1.23529 7.09093 1.17022 6.97509 1.05439C6.85926 0.938558 6.79419 0.781457 6.79419 0.617647C6.79419 0.453837 6.85926 0.296736 6.97509 0.180905C7.09093 0.0650733 7.24803 0 7.41184 0H13.1765C13.2905 0.000692754 13.4022 0.0325088 13.4994 0.0920138ZM4.20008 0.181168H4.24126L13.2013 9.03411C13.3169 9.14992 13.3819 9.3069 13.3819 9.47058C13.3819 9.63426 13.3169 9.79124 13.2013 9.90705C13.1445 9.96517 13.0766 10.0112 13.0016 10.0423C12.9266 10.0735 12.846 10.0891 12.7648 10.0882C12.6836 10.0886 12.6032 10.0728 12.5283 10.0417C12.4533 10.0106 12.3853 9.96479 12.3283 9.90705L9.3142 6.92587L9.26479 6.99999V13.3823C9.26265 13.5455 9.19689 13.7014 9.08152 13.8167C8.96615 13.9321 8.81029 13.9979 8.64714 14H5.35302C5.18987 13.9979 5.03401 13.9321 4.91864 13.8167C4.80327 13.7014 4.73751 13.5455 4.73537 13.3823V6.99999L0.329492 1.02117C0.259855 0.930634 0.21745 0.822137 0.207241 0.708376C0.197031 0.594616 0.21944 0.480301 0.271844 0.378815C0.324343 0.277621 0.403484 0.192687 0.500724 0.133182C0.597964 0.073677 0.709609 0.041861 0.823609 0.0411682H3.86243C3.92448 0.0461551 3.9855 0.060022 4.04361 0.0823446C4.10037 0.10735 4.15311 0.140655 4.20008 0.181168ZM8.02949 6.79411C8.02884 6.66289 8.07235 6.53526 8.15302 6.43176L8.42478 6.05293L3.55773 1.23529H2.0589L5.84714 6.43176C5.92781 6.53526 5.97132 6.66289 5.97067 6.79411V12.7647H8.02949V6.79411Z",
+  d: "M7.67742 6.32258V0.677419C7.67742 0.497757 7.60605 0.325452 7.47901 0.198411C7.35197 0.0713707 7.17966 0 7 0C6.82034 0 6.64803 0.0713707 6.52099 0.198411C6.39395 0.325452 6.32258 0.497757 6.32258 0.677419V6.32258H0.677419C0.497757 6.32258 0.325452 6.39395 0.198411 6.52099C0.0713707 6.64803 0 6.82034 0 7C0 7.17966 0.0713707 7.35197 0.198411 7.47901C0.325452 7.60605 0.497757 7.67742 0.677419 7.67742H6.32258V13.3226C6.32492 13.5015 6.39704 13.6725 6.52358 13.799C6.65012 13.9255 6.82106 13.9977 7 14C7.17966 14 7.35197 13.9286 7.47901 13.8016C7.60605 13.6745 7.67742 13.5022 7.67742 13.3226V7.67742H13.3226C13.5022 7.67742 13.6745 7.60605 13.8016 7.47901C13.9286 7.35197 14 7.17966 14 7C13.9977 6.82106 13.9255 6.65012 13.799 6.52358C13.6725 6.39704 13.5015 6.32492 13.3226 6.32258H7.67742Z",
   fill: "currentColor"
 }, null, -1);
 var _hoisted_2$T = [_hoisted_1$W];
-function render$i(_ctx, _cache, $props, $setup, $data, $options) {
+function render$h(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("svg", mergeProps({
     width: "14",
     height: "14",
@@ -24188,17 +24685,19 @@ function render$i(_ctx, _cache, $props, $setup, $data, $options) {
     xmlns: "http://www.w3.org/2000/svg"
   }, _ctx.pti()), _hoisted_2$T, 16);
 }
-script$j.render = render$i;
-var script$i = {
-  name: "PlusIcon",
+script$i.render = render$h;
+var script$h = {
+  name: "TrashIcon",
   "extends": script$T
 };
 var _hoisted_1$V = /* @__PURE__ */ createBaseVNode("path", {
-  d: "M7.67742 6.32258V0.677419C7.67742 0.497757 7.60605 0.325452 7.47901 0.198411C7.35197 0.0713707 7.17966 0 7 0C6.82034 0 6.64803 0.0713707 6.52099 0.198411C6.39395 0.325452 6.32258 0.497757 6.32258 0.677419V6.32258H0.677419C0.497757 6.32258 0.325452 6.39395 0.198411 6.52099C0.0713707 6.64803 0 6.82034 0 7C0 7.17966 0.0713707 7.35197 0.198411 7.47901C0.325452 7.60605 0.497757 7.67742 0.677419 7.67742H6.32258V13.3226C6.32492 13.5015 6.39704 13.6725 6.52358 13.799C6.65012 13.9255 6.82106 13.9977 7 14C7.17966 14 7.35197 13.9286 7.47901 13.8016C7.60605 13.6745 7.67742 13.5022 7.67742 13.3226V7.67742H13.3226C13.5022 7.67742 13.6745 7.60605 13.8016 7.47901C13.9286 7.35197 14 7.17966 14 7C13.9977 6.82106 13.9255 6.65012 13.799 6.52358C13.6725 6.39704 13.5015 6.32492 13.3226 6.32258H7.67742Z",
+  "fill-rule": "evenodd",
+  "clip-rule": "evenodd",
+  d: "M3.44802 13.9955H10.552C10.8056 14.0129 11.06 13.9797 11.3006 13.898C11.5412 13.8163 11.7632 13.6877 11.9537 13.5196C12.1442 13.3515 12.2995 13.1473 12.4104 12.9188C12.5213 12.6903 12.5858 12.442 12.6 12.1884V4.36041H13.4C13.5591 4.36041 13.7117 4.29722 13.8243 4.18476C13.9368 4.07229 14 3.91976 14 3.76071C14 3.60166 13.9368 3.44912 13.8243 3.33666C13.7117 3.22419 13.5591 3.16101 13.4 3.16101H12.0537C12.0203 3.1557 11.9863 3.15299 11.952 3.15299C11.9178 3.15299 11.8838 3.1557 11.8503 3.16101H11.2285C11.2421 3.10893 11.2487 3.05513 11.248 3.00106V1.80966C11.2171 1.30262 10.9871 0.828306 10.608 0.48989C10.229 0.151475 9.73159 -0.0236625 9.22402 0.00257442H4.77602C4.27251 -0.0171866 3.78126 0.160868 3.40746 0.498617C3.03365 0.836366 2.807 1.30697 2.77602 1.80966V3.00106C2.77602 3.0556 2.78346 3.10936 2.79776 3.16101H0.6C0.521207 3.16101 0.443185 3.17652 0.37039 3.20666C0.297595 3.2368 0.231451 3.28097 0.175736 3.33666C0.120021 3.39235 0.0758251 3.45846 0.0456722 3.53121C0.0155194 3.60397 0 3.68196 0 3.76071C0 3.83946 0.0155194 3.91744 0.0456722 3.9902C0.0758251 4.06296 0.120021 4.12907 0.175736 4.18476C0.231451 4.24045 0.297595 4.28462 0.37039 4.31476C0.443185 4.3449 0.521207 4.36041 0.6 4.36041H1.40002V12.1884C1.41426 12.442 1.47871 12.6903 1.58965 12.9188C1.7006 13.1473 1.85582 13.3515 2.04633 13.5196C2.23683 13.6877 2.45882 13.8163 2.69944 13.898C2.94005 13.9797 3.1945 14.0129 3.44802 13.9955ZM2.60002 4.36041H11.304V12.1884C11.304 12.5163 10.952 12.7961 10.504 12.7961H3.40002C2.97602 12.7961 2.60002 12.5163 2.60002 12.1884V4.36041ZM3.95429 3.16101C3.96859 3.10936 3.97602 3.0556 3.97602 3.00106V1.80966C3.97602 1.48183 4.33602 1.20197 4.77602 1.20197H9.24802C9.66403 1.20197 10.048 1.48183 10.048 1.80966V3.00106C10.0473 3.05515 10.054 3.10896 10.0678 3.16101H3.95429ZM5.57571 10.997C5.41731 10.995 5.26597 10.9311 5.15395 10.8191C5.04193 10.7071 4.97808 10.5558 4.97601 10.3973V6.77517C4.97601 6.61612 5.0392 6.46359 5.15166 6.35112C5.26413 6.23866 5.41666 6.17548 5.57571 6.17548C5.73476 6.17548 5.8873 6.23866 5.99976 6.35112C6.11223 6.46359 6.17541 6.61612 6.17541 6.77517V10.3894C6.17647 10.4688 6.16174 10.5476 6.13208 10.6213C6.10241 10.695 6.05841 10.762 6.00261 10.8186C5.94682 10.8751 5.88035 10.92 5.80707 10.9506C5.73378 10.9813 5.65514 10.9971 5.57571 10.997ZM7.99968 10.8214C8.11215 10.9339 8.26468 10.997 8.42373 10.997C8.58351 10.9949 8.73604 10.93 8.84828 10.8163C8.96052 10.7025 9.02345 10.5491 9.02343 10.3894V6.77517C9.02343 6.61612 8.96025 6.46359 8.84778 6.35112C8.73532 6.23866 8.58278 6.17548 8.42373 6.17548C8.26468 6.17548 8.11215 6.23866 7.99968 6.35112C7.88722 6.46359 7.82404 6.61612 7.82404 6.77517V10.3973C7.82404 10.5564 7.88722 10.7089 7.99968 10.8214Z",
   fill: "currentColor"
 }, null, -1);
 var _hoisted_2$S = [_hoisted_1$V];
-function render$h(_ctx, _cache, $props, $setup, $data, $options) {
+function render$g(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("svg", mergeProps({
     width: "14",
     height: "14",
@@ -24207,49 +24706,28 @@ function render$h(_ctx, _cache, $props, $setup, $data, $options) {
     xmlns: "http://www.w3.org/2000/svg"
   }, _ctx.pti()), _hoisted_2$S, 16);
 }
-script$i.render = render$h;
-var script$h = {
-  name: "TrashIcon",
-  "extends": script$T
-};
-var _hoisted_1$U = /* @__PURE__ */ createBaseVNode("path", {
-  "fill-rule": "evenodd",
-  "clip-rule": "evenodd",
-  d: "M3.44802 13.9955H10.552C10.8056 14.0129 11.06 13.9797 11.3006 13.898C11.5412 13.8163 11.7632 13.6877 11.9537 13.5196C12.1442 13.3515 12.2995 13.1473 12.4104 12.9188C12.5213 12.6903 12.5858 12.442 12.6 12.1884V4.36041H13.4C13.5591 4.36041 13.7117 4.29722 13.8243 4.18476C13.9368 4.07229 14 3.91976 14 3.76071C14 3.60166 13.9368 3.44912 13.8243 3.33666C13.7117 3.22419 13.5591 3.16101 13.4 3.16101H12.0537C12.0203 3.1557 11.9863 3.15299 11.952 3.15299C11.9178 3.15299 11.8838 3.1557 11.8503 3.16101H11.2285C11.2421 3.10893 11.2487 3.05513 11.248 3.00106V1.80966C11.2171 1.30262 10.9871 0.828306 10.608 0.48989C10.229 0.151475 9.73159 -0.0236625 9.22402 0.00257442H4.77602C4.27251 -0.0171866 3.78126 0.160868 3.40746 0.498617C3.03365 0.836366 2.807 1.30697 2.77602 1.80966V3.00106C2.77602 3.0556 2.78346 3.10936 2.79776 3.16101H0.6C0.521207 3.16101 0.443185 3.17652 0.37039 3.20666C0.297595 3.2368 0.231451 3.28097 0.175736 3.33666C0.120021 3.39235 0.0758251 3.45846 0.0456722 3.53121C0.0155194 3.60397 0 3.68196 0 3.76071C0 3.83946 0.0155194 3.91744 0.0456722 3.9902C0.0758251 4.06296 0.120021 4.12907 0.175736 4.18476C0.231451 4.24045 0.297595 4.28462 0.37039 4.31476C0.443185 4.3449 0.521207 4.36041 0.6 4.36041H1.40002V12.1884C1.41426 12.442 1.47871 12.6903 1.58965 12.9188C1.7006 13.1473 1.85582 13.3515 2.04633 13.5196C2.23683 13.6877 2.45882 13.8163 2.69944 13.898C2.94005 13.9797 3.1945 14.0129 3.44802 13.9955ZM2.60002 4.36041H11.304V12.1884C11.304 12.5163 10.952 12.7961 10.504 12.7961H3.40002C2.97602 12.7961 2.60002 12.5163 2.60002 12.1884V4.36041ZM3.95429 3.16101C3.96859 3.10936 3.97602 3.0556 3.97602 3.00106V1.80966C3.97602 1.48183 4.33602 1.20197 4.77602 1.20197H9.24802C9.66403 1.20197 10.048 1.48183 10.048 1.80966V3.00106C10.0473 3.05515 10.054 3.10896 10.0678 3.16101H3.95429ZM5.57571 10.997C5.41731 10.995 5.26597 10.9311 5.15395 10.8191C5.04193 10.7071 4.97808 10.5558 4.97601 10.3973V6.77517C4.97601 6.61612 5.0392 6.46359 5.15166 6.35112C5.26413 6.23866 5.41666 6.17548 5.57571 6.17548C5.73476 6.17548 5.8873 6.23866 5.99976 6.35112C6.11223 6.46359 6.17541 6.61612 6.17541 6.77517V10.3894C6.17647 10.4688 6.16174 10.5476 6.13208 10.6213C6.10241 10.695 6.05841 10.762 6.00261 10.8186C5.94682 10.8751 5.88035 10.92 5.80707 10.9506C5.73378 10.9813 5.65514 10.9971 5.57571 10.997ZM7.99968 10.8214C8.11215 10.9339 8.26468 10.997 8.42373 10.997C8.58351 10.9949 8.73604 10.93 8.84828 10.8163C8.96052 10.7025 9.02345 10.5491 9.02343 10.3894V6.77517C9.02343 6.61612 8.96025 6.46359 8.84778 6.35112C8.73532 6.23866 8.58278 6.17548 8.42373 6.17548C8.26468 6.17548 8.11215 6.23866 7.99968 6.35112C7.88722 6.46359 7.82404 6.61612 7.82404 6.77517V10.3973C7.82404 10.5564 7.88722 10.7089 7.99968 10.8214Z",
-  fill: "currentColor"
-}, null, -1);
-var _hoisted_2$R = [_hoisted_1$U];
-function render$g(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("svg", mergeProps({
-    width: "14",
-    height: "14",
-    viewBox: "0 0 14 14",
-    fill: "none",
-    xmlns: "http://www.w3.org/2000/svg"
-  }, _ctx.pti()), _hoisted_2$R, 16);
-}
 script$h.render = render$g;
 var script$g = {
   name: "SortAltIcon",
   "extends": script$T
 };
-var _hoisted_1$T = /* @__PURE__ */ createBaseVNode("path", {
+var _hoisted_1$U = /* @__PURE__ */ createBaseVNode("path", {
   d: "M5.64515 3.61291C5.47353 3.61291 5.30192 3.54968 5.16644 3.4142L3.38708 1.63484L1.60773 3.4142C1.34579 3.67613 0.912244 3.67613 0.650309 3.4142C0.388374 3.15226 0.388374 2.71871 0.650309 2.45678L2.90837 0.198712C3.17031 -0.0632236 3.60386 -0.0632236 3.86579 0.198712L6.12386 2.45678C6.38579 2.71871 6.38579 3.15226 6.12386 3.4142C5.98837 3.54968 5.81676 3.61291 5.64515 3.61291Z",
   fill: "currentColor"
 }, null, -1);
-var _hoisted_2$Q = /* @__PURE__ */ createBaseVNode("path", {
+var _hoisted_2$R = /* @__PURE__ */ createBaseVNode("path", {
   d: "M3.38714 14C3.01681 14 2.70972 13.6929 2.70972 13.3226V0.677419C2.70972 0.307097 3.01681 0 3.38714 0C3.75746 0 4.06456 0.307097 4.06456 0.677419V13.3226C4.06456 13.6929 3.75746 14 3.38714 14Z",
   fill: "currentColor"
 }, null, -1);
-var _hoisted_3$9 = /* @__PURE__ */ createBaseVNode("path", {
+var _hoisted_3$a = /* @__PURE__ */ createBaseVNode("path", {
   d: "M10.6129 14C10.4413 14 10.2697 13.9368 10.1342 13.8013L7.87611 11.5432C7.61418 11.2813 7.61418 10.8477 7.87611 10.5858C8.13805 10.3239 8.5716 10.3239 8.83353 10.5858L10.6129 12.3652L12.3922 10.5858C12.6542 10.3239 13.0877 10.3239 13.3497 10.5858C13.6116 10.8477 13.6116 11.2813 13.3497 11.5432L11.0916 13.8013C10.9561 13.9368 10.7845 14 10.6129 14Z",
   fill: "currentColor"
 }, null, -1);
-var _hoisted_4$b = /* @__PURE__ */ createBaseVNode("path", {
+var _hoisted_4$c = /* @__PURE__ */ createBaseVNode("path", {
   d: "M10.6129 14C10.2426 14 9.93552 13.6929 9.93552 13.3226V0.677419C9.93552 0.307097 10.2426 0 10.6129 0C10.9833 0 11.2904 0.307097 11.2904 0.677419V13.3226C11.2904 13.6929 10.9832 14 10.6129 14Z",
   fill: "currentColor"
 }, null, -1);
-var _hoisted_5$8 = [_hoisted_1$T, _hoisted_2$Q, _hoisted_3$9, _hoisted_4$b];
+var _hoisted_5$9 = [_hoisted_1$U, _hoisted_2$R, _hoisted_3$a, _hoisted_4$c];
 function render$f(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("svg", mergeProps({
     width: "14",
@@ -24257,18 +24735,18 @@ function render$f(_ctx, _cache, $props, $setup, $data, $options) {
     viewBox: "0 0 14 14",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg"
-  }, _ctx.pti()), _hoisted_5$8, 16);
+  }, _ctx.pti()), _hoisted_5$9, 16);
 }
 script$g.render = render$f;
 var script$f = {
   name: "SortAmountDownIcon",
   "extends": script$T
 };
-var _hoisted_1$S = /* @__PURE__ */ createBaseVNode("path", {
+var _hoisted_1$T = /* @__PURE__ */ createBaseVNode("path", {
   d: "M4.93953 10.5858L3.83759 11.6877V0.677419C3.83759 0.307097 3.53049 0 3.16017 0C2.78985 0 2.48275 0.307097 2.48275 0.677419V11.6877L1.38082 10.5858C1.11888 10.3239 0.685331 10.3239 0.423396 10.5858C0.16146 10.8477 0.16146 11.2813 0.423396 11.5432L2.68146 13.8013C2.74469 13.8645 2.81694 13.9097 2.89823 13.9458C2.97952 13.9819 3.06985 14 3.16017 14C3.25049 14 3.33178 13.9819 3.42211 13.9458C3.5034 13.9097 3.57565 13.8645 3.63888 13.8013L5.89694 11.5432C6.15888 11.2813 6.15888 10.8477 5.89694 10.5858C5.63501 10.3239 5.20146 10.3239 4.93953 10.5858ZM13.0957 0H7.22468C6.85436 0 6.54726 0.307097 6.54726 0.677419C6.54726 1.04774 6.85436 1.35484 7.22468 1.35484H13.0957C13.466 1.35484 13.7731 1.04774 13.7731 0.677419C13.7731 0.307097 13.466 0 13.0957 0ZM7.22468 5.41935H9.48275C9.85307 5.41935 10.1602 5.72645 10.1602 6.09677C10.1602 6.4671 9.85307 6.77419 9.48275 6.77419H7.22468C6.85436 6.77419 6.54726 6.4671 6.54726 6.09677C6.54726 5.72645 6.85436 5.41935 7.22468 5.41935ZM7.6763 8.12903H7.22468C6.85436 8.12903 6.54726 8.43613 6.54726 8.80645C6.54726 9.17677 6.85436 9.48387 7.22468 9.48387H7.6763C8.04662 9.48387 8.35372 9.17677 8.35372 8.80645C8.35372 8.43613 8.04662 8.12903 7.6763 8.12903ZM7.22468 2.70968H11.2892C11.6595 2.70968 11.9666 3.01677 11.9666 3.3871C11.9666 3.75742 11.6595 4.06452 11.2892 4.06452H7.22468C6.85436 4.06452 6.54726 3.75742 6.54726 3.3871C6.54726 3.01677 6.85436 2.70968 7.22468 2.70968Z",
   fill: "currentColor"
 }, null, -1);
-var _hoisted_2$P = [_hoisted_1$S];
+var _hoisted_2$Q = [_hoisted_1$T];
 function render$e(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("svg", mergeProps({
     width: "14",
@@ -24276,18 +24754,18 @@ function render$e(_ctx, _cache, $props, $setup, $data, $options) {
     viewBox: "0 0 14 14",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg"
-  }, _ctx.pti()), _hoisted_2$P, 16);
+  }, _ctx.pti()), _hoisted_2$Q, 16);
 }
 script$f.render = render$e;
 var script$e = {
   name: "SortAmountUpAltIcon",
   "extends": script$T
 };
-var _hoisted_1$R = /* @__PURE__ */ createBaseVNode("path", {
+var _hoisted_1$S = /* @__PURE__ */ createBaseVNode("path", {
   d: "M3.63435 0.19871C3.57113 0.135484 3.49887 0.0903226 3.41758 0.0541935C3.255 -0.0180645 3.06532 -0.0180645 2.90274 0.0541935C2.82145 0.0903226 2.74919 0.135484 2.68597 0.19871L0.427901 2.45677C0.165965 2.71871 0.165965 3.15226 0.427901 3.41419C0.689836 3.67613 1.12338 3.67613 1.38532 3.41419L2.48726 2.31226V13.3226C2.48726 13.6929 2.79435 14 3.16467 14C3.535 14 3.84209 13.6929 3.84209 13.3226V2.31226L4.94403 3.41419C5.07951 3.54968 5.25113 3.6129 5.42274 3.6129C5.59435 3.6129 5.76597 3.54968 5.90145 3.41419C6.16338 3.15226 6.16338 2.71871 5.90145 2.45677L3.64338 0.19871H3.63435ZM13.7685 13.3226C13.7685 12.9523 13.4615 12.6452 13.0911 12.6452H7.22016C6.84984 12.6452 6.54274 12.9523 6.54274 13.3226C6.54274 13.6929 6.84984 14 7.22016 14H13.0911C13.4615 14 13.7685 13.6929 13.7685 13.3226ZM7.22016 8.58064C6.84984 8.58064 6.54274 8.27355 6.54274 7.90323C6.54274 7.5329 6.84984 7.22581 7.22016 7.22581H9.47823C9.84855 7.22581 10.1556 7.5329 10.1556 7.90323C10.1556 8.27355 9.84855 8.58064 9.47823 8.58064H7.22016ZM7.22016 5.87097H7.67177C8.0421 5.87097 8.34919 5.56387 8.34919 5.19355C8.34919 4.82323 8.0421 4.51613 7.67177 4.51613H7.22016C6.84984 4.51613 6.54274 4.82323 6.54274 5.19355C6.54274 5.56387 6.84984 5.87097 7.22016 5.87097ZM11.2847 11.2903H7.22016C6.84984 11.2903 6.54274 10.9832 6.54274 10.6129C6.54274 10.2426 6.84984 9.93548 7.22016 9.93548H11.2847C11.655 9.93548 11.9621 10.2426 11.9621 10.6129C11.9621 10.9832 11.655 11.2903 11.2847 11.2903Z",
   fill: "currentColor"
 }, null, -1);
-var _hoisted_2$O = [_hoisted_1$R];
+var _hoisted_2$P = [_hoisted_1$S];
 function render$d(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("svg", mergeProps({
     width: "14",
@@ -24295,7 +24773,7 @@ function render$d(_ctx, _cache, $props, $setup, $data, $options) {
     viewBox: "0 0 14 14",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg"
-  }, _ctx.pti()), _hoisted_2$O, 16);
+  }, _ctx.pti()), _hoisted_2$P, 16);
 }
 script$e.render = render$d;
 var script$c = {
@@ -25909,9 +26387,9 @@ var script$8$1 = {
     onEditingMetaChange: function onEditingMetaChange(event2) {
       this.$emit("editing-meta-change", event2);
     },
-    getVirtualScrollerProp: function getVirtualScrollerProp2(option, options3) {
-      options3 = options3 || this.virtualScrollerContentProps;
-      return options3 ? options3[option] : null;
+    getVirtualScrollerProp: function getVirtualScrollerProp2(option, options4) {
+      options4 = options4 || this.virtualScrollerContentProps;
+      return options4 ? options4[option] : null;
     }
   },
   computed: {
@@ -26098,9 +26576,9 @@ function _toPrimitive$8(t, r) {
 var _hoisted_1$3$1 = ["colspan"];
 var _hoisted_2$1$1 = ["tabindex", "aria-selected", "data-p-index", "data-p-selectable-row", "data-p-highlight", "data-p-highlight-contextmenu"];
 var _hoisted_3$1$1 = ["id"];
-var _hoisted_4$a = ["colspan"];
-var _hoisted_5$7 = ["colspan"];
-var _hoisted_6$7 = ["colspan"];
+var _hoisted_4$b = ["colspan"];
+var _hoisted_5$8 = ["colspan"];
+var _hoisted_6$8 = ["colspan"];
 function render$8(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_ChevronDownIcon = resolveComponent("ChevronDownIcon");
   var _component_ChevronRightIcon = resolveComponent("ChevronRightIcon");
@@ -26229,7 +26707,7 @@ function render$8(_ctx, _cache, $props, $setup, $data, $options) {
   }, _objectSpread$8(_objectSpread$8({}, $options.getColumnPT("bodycell")), _ctx.ptm("rowExpansionCell"))), [(openBlock(), createBlock(resolveDynamicComponent($props.templates["expansion"]), {
     data: $props.rowData,
     index: $options.rowIndex
-  }, null, 8, ["data", "index"]))], 16, _hoisted_4$a)], 16, _hoisted_3$1$1)) : createCommentVNode("", true), $props.templates["groupfooter"] && $props.rowGroupMode === "subheader" && $options.shouldRenderRowGroupFooter ? (openBlock(), createElementBlock("tr", mergeProps({
+  }, null, 8, ["data", "index"]))], 16, _hoisted_4$b)], 16, _hoisted_3$1$1)) : createCommentVNode("", true), $props.templates["groupfooter"] && $props.rowGroupMode === "subheader" && $options.shouldRenderRowGroupFooter ? (openBlock(), createElementBlock("tr", mergeProps({
     key: 3,
     "class": _ctx.cx("rowGroupFooter"),
     role: "row"
@@ -26238,7 +26716,7 @@ function render$8(_ctx, _cache, $props, $setup, $data, $options) {
   }, _objectSpread$8(_objectSpread$8({}, $options.getColumnPT("bodycell")), _ctx.ptm("rowGroupFooterCell"))), [(openBlock(), createBlock(resolveDynamicComponent($props.templates["groupfooter"]), {
     data: $props.rowData,
     index: $options.rowIndex
-  }, null, 8, ["data", "index"]))], 16, _hoisted_5$7)], 16)) : createCommentVNode("", true)], 64)) : (openBlock(), createElementBlock("tr", mergeProps({
+  }, null, 8, ["data", "index"]))], 16, _hoisted_5$8)], 16)) : createCommentVNode("", true)], 64)) : (openBlock(), createElementBlock("tr", mergeProps({
     key: 1,
     "class": _ctx.cx("emptyMessage"),
     role: "row"
@@ -26246,7 +26724,7 @@ function render$8(_ctx, _cache, $props, $setup, $data, $options) {
     colspan: $options.columnsLength
   }, _objectSpread$8(_objectSpread$8({}, $options.getColumnPT("bodycell")), _ctx.ptm("emptyMessageCell"))), [$props.templates.empty ? (openBlock(), createBlock(resolveDynamicComponent($props.templates.empty), {
     key: 0
-  })) : createCommentVNode("", true)], 16, _hoisted_6$7)], 16));
+  })) : createCommentVNode("", true)], 16, _hoisted_6$8)], 16));
 }
 script$8$1.render = render$8;
 var script$7$1 = {
@@ -26408,9 +26886,9 @@ var script$7$1 = {
       var tableHeaderHeight = DomHandler.getOuterHeight(this.$el.previousElementSibling);
       this.rowGroupHeaderStyleObject.top = tableHeaderHeight + "px";
     },
-    getVirtualScrollerProp: function getVirtualScrollerProp3(option, options3) {
-      options3 = options3 || this.virtualScrollerContentProps;
-      return options3 ? options3[option] : null;
+    getVirtualScrollerProp: function getVirtualScrollerProp3(option, options4) {
+      options4 = options4 || this.virtualScrollerContentProps;
+      return options4 ? options4[option] : null;
     },
     bodyRef: function bodyRef(el) {
       var contentRef2 = this.getVirtualScrollerProp("contentRef");
@@ -27460,11 +27938,11 @@ var script$4$1 = {
     overlayRef: function overlayRef2(el) {
       this.overlay = el;
     },
-    isOutsideClicked: function isOutsideClicked(target) {
-      return !this.isTargetClicked(target) && this.overlay && !(this.overlay.isSameNode(target) || this.overlay.contains(target));
+    isOutsideClicked: function isOutsideClicked(target2) {
+      return !this.isTargetClicked(target2) && this.overlay && !(this.overlay.isSameNode(target2) || this.overlay.contains(target2));
     },
-    isTargetClicked: function isTargetClicked(target) {
-      return this.$refs.icon && (this.$refs.icon.isSameNode(target) || this.$refs.icon.contains(target));
+    isTargetClicked: function isTargetClicked(target2) {
+      return this.$refs.icon && (this.$refs.icon.isSameNode(target2) || this.$refs.icon.contains(target2));
     },
     bindOutsideClickListener: function bindOutsideClickListener3() {
       var _this2 = this;
@@ -27670,8 +28148,8 @@ function _toPrimitive$4(t, r) {
   return ("string" === r ? String : Number)(t);
 }
 var _hoisted_1$1$2 = ["aria-label", "aria-expanded", "aria-controls"];
-var _hoisted_2$N = ["id", "aria-modal"];
-var _hoisted_3$8 = ["onClick", "onKeydown", "tabindex"];
+var _hoisted_2$O = ["id", "aria-modal"];
+var _hoisted_3$9 = ["onClick", "onKeydown", "tabindex"];
 function render$4$1(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_CFDropdown = resolveComponent("CFDropdown");
   var _component_CFButton = resolveComponent("CFButton");
@@ -27756,7 +28234,7 @@ function render$4$1(_ctx, _cache, $props, $setup, $data, $options) {
                 return $options.onRowMatchModeChange(matchMode.value);
               }, ["prevent"]), ["enter"])],
               tabindex: i === 0 ? "0" : null
-            }, $options.getColumnPT("filterRowItem", $options.ptmFilterRowItemOptions(matchMode))), toDisplayString(matchMode.label), 17, _hoisted_3$8);
+            }, $options.getColumnPT("filterRowItem", $options.ptmFilterRowItemOptions(matchMode))), toDisplayString(matchMode.label), 17, _hoisted_3$9);
           }), 128)), createBaseVNode("li", mergeProps({
             "class": _ctx.cx("filterSeparator")
           }, $options.getColumnPT("filterSeparator")), null, 16), createBaseVNode("li", mergeProps({
@@ -27894,7 +28372,7 @@ function render$4$1(_ctx, _cache, $props, $setup, $data, $options) {
             field: $props.field,
             filterModel: $props.filters[$props.field],
             filterCallback: $options.filterCallback
-          }, null, 8, ["field", "filterModel", "filterCallback"]))], 16, _hoisted_2$N)), [[_directive_focustrap]]) : createCommentVNode("", true)];
+          }, null, 8, ["field", "filterModel", "filterCallback"]))], 16, _hoisted_2$O)), [[_directive_focustrap]]) : createCommentVNode("", true)];
         }),
         _: 1
       }, 16, ["onEnter", "onAfterEnter", "onLeave", "onAfterLeave"])];
@@ -28308,7 +28786,7 @@ function _toPrimitive$3$1(t, r) {
   }
   return ("string" === r ? String : Number)(t);
 }
-var _hoisted_1$Q = ["tabindex", "colspan", "rowspan", "aria-sort", "data-p-sortable-column", "data-p-resizable-column", "data-p-highlight", "data-p-filter-column", "data-p-frozen-column", "data-p-reorderable-column"];
+var _hoisted_1$R = ["tabindex", "colspan", "rowspan", "aria-sort", "data-p-sortable-column", "data-p-resizable-column", "data-p-highlight", "data-p-filter-column", "data-p-frozen-column", "data-p-reorderable-column"];
 function render$2$1(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_DTHeaderCheckbox = resolveComponent("DTHeaderCheckbox");
   var _component_DTColumnFilter = resolveComponent("DTColumnFilter");
@@ -28431,7 +28909,7 @@ function render$2$1(_ctx, _cache, $props, $setup, $data, $options) {
     column: $props.column,
     unstyled: _ctx.unstyled,
     pt: _ctx.pt
-  }, null, 8, ["field", "type", "showMenu", "filterElement", "filterHeaderTemplate", "filterFooterTemplate", "filterClearTemplate", "filterApplyTemplate", "filterIconTemplate", "filterAddIconTemplate", "filterRemoveIconTemplate", "filterClearIconTemplate", "filters", "filtersStore", "filterInputProps", "filterMenuStyle", "filterMenuClass", "showOperator", "showClearButton", "showApplyButton", "showMatchModes", "showAddButton", "matchModeOptions", "maxConstraints", "column", "unstyled", "pt"])) : createCommentVNode("", true)], 16)], 16, _hoisted_1$Q);
+  }, null, 8, ["field", "type", "showMenu", "filterElement", "filterHeaderTemplate", "filterFooterTemplate", "filterClearTemplate", "filterApplyTemplate", "filterIconTemplate", "filterAddIconTemplate", "filterRemoveIconTemplate", "filterClearIconTemplate", "filters", "filtersStore", "filterInputProps", "filterMenuStyle", "filterMenuClass", "showOperator", "showClearButton", "showApplyButton", "showMatchModes", "showAddButton", "matchModeOptions", "maxConstraints", "column", "unstyled", "pt"])) : createCommentVNode("", true)], 16)], 16, _hoisted_1$R);
 }
 script$2$2.render = render$2$1;
 var script$1$4 = {
@@ -28906,7 +29384,7 @@ var _excluded = ["expanded"];
 function _objectWithoutProperties(source, excluded) {
   if (source == null)
     return {};
-  var target = _objectWithoutPropertiesLoose(source, excluded);
+  var target2 = _objectWithoutPropertiesLoose(source, excluded);
   var key, i;
   if (Object.getOwnPropertySymbols) {
     var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
@@ -28916,24 +29394,24 @@ function _objectWithoutProperties(source, excluded) {
         continue;
       if (!Object.prototype.propertyIsEnumerable.call(source, key))
         continue;
-      target[key] = source[key];
+      target2[key] = source[key];
     }
   }
-  return target;
+  return target2;
 }
 function _objectWithoutPropertiesLoose(source, excluded) {
   if (source == null)
     return {};
-  var target = {};
+  var target2 = {};
   var sourceKeys = Object.keys(source);
   var key, i;
   for (i = 0; i < sourceKeys.length; i++) {
     key = sourceKeys[i];
     if (excluded.indexOf(key) >= 0)
       continue;
-    target[key] = source[key];
+    target2[key] = source[key];
   }
-  return target;
+  return target2;
 }
 function ownKeys$1$1(e, r) {
   var t = Object.keys(e);
@@ -29911,12 +30389,12 @@ var script$d = {
       }
       this.$emit("update:selection", _selection);
     },
-    exportCSV: function exportCSV2(options3, data23) {
+    exportCSV: function exportCSV2(options4, data23) {
       var _this6 = this;
       var csv = "\uFEFF";
       if (!data23) {
         data23 = this.processedData;
-        if (options3 && options3.selectionOnly)
+        if (options4 && options4.selectionOnly)
           data23 = this.selection || [];
         else if (this.frozenValue)
           data23 = data23 ? [].concat(_toConsumableArray$1(this.frozenValue), _toConsumableArray$1(data23)) : this.frozenValue;
@@ -31478,9 +31956,9 @@ var script$8 = {
     return null;
   }
 };
-const _hoisted_1$P = { class: "discounts-container mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl" };
-const _hoisted_2$M = /* @__PURE__ */ createStaticVNode('<h1>Скидки</h1><p class="text-justify"> Дорогие друзья! <br><br> Каждый владелец домашнего питомца хочет приобретать зоотовары по самым низким ценам. И поэтому практически каждый интернет-зоомагазин старается привлечь покупателя, громко заявляя в рекламе, что именно у него самая низкая цена. <br><br>Кто-то обещает Вам вернуть разницу в цене с хитрыми условиями? Кто-то начисляет вам мизерные &quot;бонусы&quot; за покупки, которые Вы не знаете как потратить? Кто-то говорит о серьезных скидках, но даже не публикует условия их предоставления на своем сайте? <br><br>Вы действительно хотите покупать зоотовары в Краснодаре по самым выгодным ценам?! - Есть ответ: Наша система скидок реально обеспечит нашим постоянным клиентам действительно выгодные цены на корма и товары для животных в Краснодаре и Краснодарском крае!<br><br> Как? - Давайте посчитаем! <br><br>Возможно, Вам покажется, что наша цена в каталоге на сайте сейчас не самая низкая. К примеру, какой-то корм для собак стоит у нас 5100 рублей за мешок, а у нашего конкурента 4950 рублей. Но после первой покупки Вы получаете гарантированную скидку 3% на дальнейшие покупки и вторая покупка будет для Вас стоить уже 5100-3%=4947 рублей. То есть, с двух покупок вы экономите уже более 300 рублей, что уже выгоднее, чем заявленная цена конкурента. А продолжая покупать зоотовары в нашем интернет-зоомагазине Вы можете получить скидку до 10%, и покупать этот корм уже за 5100-10%=4590 рублей! Согласитесь, что даже если у конкурента цена ниже не на 50, а на 100 рублей и даже если Вам там предлагают накопить какие-то копеечные &quot;бонусные баллы&quot;, то всё равно при постоянных покупках в нашем зоомагазине, Вы будете покупать этот корм на 510 рублей дешевле!<br><br> Именно поэтому, просим вас вдумчиво ознакомиться с нашей системой предоставления скидок:<br><br> 1. При разовом или накопительном заказе на сумму от 5 000 руб., со следующего заказа Вы получаете скидку - 3%.<br><br> 2. При дальнейшем накоплении заказов на сумму 20 000 руб., Вы получаете дополнительно +1% к текущей скидке. Теперь ваша скидка уже 4%. Продолжив делать покупки в нашем интернет-зоомагазине Вы накапливаете сумму покупок и увеличиваете свою скидку согласно таблице в п.3. Максимальный размер скидки 10%. В накопленную сумму считаются только оплаченные и доставленные заказы, текущий заказ при расчете скидки не учитывается (вы его еще не получили).<br><br> 3. Таблица расчета скидок в зависимости от накопленной суммы покупок: </p>', 2);
-const _hoisted_4$9 = /* @__PURE__ */ createBaseVNode("p", { class: "text-justify" }, [
+const _hoisted_1$Q = { class: "discounts-container mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl" };
+const _hoisted_2$N = /* @__PURE__ */ createStaticVNode('<h1>Скидки</h1><p class="text-justify"> Дорогие друзья! <br><br> Каждый владелец домашнего питомца хочет приобретать зоотовары по самым низким ценам. И поэтому практически каждый интернет-зоомагазин старается привлечь покупателя, громко заявляя в рекламе, что именно у него самая низкая цена. <br><br>Кто-то обещает Вам вернуть разницу в цене с хитрыми условиями? Кто-то начисляет вам мизерные &quot;бонусы&quot; за покупки, которые Вы не знаете как потратить? Кто-то говорит о серьезных скидках, но даже не публикует условия их предоставления на своем сайте? <br><br>Вы действительно хотите покупать зоотовары в Краснодаре по самым выгодным ценам?! - Есть ответ: Наша система скидок реально обеспечит нашим постоянным клиентам действительно выгодные цены на корма и товары для животных в Краснодаре и Краснодарском крае!<br><br> Как? - Давайте посчитаем! <br><br>Возможно, Вам покажется, что наша цена в каталоге на сайте сейчас не самая низкая. К примеру, какой-то корм для собак стоит у нас 5100 рублей за мешок, а у нашего конкурента 4950 рублей. Но после первой покупки Вы получаете гарантированную скидку 3% на дальнейшие покупки и вторая покупка будет для Вас стоить уже 5100-3%=4947 рублей. То есть, с двух покупок вы экономите уже более 300 рублей, что уже выгоднее, чем заявленная цена конкурента. А продолжая покупать зоотовары в нашем интернет-зоомагазине Вы можете получить скидку до 10%, и покупать этот корм уже за 5100-10%=4590 рублей! Согласитесь, что даже если у конкурента цена ниже не на 50, а на 100 рублей и даже если Вам там предлагают накопить какие-то копеечные &quot;бонусные баллы&quot;, то всё равно при постоянных покупках в нашем зоомагазине, Вы будете покупать этот корм на 510 рублей дешевле!<br><br> Именно поэтому, просим вас вдумчиво ознакомиться с нашей системой предоставления скидок:<br><br> 1. При разовом или накопительном заказе на сумму от 5 000 руб., со следующего заказа Вы получаете скидку - 3%.<br><br> 2. При дальнейшем накоплении заказов на сумму 20 000 руб., Вы получаете дополнительно +1% к текущей скидке. Теперь ваша скидка уже 4%. Продолжив делать покупки в нашем интернет-зоомагазине Вы накапливаете сумму покупок и увеличиваете свою скидку согласно таблице в п.3. Максимальный размер скидки 10%. В накопленную сумму считаются только оплаченные и доставленные заказы, текущий заказ при расчете скидки не учитывается (вы его еще не получили).<br><br> 3. Таблица расчета скидок в зависимости от накопленной суммы покупок: </p>', 2);
+const _hoisted_4$a = /* @__PURE__ */ createBaseVNode("p", { class: "text-justify" }, [
   /* @__PURE__ */ createBaseVNode("strong", null, [
     /* @__PURE__ */ createTextVNode("Для учета скидок Вы должны быть "),
     /* @__PURE__ */ createBaseVNode("a", { href: "#" }, "зарегистрированы на нашем сайте"),
@@ -31499,7 +31977,7 @@ const _hoisted_4$9 = /* @__PURE__ */ createBaseVNode("p", { class: "text-justify
   /* @__PURE__ */ createBaseVNode("br"),
   /* @__PURE__ */ createTextVNode(' Так же просим обратить внимание, что на товар в промоупаковке (например, на мешке или пачке написано "+20% бесплатно" или "5+1 бесплатно") дополнительные скидки по дисконтным программам не предоставляются. ')
 ], -1);
-const _sfc_main$J = {
+const _sfc_main$K = {
   __name: "Discounts",
   setup(__props) {
     const items2 = [
@@ -31537,8 +32015,8 @@ const _sfc_main$J = {
       }
     ];
     return (_ctx, _cache) => {
-      return openBlock(), createElementBlock("div", _hoisted_1$P, [
-        _hoisted_2$M,
+      return openBlock(), createElementBlock("div", _hoisted_1$Q, [
+        _hoisted_2$N,
         createVNode(unref(script$d), {
           class: "table",
           value: items2
@@ -31557,7 +32035,7 @@ const _sfc_main$J = {
           ]),
           _: 1
         }),
-        _hoisted_4$9
+        _hoisted_4$a
       ]);
     };
   }
@@ -31570,14 +32048,14 @@ function useToast() {
   }
   return PrimeVueToast;
 }
-const _hoisted_1$O = { class: "feedback-container mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl" };
-const _hoisted_2$L = /* @__PURE__ */ createBaseVNode("h1", null, "Обратная связь", -1);
-const _hoisted_3$7 = /* @__PURE__ */ createBaseVNode("b", null, "Ваше имя:", -1);
-const _hoisted_4$8 = /* @__PURE__ */ createBaseVNode("span", { style: { "color": "red" } }, "*", -1);
-const _hoisted_5$6 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
-const _hoisted_6$6 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
-const _hoisted_7$6 = /* @__PURE__ */ createBaseVNode("b", null, "Ваш E-mail:", -1);
-const _hoisted_8$3 = /* @__PURE__ */ createBaseVNode("span", { style: { "color": "red" } }, "*", -1);
+const _hoisted_1$P = { class: "feedback-container mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl" };
+const _hoisted_2$M = /* @__PURE__ */ createBaseVNode("h1", null, "Обратная связь", -1);
+const _hoisted_3$8 = /* @__PURE__ */ createBaseVNode("b", null, "Ваше имя:", -1);
+const _hoisted_4$9 = /* @__PURE__ */ createBaseVNode("span", { style: { "color": "red" } }, "*", -1);
+const _hoisted_5$7 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
+const _hoisted_6$7 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
+const _hoisted_7$7 = /* @__PURE__ */ createBaseVNode("b", null, "Ваш E-mail:", -1);
+const _hoisted_8$4 = /* @__PURE__ */ createBaseVNode("span", { style: { "color": "red" } }, "*", -1);
 const _hoisted_9$3 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
 const _hoisted_10$2 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
 const _hoisted_11$1 = /* @__PURE__ */ createBaseVNode("b", null, "Телефон:", -1);
@@ -31594,7 +32072,7 @@ const _hoisted_21$2 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
 const _hoisted_22 = ["src"];
 const _hoisted_23 = { class: "w-full" };
 const _hoisted_24 = ["disabled"];
-const _sfc_main$I = {
+const _sfc_main$J = {
   __name: "Feedback",
   setup(__props) {
     const review = reactive({
@@ -31645,15 +32123,15 @@ const _sfc_main$I = {
     return (_ctx, _cache) => {
       const _component_router_link = resolveComponent("router-link");
       const _component_Toast = resolveComponent("Toast");
-      return openBlock(), createElementBlock("div", _hoisted_1$O, [
-        _hoisted_2$L,
+      return openBlock(), createElementBlock("div", _hoisted_1$P, [
+        _hoisted_2$M,
         createBaseVNode("form", {
           onSubmit: withModifiers(submit, ["prevent", "stop"]),
           class: "container p-5 w-full"
         }, [
-          _hoisted_3$7,
-          _hoisted_4$8,
-          _hoisted_5$6,
+          _hoisted_3$8,
+          _hoisted_4$9,
+          _hoisted_5$7,
           withDirectives(createBaseVNode("input", {
             class: "mb-3 mt-1",
             type: "text",
@@ -31663,9 +32141,9 @@ const _sfc_main$I = {
           }, null, 512), [
             [vModelText, review.author]
           ]),
-          _hoisted_6$6,
-          _hoisted_7$6,
-          _hoisted_8$3,
+          _hoisted_6$7,
+          _hoisted_7$7,
+          _hoisted_8$4,
           _hoisted_9$3,
           withDirectives(createBaseVNode("input", {
             class: "mb-3 mt-1",
@@ -31754,35 +32232,35 @@ const _sfc_main$I = {
     };
   }
 };
-const _sfc_main$H = {};
-const _hoisted_1$N = { class: "about-container mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl" };
-const _hoisted_2$K = /* @__PURE__ */ createStaticVNode('<h1>Лучший интернет-зоомагазин Краснодара</h1><p class="text-justify"> Интернет-магазин ZooМаг ориентируется на заботливых хозяев домашних животных и предлагает свои услуги. <br><br> Домашние животные - наши верные друзья, компаньоны, те, кто радует нас каждый день и дарит нам позитивные эмоции. А настоящая дружба - дружба взаимная. Как наши питомцы приносят нам радость, так и мы должны окружать их заботой и ухаживать за ними.<br><br> Независимо от размеров Вашего питомца и его аппетитов, будь то маленькая рыбка, котенок или огромный породистый пес - для любого из «братьев наших меньших» у нас найдется именно то, что нужно Вашему питомцу:<br></p><ul><li>Огромный выбор сухих кормов для собак и кошек;</li><li>товары для собак (игрушки, туалеты, ошейники, намордники и пр.);</li><li>товары для кошек (когтеточки, наполнители, домики, шлейки, миски, туалеты и т.д.);</li><li>товары для птиц (корма, клетки, игрушки и пр.);</li><li>товары для грызунов (клетки, корма, наполнители);</li><li>также в нашем магазине представлен широкий ассортимент витаминов и лекарств для домашних животных, средств для ухода и иных аксессуаров.</li></ul><p class="text-justify"> Покупатели обязательно отметят для себя: </p><ul><li>Разнообразие товаров;</li><li>свежесть кормов;</li><li>соотношение цены и качества;</li><li>возможность обратиться за консультацией;</li><li>гибкие условия доставки;</li><li>заинтересованное отношение сотрудников.</li></ul><p class="text-justify"> Оформление интернет-заказа добавит посетителям приятных моментов в виде участия в бонусной программе, получения кэшбека, актуальных акций и скидок. </p><p class="text-justify"> Мы в ответе за тех, кого приручили! <br><br> И помните, хорошее настроение Вашего любимца - это и Ваше хорошее настроение! </p>', 7);
+const _sfc_main$I = {};
+const _hoisted_1$O = { class: "about-container mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl" };
+const _hoisted_2$L = /* @__PURE__ */ createStaticVNode('<h1>Лучший интернет-зоомагазин Краснодара</h1><p class="text-justify"> Интернет-магазин ZooМаг ориентируется на заботливых хозяев домашних животных и предлагает свои услуги. <br><br> Домашние животные - наши верные друзья, компаньоны, те, кто радует нас каждый день и дарит нам позитивные эмоции. А настоящая дружба - дружба взаимная. Как наши питомцы приносят нам радость, так и мы должны окружать их заботой и ухаживать за ними.<br><br> Независимо от размеров Вашего питомца и его аппетитов, будь то маленькая рыбка, котенок или огромный породистый пес - для любого из «братьев наших меньших» у нас найдется именно то, что нужно Вашему питомцу:<br></p><ul><li>Огромный выбор сухих кормов для собак и кошек;</li><li>товары для собак (игрушки, туалеты, ошейники, намордники и пр.);</li><li>товары для кошек (когтеточки, наполнители, домики, шлейки, миски, туалеты и т.д.);</li><li>товары для птиц (корма, клетки, игрушки и пр.);</li><li>товары для грызунов (клетки, корма, наполнители);</li><li>также в нашем магазине представлен широкий ассортимент витаминов и лекарств для домашних животных, средств для ухода и иных аксессуаров.</li></ul><p class="text-justify"> Покупатели обязательно отметят для себя: </p><ul><li>Разнообразие товаров;</li><li>свежесть кормов;</li><li>соотношение цены и качества;</li><li>возможность обратиться за консультацией;</li><li>гибкие условия доставки;</li><li>заинтересованное отношение сотрудников.</li></ul><p class="text-justify"> Оформление интернет-заказа добавит посетителям приятных моментов в виде участия в бонусной программе, получения кэшбека, актуальных акций и скидок. </p><p class="text-justify"> Мы в ответе за тех, кого приручили! <br><br> И помните, хорошее настроение Вашего любимца - это и Ваше хорошее настроение! </p>', 7);
 const _hoisted_9$2 = [
-  _hoisted_2$K
+  _hoisted_2$L
 ];
 function _sfc_render$D(_ctx, _cache) {
-  return openBlock(), createElementBlock("div", _hoisted_1$N, _hoisted_9$2);
+  return openBlock(), createElementBlock("div", _hoisted_1$O, _hoisted_9$2);
 }
-const About = /* @__PURE__ */ _export_sfc(_sfc_main$H, [["render", _sfc_render$D]]);
-const _sfc_main$G = {};
-const _hoisted_1$M = { class: "privacy-policy-container mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl" };
-const _hoisted_2$J = /* @__PURE__ */ createStaticVNode('<h1>Политика в отношении обработки персональных данных</h1><h2>1. Общие положения</h2><p class="text-justify"> Настоящая политика обработки персональных данных составлена в соответствии с требованиями Федерального закона от 27.07.2006. №152-ФЗ «О персональных данных» и определяет порядок обработки персональных данных и меры по обеспечению безопасности персональных данных, предпринимаемые индивидуальным предпринимателем Ивановым Иваном Ивановичем (далее – Оператор). <br><br> 1.1. Оператор ставит своей важнейшей целью и условием осуществления своей деятельности соблюдение прав и свобод человека и гражданина при обработке его персональных данных, в том числе защиты прав на неприкосновенность частной жизни, личную и семейную тайну.<br><br> 1.2. Настоящая политика Оператора в отношении обработки персональных данных (далее – Политика) применяется ко всей информации, которую Оператор может получить о посетителях веб-сайта ZooМаг. Оператор не контролирует и не несет ответственности за сайты третьих лиц, на которые Пользователь может перейти по ссылкам, доступным на Сайте ZooМаг. </p><h2>2. Основные понятия, используемые в Политике</h2><p class="text-justify"> 2.1. Автоматизированная обработка персональных данных – обработка персональных данных с помощью средств вычислительной техники;<br><br> 2.2. Блокирование персональных данных – временное прекращение обработки персональных данных (за исключением случаев, если обработка необходима для уточнения персональных данных);<br><br> 2.3. Веб-сайт – совокупность графических и информационных материалов, а также программ для ЭВМ и баз данных, обеспечивающих их доступность в сети интернет по сетевому адресу ZooМаг;<br><br> 2.4. Информационная система персональных данных — совокупность содержащихся в базах данных персональных данных, и обеспечивающих их обработку информационных технологий и технических средств;<br><br> 2.5. Обезличивание персональных данных — действия, в результате которых невозможно определить без использования дополнительной информации принадлежность персональных данных конкретному Пользователю или иному субъекту персональных данных;<br><br> 2.6. Обработка персональных данных – любое действие (операция) или совокупность действий (операций), совершаемых с использованием средств автоматизации или без использования таких средств с персональными данными, включая сбор, запись, систематизацию, накопление, хранение, уточнение (обновление, изменение), извлечение, использование, передачу (распространение, предоставление, доступ), обезличивание, блокирование, удаление, уничтожение персональных данных; Оператор осуществляет обработку данных пользователя до момента подачи им заявления на отзыв согласия на обработку персональных данных.<br><br> 2.7. Оператор – Администрация сайта, индивидуальный предприниматель Иванов Иван Иванович (ИНН: 9999999999, ОГРН: 8888888888, Адрес: г. Краснодар ул. Ставропольская д 999 кв 888).<br><br> 2.8. Персональные данные – любая информация, относящаяся прямо или косвенно к определенному или определяемому Пользователю веб-сайта ZooМаг;<br><br> 2.9. Пользователь – любой посетитель веб-сайта ZooМаг;<br><br> 2.10. Предоставление персональных данных – действия, направленные на раскрытие персональных данных определенному лицу или определенному кругу лиц;<br><br> 2.11. Распространение персональных данных – любые действия, направленные на раскрытие персональных данных неопределенному кругу лиц (передача персональных данных) или на ознакомление с персональными данными неограниченного круга лиц, в том числе обнародование персональных данных в средствах массовой информации, размещение в информационно-телекоммуникационных сетях или предоставление доступа к персональным данным каким-либо иным способом;<br><br> 2.12. Уничтожение персональных данных – любые действия, в результате которых персональные данные уничтожаются безвозвратно с невозможностью дальнейшего восстановления содержания персональных данных в информационной системе персональных данных и (или) уничтожаются материальные носители персональных данных. </p><h2>3. Оператор может обрабатывать следующие персональные данные Пользователя</h2><p class="text-justify"> 3.1. Персональная информация, которую Пользователь предоставляет о себе самостоятельно при регистрации (создании учетной записи) или в процессе использования Сайта и его сервисов, включая персональные данные Пользователя. Обязательная для предоставления Сервисов информация помечена специальным образом. Иная информация предоставляется Пользователем на его усмотрение. <br><br> 3.2. Данные, которые автоматически передаются сервисам Сайта в процессе их использования с помощью установленного на устройстве Пользователя программного обеспечения, а именно программ Yandex.Metrika (предоставляется ООО “Яндекс”), LiveInternet (предоставляется ООО Лаборатория поисковых и статистических решений), в том числе IP-адрес, данные файлов cookie, информация о браузере Пользователя (или иной программе, с помощью которой осуществляется доступ к сервисам), технические характеристики оборудования и программного обеспечения, используемых Пользователем, дата и время доступа к сервисам, адреса запрашиваемых страниц, реферер (адрес предыдущей страницы) и иная подобная информация. </p><h2>4. Категории собираемых персональных данных и цели их обработки</h2><p class="text-justify"> 4.1. Сайт собирает и хранит только ту персональную информацию, которая необходима для предоставления информации об услугах или исполнения соглашений и договоров с Пользователем, за исключением случаев, когда законодательством предусмотрено обязательное хранение персональной информации в течение определенного законом срока. <br><br> 4.2. Персональную информацию Пользователя Сайт обрабатывает в следующих целях:<br><br> 4.2.1. Установления с Пользователем обратной связи, включая направление уведомлений, запросов, касающихся использования Сайта, оказания услуг, обработку запросов и заявок от Пользователя.<br><br> Для достижения данной цели Оператор собирает и обрабатывает следующие категории персональных данных: имя, адрес электронной почты, контактный номер телефона. К субъектам, персональные данные которых обрабатываются для указанной цели, относятся: физические лица, заинтересованные в получении товаров/работ/услуг от Оператора, физические лица, состоящие в гражданско-правовых и иных договорных отношениях с Оператором, представители юридических лиц - контрагентов Оператора либо потенциально заинтересованных в установлении с ним гражданско-правовых отношений. Указанные персональные данные обрабатываются смешанным способом. Срок обработки и хранения персональных данных, собираемых в соответствии с настоящим пунктом, составляет не более 7 лет с момента получения последней заявки либо иного обращения от Пользователя. При получении Оператором заявления субъекта персональных данных с требованием о прекращении обработки персональных данных Оператор прекращает обработку персональных данных досрочно, а именно в срок, не превышающий десяти рабочих дней с даты получения соответствующего требования. Указанный срок может быть продлен, но не более чем на пять рабочих дней в случае направления оператором в адрес субъекта персональных данных мотивированного уведомления с указанием причин продления срока предоставления запрашиваемой информации.<br><br> 4.2.2. Идентификации Пользователя, зарегистрированного на Сайте, для формирования и исполнения персонализированных предложений и соглашений.<br><br> Для достижения данной цели Оператор собирает и обрабатывает следующие категории персональных данных: имя, адрес электронной почты, контактный номер телефона, пользовательский ID, IP-адрес. К субъектам, персональные данные которых обрабатываются для указанной цели, относятся: физические лица, заинтересованные в получении товаров/работ/услуг от Оператора, физические лица, состоящие в гражданско-правовых и иных договорных отношениях с Оператором, представители юридических лиц - контрагентов Оператора либо потенциально заинтересованных в установлении с ним гражданско-правовых отношений. Указанные персональные данные обрабатываются смешанным способом. Срок обработки и хранения персональных данных, собираемых в соответствии с настоящим пунктом, составляет не более 7 лет с момента получения последней заявки либо иного обращения от Пользователя. При получении Оператором заявления субъекта персональных данных с требованием о прекращении обработки персональных данных Оператор прекращает обработку персональных данных досрочно, а именно в срок, не превышающий десяти рабочих дней с даты получения соответствующего требования. Указанный срок может быть продлен, но не более чем на пять рабочих дней в случае направления оператором в адрес субъекта персональных данных мотивированного уведомления с указанием причин продления срока предоставления запрашиваемой информации.<br><br> 4.2.3. Предоставления Пользователю доступа к персонализированным ресурсам Сайта.<br><br> Для достижения данной цели Оператор собирает и обрабатывает следующие категории персональных данных: имя, адрес электронной почты, контактный номер телефона, пользовательский ID, IP-адрес. К субъектам, персональные данные которых обрабатываются для указанной цели, относятся: физические лица, заинтересованные в получении товаров/работ/услуг от Оператора, физические лица, состоящие в гражданско-правовых и иных договорных отношениях с Оператором, представители юридических лиц - контрагентов Оператора либо потенциально заинтересованных в установлении с ним гражданско-правовых отношений. Указанные персональные данные обрабатываются смешанным способом. Срок обработки и хранения персональных данных, собираемых в соответствии с настоящим пунктом составляет не более 7 лет с момента получения последней заявки либо иного обращения от Пользователя. При получении Оператором заявления субъекта персональных данных с требованием о прекращении обработки персональных данных Оператор прекращает обработку персональных данных досрочно, а именно в срок, не превышающий десяти рабочих дней с даты получения соответствующего требования. Указанный срок может быть продлен, но не более чем на пять рабочих дней в случае направления оператором в адрес субъекта персональных данных мотивированного уведомления с указанием причин продления срока предоставления запрашиваемой информации.<br><br> 4.2.4. Определения места нахождения Пользователя для обеспечения безопасности, предотвращения мошенничества.<br><br> Для достижения данной цели Оператор собирает и обрабатывает следующие категории персональных данных: IP-адрес пользователя. К субъектам, персональные данные которых обрабатываются для указанной цели, относятся: физические лица, заинтересованные в получении товаров/работ/услуг от Оператора, физические лица, состоящие в гражданско-правовых и иных договорных отношениях с Оператором, представители юридических лиц - контрагентов Оператора либо потенциально заинтересованных в установлении с ним гражданско-правовых отношений. Указанные персональные данные обрабатываются смешанным способом. Срок обработки и хранения персональных данных, собираемых в соответствии с настоящим пунктом составляет не более 3 лет с момента последнего посещения Пользователем Сайта. При получении Оператором заявления субъекта персональных данных с требованием о прекращении обработки персональных данных Оператор прекращает обработку персональных данных досрочно, а именно в срок, не превышающий десяти рабочих дней с даты получения соответствующего требования. Указанный срок может быть продлен, но не более чем на пять рабочих дней в случае направления оператором в адрес субъекта персональных данных мотивированного уведомления с указанием причин продления срока предоставления запрашиваемой информации.<br><br> 4.2.5. Предоставления Пользователю эффективной клиентской и технической поддержки.<br><br> Для достижения данной цели Оператор собирает и обрабатывает следующие категории персональных данных: имя, адрес электронной почты, контактный номер телефона, пользовательский ID, IP-адрес. К субъектам, персональные данные которых обрабатываются для указанной цели, относятся: физические лица, заинтересованные в получении товаров/работ/услуг от Оператора, физические лица, состоящие в гражданско-правовых и иных договорных отношениях с Оператором, представители юридических лиц - контрагентов Оператора либо потенциально заинтересованных в установлении с ним гражданско-правовых отношений. Указанные персональные данные обрабатываются смешанным способом. Срок обработки и хранения персональных данных, собираемых в соответствии с настоящим пунктом составляет не более 7 лет с момента получения последней заявки либо иного обращения от Пользователя. При получении Оператором заявления субъекта персональных данных с требованием о прекращении обработки персональных данных Оператор прекращает обработку персональных данных досрочно, а именно в срок, не превышающий десяти рабочих дней с даты получения соответствующего требования. Указанный срок может быть продлен, но не более чем на пять рабочих дней в случае направления оператором в адрес субъекта персональных данных мотивированного уведомления с указанием причин продления срока предоставления запрашиваемой информации.<br><br> 4.2.6. Направления Пользователю уведомления о новых продуктах и услугах, специальных предложениях и различных событиях. Пользователь всегда может отказаться от получения информационных сообщений, направив Оператору письмо на адрес электронной почты zoomag@mail.ru с пометкой «Отказ от уведомлений о новых продуктах и услугах и специальных предложениях».<br><br> Для достижения данной цели Оператор собирает и обрабатывает следующие категории персональных данных: имя, адрес электронной почты, контактный номер телефона, пользовательский ID. К субъектам, персональные данные которых обрабатываются для указанной цели, относятся: физические лица, заинтересованные в получении товаров/работ/услуг от Оператора, физические лица, состоящие в гражданско-правовых и иных договорных отношениях с Оператором, представители юридических лиц - контрагентов Оператора либо потенциально заинтересованных в установлении с ним гражданско-правовых отношений. Указанные персональные данные обрабатываются смешанным способом. Срок обработки и хранения персональных данных, собираемых в соответствии с настоящим пунктом, составляет не более 7 лет с момента получения последней заявки либо иного обращения от Пользователя. При получении Оператором заявления субъекта персональных данных с требованием о прекращении обработки персональных данных Оператор прекращает обработку персональных данных досрочно, а именно в срок, не превышающий десяти рабочих дней с даты получения соответствующего требования. Указанный срок может быть продлен, но не более чем на пять рабочих дней в случае направления оператором в адрес субъекта персональных данных мотивированного уведомления с указанием причин продления срока предоставления запрашиваемой информации.<br><br> 4.3. Обезличенные данные Пользователей, собираемые с помощью сервисов интернет-статистики, а именно с помощью программ Yandex.Metrika (предоставляется ООО “Яндекс”), LiveInternet (предоставляется ООО Лаборатория поисковых и статистических решений), служат для сбора информации о действиях Пользователей на сайте, улучшения качества сайта и его содержания.<br><br> Для достижения данной цели Оператор собирает и обрабатывает следующие категории обезличенных данных: IP-адрес, данные файлов cookie, информация о браузере Пользователя (или иной программе, с помощью которой осуществляется доступ к сервисам), технические характеристики оборудования и программного обеспечения, используемых Пользователем, дата и время доступа к сервисам, адреса запрашиваемых страниц, реферер (адрес предыдущей страницы). Указанные данные обрабатываются машинным способом. Срок обработки и хранения обезличенных данных, собираемых в соответствии с настоящим пунктом, составляет не более 3 лет с момента последнего посещения Пользователем Сайта. </p><h2>5. Правовые основания обработки персональных данных</h2><p class="text-justify"> 5.1. Оператор обрабатывает персональные данные Пользователя только в случае их заполнения и/или отправки Пользователем самостоятельно через специальные формы, расположенные на сайте ZooМаг.ru. Заполняя соответствующие формы и/или отправляя свои персональные данные Оператору, Пользователь выражает свое согласие с данной Политикой. <br><br> 5.2. Оператор обрабатывает обезличенные данные о Пользователе в случае, если это разрешено в настройках браузера Пользователя (включено сохранение файлов «cookie» и использование технологии JavaScript).<br><br> 5.3. Правовыми основаниями обработки персональных данных Оператором являются: Конституция Российской Федерации (Ст. 23, 24), Федеральный закон от 27.07.2006. №152-ФЗ «О персональных данных», Приказ Роскомнадзора от 05.09.2013 №996, настоящая Политика в отношении обработки персональных данных, Согласие на передачу и обработку персональных данных, предоставляемое пользователем при заполнении формы заявки. </p><h2>6. Порядок сбора, хранения, передачи и других видов обработки персональных данных</h2><p class="text-justify"> 6.1. Персональная информация Пользователей хранится на территории Российской Федерации с соблюдением всех требований, установленных действующим российским законодательством. <br><br> 6.2. В отношении персональной информации Пользователя сохраняется ее конфиденциальность, кроме случаев добровольного предоставления Пользователем информации о себе для общего доступа неограниченному кругу лиц (например, публикация отзывов). В таких случаях Пользователь соглашается с тем, что определенная часть его персональной информации становится общедоступной.<br><br> 6.3. Сайт вправе передать персональную информацию Пользователя третьим лицам в следующих случаях:<br><br> - Пользователь выразил согласие на такие действия и был проинформирован, какому конкретному третьему лицу и какой объем персональных данных будет передан.<br><br> - Передача необходима для использования Пользователем определенного сервиса либо для исполнения определенного соглашения или договора с Пользователем.<br><br> - Передача предусмотрена российским или иным применимым законодательством в рамках установленной законодательством процедуры.<br><br> 6.4. Обработка персональных данных Пользователя осуществляется любым законным способом, в том числе в информационных системах персональных данных с использованием средств автоматизации или без использования таких средств. Обработка персональных данных Пользователей осуществляется в соответствии с Федеральным законом от 27.07.2006 N 152-ФЗ &quot;О персональных данных&quot;. Срок обработки и хранения персональных данных, собираемых Оператором на сайте составляет не более 7 лет с момента получения последней заявки либо иного обращения от Пользователя. При получении Оператором заявления субъекта персональных данных с требованием о прекращении обработки персональных данных Оператор прекращает обработку персональных данных в срок, не превышающий десяти рабочих дней с даты получения соответствующего требования, за исключением случаев, предусмотренных пунктами 2 - 11 части 1 статьи 6 Федерального закона “О персональных данных”. Указанный срок может быть продлен, но не более чем на пять рабочих дней в случае направления оператором в адрес субъекта персональных данных мотивированного уведомления с указанием причин продления срока предоставления запрашиваемой информации.<br><br> 6.5. При утрате или разглашении персональных данных Администрация Сайта информирует Пользователя об утрате или разглашении персональных данных.<br><br> 6.6. Администрация Сайта принимает необходимые организационные и технические меры для защиты персональной информации Пользователя от неправомерного или случайного доступа, уничтожения, изменения, блокирования, копирования, распространения, а также от иных неправомерных действий третьих лиц.<br><br> 6.7. Администрация Сайта совместно с Пользователем принимает все необходимые меры по предотвращению убытков или иных отрицательных последствий, вызванных утратой или разглашением персональных данных Пользователя. </p><h2>7. Ответственность</h2><p class="text-justify"> 7.1. Администрация Сайта, не исполнившая свои обязательства, несет ответственность за убытки, понесенные Пользователем в связи с неправомерным использованием персональных данных, в соответствии с законодательством Российской Федерации. <br><br> 7.2. В случае утраты или разглашения конфиденциальной информации Администрация Сайта не несет ответственности, если данная конфиденциальная информация:<br><br> - Стала публичным достоянием до ее утраты или разглашения.<br><br> - Была получена от третьей стороны до момента ее получения Администрацией Сайта.<br><br> - Была разглашена с согласия Пользователя. </p><h2>8. Заключительные положения</h2><p class="text-justify"> 8.1. Администрация Сайта вправе вносить изменения в настоящую Политику конфиденциальности без согласия Пользователя. <br><br> 8.2. Новая Политика конфиденциальности вступает в силу с момента ее размещения на Сайте, если иное не предусмотрено новой редакцией Политики конфиденциальности.<br><br> 8.3. Все предложения или вопросы по настоящей Политике конфиденциальности следует сообщать на электронный адрес zoomag@mail.com.<br><br> 8.4. Действующая Политика конфиденциальности размещена на странице по адресу: <a class="privacy_policy text-xs sm:text-base" href="https://save1831.github.io/online_store/#/privacy-policy">https://save1831.github.io/online_store/#/privacy-policy</a>. </p>', 17);
+const About = /* @__PURE__ */ _export_sfc(_sfc_main$I, [["render", _sfc_render$D]]);
+const _sfc_main$H = {};
+const _hoisted_1$N = { class: "privacy-policy-container mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl" };
+const _hoisted_2$K = /* @__PURE__ */ createStaticVNode('<h1>Политика в отношении обработки персональных данных</h1><h2>1. Общие положения</h2><p class="text-justify"> Настоящая политика обработки персональных данных составлена в соответствии с требованиями Федерального закона от 27.07.2006. №152-ФЗ «О персональных данных» и определяет порядок обработки персональных данных и меры по обеспечению безопасности персональных данных, предпринимаемые индивидуальным предпринимателем Ивановым Иваном Ивановичем (далее – Оператор). <br><br> 1.1. Оператор ставит своей важнейшей целью и условием осуществления своей деятельности соблюдение прав и свобод человека и гражданина при обработке его персональных данных, в том числе защиты прав на неприкосновенность частной жизни, личную и семейную тайну.<br><br> 1.2. Настоящая политика Оператора в отношении обработки персональных данных (далее – Политика) применяется ко всей информации, которую Оператор может получить о посетителях веб-сайта ZooМаг. Оператор не контролирует и не несет ответственности за сайты третьих лиц, на которые Пользователь может перейти по ссылкам, доступным на Сайте ZooМаг. </p><h2>2. Основные понятия, используемые в Политике</h2><p class="text-justify"> 2.1. Автоматизированная обработка персональных данных – обработка персональных данных с помощью средств вычислительной техники;<br><br> 2.2. Блокирование персональных данных – временное прекращение обработки персональных данных (за исключением случаев, если обработка необходима для уточнения персональных данных);<br><br> 2.3. Веб-сайт – совокупность графических и информационных материалов, а также программ для ЭВМ и баз данных, обеспечивающих их доступность в сети интернет по сетевому адресу ZooМаг;<br><br> 2.4. Информационная система персональных данных — совокупность содержащихся в базах данных персональных данных, и обеспечивающих их обработку информационных технологий и технических средств;<br><br> 2.5. Обезличивание персональных данных — действия, в результате которых невозможно определить без использования дополнительной информации принадлежность персональных данных конкретному Пользователю или иному субъекту персональных данных;<br><br> 2.6. Обработка персональных данных – любое действие (операция) или совокупность действий (операций), совершаемых с использованием средств автоматизации или без использования таких средств с персональными данными, включая сбор, запись, систематизацию, накопление, хранение, уточнение (обновление, изменение), извлечение, использование, передачу (распространение, предоставление, доступ), обезличивание, блокирование, удаление, уничтожение персональных данных; Оператор осуществляет обработку данных пользователя до момента подачи им заявления на отзыв согласия на обработку персональных данных.<br><br> 2.7. Оператор – Администрация сайта, индивидуальный предприниматель Иванов Иван Иванович (ИНН: 9999999999, ОГРН: 8888888888, Адрес: г. Краснодар ул. Ставропольская д 999 кв 888).<br><br> 2.8. Персональные данные – любая информация, относящаяся прямо или косвенно к определенному или определяемому Пользователю веб-сайта ZooМаг;<br><br> 2.9. Пользователь – любой посетитель веб-сайта ZooМаг;<br><br> 2.10. Предоставление персональных данных – действия, направленные на раскрытие персональных данных определенному лицу или определенному кругу лиц;<br><br> 2.11. Распространение персональных данных – любые действия, направленные на раскрытие персональных данных неопределенному кругу лиц (передача персональных данных) или на ознакомление с персональными данными неограниченного круга лиц, в том числе обнародование персональных данных в средствах массовой информации, размещение в информационно-телекоммуникационных сетях или предоставление доступа к персональным данным каким-либо иным способом;<br><br> 2.12. Уничтожение персональных данных – любые действия, в результате которых персональные данные уничтожаются безвозвратно с невозможностью дальнейшего восстановления содержания персональных данных в информационной системе персональных данных и (или) уничтожаются материальные носители персональных данных. </p><h2>3. Оператор может обрабатывать следующие персональные данные Пользователя</h2><p class="text-justify"> 3.1. Персональная информация, которую Пользователь предоставляет о себе самостоятельно при регистрации (создании учетной записи) или в процессе использования Сайта и его сервисов, включая персональные данные Пользователя. Обязательная для предоставления Сервисов информация помечена специальным образом. Иная информация предоставляется Пользователем на его усмотрение. <br><br> 3.2. Данные, которые автоматически передаются сервисам Сайта в процессе их использования с помощью установленного на устройстве Пользователя программного обеспечения, а именно программ Yandex.Metrika (предоставляется ООО “Яндекс”), LiveInternet (предоставляется ООО Лаборатория поисковых и статистических решений), в том числе IP-адрес, данные файлов cookie, информация о браузере Пользователя (или иной программе, с помощью которой осуществляется доступ к сервисам), технические характеристики оборудования и программного обеспечения, используемых Пользователем, дата и время доступа к сервисам, адреса запрашиваемых страниц, реферер (адрес предыдущей страницы) и иная подобная информация. </p><h2>4. Категории собираемых персональных данных и цели их обработки</h2><p class="text-justify"> 4.1. Сайт собирает и хранит только ту персональную информацию, которая необходима для предоставления информации об услугах или исполнения соглашений и договоров с Пользователем, за исключением случаев, когда законодательством предусмотрено обязательное хранение персональной информации в течение определенного законом срока. <br><br> 4.2. Персональную информацию Пользователя Сайт обрабатывает в следующих целях:<br><br> 4.2.1. Установления с Пользователем обратной связи, включая направление уведомлений, запросов, касающихся использования Сайта, оказания услуг, обработку запросов и заявок от Пользователя.<br><br> Для достижения данной цели Оператор собирает и обрабатывает следующие категории персональных данных: имя, адрес электронной почты, контактный номер телефона. К субъектам, персональные данные которых обрабатываются для указанной цели, относятся: физические лица, заинтересованные в получении товаров/работ/услуг от Оператора, физические лица, состоящие в гражданско-правовых и иных договорных отношениях с Оператором, представители юридических лиц - контрагентов Оператора либо потенциально заинтересованных в установлении с ним гражданско-правовых отношений. Указанные персональные данные обрабатываются смешанным способом. Срок обработки и хранения персональных данных, собираемых в соответствии с настоящим пунктом, составляет не более 7 лет с момента получения последней заявки либо иного обращения от Пользователя. При получении Оператором заявления субъекта персональных данных с требованием о прекращении обработки персональных данных Оператор прекращает обработку персональных данных досрочно, а именно в срок, не превышающий десяти рабочих дней с даты получения соответствующего требования. Указанный срок может быть продлен, но не более чем на пять рабочих дней в случае направления оператором в адрес субъекта персональных данных мотивированного уведомления с указанием причин продления срока предоставления запрашиваемой информации.<br><br> 4.2.2. Идентификации Пользователя, зарегистрированного на Сайте, для формирования и исполнения персонализированных предложений и соглашений.<br><br> Для достижения данной цели Оператор собирает и обрабатывает следующие категории персональных данных: имя, адрес электронной почты, контактный номер телефона, пользовательский ID, IP-адрес. К субъектам, персональные данные которых обрабатываются для указанной цели, относятся: физические лица, заинтересованные в получении товаров/работ/услуг от Оператора, физические лица, состоящие в гражданско-правовых и иных договорных отношениях с Оператором, представители юридических лиц - контрагентов Оператора либо потенциально заинтересованных в установлении с ним гражданско-правовых отношений. Указанные персональные данные обрабатываются смешанным способом. Срок обработки и хранения персональных данных, собираемых в соответствии с настоящим пунктом, составляет не более 7 лет с момента получения последней заявки либо иного обращения от Пользователя. При получении Оператором заявления субъекта персональных данных с требованием о прекращении обработки персональных данных Оператор прекращает обработку персональных данных досрочно, а именно в срок, не превышающий десяти рабочих дней с даты получения соответствующего требования. Указанный срок может быть продлен, но не более чем на пять рабочих дней в случае направления оператором в адрес субъекта персональных данных мотивированного уведомления с указанием причин продления срока предоставления запрашиваемой информации.<br><br> 4.2.3. Предоставления Пользователю доступа к персонализированным ресурсам Сайта.<br><br> Для достижения данной цели Оператор собирает и обрабатывает следующие категории персональных данных: имя, адрес электронной почты, контактный номер телефона, пользовательский ID, IP-адрес. К субъектам, персональные данные которых обрабатываются для указанной цели, относятся: физические лица, заинтересованные в получении товаров/работ/услуг от Оператора, физические лица, состоящие в гражданско-правовых и иных договорных отношениях с Оператором, представители юридических лиц - контрагентов Оператора либо потенциально заинтересованных в установлении с ним гражданско-правовых отношений. Указанные персональные данные обрабатываются смешанным способом. Срок обработки и хранения персональных данных, собираемых в соответствии с настоящим пунктом составляет не более 7 лет с момента получения последней заявки либо иного обращения от Пользователя. При получении Оператором заявления субъекта персональных данных с требованием о прекращении обработки персональных данных Оператор прекращает обработку персональных данных досрочно, а именно в срок, не превышающий десяти рабочих дней с даты получения соответствующего требования. Указанный срок может быть продлен, но не более чем на пять рабочих дней в случае направления оператором в адрес субъекта персональных данных мотивированного уведомления с указанием причин продления срока предоставления запрашиваемой информации.<br><br> 4.2.4. Определения места нахождения Пользователя для обеспечения безопасности, предотвращения мошенничества.<br><br> Для достижения данной цели Оператор собирает и обрабатывает следующие категории персональных данных: IP-адрес пользователя. К субъектам, персональные данные которых обрабатываются для указанной цели, относятся: физические лица, заинтересованные в получении товаров/работ/услуг от Оператора, физические лица, состоящие в гражданско-правовых и иных договорных отношениях с Оператором, представители юридических лиц - контрагентов Оператора либо потенциально заинтересованных в установлении с ним гражданско-правовых отношений. Указанные персональные данные обрабатываются смешанным способом. Срок обработки и хранения персональных данных, собираемых в соответствии с настоящим пунктом составляет не более 3 лет с момента последнего посещения Пользователем Сайта. При получении Оператором заявления субъекта персональных данных с требованием о прекращении обработки персональных данных Оператор прекращает обработку персональных данных досрочно, а именно в срок, не превышающий десяти рабочих дней с даты получения соответствующего требования. Указанный срок может быть продлен, но не более чем на пять рабочих дней в случае направления оператором в адрес субъекта персональных данных мотивированного уведомления с указанием причин продления срока предоставления запрашиваемой информации.<br><br> 4.2.5. Предоставления Пользователю эффективной клиентской и технической поддержки.<br><br> Для достижения данной цели Оператор собирает и обрабатывает следующие категории персональных данных: имя, адрес электронной почты, контактный номер телефона, пользовательский ID, IP-адрес. К субъектам, персональные данные которых обрабатываются для указанной цели, относятся: физические лица, заинтересованные в получении товаров/работ/услуг от Оператора, физические лица, состоящие в гражданско-правовых и иных договорных отношениях с Оператором, представители юридических лиц - контрагентов Оператора либо потенциально заинтересованных в установлении с ним гражданско-правовых отношений. Указанные персональные данные обрабатываются смешанным способом. Срок обработки и хранения персональных данных, собираемых в соответствии с настоящим пунктом составляет не более 7 лет с момента получения последней заявки либо иного обращения от Пользователя. При получении Оператором заявления субъекта персональных данных с требованием о прекращении обработки персональных данных Оператор прекращает обработку персональных данных досрочно, а именно в срок, не превышающий десяти рабочих дней с даты получения соответствующего требования. Указанный срок может быть продлен, но не более чем на пять рабочих дней в случае направления оператором в адрес субъекта персональных данных мотивированного уведомления с указанием причин продления срока предоставления запрашиваемой информации.<br><br> 4.2.6. Направления Пользователю уведомления о новых продуктах и услугах, специальных предложениях и различных событиях. Пользователь всегда может отказаться от получения информационных сообщений, направив Оператору письмо на адрес электронной почты zoomag@mail.ru с пометкой «Отказ от уведомлений о новых продуктах и услугах и специальных предложениях».<br><br> Для достижения данной цели Оператор собирает и обрабатывает следующие категории персональных данных: имя, адрес электронной почты, контактный номер телефона, пользовательский ID. К субъектам, персональные данные которых обрабатываются для указанной цели, относятся: физические лица, заинтересованные в получении товаров/работ/услуг от Оператора, физические лица, состоящие в гражданско-правовых и иных договорных отношениях с Оператором, представители юридических лиц - контрагентов Оператора либо потенциально заинтересованных в установлении с ним гражданско-правовых отношений. Указанные персональные данные обрабатываются смешанным способом. Срок обработки и хранения персональных данных, собираемых в соответствии с настоящим пунктом, составляет не более 7 лет с момента получения последней заявки либо иного обращения от Пользователя. При получении Оператором заявления субъекта персональных данных с требованием о прекращении обработки персональных данных Оператор прекращает обработку персональных данных досрочно, а именно в срок, не превышающий десяти рабочих дней с даты получения соответствующего требования. Указанный срок может быть продлен, но не более чем на пять рабочих дней в случае направления оператором в адрес субъекта персональных данных мотивированного уведомления с указанием причин продления срока предоставления запрашиваемой информации.<br><br> 4.3. Обезличенные данные Пользователей, собираемые с помощью сервисов интернет-статистики, а именно с помощью программ Yandex.Metrika (предоставляется ООО “Яндекс”), LiveInternet (предоставляется ООО Лаборатория поисковых и статистических решений), служат для сбора информации о действиях Пользователей на сайте, улучшения качества сайта и его содержания.<br><br> Для достижения данной цели Оператор собирает и обрабатывает следующие категории обезличенных данных: IP-адрес, данные файлов cookie, информация о браузере Пользователя (или иной программе, с помощью которой осуществляется доступ к сервисам), технические характеристики оборудования и программного обеспечения, используемых Пользователем, дата и время доступа к сервисам, адреса запрашиваемых страниц, реферер (адрес предыдущей страницы). Указанные данные обрабатываются машинным способом. Срок обработки и хранения обезличенных данных, собираемых в соответствии с настоящим пунктом, составляет не более 3 лет с момента последнего посещения Пользователем Сайта. </p><h2>5. Правовые основания обработки персональных данных</h2><p class="text-justify"> 5.1. Оператор обрабатывает персональные данные Пользователя только в случае их заполнения и/или отправки Пользователем самостоятельно через специальные формы, расположенные на сайте ZooМаг.ru. Заполняя соответствующие формы и/или отправляя свои персональные данные Оператору, Пользователь выражает свое согласие с данной Политикой. <br><br> 5.2. Оператор обрабатывает обезличенные данные о Пользователе в случае, если это разрешено в настройках браузера Пользователя (включено сохранение файлов «cookie» и использование технологии JavaScript).<br><br> 5.3. Правовыми основаниями обработки персональных данных Оператором являются: Конституция Российской Федерации (Ст. 23, 24), Федеральный закон от 27.07.2006. №152-ФЗ «О персональных данных», Приказ Роскомнадзора от 05.09.2013 №996, настоящая Политика в отношении обработки персональных данных, Согласие на передачу и обработку персональных данных, предоставляемое пользователем при заполнении формы заявки. </p><h2>6. Порядок сбора, хранения, передачи и других видов обработки персональных данных</h2><p class="text-justify"> 6.1. Персональная информация Пользователей хранится на территории Российской Федерации с соблюдением всех требований, установленных действующим российским законодательством. <br><br> 6.2. В отношении персональной информации Пользователя сохраняется ее конфиденциальность, кроме случаев добровольного предоставления Пользователем информации о себе для общего доступа неограниченному кругу лиц (например, публикация отзывов). В таких случаях Пользователь соглашается с тем, что определенная часть его персональной информации становится общедоступной.<br><br> 6.3. Сайт вправе передать персональную информацию Пользователя третьим лицам в следующих случаях:<br><br> - Пользователь выразил согласие на такие действия и был проинформирован, какому конкретному третьему лицу и какой объем персональных данных будет передан.<br><br> - Передача необходима для использования Пользователем определенного сервиса либо для исполнения определенного соглашения или договора с Пользователем.<br><br> - Передача предусмотрена российским или иным применимым законодательством в рамках установленной законодательством процедуры.<br><br> 6.4. Обработка персональных данных Пользователя осуществляется любым законным способом, в том числе в информационных системах персональных данных с использованием средств автоматизации или без использования таких средств. Обработка персональных данных Пользователей осуществляется в соответствии с Федеральным законом от 27.07.2006 N 152-ФЗ &quot;О персональных данных&quot;. Срок обработки и хранения персональных данных, собираемых Оператором на сайте составляет не более 7 лет с момента получения последней заявки либо иного обращения от Пользователя. При получении Оператором заявления субъекта персональных данных с требованием о прекращении обработки персональных данных Оператор прекращает обработку персональных данных в срок, не превышающий десяти рабочих дней с даты получения соответствующего требования, за исключением случаев, предусмотренных пунктами 2 - 11 части 1 статьи 6 Федерального закона “О персональных данных”. Указанный срок может быть продлен, но не более чем на пять рабочих дней в случае направления оператором в адрес субъекта персональных данных мотивированного уведомления с указанием причин продления срока предоставления запрашиваемой информации.<br><br> 6.5. При утрате или разглашении персональных данных Администрация Сайта информирует Пользователя об утрате или разглашении персональных данных.<br><br> 6.6. Администрация Сайта принимает необходимые организационные и технические меры для защиты персональной информации Пользователя от неправомерного или случайного доступа, уничтожения, изменения, блокирования, копирования, распространения, а также от иных неправомерных действий третьих лиц.<br><br> 6.7. Администрация Сайта совместно с Пользователем принимает все необходимые меры по предотвращению убытков или иных отрицательных последствий, вызванных утратой или разглашением персональных данных Пользователя. </p><h2>7. Ответственность</h2><p class="text-justify"> 7.1. Администрация Сайта, не исполнившая свои обязательства, несет ответственность за убытки, понесенные Пользователем в связи с неправомерным использованием персональных данных, в соответствии с законодательством Российской Федерации. <br><br> 7.2. В случае утраты или разглашения конфиденциальной информации Администрация Сайта не несет ответственности, если данная конфиденциальная информация:<br><br> - Стала публичным достоянием до ее утраты или разглашения.<br><br> - Была получена от третьей стороны до момента ее получения Администрацией Сайта.<br><br> - Была разглашена с согласия Пользователя. </p><h2>8. Заключительные положения</h2><p class="text-justify"> 8.1. Администрация Сайта вправе вносить изменения в настоящую Политику конфиденциальности без согласия Пользователя. <br><br> 8.2. Новая Политика конфиденциальности вступает в силу с момента ее размещения на Сайте, если иное не предусмотрено новой редакцией Политики конфиденциальности.<br><br> 8.3. Все предложения или вопросы по настоящей Политике конфиденциальности следует сообщать на электронный адрес zoomag@mail.com.<br><br> 8.4. Действующая Политика конфиденциальности размещена на странице по адресу: <a class="privacy_policy text-xs sm:text-base" href="https://save1831.github.io/online_store/#/privacy-policy">https://save1831.github.io/online_store/#/privacy-policy</a>. </p>', 17);
 const _hoisted_19$1 = [
-  _hoisted_2$J
+  _hoisted_2$K
 ];
 function _sfc_render$C(_ctx, _cache) {
-  return openBlock(), createElementBlock("div", _hoisted_1$M, _hoisted_19$1);
+  return openBlock(), createElementBlock("div", _hoisted_1$N, _hoisted_19$1);
 }
-const PrivacyPolicy = /* @__PURE__ */ _export_sfc(_sfc_main$G, [["render", _sfc_render$C]]);
-const _sfc_main$F = {};
-const _hoisted_1$L = { class: "requisites-container mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl" };
-const _hoisted_2$I = /* @__PURE__ */ createBaseVNode("h1", null, "Реквизиты", -1);
-const _hoisted_3$6 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
-const _hoisted_4$7 = /* @__PURE__ */ createBaseVNode("h2", null, "Реквизиты организации:", -1);
-const _hoisted_5$5 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
-const _hoisted_6$5 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
-const _hoisted_7$5 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
-const _hoisted_8$2 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
+const PrivacyPolicy = /* @__PURE__ */ _export_sfc(_sfc_main$H, [["render", _sfc_render$C]]);
+const _sfc_main$G = {};
+const _hoisted_1$M = { class: "requisites-container mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl" };
+const _hoisted_2$J = /* @__PURE__ */ createBaseVNode("h1", null, "Реквизиты", -1);
+const _hoisted_3$7 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
+const _hoisted_4$8 = /* @__PURE__ */ createBaseVNode("h2", null, "Реквизиты организации:", -1);
+const _hoisted_5$6 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
+const _hoisted_6$6 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
+const _hoisted_7$6 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
+const _hoisted_8$3 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
 const _hoisted_9$1 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
 const _hoisted_10$1 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
 const _hoisted_11 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
@@ -31798,12 +32276,12 @@ const _hoisted_20 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
 const _hoisted_21$1 = /* @__PURE__ */ createBaseVNode("a", { href: "tel:+79998887766" }, "телефону", -1);
 function _sfc_render$B(_ctx, _cache) {
   const _component_router_link = resolveComponent("router-link");
-  return openBlock(), createElementBlock("div", _hoisted_1$L, [
-    _hoisted_2$I,
+  return openBlock(), createElementBlock("div", _hoisted_1$M, [
+    _hoisted_2$J,
     createBaseVNode("p", null, [
       createBaseVNode("strong", null, [
         createTextVNode("ВНИМАНИЕ! "),
-        _hoisted_3$6,
+        _hoisted_3$7,
         createTextVNode(" Перед осуществлением платежа свяжитесь с администрацией магазина для определения точной суммы заказа (с учетом "),
         createVNode(_component_router_link, { to: "/discounts" }, {
           default: withCtx(() => [
@@ -31821,15 +32299,15 @@ function _sfc_render$B(_ctx, _cache) {
         createTextVNode(").")
       ])
     ]),
-    _hoisted_4$7,
+    _hoisted_4$8,
     createBaseVNode("p", null, [
       createTextVNode(" ZooМаг - Интернет-магазин товаров для животных. "),
-      _hoisted_5$5,
-      _hoisted_6$5,
+      _hoisted_5$6,
+      _hoisted_6$6,
       createTextVNode(" ИП Иванов Иван Иванович"),
-      _hoisted_7$5,
+      _hoisted_7$6,
       createTextVNode(" ИНН 0999999999"),
-      _hoisted_8$2,
+      _hoisted_8$3,
       _hoisted_9$1,
       createTextVNode(" ОРГНИП 3333333333"),
       _hoisted_10$1,
@@ -31863,30 +32341,30 @@ function _sfc_render$B(_ctx, _cache) {
     ])
   ]);
 }
-const Requisites = /* @__PURE__ */ _export_sfc(_sfc_main$F, [["render", _sfc_render$B]]);
-const _sfc_main$E = {};
-const _hoisted_1$K = { class: "exchange-return-container mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl" };
-const _hoisted_2$H = /* @__PURE__ */ createStaticVNode('<h1>Условия обмена и возврата товара</h1><p class="text-justify"> Правила обмена товара, возврата товара и возврата денежных средств регулируются Законом РФ от 07.02.1992 N 2300-1 (ред. от 01.05.2017) &quot;О защите прав потребителей&quot;. Обращаем Ваше внимание, что согласно этому закону, не все товары могут быть возвращены или заменены. </p><h2>1. Возврат товара</h2><h3>1.1. Возврат товара надлежащего качества</h3><b>1.1.1. Самостоятельно.</b><p class="mt-0 text-justify"> Вам необходимо позвонить и сообщить о своем решении Менеджеру интернет-магазина и согласовать день и время. Прием товара осуществляется в офисе. Денежные средства возвращаются тем же способом, каким Вы оплачивали заказ. </p><b>1.1.2. При помощи курьера.</b><p class="mt-0 text-justify"> Вам необходимо позвонить и сообщить о своем решении Менеджеру интернет-магазина. Выезд курьера платный. Если Вы возвращаете часть заказа и оставшаяся сумма более 1200 рублей - стоимость возврата через курьера 160 рублей. Если оставшаяся сумма заказа менее 1200 рублей и Вы возвращаете весь заказ полностью - стоимость возврата через курьера 320 рублей (стоимость доставки заказа + стоимость выезда на возврат). Денежные средства возвращаются тем же способом, каким Вы оплачивали заказ. </p><b>1.1.3. Транспортной компанией.</b><p class="mt-0 text-justify"> Вам необходимо позвонить и сообщить о своем решении Менеджеру интернет-магазина. Услуги транспортной компании Вы оплачиваете самостоятельно. Денежные средства возвращаются тем же способом, каким Вы оплачивали заказ за вычетом расходов Интернет-магазина на расходы по отправке и получению возвращаемого товара через транспортную компанию. <br><br><b>Товар должен полностью сохранить товарный вид и иметь все этикетки, бирки, стикеры, упаковку.</b> При нарушении этих условий товар не принимается. </p><h3>1.2. Возврат товара ненадлежащего качества</h3><b>1.2.1. Самостоятельно.</b><p class="mt-0 text-justify"> Вам необходимо позвонить и сообщить о своем решении Менеджеру интернет-магазина и согласовать день и время. Прием товара осуществляется в офисе по адресу г. Краснодар, ул. Ставропольская 999 с 10:00 до 20:00. Денежные средства возвращаются тем же способом, которым проходила оплата. </p><b>1.2.2. При помощи курьера.</b><p class="mt-0 text-justify"> Вам необходимо позвонить и сообщить о своем решении Менеджеру интернет-магазина. Выезд курьера бесплатный. Денежные средства возвращаются тем же способом, которым проходила оплата. </p><b>1.2.3. Транспортной компанией.</b><p class="mt-0 text-justify"> Вам необходимо позвонить и сообщить о своем решении Менеджеру интернет-магазина. Услуги транспортной компании оплачивает магазин, при условии что Вы предварительно согласовали Наименование транспортной компании и тариф на перевозку. Денежные средства возвращаются тем же способом, которым проходила оплата.<br><br><b>Товар должен полностью сохранить товарный вид и иметь все этикетки, бирки, стикеры, упаковку.</b> При нарушении этих условий товар не принимается. </p><h2>2. Возврат денежных средств в случае ошибочной оплаты либо оплаты несогласованного заказа</h2><p class="mt-0 text-justify"> Мы настоятельно просим Всех своих клиентов не оплачивать заказы до согласования заказа в личном разговоре с Менеджером магазина по телефону, так как заказываемого товара может не оказаться на складе, либо Вам могут не подойти сроки доставки или особенности товара (цвет, размер и т.п.) Предупреждение об этом факте Вы можете увидеть на странице оформления заказа, и если Вы его игнорируете, это не отменяет сути данного предупреждения. Возврат денежных средств будет осуществлен Вам на карту с которой Вы оплатили несогласованный заказ. <br><br> В случае перечисления ошибочной суммы, разница будет так же возвращена Вам. Пожалуйста, перед подтверждением платежа проверьте сумму. </p>', 19);
+const Requisites = /* @__PURE__ */ _export_sfc(_sfc_main$G, [["render", _sfc_render$B]]);
+const _sfc_main$F = {};
+const _hoisted_1$L = { class: "exchange-return-container mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl" };
+const _hoisted_2$I = /* @__PURE__ */ createStaticVNode('<h1>Условия обмена и возврата товара</h1><p class="text-justify"> Правила обмена товара, возврата товара и возврата денежных средств регулируются Законом РФ от 07.02.1992 N 2300-1 (ред. от 01.05.2017) &quot;О защите прав потребителей&quot;. Обращаем Ваше внимание, что согласно этому закону, не все товары могут быть возвращены или заменены. </p><h2>1. Возврат товара</h2><h3>1.1. Возврат товара надлежащего качества</h3><b>1.1.1. Самостоятельно.</b><p class="mt-0 text-justify"> Вам необходимо позвонить и сообщить о своем решении Менеджеру интернет-магазина и согласовать день и время. Прием товара осуществляется в офисе. Денежные средства возвращаются тем же способом, каким Вы оплачивали заказ. </p><b>1.1.2. При помощи курьера.</b><p class="mt-0 text-justify"> Вам необходимо позвонить и сообщить о своем решении Менеджеру интернет-магазина. Выезд курьера платный. Если Вы возвращаете часть заказа и оставшаяся сумма более 1200 рублей - стоимость возврата через курьера 160 рублей. Если оставшаяся сумма заказа менее 1200 рублей и Вы возвращаете весь заказ полностью - стоимость возврата через курьера 320 рублей (стоимость доставки заказа + стоимость выезда на возврат). Денежные средства возвращаются тем же способом, каким Вы оплачивали заказ. </p><b>1.1.3. Транспортной компанией.</b><p class="mt-0 text-justify"> Вам необходимо позвонить и сообщить о своем решении Менеджеру интернет-магазина. Услуги транспортной компании Вы оплачиваете самостоятельно. Денежные средства возвращаются тем же способом, каким Вы оплачивали заказ за вычетом расходов Интернет-магазина на расходы по отправке и получению возвращаемого товара через транспортную компанию. <br><br><b>Товар должен полностью сохранить товарный вид и иметь все этикетки, бирки, стикеры, упаковку.</b> При нарушении этих условий товар не принимается. </p><h3>1.2. Возврат товара ненадлежащего качества</h3><b>1.2.1. Самостоятельно.</b><p class="mt-0 text-justify"> Вам необходимо позвонить и сообщить о своем решении Менеджеру интернет-магазина и согласовать день и время. Прием товара осуществляется в офисе по адресу г. Краснодар, ул. Ставропольская 999 с 10:00 до 20:00. Денежные средства возвращаются тем же способом, которым проходила оплата. </p><b>1.2.2. При помощи курьера.</b><p class="mt-0 text-justify"> Вам необходимо позвонить и сообщить о своем решении Менеджеру интернет-магазина. Выезд курьера бесплатный. Денежные средства возвращаются тем же способом, которым проходила оплата. </p><b>1.2.3. Транспортной компанией.</b><p class="mt-0 text-justify"> Вам необходимо позвонить и сообщить о своем решении Менеджеру интернет-магазина. Услуги транспортной компании оплачивает магазин, при условии что Вы предварительно согласовали Наименование транспортной компании и тариф на перевозку. Денежные средства возвращаются тем же способом, которым проходила оплата.<br><br><b>Товар должен полностью сохранить товарный вид и иметь все этикетки, бирки, стикеры, упаковку.</b> При нарушении этих условий товар не принимается. </p><h2>2. Возврат денежных средств в случае ошибочной оплаты либо оплаты несогласованного заказа</h2><p class="mt-0 text-justify"> Мы настоятельно просим Всех своих клиентов не оплачивать заказы до согласования заказа в личном разговоре с Менеджером магазина по телефону, так как заказываемого товара может не оказаться на складе, либо Вам могут не подойти сроки доставки или особенности товара (цвет, размер и т.п.) Предупреждение об этом факте Вы можете увидеть на странице оформления заказа, и если Вы его игнорируете, это не отменяет сути данного предупреждения. Возврат денежных средств будет осуществлен Вам на карту с которой Вы оплатили несогласованный заказ. <br><br> В случае перечисления ошибочной суммы, разница будет так же возвращена Вам. Пожалуйста, перед подтверждением платежа проверьте сумму. </p>', 19);
 const _hoisted_21 = [
-  _hoisted_2$H
+  _hoisted_2$I
 ];
 function _sfc_render$A(_ctx, _cache) {
-  return openBlock(), createElementBlock("div", _hoisted_1$K, _hoisted_21);
+  return openBlock(), createElementBlock("div", _hoisted_1$L, _hoisted_21);
 }
-const ExchangeReturn = /* @__PURE__ */ _export_sfc(_sfc_main$E, [["render", _sfc_render$A]]);
-const _sfc_main$D = {};
-const _hoisted_1$J = { class: "agreement-container mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl" };
-const _hoisted_2$G = /* @__PURE__ */ createBaseVNode("h1", { class: "text-3xl sm:text-4xl" }, "Пользовательское соглашение", -1);
-const _hoisted_3$5 = { class: "text-justify" };
-const _hoisted_4$6 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
-const _hoisted_5$4 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
-const _hoisted_6$4 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
-const _hoisted_7$4 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
+const ExchangeReturn = /* @__PURE__ */ _export_sfc(_sfc_main$F, [["render", _sfc_render$A]]);
+const _sfc_main$E = {};
+const _hoisted_1$K = { class: "agreement-container mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl" };
+const _hoisted_2$H = /* @__PURE__ */ createBaseVNode("h1", { class: "text-3xl sm:text-4xl" }, "Пользовательское соглашение", -1);
+const _hoisted_3$6 = { class: "text-justify" };
+const _hoisted_4$7 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
+const _hoisted_5$5 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
+const _hoisted_6$5 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
+const _hoisted_7$5 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
 function _sfc_render$z(_ctx, _cache) {
   const _component_router_link = resolveComponent("router-link");
-  return openBlock(), createElementBlock("div", _hoisted_1$J, [
-    _hoisted_2$G,
-    createBaseVNode("p", _hoisted_3$5, [
+  return openBlock(), createElementBlock("div", _hoisted_1$K, [
+    _hoisted_2$H,
+    createBaseVNode("p", _hoisted_3$6, [
       createTextVNode(" Настоящим Я, действуя своей волей и в своем интересе, при размещении (вводе) своих персональных данных на Интернет сайте zoomag индивидуального предпринимателя Иванова Ивана Ивановича (ИНН: 9999999999, ОГРН: 888888888, Адрес: г. Краснодар ул. Ставропольская д 555 кв 666, далее - Оператор) подтверждаю свое согласие на обработку указанных мной персональных данных Оператором, в соответствии с "),
       createVNode(_component_router_link, { to: "/privacy-policy" }, {
         default: withCtx(() => [
@@ -31895,389 +32373,389 @@ function _sfc_render$z(_ctx, _cache) {
         _: 1
       }),
       createTextVNode(", в целях оказания мне услуг, предложения новых услуг, предлагаемых Оператором, в целях проведения опросов, анкетирования, рекламных и маркетинговых исследований в отношении услуг, предоставляемых Оператором, в том числе путем осуществления прямых контактов со мною посредством средств связи, указанных мной на настоящем сайте. "),
-      _hoisted_4$6,
-      _hoisted_5$4,
+      _hoisted_4$7,
+      _hoisted_5$5,
       createTextVNode(" Настоящее право (согласие) предоставляется на осуществление любых действий в отношении моих персональных данных, которые необходимы и желаемы для достижения вышеуказанных целей, включая, без ограничения, сбор, систематизацию, накопление, хранение, уточнение (обновление, изменение), использование, передачу третьим лицам, обезличивание, блокирование и уничтожение персональных данных (в том числе по моей инициативе после запроса на почту zoomag@mail.ru), под которыми понимаются все данные, указанные мной на настоящем сайте."),
-      _hoisted_6$4,
-      _hoisted_7$4,
+      _hoisted_6$5,
+      _hoisted_7$5,
       createTextVNode(" Настоящим подтверждаю, что уведомлен о том, что обработка персональных данных осуществляется Оператором любым способом, в том числе как с использованием средств автоматизации (включая программное обеспечение), так и без использования средств автоматизации (с использованием различных материальных носителей, включая бумажные носители). ")
     ])
   ]);
 }
-const Agreement = /* @__PURE__ */ _export_sfc(_sfc_main$D, [["render", _sfc_render$z]]);
-const _sfc_main$C = {};
-const _hoisted_1$I = { class: "partners-container mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl" };
-const _hoisted_2$F = /* @__PURE__ */ createStaticVNode('<h1>Наши партнеры</h1><p class="text-justify"> Здесь пока пусто Здесь пока пусто Здесь пока пусто Здесь пока пусто Здесь пока пусто<br><br> Здесь пока пусто Здесь пока пусто Здесь пока пусто Здесь пока пусто Здесь пока пусто<br><br> Здесь пока пусто Здесь пока пусто Здесь пока пусто Здесь пока пусто Здесь пока пусто<br><br> Здесь пока пусто Здесь пока пусто Здесь пока пусто Здесь пока пусто Здесь пока пусто<br><br> Здесь пока пусто Здесь пока пусто Здесь пока пусто Здесь пока пусто Здесь пока пусто<br><br> Здесь пока пусто Здесь пока пусто Здесь пока пусто Здесь пока пусто Здесь пока пусто<br><br> Здесь пока пусто Здесь пока пусто Здесь пока пусто Здесь пока пусто Здесь пока пусто<br><br> Здесь пока пусто Здесь пока пусто Здесь пока пусто Здесь пока пусто Здесь пока пусто<br><br></p>', 2);
-const _hoisted_4$5 = [
-  _hoisted_2$F
+const Agreement = /* @__PURE__ */ _export_sfc(_sfc_main$E, [["render", _sfc_render$z]]);
+const _sfc_main$D = {};
+const _hoisted_1$J = { class: "partners-container mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl" };
+const _hoisted_2$G = /* @__PURE__ */ createStaticVNode('<h1>Наши партнеры</h1><p class="text-justify"> Здесь пока пусто Здесь пока пусто Здесь пока пусто Здесь пока пусто Здесь пока пусто<br><br> Здесь пока пусто Здесь пока пусто Здесь пока пусто Здесь пока пусто Здесь пока пусто<br><br> Здесь пока пусто Здесь пока пусто Здесь пока пусто Здесь пока пусто Здесь пока пусто<br><br> Здесь пока пусто Здесь пока пусто Здесь пока пусто Здесь пока пусто Здесь пока пусто<br><br> Здесь пока пусто Здесь пока пусто Здесь пока пусто Здесь пока пусто Здесь пока пусто<br><br> Здесь пока пусто Здесь пока пусто Здесь пока пусто Здесь пока пусто Здесь пока пусто<br><br> Здесь пока пусто Здесь пока пусто Здесь пока пусто Здесь пока пусто Здесь пока пусто<br><br> Здесь пока пусто Здесь пока пусто Здесь пока пусто Здесь пока пусто Здесь пока пусто<br><br></p>', 2);
+const _hoisted_4$6 = [
+  _hoisted_2$G
 ];
 function _sfc_render$y(_ctx, _cache) {
-  return openBlock(), createElementBlock("div", _hoisted_1$I, _hoisted_4$5);
+  return openBlock(), createElementBlock("div", _hoisted_1$J, _hoisted_4$6);
 }
-const Partners = /* @__PURE__ */ _export_sfc(_sfc_main$C, [["render", _sfc_render$y]]);
-const _sfc_main$B = {};
-const _hoisted_1$H = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
-const _hoisted_2$E = /* @__PURE__ */ createBaseVNode("h1", null, "Сухой корм для кошек", -1);
+const Partners = /* @__PURE__ */ _export_sfc(_sfc_main$D, [["render", _sfc_render$y]]);
+const _sfc_main$C = {};
+const _hoisted_1$I = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
+const _hoisted_2$F = /* @__PURE__ */ createBaseVNode("h1", null, "Сухой корм для кошек", -1);
 function _sfc_render$x(_ctx, _cache) {
   const _component_my_card_item_list = resolveComponent("my-card-item-list");
-  return openBlock(), createElementBlock("div", _hoisted_1$H, [
-    _hoisted_2$E,
+  return openBlock(), createElementBlock("div", _hoisted_1$I, [
+    _hoisted_2$F,
     createVNode(_component_my_card_item_list, { apiUrl: "https://106b03ab3546a2ba.mokky.dev/cats-dry-food" })
   ]);
 }
-const CatsDryFood = /* @__PURE__ */ _export_sfc(_sfc_main$B, [["render", _sfc_render$x]]);
-const _sfc_main$A = {};
-const _hoisted_1$G = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
-const _hoisted_2$D = /* @__PURE__ */ createBaseVNode("h1", null, "Влажный корм для кошек", -1);
+const CatsDryFood = /* @__PURE__ */ _export_sfc(_sfc_main$C, [["render", _sfc_render$x]]);
+const _sfc_main$B = {};
+const _hoisted_1$H = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
+const _hoisted_2$E = /* @__PURE__ */ createBaseVNode("h1", null, "Влажный корм для кошек", -1);
 function _sfc_render$w(_ctx, _cache) {
   const _component_my_card_item_list = resolveComponent("my-card-item-list");
-  return openBlock(), createElementBlock("div", _hoisted_1$G, [
-    _hoisted_2$D,
+  return openBlock(), createElementBlock("div", _hoisted_1$H, [
+    _hoisted_2$E,
     createVNode(_component_my_card_item_list, { apiUrl: "https://106b03ab3546a2ba.mokky.dev/cats-wet-food" })
   ]);
 }
-const CatsWetFood = /* @__PURE__ */ _export_sfc(_sfc_main$A, [["render", _sfc_render$w]]);
-const _sfc_main$z = {};
-const _hoisted_1$F = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
-const _hoisted_2$C = /* @__PURE__ */ createBaseVNode("h1", null, "Миски и поилки для кошек", -1);
+const CatsWetFood = /* @__PURE__ */ _export_sfc(_sfc_main$B, [["render", _sfc_render$w]]);
+const _sfc_main$A = {};
+const _hoisted_1$G = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
+const _hoisted_2$D = /* @__PURE__ */ createBaseVNode("h1", null, "Миски и поилки для кошек", -1);
 function _sfc_render$v(_ctx, _cache) {
   const _component_my_card_item_list = resolveComponent("my-card-item-list");
-  return openBlock(), createElementBlock("div", _hoisted_1$F, [
-    _hoisted_2$C,
+  return openBlock(), createElementBlock("div", _hoisted_1$G, [
+    _hoisted_2$D,
     createVNode(_component_my_card_item_list, { apiUrl: "https://106b03ab3546a2ba.mokky.dev/cats-bowls-drinkers" })
   ]);
 }
-const CatsBowlsDrinkers = /* @__PURE__ */ _export_sfc(_sfc_main$z, [["render", _sfc_render$v]]);
-const _sfc_main$y = {};
-const _hoisted_1$E = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
-const _hoisted_2$B = /* @__PURE__ */ createBaseVNode("h1", null, "Лотки и туалеты для кошек", -1);
+const CatsBowlsDrinkers = /* @__PURE__ */ _export_sfc(_sfc_main$A, [["render", _sfc_render$v]]);
+const _sfc_main$z = {};
+const _hoisted_1$F = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
+const _hoisted_2$C = /* @__PURE__ */ createBaseVNode("h1", null, "Лотки и туалеты для кошек", -1);
 function _sfc_render$u(_ctx, _cache) {
   const _component_my_card_item_list = resolveComponent("my-card-item-list");
-  return openBlock(), createElementBlock("div", _hoisted_1$E, [
-    _hoisted_2$B,
+  return openBlock(), createElementBlock("div", _hoisted_1$F, [
+    _hoisted_2$C,
     createVNode(_component_my_card_item_list, { apiUrl: "https://106b03ab3546a2ba.mokky.dev/cats-trays-toilets" })
   ]);
 }
-const CatsTraysToilets = /* @__PURE__ */ _export_sfc(_sfc_main$y, [["render", _sfc_render$u]]);
-const _sfc_main$x = {};
-const _hoisted_1$D = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
-const _hoisted_2$A = /* @__PURE__ */ createBaseVNode("h1", null, "Наполнители для кошачьих туалетов", -1);
+const CatsTraysToilets = /* @__PURE__ */ _export_sfc(_sfc_main$z, [["render", _sfc_render$u]]);
+const _sfc_main$y = {};
+const _hoisted_1$E = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
+const _hoisted_2$B = /* @__PURE__ */ createBaseVNode("h1", null, "Наполнители для кошачьих туалетов", -1);
 function _sfc_render$t(_ctx, _cache) {
   const _component_my_card_item_list = resolveComponent("my-card-item-list");
-  return openBlock(), createElementBlock("div", _hoisted_1$D, [
-    _hoisted_2$A,
+  return openBlock(), createElementBlock("div", _hoisted_1$E, [
+    _hoisted_2$B,
     createVNode(_component_my_card_item_list, { apiUrl: "https://106b03ab3546a2ba.mokky.dev/cats-fillers" })
   ]);
 }
-const CatsFillers = /* @__PURE__ */ _export_sfc(_sfc_main$x, [["render", _sfc_render$t]]);
-const _sfc_main$w = {};
-const _hoisted_1$C = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
-const _hoisted_2$z = /* @__PURE__ */ createBaseVNode("h1", null, "Когтеточки для кошек", -1);
+const CatsFillers = /* @__PURE__ */ _export_sfc(_sfc_main$y, [["render", _sfc_render$t]]);
+const _sfc_main$x = {};
+const _hoisted_1$D = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
+const _hoisted_2$A = /* @__PURE__ */ createBaseVNode("h1", null, "Когтеточки для кошек", -1);
 function _sfc_render$s(_ctx, _cache) {
   const _component_my_card_item_list = resolveComponent("my-card-item-list");
-  return openBlock(), createElementBlock("div", _hoisted_1$C, [
-    _hoisted_2$z,
+  return openBlock(), createElementBlock("div", _hoisted_1$D, [
+    _hoisted_2$A,
     createVNode(_component_my_card_item_list, { apiUrl: "https://106b03ab3546a2ba.mokky.dev/cats-scratching-posts" })
   ]);
 }
-const CatsScratchingPosts = /* @__PURE__ */ _export_sfc(_sfc_main$w, [["render", _sfc_render$s]]);
-const _sfc_main$v = {};
-const _hoisted_1$B = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
-const _hoisted_2$y = /* @__PURE__ */ createBaseVNode("h1", null, "Переноски для кошек", -1);
+const CatsScratchingPosts = /* @__PURE__ */ _export_sfc(_sfc_main$x, [["render", _sfc_render$s]]);
+const _sfc_main$w = {};
+const _hoisted_1$C = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
+const _hoisted_2$z = /* @__PURE__ */ createBaseVNode("h1", null, "Переноски для кошек", -1);
 function _sfc_render$r(_ctx, _cache) {
   const _component_my_card_item_list = resolveComponent("my-card-item-list");
-  return openBlock(), createElementBlock("div", _hoisted_1$B, [
-    _hoisted_2$y,
+  return openBlock(), createElementBlock("div", _hoisted_1$C, [
+    _hoisted_2$z,
     createVNode(_component_my_card_item_list, { apiUrl: "https://106b03ab3546a2ba.mokky.dev/cats-carrying" })
   ]);
 }
-const CatsCarrying = /* @__PURE__ */ _export_sfc(_sfc_main$v, [["render", _sfc_render$r]]);
-const _sfc_main$u = {};
-const _hoisted_1$A = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
-const _hoisted_2$x = /* @__PURE__ */ createBaseVNode("h1", null, "Лежанки для кошек", -1);
+const CatsCarrying = /* @__PURE__ */ _export_sfc(_sfc_main$w, [["render", _sfc_render$r]]);
+const _sfc_main$v = {};
+const _hoisted_1$B = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
+const _hoisted_2$y = /* @__PURE__ */ createBaseVNode("h1", null, "Лежанки для кошек", -1);
 function _sfc_render$q(_ctx, _cache) {
   const _component_my_card_item_list = resolveComponent("my-card-item-list");
-  return openBlock(), createElementBlock("div", _hoisted_1$A, [
-    _hoisted_2$x,
+  return openBlock(), createElementBlock("div", _hoisted_1$B, [
+    _hoisted_2$y,
     createVNode(_component_my_card_item_list, { apiUrl: "https://106b03ab3546a2ba.mokky.dev/cats-beds" })
   ]);
 }
-const CatsBeds = /* @__PURE__ */ _export_sfc(_sfc_main$u, [["render", _sfc_render$q]]);
-const _sfc_main$t = {};
-const _hoisted_1$z = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
-const _hoisted_2$w = /* @__PURE__ */ createBaseVNode("h1", null, "Игрушки для кошек", -1);
+const CatsBeds = /* @__PURE__ */ _export_sfc(_sfc_main$v, [["render", _sfc_render$q]]);
+const _sfc_main$u = {};
+const _hoisted_1$A = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
+const _hoisted_2$x = /* @__PURE__ */ createBaseVNode("h1", null, "Игрушки для кошек", -1);
 function _sfc_render$p(_ctx, _cache) {
   const _component_my_card_item_list = resolveComponent("my-card-item-list");
-  return openBlock(), createElementBlock("div", _hoisted_1$z, [
-    _hoisted_2$w,
+  return openBlock(), createElementBlock("div", _hoisted_1$A, [
+    _hoisted_2$x,
     createVNode(_component_my_card_item_list, { apiUrl: "https://106b03ab3546a2ba.mokky.dev/cats-toys" })
   ]);
 }
-const CatsToys = /* @__PURE__ */ _export_sfc(_sfc_main$t, [["render", _sfc_render$p]]);
-const _sfc_main$s = {};
-const _hoisted_1$y = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
-const _hoisted_2$v = /* @__PURE__ */ createBaseVNode("h1", null, "Сухой корм для собак", -1);
+const CatsToys = /* @__PURE__ */ _export_sfc(_sfc_main$u, [["render", _sfc_render$p]]);
+const _sfc_main$t = {};
+const _hoisted_1$z = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
+const _hoisted_2$w = /* @__PURE__ */ createBaseVNode("h1", null, "Сухой корм для собак", -1);
 function _sfc_render$o(_ctx, _cache) {
   const _component_my_card_item_list = resolveComponent("my-card-item-list");
-  return openBlock(), createElementBlock("div", _hoisted_1$y, [
-    _hoisted_2$v,
+  return openBlock(), createElementBlock("div", _hoisted_1$z, [
+    _hoisted_2$w,
     createVNode(_component_my_card_item_list, { apiUrl: "https://106b03ab3546a2ba.mokky.dev/dogs-dry-food" })
   ]);
 }
-const DogsDryFood = /* @__PURE__ */ _export_sfc(_sfc_main$s, [["render", _sfc_render$o]]);
-const _sfc_main$r = {};
-const _hoisted_1$x = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
-const _hoisted_2$u = /* @__PURE__ */ createBaseVNode("h1", null, "Влажный корм для собак", -1);
+const DogsDryFood = /* @__PURE__ */ _export_sfc(_sfc_main$t, [["render", _sfc_render$o]]);
+const _sfc_main$s = {};
+const _hoisted_1$y = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
+const _hoisted_2$v = /* @__PURE__ */ createBaseVNode("h1", null, "Влажный корм для собак", -1);
 function _sfc_render$n(_ctx, _cache) {
   const _component_my_card_item_list = resolveComponent("my-card-item-list");
-  return openBlock(), createElementBlock("div", _hoisted_1$x, [
-    _hoisted_2$u,
+  return openBlock(), createElementBlock("div", _hoisted_1$y, [
+    _hoisted_2$v,
     createVNode(_component_my_card_item_list, { apiUrl: "https://106b03ab3546a2ba.mokky.dev/dogs-wet-food" })
   ]);
 }
-const DogsWetFood = /* @__PURE__ */ _export_sfc(_sfc_main$r, [["render", _sfc_render$n]]);
-const _sfc_main$q = {};
-const _hoisted_1$w = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
-const _hoisted_2$t = /* @__PURE__ */ createBaseVNode("h1", null, "Миски и поилки для собак", -1);
+const DogsWetFood = /* @__PURE__ */ _export_sfc(_sfc_main$s, [["render", _sfc_render$n]]);
+const _sfc_main$r = {};
+const _hoisted_1$x = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
+const _hoisted_2$u = /* @__PURE__ */ createBaseVNode("h1", null, "Миски и поилки для собак", -1);
 function _sfc_render$m(_ctx, _cache) {
   const _component_my_card_item_list = resolveComponent("my-card-item-list");
-  return openBlock(), createElementBlock("div", _hoisted_1$w, [
-    _hoisted_2$t,
+  return openBlock(), createElementBlock("div", _hoisted_1$x, [
+    _hoisted_2$u,
     createVNode(_component_my_card_item_list, { apiUrl: "https://106b03ab3546a2ba.mokky.dev/dogs-bowls-drinkers" })
   ]);
 }
-const DogsBowlsDrinkers = /* @__PURE__ */ _export_sfc(_sfc_main$q, [["render", _sfc_render$m]]);
-const _sfc_main$p = {};
-const _hoisted_1$v = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
-const _hoisted_2$s = /* @__PURE__ */ createBaseVNode("h1", null, "Лотки и туалеты для собак", -1);
+const DogsBowlsDrinkers = /* @__PURE__ */ _export_sfc(_sfc_main$r, [["render", _sfc_render$m]]);
+const _sfc_main$q = {};
+const _hoisted_1$w = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
+const _hoisted_2$t = /* @__PURE__ */ createBaseVNode("h1", null, "Лотки и туалеты для собак", -1);
 function _sfc_render$l(_ctx, _cache) {
   const _component_my_card_item_list = resolveComponent("my-card-item-list");
-  return openBlock(), createElementBlock("div", _hoisted_1$v, [
-    _hoisted_2$s,
+  return openBlock(), createElementBlock("div", _hoisted_1$w, [
+    _hoisted_2$t,
     createVNode(_component_my_card_item_list, { apiUrl: "https://106b03ab3546a2ba.mokky.dev/dogs-trays-toilets" })
   ]);
 }
-const DogsTraysToilets = /* @__PURE__ */ _export_sfc(_sfc_main$p, [["render", _sfc_render$l]]);
-const _sfc_main$o = {};
-const _hoisted_1$u = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
-const _hoisted_2$r = /* @__PURE__ */ createBaseVNode("h1", null, "Аксессуары для собак", -1);
+const DogsTraysToilets = /* @__PURE__ */ _export_sfc(_sfc_main$q, [["render", _sfc_render$l]]);
+const _sfc_main$p = {};
+const _hoisted_1$v = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
+const _hoisted_2$s = /* @__PURE__ */ createBaseVNode("h1", null, "Аксессуары для собак", -1);
 function _sfc_render$k(_ctx, _cache) {
   const _component_my_card_item_list = resolveComponent("my-card-item-list");
-  return openBlock(), createElementBlock("div", _hoisted_1$u, [
-    _hoisted_2$r,
+  return openBlock(), createElementBlock("div", _hoisted_1$v, [
+    _hoisted_2$s,
     createVNode(_component_my_card_item_list, { apiUrl: "https://106b03ab3546a2ba.mokky.dev/dogs-accessories" })
   ]);
 }
-const DogsAccessories = /* @__PURE__ */ _export_sfc(_sfc_main$o, [["render", _sfc_render$k]]);
-const _sfc_main$n = {};
-const _hoisted_1$t = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
-const _hoisted_2$q = /* @__PURE__ */ createBaseVNode("h1", null, "Ошейники и поводки для собак", -1);
+const DogsAccessories = /* @__PURE__ */ _export_sfc(_sfc_main$p, [["render", _sfc_render$k]]);
+const _sfc_main$o = {};
+const _hoisted_1$u = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
+const _hoisted_2$r = /* @__PURE__ */ createBaseVNode("h1", null, "Ошейники и поводки для собак", -1);
 function _sfc_render$j(_ctx, _cache) {
   const _component_my_card_item_list = resolveComponent("my-card-item-list");
-  return openBlock(), createElementBlock("div", _hoisted_1$t, [
-    _hoisted_2$q,
+  return openBlock(), createElementBlock("div", _hoisted_1$u, [
+    _hoisted_2$r,
     createVNode(_component_my_card_item_list, { apiUrl: "https://106b03ab3546a2ba.mokky.dev/dogs-collars-leashes" })
   ]);
 }
-const DogsCollarsLeashes = /* @__PURE__ */ _export_sfc(_sfc_main$n, [["render", _sfc_render$j]]);
-const _sfc_main$m = {};
-const _hoisted_1$s = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
-const _hoisted_2$p = /* @__PURE__ */ createBaseVNode("h1", null, "Переноски для собак", -1);
+const DogsCollarsLeashes = /* @__PURE__ */ _export_sfc(_sfc_main$o, [["render", _sfc_render$j]]);
+const _sfc_main$n = {};
+const _hoisted_1$t = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
+const _hoisted_2$q = /* @__PURE__ */ createBaseVNode("h1", null, "Переноски для собак", -1);
 function _sfc_render$i(_ctx, _cache) {
   const _component_my_card_item_list = resolveComponent("my-card-item-list");
-  return openBlock(), createElementBlock("div", _hoisted_1$s, [
-    _hoisted_2$p,
+  return openBlock(), createElementBlock("div", _hoisted_1$t, [
+    _hoisted_2$q,
     createVNode(_component_my_card_item_list, { apiUrl: "https://106b03ab3546a2ba.mokky.dev/dogs-carrying" })
   ]);
 }
-const DogsCarrying = /* @__PURE__ */ _export_sfc(_sfc_main$m, [["render", _sfc_render$i]]);
-const _sfc_main$l = {};
-const _hoisted_1$r = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
-const _hoisted_2$o = /* @__PURE__ */ createBaseVNode("h1", null, "Лежанки для собак", -1);
+const DogsCarrying = /* @__PURE__ */ _export_sfc(_sfc_main$n, [["render", _sfc_render$i]]);
+const _sfc_main$m = {};
+const _hoisted_1$s = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
+const _hoisted_2$p = /* @__PURE__ */ createBaseVNode("h1", null, "Лежанки для собак", -1);
 function _sfc_render$h(_ctx, _cache) {
   const _component_my_card_item_list = resolveComponent("my-card-item-list");
-  return openBlock(), createElementBlock("div", _hoisted_1$r, [
-    _hoisted_2$o,
+  return openBlock(), createElementBlock("div", _hoisted_1$s, [
+    _hoisted_2$p,
     createVNode(_component_my_card_item_list, { apiUrl: "https://106b03ab3546a2ba.mokky.dev/dogs-beds" })
   ]);
 }
-const DogsBeds = /* @__PURE__ */ _export_sfc(_sfc_main$l, [["render", _sfc_render$h]]);
-const _sfc_main$k = {};
-const _hoisted_1$q = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
-const _hoisted_2$n = /* @__PURE__ */ createBaseVNode("h1", null, "Клетки и вольеры для собак", -1);
+const DogsBeds = /* @__PURE__ */ _export_sfc(_sfc_main$m, [["render", _sfc_render$h]]);
+const _sfc_main$l = {};
+const _hoisted_1$r = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
+const _hoisted_2$o = /* @__PURE__ */ createBaseVNode("h1", null, "Клетки и вольеры для собак", -1);
 function _sfc_render$g(_ctx, _cache) {
   const _component_my_card_item_list = resolveComponent("my-card-item-list");
-  return openBlock(), createElementBlock("div", _hoisted_1$q, [
-    _hoisted_2$n,
+  return openBlock(), createElementBlock("div", _hoisted_1$r, [
+    _hoisted_2$o,
     createVNode(_component_my_card_item_list, { apiUrl: "https://106b03ab3546a2ba.mokky.dev/dogs-cages-aviaries" })
   ]);
 }
-const DogsCagesAviaries = /* @__PURE__ */ _export_sfc(_sfc_main$k, [["render", _sfc_render$g]]);
-const _sfc_main$j = {};
-const _hoisted_1$p = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
-const _hoisted_2$m = /* @__PURE__ */ createBaseVNode("h1", null, "Игрушки для собак", -1);
+const DogsCagesAviaries = /* @__PURE__ */ _export_sfc(_sfc_main$l, [["render", _sfc_render$g]]);
+const _sfc_main$k = {};
+const _hoisted_1$q = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
+const _hoisted_2$n = /* @__PURE__ */ createBaseVNode("h1", null, "Игрушки для собак", -1);
 function _sfc_render$f(_ctx, _cache) {
   const _component_my_card_item_list = resolveComponent("my-card-item-list");
-  return openBlock(), createElementBlock("div", _hoisted_1$p, [
-    _hoisted_2$m,
+  return openBlock(), createElementBlock("div", _hoisted_1$q, [
+    _hoisted_2$n,
     createVNode(_component_my_card_item_list, { apiUrl: "https://106b03ab3546a2ba.mokky.dev/dogs-toys" })
   ]);
 }
-const DogsToys = /* @__PURE__ */ _export_sfc(_sfc_main$j, [["render", _sfc_render$f]]);
-const _sfc_main$i = {};
-const _hoisted_1$o = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
-const _hoisted_2$l = /* @__PURE__ */ createBaseVNode("h1", null, "Корм для грызунов", -1);
+const DogsToys = /* @__PURE__ */ _export_sfc(_sfc_main$k, [["render", _sfc_render$f]]);
+const _sfc_main$j = {};
+const _hoisted_1$p = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
+const _hoisted_2$m = /* @__PURE__ */ createBaseVNode("h1", null, "Корм для грызунов", -1);
 function _sfc_render$e(_ctx, _cache) {
   const _component_my_card_item_list = resolveComponent("my-card-item-list");
-  return openBlock(), createElementBlock("div", _hoisted_1$o, [
-    _hoisted_2$l,
+  return openBlock(), createElementBlock("div", _hoisted_1$p, [
+    _hoisted_2$m,
     createVNode(_component_my_card_item_list, { apiUrl: "https://d6d9b0f0df5c1de0.mokky.dev/rodents-food" })
   ]);
 }
-const RodentsFood = /* @__PURE__ */ _export_sfc(_sfc_main$i, [["render", _sfc_render$e]]);
-const _sfc_main$h = {};
-const _hoisted_1$n = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
-const _hoisted_2$k = /* @__PURE__ */ createBaseVNode("h1", null, "Кормушки и поилки для грызунов", -1);
+const RodentsFood = /* @__PURE__ */ _export_sfc(_sfc_main$j, [["render", _sfc_render$e]]);
+const _sfc_main$i = {};
+const _hoisted_1$o = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
+const _hoisted_2$l = /* @__PURE__ */ createBaseVNode("h1", null, "Кормушки и поилки для грызунов", -1);
 function _sfc_render$d(_ctx, _cache) {
   const _component_my_card_item_list = resolveComponent("my-card-item-list");
-  return openBlock(), createElementBlock("div", _hoisted_1$n, [
-    _hoisted_2$k,
+  return openBlock(), createElementBlock("div", _hoisted_1$o, [
+    _hoisted_2$l,
     createVNode(_component_my_card_item_list, { apiUrl: "https://d6d9b0f0df5c1de0.mokky.dev/rodents-feeders-drinkers" })
   ]);
 }
-const RodentsFeedersDrinkers = /* @__PURE__ */ _export_sfc(_sfc_main$h, [["render", _sfc_render$d]]);
-const _sfc_main$g = {};
-const _hoisted_1$m = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
-const _hoisted_2$j = /* @__PURE__ */ createBaseVNode("h1", null, "Подстилки и наполнители для грызунов", -1);
+const RodentsFeedersDrinkers = /* @__PURE__ */ _export_sfc(_sfc_main$i, [["render", _sfc_render$d]]);
+const _sfc_main$h = {};
+const _hoisted_1$n = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
+const _hoisted_2$k = /* @__PURE__ */ createBaseVNode("h1", null, "Подстилки и наполнители для грызунов", -1);
 function _sfc_render$c(_ctx, _cache) {
   const _component_my_card_item_list = resolveComponent("my-card-item-list");
-  return openBlock(), createElementBlock("div", _hoisted_1$m, [
-    _hoisted_2$j,
+  return openBlock(), createElementBlock("div", _hoisted_1$n, [
+    _hoisted_2$k,
     createVNode(_component_my_card_item_list, { apiUrl: "https://d6d9b0f0df5c1de0.mokky.dev/rodents-litters-fillers" })
   ]);
 }
-const RodentsLittersFillers = /* @__PURE__ */ _export_sfc(_sfc_main$g, [["render", _sfc_render$c]]);
-const _sfc_main$f = {};
-const _hoisted_1$l = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
-const _hoisted_2$i = /* @__PURE__ */ createBaseVNode("h1", null, "Клетки для грызунов", -1);
+const RodentsLittersFillers = /* @__PURE__ */ _export_sfc(_sfc_main$h, [["render", _sfc_render$c]]);
+const _sfc_main$g = {};
+const _hoisted_1$m = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
+const _hoisted_2$j = /* @__PURE__ */ createBaseVNode("h1", null, "Клетки для грызунов", -1);
 function _sfc_render$b(_ctx, _cache) {
   const _component_my_card_item_list = resolveComponent("my-card-item-list");
-  return openBlock(), createElementBlock("div", _hoisted_1$l, [
-    _hoisted_2$i,
+  return openBlock(), createElementBlock("div", _hoisted_1$m, [
+    _hoisted_2$j,
     createVNode(_component_my_card_item_list, { apiUrl: "https://d6d9b0f0df5c1de0.mokky.dev/rodents-cages" })
   ]);
 }
-const RodentsCages = /* @__PURE__ */ _export_sfc(_sfc_main$f, [["render", _sfc_render$b]]);
-const _sfc_main$e = {};
-const _hoisted_1$k = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
-const _hoisted_2$h = /* @__PURE__ */ createBaseVNode("h1", null, "Гамаки и домики для грызунов", -1);
+const RodentsCages = /* @__PURE__ */ _export_sfc(_sfc_main$g, [["render", _sfc_render$b]]);
+const _sfc_main$f = {};
+const _hoisted_1$l = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
+const _hoisted_2$i = /* @__PURE__ */ createBaseVNode("h1", null, "Гамаки и домики для грызунов", -1);
 function _sfc_render$a(_ctx, _cache) {
   const _component_my_card_item_list = resolveComponent("my-card-item-list");
-  return openBlock(), createElementBlock("div", _hoisted_1$k, [
-    _hoisted_2$h,
+  return openBlock(), createElementBlock("div", _hoisted_1$l, [
+    _hoisted_2$i,
     createVNode(_component_my_card_item_list, { apiUrl: "https://d6d9b0f0df5c1de0.mokky.dev/rodents-hammocks-houses" })
   ]);
 }
-const RodentsHammocksHouses = /* @__PURE__ */ _export_sfc(_sfc_main$e, [["render", _sfc_render$a]]);
-const _sfc_main$d = {};
-const _hoisted_1$j = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
-const _hoisted_2$g = /* @__PURE__ */ createBaseVNode("h1", null, "Переноски для грызунов", -1);
+const RodentsHammocksHouses = /* @__PURE__ */ _export_sfc(_sfc_main$f, [["render", _sfc_render$a]]);
+const _sfc_main$e = {};
+const _hoisted_1$k = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
+const _hoisted_2$h = /* @__PURE__ */ createBaseVNode("h1", null, "Переноски для грызунов", -1);
 function _sfc_render$9(_ctx, _cache) {
   const _component_my_card_item_list = resolveComponent("my-card-item-list");
-  return openBlock(), createElementBlock("div", _hoisted_1$j, [
-    _hoisted_2$g,
+  return openBlock(), createElementBlock("div", _hoisted_1$k, [
+    _hoisted_2$h,
     createVNode(_component_my_card_item_list, { apiUrl: "https://d6d9b0f0df5c1de0.mokky.dev/rodents-carrying" })
   ]);
 }
-const RodentsCarrying = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$9]]);
-const _sfc_main$c = {};
-const _hoisted_1$i = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
-const _hoisted_2$f = /* @__PURE__ */ createBaseVNode("h1", null, "Игрушки для грызунов", -1);
+const RodentsCarrying = /* @__PURE__ */ _export_sfc(_sfc_main$e, [["render", _sfc_render$9]]);
+const _sfc_main$d = {};
+const _hoisted_1$j = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
+const _hoisted_2$g = /* @__PURE__ */ createBaseVNode("h1", null, "Игрушки для грызунов", -1);
 function _sfc_render$8(_ctx, _cache) {
   const _component_my_card_item_list = resolveComponent("my-card-item-list");
-  return openBlock(), createElementBlock("div", _hoisted_1$i, [
-    _hoisted_2$f,
+  return openBlock(), createElementBlock("div", _hoisted_1$j, [
+    _hoisted_2$g,
     createVNode(_component_my_card_item_list, { apiUrl: "https://d6d9b0f0df5c1de0.mokky.dev/rodents-toys" })
   ]);
 }
-const RodentsToys = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["render", _sfc_render$8]]);
-const _sfc_main$b = {};
-const _hoisted_1$h = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
-const _hoisted_2$e = /* @__PURE__ */ createBaseVNode("h1", null, "Корм для птиц", -1);
+const RodentsToys = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$8]]);
+const _sfc_main$c = {};
+const _hoisted_1$i = { class: "birds-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
+const _hoisted_2$f = /* @__PURE__ */ createBaseVNode("h1", null, "Корм для птиц", -1);
 function _sfc_render$7(_ctx, _cache) {
   const _component_my_card_item_list = resolveComponent("my-card-item-list");
-  return openBlock(), createElementBlock("div", _hoisted_1$h, [
-    _hoisted_2$e,
+  return openBlock(), createElementBlock("div", _hoisted_1$i, [
+    _hoisted_2$f,
     createVNode(_component_my_card_item_list, { apiUrl: "https://d6d9b0f0df5c1de0.mokky.dev/birds-food" })
   ]);
 }
-const BirdsFood = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["render", _sfc_render$7]]);
-const _sfc_main$a = {};
-const _hoisted_1$g = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
-const _hoisted_2$d = /* @__PURE__ */ createBaseVNode("h1", null, "Кормушки и поилки для птиц", -1);
+const BirdsFood = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["render", _sfc_render$7]]);
+const _sfc_main$b = {};
+const _hoisted_1$h = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
+const _hoisted_2$e = /* @__PURE__ */ createBaseVNode("h1", null, "Кормушки и поилки для птиц", -1);
 function _sfc_render$6(_ctx, _cache) {
   const _component_my_card_item_list = resolveComponent("my-card-item-list");
-  return openBlock(), createElementBlock("div", _hoisted_1$g, [
-    _hoisted_2$d,
+  return openBlock(), createElementBlock("div", _hoisted_1$h, [
+    _hoisted_2$e,
     createVNode(_component_my_card_item_list, { apiUrl: "https://d6d9b0f0df5c1de0.mokky.dev/birds-feeders-drinkers" })
   ]);
 }
-const BirdsFeedersDrinkers = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["render", _sfc_render$6]]);
-const _sfc_main$9 = {};
-const _hoisted_1$f = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
-const _hoisted_2$c = /* @__PURE__ */ createBaseVNode("h1", null, "Клетки для птиц", -1);
+const BirdsFeedersDrinkers = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["render", _sfc_render$6]]);
+const _sfc_main$a = {};
+const _hoisted_1$g = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
+const _hoisted_2$d = /* @__PURE__ */ createBaseVNode("h1", null, "Клетки для птиц", -1);
 function _sfc_render$5(_ctx, _cache) {
   const _component_my_card_item_list = resolveComponent("my-card-item-list");
-  return openBlock(), createElementBlock("div", _hoisted_1$f, [
-    _hoisted_2$c,
+  return openBlock(), createElementBlock("div", _hoisted_1$g, [
+    _hoisted_2$d,
     createVNode(_component_my_card_item_list, { apiUrl: "https://d6d9b0f0df5c1de0.mokky.dev/birds-cages" })
   ]);
 }
-const BirdsCages = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["render", _sfc_render$5]]);
-const _sfc_main$8 = {};
-const _hoisted_1$e = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
-const _hoisted_2$b = /* @__PURE__ */ createBaseVNode("h1", null, "Переноски для птиц", -1);
+const BirdsCages = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["render", _sfc_render$5]]);
+const _sfc_main$9 = {};
+const _hoisted_1$f = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
+const _hoisted_2$c = /* @__PURE__ */ createBaseVNode("h1", null, "Переноски для птиц", -1);
 function _sfc_render$4(_ctx, _cache) {
   const _component_my_card_item_list = resolveComponent("my-card-item-list");
-  return openBlock(), createElementBlock("div", _hoisted_1$e, [
-    _hoisted_2$b,
+  return openBlock(), createElementBlock("div", _hoisted_1$f, [
+    _hoisted_2$c,
     createVNode(_component_my_card_item_list, { apiUrl: "https://d6d9b0f0df5c1de0.mokky.dev/birds-carrying" })
   ]);
 }
-const BirdsCarrying = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["render", _sfc_render$4]]);
-const _sfc_main$7 = {};
-const _hoisted_1$d = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
-const _hoisted_2$a = /* @__PURE__ */ createBaseVNode("h1", null, "Гнёзда и домики для птиц", -1);
+const BirdsCarrying = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["render", _sfc_render$4]]);
+const _sfc_main$8 = {};
+const _hoisted_1$e = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
+const _hoisted_2$b = /* @__PURE__ */ createBaseVNode("h1", null, "Гнёзда и домики для птиц", -1);
 function _sfc_render$3(_ctx, _cache) {
   const _component_my_card_item_list = resolveComponent("my-card-item-list");
-  return openBlock(), createElementBlock("div", _hoisted_1$d, [
-    _hoisted_2$a,
+  return openBlock(), createElementBlock("div", _hoisted_1$e, [
+    _hoisted_2$b,
     createVNode(_component_my_card_item_list, { apiUrl: "https://d6d9b0f0df5c1de0.mokky.dev/birds-nests-houses" })
   ]);
 }
-const BirdsNestsHouses = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["render", _sfc_render$3]]);
-const _sfc_main$6 = {};
-const _hoisted_1$c = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
-const _hoisted_2$9 = /* @__PURE__ */ createBaseVNode("h1", null, "Игрушки для птиц", -1);
+const BirdsNestsHouses = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["render", _sfc_render$3]]);
+const _sfc_main$7 = {};
+const _hoisted_1$d = { class: "dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
+const _hoisted_2$a = /* @__PURE__ */ createBaseVNode("h1", null, "Игрушки для птиц", -1);
 function _sfc_render$2(_ctx, _cache) {
   const _component_my_card_item_list = resolveComponent("my-card-item-list");
-  return openBlock(), createElementBlock("div", _hoisted_1$c, [
-    _hoisted_2$9,
+  return openBlock(), createElementBlock("div", _hoisted_1$d, [
+    _hoisted_2$a,
     createVNode(_component_my_card_item_list, { apiUrl: "https://d6d9b0f0df5c1de0.mokky.dev/birds-toys" })
   ]);
 }
-const BirdsToys = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render$2]]);
-const _sfc_main$5 = {};
-const _hoisted_1$b = { class: "favorites-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
-const _hoisted_2$8 = /* @__PURE__ */ createBaseVNode("h1", null, "Избранное", -1);
+const BirdsToys = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["render", _sfc_render$2]]);
+const _sfc_main$6 = {};
+const _hoisted_1$c = { class: "favorites-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl" };
+const _hoisted_2$9 = /* @__PURE__ */ createBaseVNode("h1", null, "Избранное", -1);
 function _sfc_render$1(_ctx, _cache) {
-  const _component_my_card_item_list = resolveComponent("my-card-item-list");
-  return openBlock(), createElementBlock("div", _hoisted_1$b, [
-    _hoisted_2$8,
-    createVNode(_component_my_card_item_list, { apiUrl: "https://0e157e836a1fe779.mokky.dev/favorites" })
+  const _component_my_favorite_list = resolveComponent("my-favorite-list");
+  return openBlock(), createElementBlock("div", _hoisted_1$c, [
+    _hoisted_2$9,
+    createVNode(_component_my_favorite_list, { apiUrl: "https://0e157e836a1fe779.mokky.dev/favorites?_select=item" })
   ]);
 }
-const Favorites = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$1]]);
+const Favorites = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render$1]]);
 const routes = [
   {
     path: "/",
@@ -32292,12 +32770,12 @@ const routes = [
   {
     path: "/discounts",
     name: "discounts",
-    component: _sfc_main$J
+    component: _sfc_main$K
   },
   {
     path: "/feedback",
     name: "feedback",
-    component: _sfc_main$I
+    component: _sfc_main$J
   },
   {
     path: "/about",
@@ -32503,7 +32981,7 @@ const router = createRouter({
   history: createWebHashHistory()
 });
 var classes$2 = {
-  root: function root12(_ref) {
+  root: function root13(_ref) {
     var props = _ref.props;
     return ["p-scrolltop p-link p-component", {
       "p-scrolltop-sticky": props.target !== "window"
@@ -32577,8 +33055,8 @@ var script$7 = {
         behavior: this.behavior
       });
     },
-    checkVisibility: function checkVisibility(scrollY) {
-      if (scrollY > this.threshold)
+    checkVisibility: function checkVisibility(scrollY2) {
+      if (scrollY2 > this.threshold)
         this.visible = true;
       else
         this.visible = false;
@@ -32628,7 +33106,7 @@ var script$7 = {
     ChevronUpIcon: script$I
   }
 };
-var _hoisted_1$a = ["aria-label"];
+var _hoisted_1$b = ["aria-label"];
 function render$6(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createBlock(Transition, mergeProps({
     name: "p-scrolltop",
@@ -32652,7 +33130,7 @@ function render$6(_ctx, _cache, $props, $setup, $data, $options) {
         return [(openBlock(), createBlock(resolveDynamicComponent(_ctx.icon ? "span" : "ChevronUpIcon"), mergeProps({
           "class": [_ctx.cx("icon"), _ctx.icon]
         }, _ctx.ptm("icon")), null, 16, ["class"]))];
-      })], 16, _hoisted_1$a)) : createCommentVNode("", true)];
+      })], 16, _hoisted_1$b)) : createCommentVNode("", true)];
     }),
     _: 3
   }, 16, ["onEnter", "onAfterLeave"]);
@@ -32693,7 +33171,7 @@ function _toPrimitive$3(t, r) {
   return ("string" === r ? String : Number)(t);
 }
 var inlineStyles$1 = {
-  root: function root13(_ref) {
+  root: function root14(_ref) {
     var position = _ref.position;
     return {
       position: "fixed",
@@ -32705,7 +33183,7 @@ var inlineStyles$1 = {
   }
 };
 var classes$1 = {
-  root: function root14(_ref2) {
+  root: function root15(_ref2) {
     var props = _ref2.props, instance = _ref2.instance;
     return ["p-toast p-component p-toast-" + props.position, {
       "p-ripple-disabled": instance.$primevue.config.ripple === false
@@ -32742,19 +33220,19 @@ var script$6 = {
   name: "ExclamationTriangleIcon",
   "extends": script$T
 };
-var _hoisted_1$9 = /* @__PURE__ */ createBaseVNode("path", {
+var _hoisted_1$a = /* @__PURE__ */ createBaseVNode("path", {
   d: "M13.4018 13.1893H0.598161C0.49329 13.189 0.390283 13.1615 0.299143 13.1097C0.208003 13.0578 0.131826 12.9832 0.0780112 12.8932C0.0268539 12.8015 0 12.6982 0 12.5931C0 12.4881 0.0268539 12.3848 0.0780112 12.293L6.47985 1.08982C6.53679 1.00399 6.61408 0.933574 6.70484 0.884867C6.7956 0.836159 6.897 0.810669 7 0.810669C7.103 0.810669 7.2044 0.836159 7.29516 0.884867C7.38592 0.933574 7.46321 1.00399 7.52015 1.08982L13.922 12.293C13.9731 12.3848 14 12.4881 14 12.5931C14 12.6982 13.9731 12.8015 13.922 12.8932C13.8682 12.9832 13.792 13.0578 13.7009 13.1097C13.6097 13.1615 13.5067 13.189 13.4018 13.1893ZM1.63046 11.989H12.3695L7 2.59425L1.63046 11.989Z",
   fill: "currentColor"
 }, null, -1);
-var _hoisted_2$7 = /* @__PURE__ */ createBaseVNode("path", {
+var _hoisted_2$8 = /* @__PURE__ */ createBaseVNode("path", {
   d: "M6.99996 8.78801C6.84143 8.78594 6.68997 8.72204 6.57787 8.60993C6.46576 8.49782 6.40186 8.34637 6.39979 8.18784V5.38703C6.39979 5.22786 6.46302 5.0752 6.57557 4.96265C6.68813 4.85009 6.84078 4.78686 6.99996 4.78686C7.15914 4.78686 7.31179 4.85009 7.42435 4.96265C7.5369 5.0752 7.60013 5.22786 7.60013 5.38703V8.18784C7.59806 8.34637 7.53416 8.49782 7.42205 8.60993C7.30995 8.72204 7.15849 8.78594 6.99996 8.78801Z",
   fill: "currentColor"
 }, null, -1);
-var _hoisted_3$4 = /* @__PURE__ */ createBaseVNode("path", {
+var _hoisted_3$5 = /* @__PURE__ */ createBaseVNode("path", {
   d: "M6.99996 11.1887C6.84143 11.1866 6.68997 11.1227 6.57787 11.0106C6.46576 10.8985 6.40186 10.7471 6.39979 10.5885V10.1884C6.39979 10.0292 6.46302 9.87658 6.57557 9.76403C6.68813 9.65147 6.84078 9.58824 6.99996 9.58824C7.15914 9.58824 7.31179 9.65147 7.42435 9.76403C7.5369 9.87658 7.60013 10.0292 7.60013 10.1884V10.5885C7.59806 10.7471 7.53416 10.8985 7.42205 11.0106C7.30995 11.1227 7.15849 11.1866 6.99996 11.1887Z",
   fill: "currentColor"
 }, null, -1);
-var _hoisted_4$4 = [_hoisted_1$9, _hoisted_2$7, _hoisted_3$4];
+var _hoisted_4$5 = [_hoisted_1$a, _hoisted_2$8, _hoisted_3$5];
 function render$5(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("svg", mergeProps({
     width: "14",
@@ -32762,20 +33240,20 @@ function render$5(_ctx, _cache, $props, $setup, $data, $options) {
     viewBox: "0 0 14 14",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg"
-  }, _ctx.pti()), _hoisted_4$4, 16);
+  }, _ctx.pti()), _hoisted_4$5, 16);
 }
 script$6.render = render$5;
 var script$5 = {
   name: "InfoCircleIcon",
   "extends": script$T
 };
-var _hoisted_1$8 = /* @__PURE__ */ createBaseVNode("path", {
+var _hoisted_1$9 = /* @__PURE__ */ createBaseVNode("path", {
   "fill-rule": "evenodd",
   "clip-rule": "evenodd",
   d: "M3.11101 12.8203C4.26215 13.5895 5.61553 14 7 14C8.85652 14 10.637 13.2625 11.9497 11.9497C13.2625 10.637 14 8.85652 14 7C14 5.61553 13.5895 4.26215 12.8203 3.11101C12.0511 1.95987 10.9579 1.06266 9.67879 0.532846C8.3997 0.00303296 6.99224 -0.13559 5.63437 0.134506C4.2765 0.404603 3.02922 1.07129 2.05026 2.05026C1.07129 3.02922 0.404603 4.2765 0.134506 5.63437C-0.13559 6.99224 0.00303296 8.3997 0.532846 9.67879C1.06266 10.9579 1.95987 12.0511 3.11101 12.8203ZM3.75918 2.14976C4.71846 1.50879 5.84628 1.16667 7 1.16667C8.5471 1.16667 10.0308 1.78125 11.1248 2.87521C12.2188 3.96918 12.8333 5.45291 12.8333 7C12.8333 8.15373 12.4912 9.28154 11.8502 10.2408C11.2093 11.2001 10.2982 11.9478 9.23232 12.3893C8.16642 12.8308 6.99353 12.9463 5.86198 12.7212C4.73042 12.4962 3.69102 11.9406 2.87521 11.1248C2.05941 10.309 1.50384 9.26958 1.27876 8.13803C1.05367 7.00647 1.16919 5.83358 1.61071 4.76768C2.05222 3.70178 2.79989 2.79074 3.75918 2.14976ZM7.00002 4.8611C6.84594 4.85908 6.69873 4.79698 6.58977 4.68801C6.48081 4.57905 6.4187 4.43185 6.41669 4.27776V3.88888C6.41669 3.73417 6.47815 3.58579 6.58754 3.4764C6.69694 3.367 6.84531 3.30554 7.00002 3.30554C7.15473 3.30554 7.3031 3.367 7.4125 3.4764C7.52189 3.58579 7.58335 3.73417 7.58335 3.88888V4.27776C7.58134 4.43185 7.51923 4.57905 7.41027 4.68801C7.30131 4.79698 7.1541 4.85908 7.00002 4.8611ZM7.00002 10.6945C6.84594 10.6925 6.69873 10.6304 6.58977 10.5214C6.48081 10.4124 6.4187 10.2652 6.41669 10.1111V6.22225C6.41669 6.06754 6.47815 5.91917 6.58754 5.80977C6.69694 5.70037 6.84531 5.63892 7.00002 5.63892C7.15473 5.63892 7.3031 5.70037 7.4125 5.80977C7.52189 5.91917 7.58335 6.06754 7.58335 6.22225V10.1111C7.58134 10.2652 7.51923 10.4124 7.41027 10.5214C7.30131 10.6304 7.1541 10.6925 7.00002 10.6945Z",
   fill: "currentColor"
 }, null, -1);
-var _hoisted_2$6 = [_hoisted_1$8];
+var _hoisted_2$7 = [_hoisted_1$9];
 function render$4(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("svg", mergeProps({
     width: "14",
@@ -32783,20 +33261,20 @@ function render$4(_ctx, _cache, $props, $setup, $data, $options) {
     viewBox: "0 0 14 14",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg"
-  }, _ctx.pti()), _hoisted_2$6, 16);
+  }, _ctx.pti()), _hoisted_2$7, 16);
 }
 script$5.render = render$4;
 var script$4 = {
   name: "TimesCircleIcon",
   "extends": script$T
 };
-var _hoisted_1$7 = /* @__PURE__ */ createBaseVNode("path", {
+var _hoisted_1$8 = /* @__PURE__ */ createBaseVNode("path", {
   "fill-rule": "evenodd",
   "clip-rule": "evenodd",
   d: "M7 14C5.61553 14 4.26215 13.5895 3.11101 12.8203C1.95987 12.0511 1.06266 10.9579 0.532846 9.67879C0.00303296 8.3997 -0.13559 6.99224 0.134506 5.63437C0.404603 4.2765 1.07129 3.02922 2.05026 2.05026C3.02922 1.07129 4.2765 0.404603 5.63437 0.134506C6.99224 -0.13559 8.3997 0.00303296 9.67879 0.532846C10.9579 1.06266 12.0511 1.95987 12.8203 3.11101C13.5895 4.26215 14 5.61553 14 7C14 8.85652 13.2625 10.637 11.9497 11.9497C10.637 13.2625 8.85652 14 7 14ZM7 1.16667C5.84628 1.16667 4.71846 1.50879 3.75918 2.14976C2.79989 2.79074 2.05222 3.70178 1.61071 4.76768C1.16919 5.83358 1.05367 7.00647 1.27876 8.13803C1.50384 9.26958 2.05941 10.309 2.87521 11.1248C3.69102 11.9406 4.73042 12.4962 5.86198 12.7212C6.99353 12.9463 8.16642 12.8308 9.23232 12.3893C10.2982 11.9478 11.2093 11.2001 11.8502 10.2408C12.4912 9.28154 12.8333 8.15373 12.8333 7C12.8333 5.45291 12.2188 3.96918 11.1248 2.87521C10.0308 1.78125 8.5471 1.16667 7 1.16667ZM4.66662 9.91668C4.58998 9.91704 4.51404 9.90209 4.44325 9.87271C4.37246 9.84333 4.30826 9.8001 4.2544 9.74557C4.14516 9.6362 4.0838 9.48793 4.0838 9.33335C4.0838 9.17876 4.14516 9.0305 4.2544 8.92113L6.17553 7L4.25443 5.07891C4.15139 4.96832 4.09529 4.82207 4.09796 4.67094C4.10063 4.51982 4.16185 4.37563 4.26872 4.26876C4.3756 4.16188 4.51979 4.10066 4.67091 4.09799C4.82204 4.09532 4.96829 4.15142 5.07887 4.25446L6.99997 6.17556L8.92106 4.25446C9.03164 4.15142 9.1779 4.09532 9.32903 4.09799C9.48015 4.10066 9.62434 4.16188 9.73121 4.26876C9.83809 4.37563 9.89931 4.51982 9.90198 4.67094C9.90464 4.82207 9.84855 4.96832 9.74551 5.07891L7.82441 7L9.74554 8.92113C9.85478 9.0305 9.91614 9.17876 9.91614 9.33335C9.91614 9.48793 9.85478 9.6362 9.74554 9.74557C9.69168 9.8001 9.62748 9.84333 9.55669 9.87271C9.4859 9.90209 9.40996 9.91704 9.33332 9.91668C9.25668 9.91704 9.18073 9.90209 9.10995 9.87271C9.03916 9.84333 8.97495 9.8001 8.9211 9.74557L6.99997 7.82444L5.07884 9.74557C5.02499 9.8001 4.96078 9.84333 4.88999 9.87271C4.81921 9.90209 4.74326 9.91704 4.66662 9.91668Z",
   fill: "currentColor"
 }, null, -1);
-var _hoisted_2$5 = [_hoisted_1$7];
+var _hoisted_2$6 = [_hoisted_1$8];
 function render$3(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("svg", mergeProps({
     width: "14",
@@ -32804,7 +33282,7 @@ function render$3(_ctx, _cache, $props, $setup, $data, $options) {
     viewBox: "0 0 14 14",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg"
-  }, _ctx.pti()), _hoisted_2$5, 16);
+  }, _ctx.pti()), _hoisted_2$6, 16);
 }
 script$4.render = render$3;
 var script$2$1 = {
@@ -33013,7 +33491,7 @@ function _toPrimitive$1(t, r) {
   }
   return ("string" === r ? String : Number)(t);
 }
-var _hoisted_1$6 = ["aria-label"];
+var _hoisted_1$7 = ["aria-label"];
 function render$1$1(_ctx, _cache, $props, $setup, $data, $options) {
   var _directive_ripple = resolveDirective("ripple");
   return openBlock(), createElementBlock("div", mergeProps({
@@ -33054,7 +33532,7 @@ function render$1$1(_ctx, _cache, $props, $setup, $data, $options) {
     autofocus: ""
   }, _objectSpread$1(_objectSpread$1(_objectSpread$1({}, $props.closeButtonProps), _ctx.ptm("button")), _ctx.ptm("closeButton"))), [(openBlock(), createBlock(resolveDynamicComponent($props.templates.closeicon || "TimesIcon"), mergeProps({
     "class": [_ctx.cx("closeIcon"), $props.closeIcon]
-  }, _objectSpread$1(_objectSpread$1({}, _ctx.ptm("buttonIcon")), _ctx.ptm("closeIcon"))), null, 16, ["class"]))], 16, _hoisted_1$6)), [[_directive_ripple]])], 16)) : createCommentVNode("", true)], 16))], 16);
+  }, _objectSpread$1(_objectSpread$1({}, _ctx.ptm("buttonIcon")), _ctx.ptm("closeIcon"))), null, 16, ["class"]))], 16, _hoisted_1$7)), [[_directive_ripple]])], 16)) : createCommentVNode("", true)], 16))], 16);
 }
 script$1$1.render = render$1$1;
 function _toConsumableArray(arr) {
@@ -33328,7 +33806,7 @@ var ToastService = {
   }
 };
 var inlineStyles = {
-  root: function root15(_ref) {
+  root: function root16(_ref) {
     var props = _ref.props;
     return {
       position: props.appendTo === "self" ? "relative" : void 0
@@ -33336,7 +33814,7 @@ var inlineStyles = {
   }
 };
 var classes = {
-  root: function root16(_ref2) {
+  root: function root17(_ref2) {
     var instance = _ref2.instance, props = _ref2.props;
     return ["p-cascadeselect p-component p-inputwrapper", {
       "p-disabled": props.disabled,
@@ -33632,7 +34110,7 @@ var script$1 = {
   }
 };
 var _hoisted_1$1$1 = ["id", "aria-label", "aria-selected", "aria-expanded", "aria-level", "aria-setsize", "aria-posinset", "data-p-item-group", "data-p-highlight", "data-p-focus", "data-p-disabled"];
-var _hoisted_2$4 = ["onClick", "onMousemove"];
+var _hoisted_2$5 = ["onClick", "onMousemove"];
 function render$1(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_AngleRightIcon = resolveComponent("AngleRightIcon");
   var _component_CascadeSelectSub = resolveComponent("CascadeSelectSub", true);
@@ -33686,7 +34164,7 @@ function render$1(_ctx, _cache, $props, $setup, $data, $options) {
       key: 2,
       "class": _ctx.cx("groupIcon"),
       "aria-hidden": "true"
-    }, $options.getPTOptions(processedOption, index2, "groupIcon")), null, 16, ["class"]))], 64)) : createCommentVNode("", true)], 16, _hoisted_2$4)), [[_directive_ripple]]), $options.isOptionGroup(processedOption) && $options.isOptionActive(processedOption) ? (openBlock(), createBlock(_component_CascadeSelectSub, {
+    }, $options.getPTOptions(processedOption, index2, "groupIcon")), null, 16, ["class"]))], 64)) : createCommentVNode("", true)], 16, _hoisted_2$5)), [[_directive_ripple]]), $options.isOptionGroup(processedOption) && $options.isOptionActive(processedOption) ? (openBlock(), createBlock(_component_CascadeSelectSub, {
       key: 0,
       role: "group",
       "class": normalizeClass(_ctx.cx("sublist")),
@@ -33740,7 +34218,7 @@ var script = {
     "$attrs.id": function $attrsId4(newValue) {
       this.id = newValue || UniqueComponentId();
     },
-    options: function options2() {
+    options: function options3() {
       this.autoUpdateModel();
     }
   },
@@ -34002,13 +34480,13 @@ var script = {
           return p2.key === (processedOption === null || processedOption === void 0 ? void 0 : processedOption.parentKey);
         });
         var matched = this.focusedOptionInfo.parentKey === "" || parentOption && parentOption.key === this.focusedOptionInfo.parentKey;
-        var root17 = ObjectUtils.isEmpty(processedOption === null || processedOption === void 0 ? void 0 : processedOption.parent);
+        var root18 = ObjectUtils.isEmpty(processedOption === null || processedOption === void 0 ? void 0 : processedOption.parent);
         if (matched) {
           this.activeOptionPath = this.activeOptionPath.filter(function(p2) {
             return p2.parentKey !== _this2.focusedOptionInfo.parentKey;
           });
         }
-        if (!root17) {
+        if (!root18) {
           this.focusedOptionInfo = {
             index: -1,
             parentKey: parentOption ? parentOption.parentKey : ""
@@ -34333,13 +34811,13 @@ var script = {
         value: value2
       });
     },
-    createProcessedOptions: function createProcessedOptions(options3) {
+    createProcessedOptions: function createProcessedOptions(options4) {
       var _this13 = this;
       var level = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 0;
       var parent = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : {};
       var parentKey = arguments.length > 3 && arguments[3] !== void 0 ? arguments[3] : "";
       var processedOptions2 = [];
-      options3 && options3.forEach(function(option, index2) {
+      options4 && options4.forEach(function(option, index2) {
         var key = (parentKey !== "" ? parentKey + "_" : "") + index2;
         var newOption = {
           option,
@@ -34471,7 +34949,7 @@ function _toPrimitive(t, r) {
   }
   return ("string" === r ? String : Number)(t);
 }
-var _hoisted_1$5 = ["id", "disabled", "placeholder", "tabindex", "aria-label", "aria-labelledby", "aria-expanded", "aria-controls", "aria-activedescendant"];
+var _hoisted_1$6 = ["id", "disabled", "placeholder", "tabindex", "aria-label", "aria-labelledby", "aria-expanded", "aria-controls", "aria-activedescendant"];
 function render2(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_SpinnerIcon = resolveComponent("SpinnerIcon");
   var _component_CascadeSelectSub = resolveComponent("CascadeSelectSub");
@@ -34513,7 +34991,7 @@ function render2(_ctx, _cache, $props, $setup, $data, $options) {
     onKeydown: _cache[2] || (_cache[2] = function() {
       return $options.onKeyDown && $options.onKeyDown.apply($options, arguments);
     })
-  }, _objectSpread(_objectSpread({}, _ctx.inputProps), _ctx.ptm("input"))), null, 16, _hoisted_1$5)], 16), createBaseVNode("span", mergeProps({
+  }, _objectSpread(_objectSpread({}, _ctx.inputProps), _ctx.ptm("input"))), null, 16, _hoisted_1$6)], 16), createBaseVNode("span", mergeProps({
     "class": _ctx.cx("label")
   }, _ctx.ptm("label")), [renderSlot(_ctx.$slots, "value", {
     value: _ctx.modelValue,
@@ -34613,40 +35091,39 @@ function render2(_ctx, _cache, $props, $setup, $data, $options) {
   }, 8, ["appendTo"])], 16);
 }
 script.render = render2;
-const _hoisted_1$4 = { class: "flex flex-nowrap justify-content-between border-1 border-gray-300 border-round-2xl p-1 lg:p-2 w-full h-7rem" };
-const _hoisted_2$3 = { class: "w-4 flex justify-content-center" };
-const _hoisted_3$3 = ["src"];
-const _hoisted_4$3 = { class: "w-9 flex flex-column justify-content-between ml-2" };
-const _hoisted_5$3 = { class: "w-full m-0 h-4rem overflow-hidden text-xs lg:text-base" };
-const _hoisted_6$3 = { class: "flex justify-content-between align-items-center" };
-const _hoisted_7$3 = { class: "btn flex justify-content-center" };
-const _sfc_main$4 = {
+const _hoisted_1$5 = { class: "flex flex-nowrap justify-content-between border-1 border-gray-300 border-round-2xl p-1 lg:p-2 w-full h-7rem" };
+const _hoisted_2$4 = { class: "w-4 flex justify-content-center" };
+const _hoisted_3$4 = ["src"];
+const _hoisted_4$4 = { class: "w-9 flex flex-column justify-content-between ml-2" };
+const _hoisted_5$4 = { class: "w-full m-0 h-4rem overflow-hidden text-xs lg:text-base" };
+const _hoisted_6$4 = { class: "flex justify-content-between align-items-center" };
+const _hoisted_7$4 = { class: "btn flex justify-content-center" };
+const _sfc_main$5 = {
   __name: "CartItem",
   props: {
     id: Number,
     imageUrl: String,
     description: String,
-    price: Number,
-    isAdded: Boolean
+    price: Number
   },
   emits: ["onClickRemove"],
   setup(__props, { emit: __emit }) {
     const emit2 = __emit;
     return (_ctx, _cache) => {
       const _component_Button = resolveComponent("Button");
-      return openBlock(), createElementBlock("div", _hoisted_1$4, [
-        createBaseVNode("div", _hoisted_2$3, [
+      return openBlock(), createElementBlock("div", _hoisted_1$5, [
+        createBaseVNode("div", _hoisted_2$4, [
           createBaseVNode("img", {
             alt: "product photo",
             src: __props.imageUrl,
             class: "h-full w-auto"
-          }, null, 8, _hoisted_3$3)
+          }, null, 8, _hoisted_3$4)
         ]),
-        createBaseVNode("div", _hoisted_4$3, [
-          createBaseVNode("p", _hoisted_5$3, toDisplayString(__props.description), 1),
-          createBaseVNode("div", _hoisted_6$3, [
+        createBaseVNode("div", _hoisted_4$4, [
+          createBaseVNode("p", _hoisted_5$4, toDisplayString(__props.description), 1),
+          createBaseVNode("div", _hoisted_6$4, [
             createBaseVNode("b", null, toDisplayString(__props.price) + " ₽", 1),
-            createBaseVNode("div", _hoisted_7$3, [
+            createBaseVNode("div", _hoisted_7$4, [
               createVNode(_component_Button, {
                 onClick: _cache[0] || (_cache[0] = ($event) => emit2("onClickRemove")),
                 label: "Удалить",
@@ -34659,15 +35136,15 @@ const _sfc_main$4 = {
     };
   }
 };
-const CartItem = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["__scopeId", "data-v-f85a5d41"]]);
-const _hoisted_1$3 = { class: "flex flex-column gap-2" };
-const _sfc_main$3 = {
+const CartItem = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["__scopeId", "data-v-c477b766"]]);
+const _hoisted_1$4 = { class: "flex flex-column gap-2" };
+const _sfc_main$4 = {
   __name: "CartItemList",
   setup(__props) {
     const { cart, removeFromCart } = inject("cart");
     return (_ctx, _cache) => {
       const _component_my_cart_item = resolveComponent("my-cart-item");
-      return openBlock(), createElementBlock("div", _hoisted_1$3, [
+      return openBlock(), createElementBlock("div", _hoisted_1$4, [
         (openBlock(true), createElementBlock(Fragment, null, renderList(unref(cart), (item4) => {
           return openBlock(), createBlock(_component_my_cart_item, {
             key: item4.id,
@@ -34681,18 +35158,18 @@ const _sfc_main$3 = {
     };
   }
 };
-const _withScopeId$1 = (n) => (pushScopeId("data-v-acad3437"), n = n(), popScopeId(), n);
-const _hoisted_1$2 = { class: "card-item bg-white p-3 cursor-pointer border-1 border-300 border-round-2xl hover-translate shadow-4 hover:shadow-6 transition-duration-300" };
-const _hoisted_2$2 = { class: "flex relative justify-content-center w-full h-12rem mb-3" };
-const _hoisted_3$2 = ["src"];
-const _hoisted_4$2 = ["src"];
-const _hoisted_5$2 = { class: "h-6rem overflow-hidden" };
-const _hoisted_6$2 = { class: "flex justify-content-between align-items-center" };
-const _hoisted_7$2 = { class: "flex flex-column" };
-const _hoisted_8$1 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createBaseVNode("span", { class: "font-light text-xl" }, "Цена:", -1));
+const _withScopeId$2 = (n) => (pushScopeId("data-v-c69a9da0"), n = n(), popScopeId(), n);
+const _hoisted_1$3 = { class: "card-item bg-white p-3 cursor-pointer border-1 border-300 border-round-2xl hover-translate shadow-4 hover:shadow-6 transition-duration-300" };
+const _hoisted_2$3 = { class: "flex relative justify-content-center w-full h-12rem mb-3" };
+const _hoisted_3$3 = ["src"];
+const _hoisted_4$3 = ["src"];
+const _hoisted_5$3 = { class: "h-6rem overflow-hidden" };
+const _hoisted_6$3 = { class: "flex justify-content-between align-items-center" };
+const _hoisted_7$3 = { class: "flex flex-column" };
+const _hoisted_8$2 = /* @__PURE__ */ _withScopeId$2(() => /* @__PURE__ */ createBaseVNode("span", { class: "font-light text-xl" }, "Цена:", -1));
 const _hoisted_9 = { class: "text-xl" };
 const _hoisted_10 = ["src"];
-const _sfc_main$2 = {
+const _sfc_main$3 = {
   __name: "CardItem",
   props: {
     id: Number,
@@ -34706,24 +35183,24 @@ const _sfc_main$2 = {
   },
   setup(__props) {
     return (_ctx, _cache) => {
-      return openBlock(), createElementBlock("div", _hoisted_1$2, [
-        createBaseVNode("div", _hoisted_2$2, [
+      return openBlock(), createElementBlock("div", _hoisted_1$3, [
+        createBaseVNode("div", _hoisted_2$3, [
           createBaseVNode("img", {
             onClick: _cache[0] || (_cache[0] = (...args) => __props.onClickFavorite && __props.onClickFavorite(...args)),
             src: !__props.isFavorite ? "images/heart-1.png" : "images/heart-2.png",
             alt: "favorite",
             class: "absolute top-0 left-0"
-          }, null, 8, _hoisted_3$2),
+          }, null, 8, _hoisted_3$3),
           createBaseVNode("img", {
             src: __props.imageUrl,
             alt: "product",
             class: "w-10rem"
-          }, null, 8, _hoisted_4$2)
+          }, null, 8, _hoisted_4$3)
         ]),
-        createBaseVNode("p", _hoisted_5$2, toDisplayString(__props.description), 1),
-        createBaseVNode("div", _hoisted_6$2, [
-          createBaseVNode("div", _hoisted_7$2, [
-            _hoisted_8$1,
+        createBaseVNode("p", _hoisted_5$3, toDisplayString(__props.description), 1),
+        createBaseVNode("div", _hoisted_6$3, [
+          createBaseVNode("div", _hoisted_7$3, [
+            _hoisted_8$2,
             createBaseVNode("b", _hoisted_9, toDisplayString(__props.price) + " ₽", 1)
           ]),
           createBaseVNode("img", {
@@ -34737,26 +35214,26 @@ const _sfc_main$2 = {
     };
   }
 };
-const CardItem = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-acad3437"]]);
+const CardItem = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["__scopeId", "data-v-c69a9da0"]]);
 const _imports_0 = "" + new URL("../images/search.png", import.meta.url).href;
-const _withScopeId = (n) => (pushScopeId("data-v-401103c4"), n = n(), popScopeId(), n);
-const _hoisted_1$1 = { class: "flex flex-column sm:flex-row pb-4 justify-content-end" };
-const _hoisted_2$1 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createBaseVNode("option", { value: "description" }, "По алфавиту", -1));
-const _hoisted_3$1 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createBaseVNode("option", { value: "price" }, "По цене(возрастание)", -1));
-const _hoisted_4$1 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createBaseVNode("option", { value: "-price" }, "По цене(убывание)", -1));
-const _hoisted_5$1 = [
-  _hoisted_2$1,
-  _hoisted_3$1,
-  _hoisted_4$1
+const _withScopeId$1 = (n) => (pushScopeId("data-v-911edf7a"), n = n(), popScopeId(), n);
+const _hoisted_1$2 = { class: "flex flex-column sm:flex-row pb-4 justify-content-end" };
+const _hoisted_2$2 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createBaseVNode("option", { value: "description" }, "По алфавиту", -1));
+const _hoisted_3$2 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createBaseVNode("option", { value: "price" }, "По цене(возрастание)", -1));
+const _hoisted_4$2 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createBaseVNode("option", { value: "-price" }, "По цене(убывание)", -1));
+const _hoisted_5$2 = [
+  _hoisted_2$2,
+  _hoisted_3$2,
+  _hoisted_4$2
 ];
-const _hoisted_6$1 = { class: "relative sm:ml-5 mt-3 sm:mt-0" };
-const _hoisted_7$1 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createBaseVNode("img", {
+const _hoisted_6$2 = { class: "relative sm:ml-5 mt-3 sm:mt-0" };
+const _hoisted_7$2 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createBaseVNode("img", {
   class: "absolute",
   style: { "width": "24px" },
   src: _imports_0
 }, null, -1));
-const _hoisted_8 = { class: "card-container flex flex-wrap justify-content-around gap-3" };
-const _sfc_main$1 = {
+const _hoisted_8$1 = { class: "card-container flex flex-wrap justify-content-around gap-3" };
+const _sfc_main$2 = {
   __name: "CardItemList",
   props: {
     items: Array,
@@ -34796,7 +35273,8 @@ const _sfc_main$1 = {
       try {
         if (!item4.isFavorite) {
           const obj = {
-            item_id: item4.id
+            item_id: item4.id,
+            item: item4
           };
           item4.isFavorite = true;
           const { data: data23 } = await axios.post(`https://0e157e836a1fe779.mokky.dev/favorites`, obj);
@@ -34862,14 +35340,15 @@ const _sfc_main$1 = {
     watch(filters, fetchItems);
     return (_ctx, _cache) => {
       const _component_my_card_item = resolveComponent("my-card-item");
+      const _directive_auto_animate = resolveDirective("auto-animate");
       return openBlock(), createElementBlock("div", null, [
-        createBaseVNode("div", _hoisted_1$1, [
+        createBaseVNode("div", _hoisted_1$2, [
           createBaseVNode("select", {
             onChange: _cache[0] || (_cache[0] = ($event) => onChangeSelect($event)),
             class: "h-2rem w-15rem px-2 border-none border-round-xl"
-          }, _hoisted_5$1, 32),
-          createBaseVNode("div", _hoisted_6$1, [
-            _hoisted_7$1,
+          }, _hoisted_5$2, 32),
+          createBaseVNode("div", _hoisted_6$2, [
+            _hoisted_7$2,
             createBaseVNode("input", {
               onChange: _cache[1] || (_cache[1] = ($event) => onChangeSearch($event)),
               class: "h-2rem w-15rem pl-5 pr-1 border-none border-round-xl",
@@ -34878,7 +35357,7 @@ const _sfc_main$1 = {
             }, null, 32)
           ])
         ]),
-        createBaseVNode("div", _hoisted_8, [
+        withDirectives((openBlock(), createElementBlock("div", _hoisted_8$1, [
           (openBlock(true), createElementBlock(Fragment, null, renderList(items2.value, (item4) => {
             return openBlock(), createBlock(_component_my_card_item, {
               key: item4.id,
@@ -34892,20 +35371,22 @@ const _sfc_main$1 = {
               "on-click-add": () => addToCart(item4)
             }, null, 8, ["id", "image-url", "description", "price", "is-favorite", "on-click-favorite", "is-added", "on-click-add"]);
           }), 128))
+        ])), [
+          [_directive_auto_animate]
         ])
       ]);
     };
   }
 };
-const CardItemList = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-401103c4"]]);
-const _sfc_main = {};
-const _hoisted_1 = { class: "purina-darling-container mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl" };
-const _hoisted_2 = /* @__PURE__ */ createBaseVNode("h1", null, "Purina Darling", -1);
-const _hoisted_3 = { class: "flex flex-wrap justify-content-around mt-3" };
-const _hoisted_4 = { class: "w-full sm:w-8 md:w-5 lg:w-4 xl:w-3" };
-const _hoisted_5 = /* @__PURE__ */ createBaseVNode("p", { class: "text-justify" }, " Корм сухой полнорационный для взрослых кошек, с мясом по-домашнему и овощами Purina Darling ", -1);
-const _hoisted_6 = { class: "btn flex justify-content-center" };
-const _hoisted_7 = /* @__PURE__ */ createBaseVNode("div", { class: "description w-full lg:w-6" }, [
+const CardItemList = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-911edf7a"]]);
+const _sfc_main$1 = {};
+const _hoisted_1$1 = { class: "purina-darling-container mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl" };
+const _hoisted_2$1 = /* @__PURE__ */ createBaseVNode("h1", null, "Purina Darling", -1);
+const _hoisted_3$1 = { class: "flex flex-wrap justify-content-around mt-3" };
+const _hoisted_4$1 = { class: "w-full sm:w-8 md:w-5 lg:w-4 xl:w-3" };
+const _hoisted_5$1 = /* @__PURE__ */ createBaseVNode("p", { class: "text-justify" }, " Корм сухой полнорационный для взрослых кошек, с мясом по-домашнему и овощами Purina Darling ", -1);
+const _hoisted_6$1 = { class: "btn flex justify-content-center" };
+const _hoisted_7$1 = /* @__PURE__ */ createBaseVNode("div", { class: "description w-full lg:w-6" }, [
   /* @__PURE__ */ createBaseVNode("h3", null, "Состав"),
   /* @__PURE__ */ createBaseVNode("p", { class: "text-justify" }, " Злаки, продукты переработки растительного сырья (ядра пшеницы), мясо и продукты его переработки (10%), экстракт растительного белка, масла и жиры, дрожжи, витамины, миниральные вещества, овощи, красители, антиоксиданты. "),
   /* @__PURE__ */ createBaseVNode("h3", null, "Описание"),
@@ -34924,12 +35405,12 @@ const _hoisted_7 = /* @__PURE__ */ createBaseVNode("div", { class: "description 
 ], -1);
 function _sfc_render(_ctx, _cache) {
   const _component_Button = resolveComponent("Button");
-  return openBlock(), createElementBlock("div", _hoisted_1, [
-    _hoisted_2,
-    createBaseVNode("div", _hoisted_3, [
-      createBaseVNode("div", _hoisted_4, [
-        _hoisted_5,
-        createBaseVNode("div", _hoisted_6, [
+  return openBlock(), createElementBlock("div", _hoisted_1$1, [
+    _hoisted_2$1,
+    createBaseVNode("div", _hoisted_3$1, [
+      createBaseVNode("div", _hoisted_4$1, [
+        _hoisted_5$1,
+        createBaseVNode("div", _hoisted_6$1, [
           createVNode(_component_Button, {
             label: "Добавить в корзину",
             icon: "pi pi-cart-plus",
@@ -34937,26 +35418,191 @@ function _sfc_render(_ctx, _cache) {
           })
         ])
       ]),
-      _hoisted_7
+      _hoisted_7$1
     ])
   ]);
 }
-const ProductDetails = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render]]);
-const app = createApp(_sfc_main$T);
+const ProductDetails = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render]]);
+const _withScopeId = (n) => (pushScopeId("data-v-c643a205"), n = n(), popScopeId(), n);
+const _hoisted_1 = { class: "flex flex-column sm:flex-row pb-4 justify-content-end" };
+const _hoisted_2 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createBaseVNode("option", { value: "description" }, "По алфавиту", -1));
+const _hoisted_3 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createBaseVNode("option", { value: "price" }, "По цене(возрастание)", -1));
+const _hoisted_4 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createBaseVNode("option", { value: "-price" }, "По цене(убывание)", -1));
+const _hoisted_5 = [
+  _hoisted_2,
+  _hoisted_3,
+  _hoisted_4
+];
+const _hoisted_6 = { class: "relative sm:ml-5 mt-3 sm:mt-0" };
+const _hoisted_7 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createBaseVNode("img", {
+  class: "absolute",
+  style: { "width": "24px" },
+  src: _imports_0
+}, null, -1));
+const _hoisted_8 = { class: "card-container flex flex-wrap justify-content-around gap-3" };
+const _sfc_main = {
+  __name: "FavoriteList",
+  props: {
+    items: Array,
+    apiUrl: String
+  },
+  emits: ["addToCart"],
+  setup(__props, { emit: __emit }) {
+    const props = __props;
+    const items2 = ref([]);
+    const filters = reactive({
+      sortBy: "description",
+      searchQuery: ""
+    });
+    const onChangeSelect = (event2) => {
+      filters.sortBy = event2.target.value;
+    };
+    const onChangeSearch = (event2) => {
+      filters.searchQuery = event2.target.value;
+    };
+    const { cart } = inject("cart");
+    const addToCart = (item4) => {
+      const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
+      const index2 = storedCart.findIndex((cartItem) => cartItem.id === item4.id);
+      if (index2 === -1) {
+        storedCart.push(item4);
+        item4.isAdded = true;
+        localStorage.setItem("cart", JSON.stringify(storedCart));
+        cart.value = storedCart;
+      } else {
+        storedCart.splice(index2, 1);
+        item4.isAdded = false;
+        localStorage.setItem("cart", JSON.stringify(storedCart));
+        cart.value = storedCart;
+      }
+    };
+    const addToFavorites = async (item4) => {
+      try {
+        if (!item4.isFavorite) {
+          const obj = {
+            item_id: item4.id,
+            item: item4
+          };
+          item4.isFavorite = true;
+          const { data: data23 } = await axios.post(`https://0e157e836a1fe779.mokky.dev/favorites`, obj);
+          item4.favoriteId = data23.id;
+        } else {
+          item4.isFavorite = false;
+          await axios.delete(`https://0e157e836a1fe779.mokky.dev/favorites/${item4.favoriteId}`);
+          item4.favoriteId = null;
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    const fetchFavorites = async () => {
+      try {
+        const { data: favorites } = await axios.get(`https://0e157e836a1fe779.mokky.dev/favorites`);
+        items2.value = items2.value.map((item4) => {
+          const favorite = favorites.find((favorite2) => favorite2.item_id === item4.id);
+          if (!favorite) {
+            return item4;
+          }
+          return {
+            ...item4,
+            isFavorite: true,
+            favoriteId: favorite.id
+          };
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    const fetchItems = async () => {
+      try {
+        const params = {
+          sortBy: filters.sortBy
+        };
+        if (filters.searchQuery) {
+          params.description = `*${filters.searchQuery}*`;
+        }
+        const { data: data23 } = await axios.get(props.apiUrl, {
+          params
+        });
+        items2.value = data23.map((obj) => ({
+          ...obj,
+          isFavorite: false,
+          favoriteId: null,
+          isAdded: false
+        }));
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    onMounted(async () => {
+      const localCart = localStorage.getItem("cart");
+      cart.value = localCart ? JSON.parse(localCart) : [];
+      await fetchItems();
+      await fetchFavorites();
+      items2.value = items2.value.map((item4) => ({
+        ...item4,
+        isAdded: cart.value.some((cartItem) => cartItem.id === item4.id)
+      }));
+    });
+    watch(filters, fetchItems);
+    return (_ctx, _cache) => {
+      const _component_my_card_item = resolveComponent("my-card-item");
+      const _directive_auto_animate = resolveDirective("auto-animate");
+      return openBlock(), createElementBlock("div", null, [
+        createBaseVNode("div", _hoisted_1, [
+          createBaseVNode("select", {
+            onChange: _cache[0] || (_cache[0] = ($event) => onChangeSelect($event)),
+            class: "h-2rem w-15rem px-2 border-none border-round-xl"
+          }, _hoisted_5, 32),
+          createBaseVNode("div", _hoisted_6, [
+            _hoisted_7,
+            createBaseVNode("input", {
+              onChange: _cache[1] || (_cache[1] = ($event) => onChangeSearch($event)),
+              class: "h-2rem w-15rem pl-5 pr-1 border-none border-round-xl",
+              type: "text",
+              placeholder: "Поиск..."
+            }, null, 32)
+          ])
+        ]),
+        withDirectives((openBlock(), createElementBlock("div", _hoisted_8, [
+          (openBlock(true), createElementBlock(Fragment, null, renderList(items2.value, (item4) => {
+            return openBlock(), createBlock(_component_my_card_item, {
+              key: item4.item.id,
+              id: item4.item.id,
+              "image-url": item4.item.image,
+              description: item4.item.description,
+              price: item4.item.price,
+              "is-favorite": item4.item.isFavorite,
+              "on-click-favorite": () => addToFavorites(item4.item),
+              "is-added": item4.item.isAdded,
+              "on-click-add": () => addToCart(item4.item)
+            }, null, 8, ["id", "image-url", "description", "price", "is-favorite", "on-click-favorite", "is-added", "on-click-add"]);
+          }), 128))
+        ])), [
+          [_directive_auto_animate]
+        ])
+      ]);
+    };
+  }
+};
+const FavoriteList = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-c643a205"]]);
+const app = createApp(_sfc_main$U);
 app.use(PrimeVue);
 app.use(router);
 app.use(ToastService);
-app.component("Navbar", _sfc_main$R);
+app.use(autoAnimatePlugin);
+app.component("Navbar", _sfc_main$S);
 app.component("my-drawer", Drawer);
 app.component("my-cart-item", CartItem);
-app.component("my-cart-item-list", _sfc_main$3);
+app.component("my-cart-item-list", _sfc_main$4);
 app.component("my-card-item", CardItem);
 app.component("my-card-item-list", CardItemList);
 app.component("my-product-details", ProductDetails);
+app.component("my-favorite-list", FavoriteList);
 app.component("Button", script$M);
-app.component("my-slider", _sfc_main$Q);
-app.component("my-tree", _sfc_main$P);
-app.component("my-bestsellers", _sfc_main$O);
+app.component("my-slider", _sfc_main$R);
+app.component("my-tree", _sfc_main$Q);
+app.component("my-bestsellers", _sfc_main$P);
 app.component("Card", script$B);
 app.component("my-brands", Brands);
 app.component("my-footer", Footer);
