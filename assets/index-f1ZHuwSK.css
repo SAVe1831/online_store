@@ -26,19 +26,19 @@ body {
     display: block;
 }
 
-svg[data-v-b8907bcd] {
+svg[data-v-6e42d346] {
     cursor: pointer;
     opacity: .4;
     transition-duration: 300ms;
 }
-svg[data-v-b8907bcd]:hover {
+svg[data-v-6e42d346]:hover {
     transform: translateX(-15%);
     opacity: 1;
 }
-button[data-v-b8907bcd]:hover {
+button[data-v-6e42d346]:hover {
     transform: translateY(-1%);
 }
-button[data-v-b8907bcd]:active {
+button[data-v-6e42d346]:active {
     transform: translateY(+1%);
 }
 
@@ -102,7 +102,7 @@ Button[data-v-c477b766]:active {
 }
 }
 
-img[data-v-911edf7a] {
+img[data-v-601fdadf] {
     top: 4px;
     left: 4px;
 }

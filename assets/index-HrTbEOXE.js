@@ -71,13 +71,13 @@ const isSet = (val) => toTypeString(val) === "[object Set]";
 const isDate$1 = (val) => toTypeString(val) === "[object Date]";
 const isFunction$1 = (val) => typeof val === "function";
 const isString$1 = (val) => typeof val === "string";
-const isSymbol = (val) => typeof val === "symbol";
-const isObject$1 = (val) => val !== null && typeof val === "object";
+const isSymbol$1 = (val) => typeof val === "symbol";
+const isObject$2 = (val) => val !== null && typeof val === "object";
 const isPromise = (val) => {
-  return (isObject$1(val) || isFunction$1(val)) && isFunction$1(val.then) && isFunction$1(val.catch);
+  return (isObject$2(val) || isFunction$1(val)) && isFunction$1(val.then) && isFunction$1(val.catch);
 };
-const objectToString = Object.prototype.toString;
-const toTypeString = (value2) => objectToString.call(value2);
+const objectToString$1 = Object.prototype.toString;
+const toTypeString = (value2) => objectToString$1.call(value2);
 const toRawType = (value2) => {
   return toTypeString(value2).slice(8, -1);
 };
@@ -126,7 +126,7 @@ const looseToNumber = (val) => {
   const n = parseFloat(val);
   return isNaN(n) ? val : n;
 };
-const toNumber = (val) => {
+const toNumber$1 = (val) => {
   const n = isString$1(val) ? Number(val) : NaN;
   return isNaN(n) ? val : n;
 };
@@ -147,7 +147,7 @@ function normalizeStyle(value2) {
       }
     }
     return res;
-  } else if (isString$1(value2) || isObject$1(value2)) {
+  } else if (isString$1(value2) || isObject$2(value2)) {
     return value2;
   }
 }
@@ -175,7 +175,7 @@ function normalizeClass(value2) {
         res += normalized + " ";
       }
     }
-  } else if (isObject$1(value2)) {
+  } else if (isObject$2(value2)) {
     for (const name in value2) {
       if (value2[name]) {
         res += name + " ";
@@ -218,8 +218,8 @@ function looseEqual(a, b) {
   if (aValidType || bValidType) {
     return aValidType && bValidType ? a.getTime() === b.getTime() : false;
   }
-  aValidType = isSymbol(a);
-  bValidType = isSymbol(b);
+  aValidType = isSymbol$1(a);
+  bValidType = isSymbol$1(b);
   if (aValidType || bValidType) {
     return a === b;
   }
@@ -228,8 +228,8 @@ function looseEqual(a, b) {
   if (aValidType || bValidType) {
     return aValidType && bValidType ? looseCompareArrays(a, b) : false;
   }
-  aValidType = isObject$1(a);
-  bValidType = isObject$1(b);
+  aValidType = isObject$2(a);
+  bValidType = isObject$2(b);
   if (aValidType || bValidType) {
     if (!aValidType || !bValidType) {
       return false;
@@ -253,7 +253,7 @@ function looseIndexOf(arr, val) {
   return arr.findIndex((item4) => looseEqual(item4, val));
 }
 const toDisplayString = (val) => {
-  return isString$1(val) ? val : val == null ? "" : isArray$2(val) || isObject$1(val) && (val.toString === objectToString || !isFunction$1(val.toString)) ? JSON.stringify(val, replacer, 2) : String(val);
+  return isString$1(val) ? val : val == null ? "" : isArray$2(val) || isObject$2(val) && (val.toString === objectToString$1 || !isFunction$1(val.toString)) ? JSON.stringify(val, replacer, 2) : String(val);
 };
 const replacer = (_key, val) => {
   if (val && val.__v_isRef) {
@@ -272,16 +272,16 @@ const replacer = (_key, val) => {
     return {
       [`Set(${val.size})`]: [...val.values()].map((v) => stringifySymbol(v))
     };
-  } else if (isSymbol(val)) {
+  } else if (isSymbol$1(val)) {
     return stringifySymbol(val);
-  } else if (isObject$1(val) && !isArray$2(val) && !isPlainObject$1(val)) {
+  } else if (isObject$2(val) && !isArray$2(val) && !isPlainObject$1(val)) {
     return String(val);
   }
   return val;
 };
 const stringifySymbol = (v, i = "") => {
   var _a;
-  return isSymbol(v) ? `Symbol(${(_a = v.description) != null ? _a : i})` : v;
+  return isSymbol$1(v) ? `Symbol(${(_a = v.description) != null ? _a : i})` : v;
 };
 /**
 * @vue/reactivity v3.4.16
@@ -547,7 +547,7 @@ function trigger(target2, type, key, newValue, oldValue, oldTarget) {
   } else if (key === "length" && isArray$2(target2)) {
     const newLength = Number(newValue);
     depsMap.forEach((dep, key2) => {
-      if (key2 === "length" || !isSymbol(key2) && key2 >= newLength) {
+      if (key2 === "length" || !isSymbol$1(key2) && key2 >= newLength) {
         deps.push(dep);
       }
     });
@@ -594,7 +594,7 @@ function trigger(target2, type, key, newValue, oldValue, oldTarget) {
 }
 const isNonTrackableKeys = /* @__PURE__ */ makeMap(`__proto__,__v_isRef,__isVue`);
 const builtInSymbols = new Set(
-  /* @__PURE__ */ Object.getOwnPropertyNames(Symbol).filter((key) => key !== "arguments" && key !== "caller").map((key) => Symbol[key]).filter(isSymbol)
+  /* @__PURE__ */ Object.getOwnPropertyNames(Symbol).filter((key) => key !== "arguments" && key !== "caller").map((key) => Symbol[key]).filter(isSymbol$1)
 );
 const arrayInstrumentations = /* @__PURE__ */ createArrayInstrumentations();
 function createArrayInstrumentations() {
@@ -661,7 +661,7 @@ class BaseReactiveHandler {
       }
     }
     const res = Reflect.get(target2, key, receiver);
-    if (isSymbol(key) ? builtInSymbols.has(key) : isNonTrackableKeys(key)) {
+    if (isSymbol$1(key) ? builtInSymbols.has(key) : isNonTrackableKeys(key)) {
       return res;
     }
     if (!isReadonly2) {
@@ -673,7 +673,7 @@ class BaseReactiveHandler {
     if (isRef(res)) {
       return targetIsArray && isIntegerKey(key) ? res : res.value;
     }
-    if (isObject$1(res)) {
+    if (isObject$2(res)) {
       return isReadonly2 ? readonly(res) : reactive(res);
     }
     return res;
@@ -722,7 +722,7 @@ class MutableReactiveHandler extends BaseReactiveHandler {
   }
   has(target2, key) {
     const result = Reflect.has(target2, key);
-    if (!isSymbol(key) || !builtInSymbols.has(key)) {
+    if (!isSymbol$1(key) || !builtInSymbols.has(key)) {
       track(target2, "has", key);
     }
     return result;
@@ -1066,7 +1066,7 @@ function readonly(target2) {
   );
 }
 function createReactiveObject(target2, isReadonly2, baseHandlers, collectionHandlers, proxyMap) {
-  if (!isObject$1(target2)) {
+  if (!isObject$2(target2)) {
     return target2;
   }
   if (target2["__v_raw"] && !(isReadonly2 && target2["__v_isReactive"])) {
@@ -1112,8 +1112,8 @@ function markRaw(value2) {
   }
   return value2;
 }
-const toReactive = (value2) => isObject$1(value2) ? reactive(value2) : value2;
-const toReadonly = (value2) => isObject$1(value2) ? readonly(value2) : value2;
+const toReactive = (value2) => isObject$2(value2) ? reactive(value2) : value2;
+const toReadonly = (value2) => isObject$2(value2) ? readonly(value2) : value2;
 class ComputedRefImpl {
   constructor(getter, _setter, isReadonly2, isSSR) {
     this._setter = _setter;
@@ -1616,7 +1616,7 @@ function normalizeEmitsOptions(comp, appContext, asMixin = false) {
     }
   }
   if (!raw2 && !hasExtends) {
-    if (isObject$1(comp)) {
+    if (isObject$2(comp)) {
       cache.set(comp, null);
     }
     return null;
@@ -1626,7 +1626,7 @@ function normalizeEmitsOptions(comp, appContext, asMixin = false) {
   } else {
     extend$1(normalized, raw2);
   }
-  if (isObject$1(comp)) {
+  if (isObject$2(comp)) {
     cache.set(comp, normalized);
   }
   return normalized;
@@ -2118,7 +2118,7 @@ function createPathGetter(ctx, path) {
   };
 }
 function traverse(value2, depth, currentDepth = 0, seen) {
-  if (!isObject$1(value2) || value2["__v_skip"]) {
+  if (!isObject$2(value2) || value2["__v_skip"]) {
     return value2;
   }
   if (depth && depth > 0) {
@@ -2626,7 +2626,7 @@ function renderList(source, renderItem, cache, index2) {
     for (let i = 0; i < source; i++) {
       ret[i] = renderItem(i + 1, i, void 0, cached && cached[i]);
     }
-  } else if (isObject$1(source)) {
+  } else if (isObject$2(source)) {
     if (source[Symbol.iterator]) {
       ret = Array.from(
         source,
@@ -2906,7 +2906,7 @@ function applyOptions(instance) {
   }
   if (dataOptions) {
     const data23 = dataOptions.call(publicThis, publicThis);
-    if (!isObject$1(data23))
+    if (!isObject$2(data23))
       ;
     else {
       instance.data = reactive(data23);
@@ -2994,7 +2994,7 @@ function resolveInjections(injectOptions, ctx, checkDuplicateProperties = NOOP) 
   for (const key in injectOptions) {
     const opt = injectOptions[key];
     let injected;
-    if (isObject$1(opt)) {
+    if (isObject$2(opt)) {
       if ("default" in opt) {
         injected = inject(
           opt.from || key,
@@ -3035,7 +3035,7 @@ function createWatcher(raw2, ctx, publicThis, key) {
     }
   } else if (isFunction$1(raw2)) {
     watch(getter, raw2.bind(publicThis));
-  } else if (isObject$1(raw2)) {
+  } else if (isObject$2(raw2)) {
     if (isArray$2(raw2)) {
       raw2.forEach((r) => createWatcher(r, ctx, publicThis, key));
     } else {
@@ -3072,7 +3072,7 @@ function resolveMergedOptions(instance) {
     }
     mergeOptions$1(resolved, base, optionMergeStrategies);
   }
-  if (isObject$1(base)) {
+  if (isObject$2(base)) {
     cache.set(base, resolved);
   }
   return resolved;
@@ -3213,7 +3213,7 @@ function createAppAPI(render3, hydrate) {
     if (!isFunction$1(rootComponent)) {
       rootComponent = extend$1({}, rootComponent);
     }
-    if (rootProps != null && !isObject$1(rootProps)) {
+    if (rootProps != null && !isObject$2(rootProps)) {
       rootProps = null;
     }
     const context = createAppContext();
@@ -3555,7 +3555,7 @@ function normalizePropsOptions(comp, appContext, asMixin = false) {
     }
   }
   if (!raw2 && !hasExtends) {
-    if (isObject$1(comp)) {
+    if (isObject$2(comp)) {
       cache.set(comp, EMPTY_ARR);
     }
     return EMPTY_ARR;
@@ -3592,7 +3592,7 @@ function normalizePropsOptions(comp, appContext, asMixin = false) {
     }
   }
   const res = [normalized, needCastKeys];
-  if (isObject$1(comp)) {
+  if (isObject$2(comp)) {
     cache.set(comp, res);
   }
   return res;
@@ -5560,14 +5560,14 @@ function _createVNode(type, props = null, children = null, patchFlag = 0, dynami
     if (klass && !isString$1(klass)) {
       props.class = normalizeClass(klass);
     }
-    if (isObject$1(style)) {
+    if (isObject$2(style)) {
       if (isProxy(style) && !isArray$2(style)) {
         style = extend$1({}, style);
       }
       props.style = normalizeStyle(style);
     }
   }
-  const shapeFlag = isString$1(type) ? 1 : isSuspense(type) ? 128 : isTeleport(type) ? 64 : isObject$1(type) ? 4 : isFunction$1(type) ? 2 : 0;
+  const shapeFlag = isString$1(type) ? 1 : isSuspense(type) ? 128 : isTeleport(type) ? 64 : isObject$2(type) ? 4 : isFunction$1(type) ? 2 : 0;
   return createBaseVNode(
     type,
     props,
@@ -5926,7 +5926,7 @@ function handleSetupResult(instance, setupResult, isSSR) {
     } else {
       instance.render = setupResult;
     }
-  } else if (isObject$1(setupResult)) {
+  } else if (isObject$2(setupResult)) {
     instance.setupState = proxyRefs(setupResult);
   } else
     ;
@@ -6045,7 +6045,7 @@ const computed = (getterOrOptions, debugOptions) => {
 function h(type, propsOrChildren, children) {
   const l = arguments.length;
   if (l === 2) {
-    if (isObject$1(propsOrChildren) && !isArray$2(propsOrChildren)) {
+    if (isObject$2(propsOrChildren) && !isArray$2(propsOrChildren)) {
       if (isVNode(propsOrChildren)) {
         return createVNode(type, null, [propsOrChildren]);
       }
@@ -6284,7 +6284,7 @@ function resolveTransitionProps(rawProps) {
 function normalizeDuration(duration) {
   if (duration == null) {
     return null;
-  } else if (isObject$1(duration)) {
+  } else if (isObject$2(duration)) {
     return [NumberOf(duration.enter), NumberOf(duration.leave)];
   } else {
     const n = NumberOf(duration);
@@ -6292,7 +6292,7 @@ function normalizeDuration(duration) {
   }
 }
 function NumberOf(val) {
-  const res = toNumber(val);
+  const res = toNumber$1(val);
   return res;
 }
 function addTransitionClass(el, cls) {
@@ -7078,7 +7078,7 @@ const intervals = /* @__PURE__ */ new WeakMap();
 const options = /* @__PURE__ */ new WeakMap();
 const debounces = /* @__PURE__ */ new WeakMap();
 const enabled = /* @__PURE__ */ new WeakSet();
-let root;
+let root$1;
 let scrollX = 0;
 let scrollY = 0;
 const TGT = "__aa_tgt";
@@ -7092,7 +7092,7 @@ const handleMutations = (mutations2) => {
 };
 const handleResizes = (entries) => {
   entries.forEach((entry) => {
-    if (entry.target === root)
+    if (entry.target === root$1)
       updateAllPos();
     if (coords.has(entry.target))
       updatePos(entry.target);
@@ -7108,7 +7108,7 @@ function observePosition(el) {
     rect = getCoords(el);
     coords.set(el, rect);
   }
-  const { offsetWidth, offsetHeight } = root;
+  const { offsetWidth, offsetHeight } = root$1;
   const rootMargins = [
     rect.top - buffer,
     offsetWidth - (rect.left + buffer + rect.width),
@@ -7119,7 +7119,7 @@ function observePosition(el) {
   const observer = new IntersectionObserver(() => {
     ++invocations > 1 && updatePos(el);
   }, {
-    root,
+    root: root$1,
     threshold: 1,
     rootMargin
   });
@@ -7141,8 +7141,8 @@ function updatePos(el) {
   }, delay));
 }
 function updateAllPos() {
-  clearTimeout(debounces.get(root));
-  debounces.set(root, setTimeout(() => {
+  clearTimeout(debounces.get(root$1));
+  debounces.set(root$1, setTimeout(() => {
     parents.forEach((parent) => forEach$1(parent, (el) => lowPriority(() => updatePos(el))));
   }, 100));
 }
@@ -7161,14 +7161,14 @@ function lowPriority(callback) {
 let mutations;
 let resize;
 if (typeof window !== "undefined") {
-  root = document.documentElement;
+  root$1 = document.documentElement;
   mutations = new MutationObserver(handleMutations);
   resize = new ResizeObserver(handleResizes);
   window.addEventListener("scroll", () => {
     scrollY = window.scrollY;
     scrollX = window.scrollX;
   });
-  resize.observe(root);
+  resize.observe(root$1);
 }
 function getElements(mutations2) {
   const observedNodes = mutations2.reduce((nodes, mutation) => {
@@ -7460,7 +7460,7 @@ function adjustScroll(el, finalX, finalY, optionsOrPlugin) {
   const scrollDeltaX = scrollX - finalX;
   const scrollDeltaY = scrollY - finalY;
   const scrollBefore = document.documentElement.style.scrollBehavior;
-  const scrollBehavior = getComputedStyle(root).scrollBehavior;
+  const scrollBehavior = getComputedStyle(root$1).scrollBehavior;
   if (scrollBehavior === "smooth") {
     document.documentElement.style.scrollBehavior = "auto";
   }
@@ -9719,6 +9719,7 @@ var PrimeVue = {
   }
 };
 const _imports_0$5 = "" + new URL("../images/cart-empty.png", import.meta.url).href;
+const _imports_1$3 = "" + new URL("../images/order-complete.png", import.meta.url).href;
 function bind(fn, thisArg) {
   return function wrap() {
     return fn.apply(thisArg, arguments);
@@ -9753,7 +9754,7 @@ function isArrayBufferView(val) {
 const isString2 = typeOfTest("string");
 const isFunction2 = typeOfTest("function");
 const isNumber = typeOfTest("number");
-const isObject2 = (thing) => thing !== null && typeof thing === "object";
+const isObject$1 = (thing) => thing !== null && typeof thing === "object";
 const isBoolean = (thing) => thing === true || thing === false;
 const isPlainObject = (val) => {
   if (kindOf(val) !== "object") {
@@ -9766,7 +9767,7 @@ const isDate2 = kindOfTest("Date");
 const isFile = kindOfTest("File");
 const isBlob = kindOfTest("Blob");
 const isFileList = kindOfTest("FileList");
-const isStream = (val) => isObject2(val) && isFunction2(val.pipe);
+const isStream = (val) => isObject$1(val) && isFunction2(val.pipe);
 const isFormData = (thing) => {
   let kind;
   return thing && (typeof FormData === "function" && thing instanceof FormData || isFunction2(thing.append) && ((kind = kindOf(thing)) === "formdata" || // detect form-data instance
@@ -10006,7 +10007,7 @@ function isSpecCompliantForm(thing) {
 const toJSONObject = (obj) => {
   const stack2 = new Array(10);
   const visit = (source, i) => {
-    if (isObject2(source)) {
+    if (isObject$1(source)) {
       if (stack2.indexOf(source) >= 0) {
         return;
       }
@@ -10026,7 +10027,7 @@ const toJSONObject = (obj) => {
   return visit(obj, 0);
 };
 const isAsyncFn = kindOfTest("AsyncFunction");
-const isThenable = (thing) => thing && (isObject2(thing) || isFunction2(thing)) && isFunction2(thing.then) && isFunction2(thing.catch);
+const isThenable = (thing) => thing && (isObject$1(thing) || isFunction2(thing)) && isFunction2(thing.then) && isFunction2(thing.catch);
 const utils$1 = {
   isArray: isArray$1,
   isArrayBuffer,
@@ -10036,7 +10037,7 @@ const utils$1 = {
   isString: isString2,
   isNumber,
   isBoolean,
-  isObject: isObject2,
+  isObject: isObject$1,
   isPlainObject,
   isUndefined,
   isDate: isDate2,
@@ -10968,13 +10969,13 @@ function speedometer(samplesCount, min) {
   let firstSampleTS;
   min = min !== void 0 ? min : 1e3;
   return function push(chunkLength) {
-    const now = Date.now();
+    const now2 = Date.now();
     const startedAt = timestamps[tail];
     if (!firstSampleTS) {
-      firstSampleTS = now;
+      firstSampleTS = now2;
     }
     bytes[head] = chunkLength;
-    timestamps[head] = now;
+    timestamps[head] = now2;
     let i = tail;
     let bytesCount = 0;
     while (i !== head) {
@@ -10985,10 +10986,10 @@ function speedometer(samplesCount, min) {
     if (head === tail) {
       tail = (tail + 1) % samplesCount;
     }
-    if (now - firstSampleTS < min) {
+    if (now2 - firstSampleTS < min) {
       return;
     }
-    const passed = startedAt && now - startedAt;
+    const passed = startedAt && now2 - startedAt;
     return passed ? Math.round(bytesCount * 1e3 / passed) : void 0;
   };
 }
@@ -11749,7 +11750,7 @@ const _export_sfc = (sfc, props) => {
   }
   return target2;
 };
-const _withScopeId$3 = (n) => (pushScopeId("data-v-b8907bcd"), n = n(), popScopeId(), n);
+const _withScopeId$3 = (n) => (pushScopeId("data-v-6e42d346"), n = n(), popScopeId(), n);
 const _hoisted_1$1y = { class: "cart bg-orange-50 w-full sm:w-8 md:w-6 lg:w-5 xl:w-4 h-full sm:border-left-3 border-orange-500 fixed top-0 right-0 z-5 p-1 lg:py-1 lg:px-3" };
 const _hoisted_2$1r = { class: "flex align-items-center gap-5" };
 const _hoisted_3$j = /* @__PURE__ */ _withScopeId$3(() => /* @__PURE__ */ createBaseVNode("g", {
@@ -11763,26 +11764,38 @@ const _hoisted_4$k = [
   _hoisted_3$j
 ];
 const _hoisted_5$g = /* @__PURE__ */ _withScopeId$3(() => /* @__PURE__ */ createBaseVNode("h2", null, "Корзина", -1));
-const _hoisted_6$d = {
+const _hoisted_6$d = { key: 0 };
+const _hoisted_7$c = {
   key: 0,
   class: "flex flex-column align-items-center mt-5"
 };
-const _hoisted_7$c = /* @__PURE__ */ _withScopeId$3(() => /* @__PURE__ */ createBaseVNode("p", { class: "text-2xl" }, "Здесь пусто...", -1));
-const _hoisted_8$7 = /* @__PURE__ */ _withScopeId$3(() => /* @__PURE__ */ createBaseVNode("img", {
+const _hoisted_8$7 = /* @__PURE__ */ _withScopeId$3(() => /* @__PURE__ */ createBaseVNode("p", { class: "text-center text-2xl" }, "Здесь пусто...", -1));
+const _hoisted_9$6 = /* @__PURE__ */ _withScopeId$3(() => /* @__PURE__ */ createBaseVNode("img", {
   class: "w-6",
   src: _imports_0$5,
   alt: "Пустая корзина"
 }, null, -1));
-const _hoisted_9$6 = /* @__PURE__ */ _withScopeId$3(() => /* @__PURE__ */ createBaseVNode("p", { class: "text-2xl" }, "Добавьте какой-нибудь товар", -1));
-const _hoisted_10$5 = [
-  _hoisted_7$c,
+const _hoisted_10$5 = /* @__PURE__ */ _withScopeId$3(() => /* @__PURE__ */ createBaseVNode("p", { class: "text-center text-2xl" }, "Добавьте какой-нибудь товар", -1));
+const _hoisted_11$4 = [
   _hoisted_8$7,
-  _hoisted_9$6
+  _hoisted_9$6,
+  _hoisted_10$5
 ];
-const _hoisted_11$4 = { key: 1 };
-const _hoisted_12$4 = { class: "my-5 flex" };
-const _hoisted_13$4 = /* @__PURE__ */ _withScopeId$3(() => /* @__PURE__ */ createBaseVNode("span", null, "Итого:", -1));
-const _hoisted_14$4 = /* @__PURE__ */ _withScopeId$3(() => /* @__PURE__ */ createBaseVNode("div", { class: "flex-1 border-bottom-1" }, null, -1));
+const _hoisted_12$4 = {
+  key: 1,
+  class: "flex flex-column align-items-center mt-5"
+};
+const _hoisted_13$4 = /* @__PURE__ */ _withScopeId$3(() => /* @__PURE__ */ createBaseVNode("img", {
+  class: "w-6",
+  src: _imports_1$3,
+  alt: "Заказ оформлен"
+}, null, -1));
+const _hoisted_14$4 = /* @__PURE__ */ _withScopeId$3(() => /* @__PURE__ */ createBaseVNode("p", { class: "text-center text-3xl" }, "Заказ оформлен", -1));
+const _hoisted_15$4 = { class: "text-center" };
+const _hoisted_16$4 = { key: 1 };
+const _hoisted_17$2 = { class: "my-5 flex" };
+const _hoisted_18$2 = /* @__PURE__ */ _withScopeId$3(() => /* @__PURE__ */ createBaseVNode("span", null, "Итого:", -1));
+const _hoisted_19$3 = /* @__PURE__ */ _withScopeId$3(() => /* @__PURE__ */ createBaseVNode("div", { class: "flex-1 border-bottom-1" }, null, -1));
 const _sfc_main$T = {
   __name: "Drawer",
   props: {
@@ -11830,14 +11843,21 @@ const _sfc_main$T = {
             }, _hoisted_4$k)),
             _hoisted_5$g
           ]),
-          !unref(totalPrice) || orderId.value ? (openBlock(), createElementBlock("div", _hoisted_6$d, _hoisted_10$5)) : (openBlock(), createElementBlock("div", _hoisted_11$4, [
+          !unref(totalPrice) || orderId.value ? (openBlock(), createElementBlock("div", _hoisted_6$d, [
+            !unref(totalPrice) && !orderId.value ? (openBlock(), createElementBlock("div", _hoisted_7$c, _hoisted_11$4)) : createCommentVNode("", true),
+            orderId.value ? (openBlock(), createElementBlock("div", _hoisted_12$4, [
+              _hoisted_13$4,
+              _hoisted_14$4,
+              createBaseVNode("p", _hoisted_15$4, "Ваш заказ №" + toDisplayString(orderId.value) + " успешно оформлен. Ожидайте доставку в указанный срок", 1)
+            ])) : createCommentVNode("", true)
+          ])) : (openBlock(), createElementBlock("div", _hoisted_16$4, [
             withDirectives(createVNode(_component_my_cart_item_list, null, null, 512), [
               [_directive_auto_animate]
             ]),
             createBaseVNode("div", null, [
-              createBaseVNode("div", _hoisted_12$4, [
-                _hoisted_13$4,
-                _hoisted_14$4,
+              createBaseVNode("div", _hoisted_17$2, [
+                _hoisted_18$2,
+                _hoisted_19$3,
                 createBaseVNode("b", null, toDisplayString(unref(totalPrice)) + " ₽", 1)
               ]),
               createBaseVNode("button", {
@@ -11851,7 +11871,7 @@ const _sfc_main$T = {
     };
   }
 };
-const Drawer = /* @__PURE__ */ _export_sfc(_sfc_main$T, [["__scopeId", "data-v-b8907bcd"]]);
+const Drawer = /* @__PURE__ */ _export_sfc(_sfc_main$T, [["__scopeId", "data-v-6e42d346"]]);
 const _imports_0$4 = "" + new URL("../images/navbar/nav-cat2.png", import.meta.url).href;
 const _imports_1$2 = "" + new URL("../images/navbar/nav-bird.png", import.meta.url).href;
 const _imports_2$2 = "" + new URL("../images/navbar/nav-dog.png", import.meta.url).href;
@@ -12622,7 +12642,7 @@ var inlineStyles$3 = {
   }
 };
 var classes$g = {
-  root: function root2(_ref2) {
+  root: function root(_ref2) {
     var instance = _ref2.instance;
     return ["p-menubar p-component", {
       "p-menubar-mobile": instance.queryMatches,
@@ -16165,7 +16185,7 @@ const _sfc_main$S = {
   }
 };
 var classes$e = {
-  root: function root3(_ref) {
+  root: function root2(_ref) {
     var props = _ref.props, instance = _ref.instance;
     return ["p-badge p-component", {
       "p-badge-no-gutter": ObjectUtils.isNotEmpty(props.value) && String(props.value).length === 1,
@@ -16274,7 +16294,7 @@ function _toPrimitive$j(t, r) {
   return ("string" === r ? String : Number)(t);
 }
 var classes$d = {
-  root: function root4(_ref) {
+  root: function root3(_ref) {
     var instance = _ref.instance, props = _ref.props;
     return ["p-button p-component", _defineProperty$j(_defineProperty$j(_defineProperty$j(_defineProperty$j(_defineProperty$j(_defineProperty$j(_defineProperty$j(_defineProperty$j({
       "p-button-icon-only": instance.hasIcon && !props.label && !props.badge,
@@ -16534,7 +16554,7 @@ function render$H(_ctx, _cache, $props, $setup, $data, $options) {
 }
 script$I.render = render$H;
 var classes$c = {
-  root: function root5(_ref) {
+  root: function root4(_ref) {
     var instance = _ref.instance;
     return ["p-carousel p-component", {
       "p-carousel-vertical": instance.isVertical(),
@@ -17405,7 +17425,7 @@ function render$F(_ctx, _cache, $props, $setup, $data, $options) {
 }
 script$G.render = render$F;
 var classes$b = {
-  root: function root6(_ref) {
+  root: function root5(_ref) {
     var props = _ref.props;
     return ["p-tree p-component", {
       "p-tree-selectable": props.selectionMode != null,
@@ -17470,7 +17490,7 @@ function render$E(_ctx, _cache, $props, $setup, $data, $options) {
 }
 script$F.render = render$E;
 var classes$a = {
-  root: function root7(_ref) {
+  root: function root6(_ref) {
     var instance = _ref.instance, props = _ref.props;
     return ["p-checkbox p-component", {
       "p-highlight": instance.checked,
@@ -20366,7 +20386,7 @@ function render$t(_ctx, _cache, $props, $setup, $data, $options) {
 }
 script$u.render = render$t;
 var classes$7 = {
-  root: function root8(_ref) {
+  root: function root7(_ref) {
     var instance = _ref.instance, props = _ref.props, state = _ref.state;
     return ["p-dropdown p-component p-inputwrapper", {
       "p-disabled": props.disabled,
@@ -21877,7 +21897,7 @@ function render$r(_ctx, _cache, $props, $setup, $data, $options) {
 }
 script$s.render = render$r;
 var classes$6 = {
-  root: function root9(_ref) {
+  root: function root8(_ref) {
     var instance = _ref.instance, props = _ref.props;
     return ["p-inputtext p-component", {
       "p-filled": instance.filled,
@@ -21952,7 +21972,7 @@ function render$q(_ctx, _cache, $props, $setup, $data, $options) {
 }
 script$r.render = render$q;
 var classes$5 = {
-  root: function root10(_ref) {
+  root: function root9(_ref) {
     var instance = _ref.instance, props = _ref.props;
     return ["p-inputnumber p-component p-inputwrapper", {
       "p-inputwrapper-filled": instance.filled || props.allowEmpty === false,
@@ -24111,7 +24131,7 @@ function render$m(_ctx, _cache, $props, $setup, $data, $options) {
 }
 script$n.render = render$m;
 var classes$4 = {
-  root: function root11(_ref) {
+  root: function root10(_ref) {
     var instance = _ref.instance, props = _ref.props;
     return ["p-datatable p-component", {
       "p-datatable-hoverable-rows": props.rowHover || props.selectionMode,
@@ -24317,7 +24337,7 @@ function render$l(_ctx, _cache, $props, $setup, $data, $options) {
 }
 script$m.render = render$l;
 var classes$3 = {
-  root: function root12(_ref) {
+  root: function root11(_ref) {
     var instance = _ref.instance, props = _ref.props;
     return ["p-radiobutton p-component", {
       "p-highlight": instance.checked,
@@ -32981,7 +33001,7 @@ const router = createRouter({
   history: createWebHashHistory()
 });
 var classes$2 = {
-  root: function root13(_ref) {
+  root: function root12(_ref) {
     var props = _ref.props;
     return ["p-scrolltop p-link p-component", {
       "p-scrolltop-sticky": props.target !== "window"
@@ -33171,7 +33191,7 @@ function _toPrimitive$3(t, r) {
   return ("string" === r ? String : Number)(t);
 }
 var inlineStyles$1 = {
-  root: function root14(_ref) {
+  root: function root13(_ref) {
     var position = _ref.position;
     return {
       position: "fixed",
@@ -33183,7 +33203,7 @@ var inlineStyles$1 = {
   }
 };
 var classes$1 = {
-  root: function root15(_ref2) {
+  root: function root14(_ref2) {
     var props = _ref2.props, instance = _ref2.instance;
     return ["p-toast p-component p-toast-" + props.position, {
       "p-ripple-disabled": instance.$primevue.config.ripple === false
@@ -33806,7 +33826,7 @@ var ToastService = {
   }
 };
 var inlineStyles = {
-  root: function root16(_ref) {
+  root: function root15(_ref) {
     var props = _ref.props;
     return {
       position: props.appendTo === "self" ? "relative" : void 0
@@ -33814,7 +33834,7 @@ var inlineStyles = {
   }
 };
 var classes = {
-  root: function root17(_ref2) {
+  root: function root16(_ref2) {
     var instance = _ref2.instance, props = _ref2.props;
     return ["p-cascadeselect p-component p-inputwrapper", {
       "p-disabled": props.disabled,
@@ -35216,7 +35236,138 @@ const _sfc_main$3 = {
 };
 const CardItem = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["__scopeId", "data-v-c69a9da0"]]);
 const _imports_0 = "" + new URL("../images/search.png", import.meta.url).href;
-const _withScopeId$1 = (n) => (pushScopeId("data-v-911edf7a"), n = n(), popScopeId(), n);
+var commonjsGlobal = typeof globalThis !== "undefined" ? globalThis : typeof window !== "undefined" ? window : typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : {};
+function getDefaultExportFromCjs(x) {
+  return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, "default") ? x["default"] : x;
+}
+var FUNC_ERROR_TEXT = "Expected a function";
+var NAN = 0 / 0;
+var symbolTag = "[object Symbol]";
+var reTrim = /^\s+|\s+$/g;
+var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
+var reIsBinary = /^0b[01]+$/i;
+var reIsOctal = /^0o[0-7]+$/i;
+var freeParseInt = parseInt;
+var freeGlobal = typeof commonjsGlobal == "object" && commonjsGlobal && commonjsGlobal.Object === Object && commonjsGlobal;
+var freeSelf = typeof self == "object" && self && self.Object === Object && self;
+var root17 = freeGlobal || freeSelf || Function("return this")();
+var objectProto = Object.prototype;
+var objectToString = objectProto.toString;
+var nativeMax = Math.max, nativeMin = Math.min;
+var now = function() {
+  return root17.Date.now();
+};
+function debounce(func, wait, options4) {
+  var lastArgs, lastThis, maxWait, result, timerId, lastCallTime, lastInvokeTime = 0, leading = false, maxing = false, trailing = true;
+  if (typeof func != "function") {
+    throw new TypeError(FUNC_ERROR_TEXT);
+  }
+  wait = toNumber(wait) || 0;
+  if (isObject2(options4)) {
+    leading = !!options4.leading;
+    maxing = "maxWait" in options4;
+    maxWait = maxing ? nativeMax(toNumber(options4.maxWait) || 0, wait) : maxWait;
+    trailing = "trailing" in options4 ? !!options4.trailing : trailing;
+  }
+  function invokeFunc(time) {
+    var args = lastArgs, thisArg = lastThis;
+    lastArgs = lastThis = void 0;
+    lastInvokeTime = time;
+    result = func.apply(thisArg, args);
+    return result;
+  }
+  function leadingEdge(time) {
+    lastInvokeTime = time;
+    timerId = setTimeout(timerExpired, wait);
+    return leading ? invokeFunc(time) : result;
+  }
+  function remainingWait(time) {
+    var timeSinceLastCall = time - lastCallTime, timeSinceLastInvoke = time - lastInvokeTime, result2 = wait - timeSinceLastCall;
+    return maxing ? nativeMin(result2, maxWait - timeSinceLastInvoke) : result2;
+  }
+  function shouldInvoke(time) {
+    var timeSinceLastCall = time - lastCallTime, timeSinceLastInvoke = time - lastInvokeTime;
+    return lastCallTime === void 0 || timeSinceLastCall >= wait || timeSinceLastCall < 0 || maxing && timeSinceLastInvoke >= maxWait;
+  }
+  function timerExpired() {
+    var time = now();
+    if (shouldInvoke(time)) {
+      return trailingEdge(time);
+    }
+    timerId = setTimeout(timerExpired, remainingWait(time));
+  }
+  function trailingEdge(time) {
+    timerId = void 0;
+    if (trailing && lastArgs) {
+      return invokeFunc(time);
+    }
+    lastArgs = lastThis = void 0;
+    return result;
+  }
+  function cancel() {
+    if (timerId !== void 0) {
+      clearTimeout(timerId);
+    }
+    lastInvokeTime = 0;
+    lastArgs = lastCallTime = lastThis = timerId = void 0;
+  }
+  function flush() {
+    return timerId === void 0 ? result : trailingEdge(now());
+  }
+  function debounced() {
+    var time = now(), isInvoking = shouldInvoke(time);
+    lastArgs = arguments;
+    lastThis = this;
+    lastCallTime = time;
+    if (isInvoking) {
+      if (timerId === void 0) {
+        return leadingEdge(lastCallTime);
+      }
+      if (maxing) {
+        timerId = setTimeout(timerExpired, wait);
+        return invokeFunc(lastCallTime);
+      }
+    }
+    if (timerId === void 0) {
+      timerId = setTimeout(timerExpired, wait);
+    }
+    return result;
+  }
+  debounced.cancel = cancel;
+  debounced.flush = flush;
+  return debounced;
+}
+function isObject2(value2) {
+  var type = typeof value2;
+  return !!value2 && (type == "object" || type == "function");
+}
+function isObjectLike(value2) {
+  return !!value2 && typeof value2 == "object";
+}
+function isSymbol(value2) {
+  return typeof value2 == "symbol" || isObjectLike(value2) && objectToString.call(value2) == symbolTag;
+}
+function toNumber(value2) {
+  if (typeof value2 == "number") {
+    return value2;
+  }
+  if (isSymbol(value2)) {
+    return NAN;
+  }
+  if (isObject2(value2)) {
+    var other = typeof value2.valueOf == "function" ? value2.valueOf() : value2;
+    value2 = isObject2(other) ? other + "" : other;
+  }
+  if (typeof value2 != "string") {
+    return value2 === 0 ? value2 : +value2;
+  }
+  value2 = value2.replace(reTrim, "");
+  var isBinary = reIsBinary.test(value2);
+  return isBinary || reIsOctal.test(value2) ? freeParseInt(value2.slice(2), isBinary ? 2 : 8) : reIsBadHex.test(value2) ? NAN : +value2;
+}
+var lodash_debounce = debounce;
+const debounce$1 = /* @__PURE__ */ getDefaultExportFromCjs(lodash_debounce);
+const _withScopeId$1 = (n) => (pushScopeId("data-v-601fdadf"), n = n(), popScopeId(), n);
 const _hoisted_1$2 = { class: "flex flex-column sm:flex-row pb-4 justify-content-end" };
 const _hoisted_2$2 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createBaseVNode("option", { value: "description" }, "По алфавиту", -1));
 const _hoisted_3$2 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createBaseVNode("option", { value: "price" }, "По цене(возрастание)", -1));
@@ -35250,9 +35401,9 @@ const _sfc_main$2 = {
     const onChangeSelect = (event2) => {
       filters.sortBy = event2.target.value;
     };
-    const onChangeSearch = (event2) => {
+    const onChangeSearch = debounce$1((event2) => {
       filters.searchQuery = event2.target.value;
-    };
+    }, 500);
     const { cart } = inject("cart");
     const addToCart = (item4) => {
       const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -35350,7 +35501,7 @@ const _sfc_main$2 = {
           createBaseVNode("div", _hoisted_6$2, [
             _hoisted_7$2,
             createBaseVNode("input", {
-              onChange: _cache[1] || (_cache[1] = ($event) => onChangeSearch($event)),
+              onInput: _cache[1] || (_cache[1] = ($event) => unref(onChangeSearch)($event)),
               class: "h-2rem w-15rem pl-5 pr-1 border-none border-round-xl",
               type: "text",
               placeholder: "Поиск..."
@@ -35378,7 +35529,7 @@ const _sfc_main$2 = {
     };
   }
 };
-const CardItemList = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-911edf7a"]]);
+const CardItemList = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-601fdadf"]]);
 const _sfc_main$1 = {};
 const _hoisted_1$1 = { class: "purina-darling-container mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl" };
 const _hoisted_2$1 = /* @__PURE__ */ createBaseVNode("h1", null, "Purina Darling", -1);
