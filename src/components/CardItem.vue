@@ -56,7 +56,7 @@ const props = defineProps({
 }
 @media (min-width: 1500px) {
     .card-item {
-        width: 19%;
+        width: 270px;
     }
 }
 </style>

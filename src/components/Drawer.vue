@@ -21,12 +21,12 @@
             <h2>Корзина</h2>
         </div>
         <div v-if="!totalPrice || orderId" class="flex flex-column align-items-center mt-5">
-            <p class="text-3xl">Здесь пусто...</p>
-            <img class="w-8 " src="/images/cart-empty.png" alt="Пустая корзина">
-            <p class="text-3xl">Добавьте какой-нибудь товар</p>
+            <p class="text-2xl">Здесь пусто...</p>
+            <img class="w-6" src="/images/cart-empty.png" alt="Пустая корзина">
+            <p class="text-2xl">Добавьте какой-нибудь товар</p>
         </div>
         <div v-else>
-            <my-cart-item-list></my-cart-item-list>
+            <my-cart-item-list v-auto-animate></my-cart-item-list>
             <div>
                 <div class="my-5 flex">
                     <span>Итого:</span>
@@ -70,7 +70,6 @@ const createOrder = async () => {
     } finally {
         isCreating.value = false;
         localStorage.removeItem('cart', JSON.stringify(cart.value));
-
     }
 }
 

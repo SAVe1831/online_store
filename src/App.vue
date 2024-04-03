@@ -41,8 +41,7 @@ const removeFromCart = (item) => {
 provide('cart', {
   cart,
   removeFromCart,
-  totalPrice,
-  isAdded: computed(() => cart.value.some(item => item.isAdded))
+  totalPrice
 })
 
 

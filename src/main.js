@@ -1,5 +1,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
+import { autoAnimatePlugin } from '@formkit/auto-animate/vue'
 import '@/assets/main.css'
 
 
@@ -23,7 +24,7 @@ import CartItemList from '@/components/CartItemList.vue'
 import CardItem from '@/components/CardItem.vue'
 import CardItemList from '@/components/CardItemList.vue'
 import ProductDetails from '@/components/ProductDetails.vue'
-
+import FavoriteList from '@/components/FavoriteList.vue'
 
 
 
@@ -38,6 +39,7 @@ const app = createApp(App);
 app.use(PrimeVue);
 app.use(router);
 app.use(ToastService);
+app.use(autoAnimatePlugin);
 
 app.component('Navbar', Navbar);
 app.component('my-drawer', Drawer);
@@ -46,8 +48,7 @@ app.component('my-cart-item-list', CartItemList);
 app.component('my-card-item', CardItem);
 app.component('my-card-item-list', CardItemList);
 app.component('my-product-details', ProductDetails);
-
-
+app.component('my-favorite-list', FavoriteList);
 
 
 app.component('Button', Button);

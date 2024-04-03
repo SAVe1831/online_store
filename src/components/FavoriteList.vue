@@ -15,15 +15,15 @@
         <div class="card-container flex flex-wrap justify-content-around gap-3" v-auto-animate>
             <my-card-item 
                 v-for="item in items" 
-                :key="item.id" 
-                :id="item.id"
-                :image-url="item.image" 
-                :description="item.description" 
-                :price="item.price"
-                :is-favorite="item.isFavorite" 
-                :on-click-favorite="() => addToFavorites(item)"
-                :is-added="item.isAdded" 
-                :on-click-add="() => addToCart(item)"
+                :key="item.item.id" 
+                :id="item.item.id"
+                :image-url="item.item.image" 
+                :description="item.item.description" 
+                :price="item.item.price"
+                :is-favorite="item.item.isFavorite" 
+                :on-click-favorite="() => addToFavorites(item.item)"
+                :is-added="item.item.isAdded" 
+                :on-click-add="() => addToCart(item.item)"
             ></my-card-item>
         </div>
     </div>

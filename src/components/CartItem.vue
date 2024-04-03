@@ -17,16 +17,16 @@
 
 
 <script setup>
-
 const emit = defineEmits(['onClickRemove'])
 
 const props = defineProps({
     id: Number,
     imageUrl: String,
     description: String,
-    price: Number,
-    isAdded: Boolean
+    price: Number
 })
+
+
 </script>
 
 <style scoped>
