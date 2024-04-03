@@ -20,10 +20,17 @@
             </svg>
             <h2>Корзина</h2>
         </div>
-        <div v-if="!totalPrice || orderId" class="flex flex-column align-items-center mt-5">
-            <p class="text-2xl">Здесь пусто...</p>
-            <img class="w-6" src="/images/cart-empty.png" alt="Пустая корзина">
-            <p class="text-2xl">Добавьте какой-нибудь товар</p>
+        <div v-if="!totalPrice || orderId">
+            <div v-if="!totalPrice && !orderId" class="flex flex-column align-items-center mt-5">
+                <p class="text-center text-2xl">Здесь пусто...</p>
+                <img class="w-6" src="/images/cart-empty.png" alt="Пустая корзина">
+                <p class="text-center text-2xl">Добавьте какой-нибудь товар</p>
+            </div>
+            <div v-if="orderId" class="flex flex-column align-items-center mt-5">
+                <img class="w-6" src="/images/order-complete.png" alt="Заказ оформлен">
+                <p class="text-center text-3xl">Заказ оформлен</p>
+                <p class="text-center">Ваш заказ №{{orderId}} успешно оформлен. Ожидайте доставку в указанный срок</p>
+            </div>
         </div>
         <div v-else>
             <my-cart-item-list v-auto-animate></my-cart-item-list>

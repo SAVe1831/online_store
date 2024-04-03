@@ -8,7 +8,7 @@
             </select>
             <div class="relative sm:ml-5 mt-3 sm:mt-0">
                 <img class="absolute" style="width: 24px;" src="/images/search.png">
-                <input @change="onChangeSearch($event)" class="h-2rem w-15rem pl-5 pr-1 border-none border-round-xl"
+                <input @input="onChangeSearch($event)" class="h-2rem w-15rem pl-5 pr-1 border-none border-round-xl"
                     type="text" placeholder="Поиск...">
             </div>
         </div>
@@ -33,6 +33,7 @@
 <script setup>
 import { onMounted, ref, watch, reactive, inject } from 'vue'
 import axios from 'axios'
+import debounce from 'lodash.debounce'
 
 const props = defineProps({
     items: Array,
@@ -52,9 +53,9 @@ const onChangeSelect = (event) => {
     filters.sortBy = event.target.value
 }
 
-const onChangeSearch = (event) => {
-    filters.searchQuery = event.target.value
-}
+const onChangeSearch = debounce((event) => {
+  filters.searchQuery = event.target.value
+}, 500)
 
 const { cart } = inject('cart');
 
