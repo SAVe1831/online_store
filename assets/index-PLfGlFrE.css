@@ -66,10 +66,10 @@ body .p-component {
 }
 } 
 
-Button[data-v-c477b766]:hover {
+Button[data-v-2747a96d]:hover {
     transform: translateX(-2%) translateY(-2%);
 }
-Button[data-v-c477b766]:active {
+Button[data-v-2747a96d]:active {
     transform: translateX(+2%) translateY(+2%);
 }
 
@@ -102,12 +102,12 @@ Button[data-v-c477b766]:active {
 }
 }
 
-img[data-v-601fdadf] {
-    top: 4px;
-    left: 4px;
+img[data-v-54b1ac81] {
+  top: 4px;
+  left: 4px;
 }
 
-img[data-v-c643a205] {
+img[data-v-027f0a42] {
     top: 4px;
     left: 4px;
 }
