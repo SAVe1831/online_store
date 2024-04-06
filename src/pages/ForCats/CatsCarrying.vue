@@ -1,7 +1,7 @@
 <template>
-    <div class="dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl">
+    <div class="carrying-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl">
         <h1>Переноски для кошек</h1>
-        <my-card-item-list apiUrl="https://106b03ab3546a2ba.mokky.dev/cats-carrying"></my-card-item-list>
+        <my-card-item-list apiUrl="https://106b03ab3546a2ba.mokky.dev/items" :idMin="60" :idMax="69"></my-card-item-list>
     </div>
     <!--1/ https://www.ozon.ru/product/perenoska-dlya-koshek-perenoska-dlya-sobak-alternativa-m8690-chernyy-480h325h260-mm-849151012/
         2/ https://www.farpost.ru/vladivostok/pets/accessories/sumka-perenoska-dlja-koshek-i-sobak-50-30-33-sm-dop-sekcija-razmer-m-84799188.html

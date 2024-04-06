@@ -1,7 +1,7 @@
 <template>
-    <div class="dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl">
+    <div class="beds-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl">
         <h1>Лежанки для кошек</h1>
-        <my-card-item-list apiUrl="https://106b03ab3546a2ba.mokky.dev/cats-beds"></my-card-item-list>
+        <my-card-item-list apiUrl="https://106b03ab3546a2ba.mokky.dev/items" :idMin="70" :idMax="79"></my-card-item-list>
     </div>
     <!--1/ https://www.ozon.ru/product/lezhanka-dlya-zhivotnyh-kvadratnaya-65h59h21sm-joy-bezhevyy-barhat-lezhanka-dlya-sobak-i-koshek-217290900/
         2/ https://zoo59.ru/products/lezhanka-lukoshko-35kh40kh33sm-joy-kristall-dlya-koshek

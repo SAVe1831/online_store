@@ -1,7 +1,7 @@
 <template>
-    <div class="dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl">
+    <div class="toys-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl">
         <h1>Игрушки для кошек</h1>
-        <my-card-item-list apiUrl="https://106b03ab3546a2ba.mokky.dev/cats-toys"></my-card-item-list>
+        <my-card-item-list apiUrl="https://106b03ab3546a2ba.mokky.dev/items" :idMin="80" :idMax="89"></my-card-item-list>
     </div>
     <!--1/ https://lenta.com/product/igrushka-dlya-koshek-triol-myshki-cvetnye-kitajj-298341/?utm_referrer=https://www.google.com/
         2/ https://www.ozon.ru/product/igrushka-dlya-koshek-draznilka-umnyy-myachik-dlya-koshki-avtomaticheskiy-interaktivnyy-myachik-789092218/

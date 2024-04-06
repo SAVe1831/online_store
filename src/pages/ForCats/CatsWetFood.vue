@@ -1,7 +1,7 @@
 <template>
-    <div class="dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl">
+    <div class="wet-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl">
         <h1>Влажный корм для кошек</h1>
-        <my-card-item-list apiUrl="https://106b03ab3546a2ba.mokky.dev/cats-wet-food"></my-card-item-list>
+        <my-card-item-list apiUrl="https://106b03ab3546a2ba.mokky.dev/items" :idMin="10" :idMax="19"></my-card-item-list>
     </div>
     <!--1/ https://yarcheplus.ru/product/vlazhniy-korm-dlya-koshek-24084 
         2/ https://storum.ru/catalog/381956

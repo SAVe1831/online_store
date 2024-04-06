@@ -12,6 +12,7 @@
 <script setup>
 import { ref, provide, computed } from 'vue';
 
+
 const cart = ref([]);
 
 const totalPrice = computed(() => cart.value.reduce((acc, item) => acc + item.price, 0))
@@ -26,21 +27,12 @@ const closeDrawer = () => {
   drawerOpen.value = false;
 }
 
-const removeFromCart = (item) => {
-  cart.value.splice(cart.value.indexOf(item), 1)
-  const storedCart = JSON.parse(localStorage.getItem('cart'));
-  const index = storedCart.findIndex(cartItem => cartItem.id === item.id);
-  if (index !== -1) {
-    storedCart.splice(index, 1);
-    localStorage.setItem('cart', JSON.stringify(storedCart));
-    cart.value = storedCart;
-  }
-  item.isAdded = false;
-}
+
+
+
 
 provide('cart', {
   cart,
-  removeFromCart,
   totalPrice
 })
 

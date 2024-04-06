@@ -23,7 +23,10 @@ const props = defineProps({
     id: Number,
     imageUrl: String,
     description: String,
-    price: Number
+    price: Number,
+    isAdded: Boolean,
+    onClickRemove: Function
+
 })
 
 

@@ -1,7 +1,7 @@
 <template>
-    <div class="dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl">
+    <div class="wet-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl">
         <h1>Влажный корм для собак</h1>
-        <my-card-item-list apiUrl="https://106b03ab3546a2ba.mokky.dev/dogs-wet-food"></my-card-item-list>
+        <my-card-item-list apiUrl="https://106b03ab3546a2ba.mokky.dev/items" :idMin="100" :idMax="109"></my-card-item-list>
     </div>
     <!--1/ https://mokryinos.ru/catalog/sobaki/korma_vlazhnye/eukanuba/eukanuba_adult_yagnenok_v_souse_pauch_d_sob_100_g_
         2/ https://mypet-online.ru/product/korm-dlya-sobak-cesar-85-g/M41825?gtm_list=%D0%9A%D0%B0%D1%82%D0%B0%D0%BB%D0%BE%D0%B3+%D1%82%D0%BE%D0%B2%D0%B0%D1%80%D0%BE%D0%B2

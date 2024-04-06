@@ -1,7 +1,7 @@
 <template>
-    <div class="dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl">
+    <div class="food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl">
         <h1>Корм для грызунов</h1>
-        <my-card-item-list apiUrl="https://d6d9b0f0df5c1de0.mokky.dev/rodents-food"></my-card-item-list>
+        <my-card-item-list apiUrl="https://106b03ab3546a2ba.mokky.dev/items" :idMin="190" :idMax="199"></my-card-item-list>
     </div>
     <!--1/ https://livplanet.ru/korm-little-one-litl-van-dlya-krys-900-gramm
         2/ https://mypet-online.ru/product/korm-dlya-gryzunov-triol-500-g-s-fruktami/%D0%9C19644

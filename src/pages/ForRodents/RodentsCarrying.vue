@@ -1,7 +1,7 @@
 <template>
-    <div class="dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl">
+    <div class="carrying-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl">
         <h1>Переноски для грызунов</h1>
-        <my-card-item-list apiUrl="https://d6d9b0f0df5c1de0.mokky.dev/rodents-carrying"></my-card-item-list>
+        <my-card-item-list apiUrl="https://106b03ab3546a2ba.mokky.dev/items" :idMin="240" :idMax="249"></my-card-item-list>
     </div>
     <!--1/ https://zverek-shop.ru/gryzuny/plastikovye-perenoski/perenoska__dlya_gryzunov_elmo_large_362822_sm
         2/ https://zverek-shop.ru/gryzuny/plastikovye-perenoski/sumka-perenoska_dlya_gryzunov_171212_sm
@@ -16,6 +16,6 @@
 </script>
 
 
-<style scoped>
+<style scoped>  
 
 </style>

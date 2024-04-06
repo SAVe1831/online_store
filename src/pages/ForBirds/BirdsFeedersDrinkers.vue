@@ -1,7 +1,7 @@
 <template>
-    <div class="dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl">
+    <div class="feeders-drinkers-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl">
         <h1>Кормушки и поилки для птиц</h1>
-        <my-card-item-list apiUrl="https://d6d9b0f0df5c1de0.mokky.dev/birds-feeders-drinkers"></my-card-item-list>
+        <my-card-item-list apiUrl="https://106b03ab3546a2ba.mokky.dev/items" :idMin="270" :idMax="279"></my-card-item-list>
     </div>
     <!--1/ https://www.ozon.ru/product/poilka-3-l-i-kormushka-3-kg-avtomaticheskie-dlya-ptits-kur-perepelov-tsyplyat-kormushka-ptits-258528045/
         2/ https://zoopassage.ru/catalog/ptitsy/aksessuary/poilki_dlya_ptits/poilka_dlya_ptits_savic_fountain_vneshnyaya_bolshaya_/?admitad_uid=ea3edf974d580c8f8447349bffc6949a&utm_source=cpa&utm_referrer=https%3A%2F%2Fboxberry.ru%2F

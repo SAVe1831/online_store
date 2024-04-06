@@ -1,7 +1,7 @@
 <template>
-    <div class="dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl">
+    <div class="scratching-posts-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl">
         <h1>Когтеточки для кошек</h1>
-        <my-card-item-list apiUrl="https://106b03ab3546a2ba.mokky.dev/cats-scratching-posts"></my-card-item-list>
+        <my-card-item-list apiUrl="https://106b03ab3546a2ba.mokky.dev/items" :idMin="50" :idMax="59"></my-card-item-list>
     </div>
     <!--1/ https://cat-box.ru/kogtetochka-dlya-koshek/kogtetochka_kovrolinovaya_kuka_574580_sm
         2/ https://petscage.ru/product/kogtetochka---stolbik-soria-trixie-43551/

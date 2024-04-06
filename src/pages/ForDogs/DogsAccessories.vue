@@ -1,7 +1,7 @@
 <template>
-    <div class="dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl">
+    <div class="accessories-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl">
         <h1>Аксессуары для собак</h1>
-        <my-card-item-list apiUrl="https://106b03ab3546a2ba.mokky.dev/dogs-accessories"></my-card-item-list>
+        <my-card-item-list apiUrl="https://106b03ab3546a2ba.mokky.dev/items" :idMin="130" :idMax="139"></my-card-item-list>
     </div>
     <!--1/ https://www.joom.ru/ru/products/646f124a22562f01b0d356f6
         2/ https://www.ozon.ru/product/zimnyaya-shapka-dlya-sobak-s-ushami-1223892138/

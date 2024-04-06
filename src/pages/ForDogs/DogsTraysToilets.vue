@@ -1,7 +1,7 @@
 <template>
-    <div class="dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl">
+    <div class="trays-toilets-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl">
         <h1>Лотки и туалеты для собак</h1>
-        <my-card-item-list apiUrl="https://106b03ab3546a2ba.mokky.dev/dogs-trays-toilets"></my-card-item-list>
+        <my-card-item-list apiUrl="https://106b03ab3546a2ba.mokky.dev/items" :idMin="120" :idMax="129"></my-card-item-list>
     </div>
     <!--1/ https://www.ozon.ru/product/tualet-lotok-dlya-sobak-melkih-porod-s-setkoy-stefan-shtefan-mini-xs-razmer-46h34sm-seryy-bp1041-214360487/?asb=6uPIbRd8LlAH6vfvUngcSFQAixXuX7FkJYL3ZmVH6dY%253D&asb2=Pz0KjwuiRP0dhBueHZvnkomu53_bpgV37gVsk7hPYwysNs0koOyTQ8rNqoaET9ql6QYFs6O_GN86HIRk5skUgA&avtc=1&avte=2&avts=1711136100
         2/ https://www.ozon.ru/product/lotok-dlya-sobak-tualet-dlya-sobak-s-napolnitelem-zoodruzhok-60x40-sm-245276870/

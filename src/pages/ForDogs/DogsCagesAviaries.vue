@@ -1,7 +1,7 @@
 <template>
-    <div class="dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl">
+    <div class="cages-aviaries-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl">
         <h1>Клетки и вольеры для собак</h1>
-        <my-card-item-list apiUrl="https://106b03ab3546a2ba.mokky.dev/dogs-cages-aviaries"></my-card-item-list>
+        <my-card-item-list apiUrl="https://106b03ab3546a2ba.mokky.dev/items" :idMin="170" :idMax="179"></my-card-item-list>
     </div>
     <!--1/ https://usadbamasterov.ru/tovar/kletka-dlya-sobaki-komfort/
         2/ https://zoojungle.ru/katalog/dlya-sobak-i-koshek/kletki-dlya-pitomcev/lf-kletka-voler-5-dlya-sobak-metallicheskaya-chernaya-1087277sm/

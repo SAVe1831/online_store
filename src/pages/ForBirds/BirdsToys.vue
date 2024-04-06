@@ -1,7 +1,7 @@
 <template>
-    <div class="dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl">
+    <div class="toys-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl">
         <h1>Игрушки для птиц</h1>
-        <my-card-item-list apiUrl="https://d6d9b0f0df5c1de0.mokky.dev/birds-toys"></my-card-item-list>
+        <my-card-item-list apiUrl="https://106b03ab3546a2ba.mokky.dev/items" :idMin="310" :idMax="319"></my-card-item-list>
     </div>
     <!--1/ https://www.ozon.ru/product/bolshoy-nabor-igrushki-dlya-ptits-761169691/
         2/ https://zoo43.ru/catalog/tovary-dlya-ptits/kletki-i-aksessuary/igrushki-dlya-ptits/triol-igrushka-d-ptits-kacheli-businy-s-kolokolch-24sm-br54/

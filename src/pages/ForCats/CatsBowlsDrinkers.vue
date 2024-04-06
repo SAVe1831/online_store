@@ -1,7 +1,7 @@
 <template>
-    <div class="dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl">
+    <div class="bowls-drinkers-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl">
         <h1>Миски и поилки для кошек</h1>
-        <my-card-item-list apiUrl="https://106b03ab3546a2ba.mokky.dev/cats-bowls-drinkers"></my-card-item-list>
+        <my-card-item-list apiUrl="https://106b03ab3546a2ba.mokky.dev/items" :idMin="20" :idMax="29"></my-card-item-list>
     </div>
     <!--1/ https://lubimchik72.ru/miski-dlya-koshek-84/brava-miska-dvojnaya-plastikovaya-200ml-4607011527685
         2/ https://megamarket.ru/catalog/details/poilka-fontan-evo-beauty-avtomaticheskaya-s-filtrom-dlya-zhivotnyh-dlya-koshek-i-sobak-600007227490_70522/

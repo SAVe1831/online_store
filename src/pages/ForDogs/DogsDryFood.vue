@@ -1,7 +1,7 @@
 <template>
     <div class="dry-food-container mt-8 mb-3 bg-red-50 px-1 py-5 sm:px-5 border-round-2xl">
         <h1>Сухой корм для собак</h1>
-        <my-card-item-list apiUrl="https://106b03ab3546a2ba.mokky.dev/dogs-dry-food"></my-card-item-list>
+        <my-card-item-list apiUrl="https://106b03ab3546a2ba.mokky.dev/items" :idMin="90" :idMax="99"></my-card-item-list>
     </div>
     <!--1/ https://lenta.com/product/korm-dlya-vzroslyh-sobak-chappi-sytnyjj-myasnojj-obed-s-govyadinojj-polnoracsuh-rossiya-25kg-014672/
         2/ https://yarcheplus.ru/product/sukhoy-korm-dlya-sobak-malykh-porod-10873
