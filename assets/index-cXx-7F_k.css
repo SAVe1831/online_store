@@ -1,4 +1,12 @@
 
+button[data-v-3fc504dc]:active {
+  transform:  translateY(+3%);
+}
+
+button[data-v-e7cc2c38]:active {
+    transform:  translateY(+3%);
+}
+
 html {
   height: 100%;
 }
@@ -26,19 +34,19 @@ body {
     display: block;
 }
 
-svg[data-v-6e42d346] {
+svg[data-v-a4e86892] {
     cursor: pointer;
     opacity: .4;
     transition-duration: 300ms;
 }
-svg[data-v-6e42d346]:hover {
+svg[data-v-a4e86892]:hover {
     transform: translateX(-15%);
     opacity: 1;
 }
-button[data-v-6e42d346]:hover {
+button[data-v-a4e86892]:hover {
     transform: translateY(-1%);
 }
-button[data-v-6e42d346]:active {
+button[data-v-a4e86892]:active {
     transform: translateY(+1%);
 }
 
@@ -102,12 +110,12 @@ Button[data-v-2747a96d]:active {
 }
 }
 
-img[data-v-54b1ac81] {
+img[data-v-f42785f6] {
   top: 4px;
   left: 4px;
 }
 
-img[data-v-027f0a42] {
+img[data-v-f45563e5] {
     top: 4px;
     left: 4px;
 }
