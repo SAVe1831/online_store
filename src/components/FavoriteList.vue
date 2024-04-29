@@ -31,7 +31,7 @@
 
 <script setup>
 import { onMounted, ref, watch, reactive, inject } from 'vue'
-import axios from 'axios'
+import axiosApiInstance from '@/api'
 
 const props = defineProps({
     items: Array,
@@ -76,33 +76,11 @@ const addToCart = (item) => {
   }
 }
 
-// const addToFavorites = async (item) => {
-//   try {
-//     if (!item.isFavorite) {
-//       const obj = {
-//         item_id: item.id,
-//         item
-//       }
-
-//       item.isFavorite = true
-
-//       const { data } = await axios.post(`https://106b03ab3546a2ba.mokky.dev/favorites`, obj)
-
-//       item.favoriteId = data.id
-//     } else {
-//       item.isFavorite = false
-//       await axios.delete(`https://106b03ab3546a2ba.mokky.dev/favorites/${item.favoriteId}`)
-//       item.favoriteId = null
-//     }
-//   } catch (err) {
-//     console.log(err)
-//   }
-// }
 
 const removeFromFavorites = async (item) => {
   try {
     
-    await axios.delete(`https://106b03ab3546a2ba.mokky.dev/favorites/item/${item.favoriteId}`)
+    await axiosApiInstance.delete(`https://106b03ab3546a2ba.mokky.dev/favorites/item/${item.favoriteId}`)
     item.isFavorite = false
 
   } catch (err) {
@@ -112,7 +90,7 @@ const removeFromFavorites = async (item) => {
 
 const fetchFavorites = async () => {
   try {
-    const { data: favorites } = await axios.get(`https://106b03ab3546a2ba.mokky.dev/favorites`)
+    const { data: favorites } = await axiosApiInstance.get(`https://106b03ab3546a2ba.mokky.dev/favorites`)
 
     items.value = items.value.map((item) => {
       const favorite = favorites.find((favorite) => favorite.item_id === item.id)
@@ -141,7 +119,7 @@ const fetchItems = async () => {
             params.description = `*${filters.searchQuery}*`
         }
 
-        const { data } = await axios.get(props.apiUrl, {
+        const { data } = await axiosApiInstance.get(props.apiUrl, {
             params
         })
         items.value = data.map((obj) => ({

@@ -16,7 +16,7 @@
                 <img :src="previewFilePath" alt="" class="w-6 sm:w-5 md:w-4 lg:w-3 xl:w-2 mt-3">
             </div>
             <div class="w-full">
-                <input type="checkbox" v-model="review.isAccepted" @change="toggleButton">
+                <input type="checkbox" v-model="review.isAccepted">
                 <label>
                     Я выражаю 
                     <router-link to="/agreement">согласие на передачу и обработку персональных данных</router-link>
@@ -35,8 +35,8 @@
 
 <script setup>
 import { reactive, computed } from 'vue'
-import axios from 'axios'
-import { useToast } from "primevue/usetoast";
+import axiosApiInstance from '@/api'
+import { useToast } from "primevue/usetoast"
 
 const review = reactive({
     author: '',
@@ -55,8 +55,7 @@ const previewFilePath = computed(() => {
 })
 
 const submit = () => {
-    console.log('submit!');
-    axios.post('/api/review', review, {
+    axiosApiInstance.post('/api/review', review, {
         headers: {
             'Content-Type': 'multipart/form-data'
         }
@@ -82,10 +81,6 @@ const submit = () => {
 const uploadFile = (e) => {
     const [file] = e.target.files;
     review.photo = file;
-}
-
-const toggleButton = () => {
-    this.review.isAccepted = !this.review.isAccepted;
 }
 
 const toast = useToast();

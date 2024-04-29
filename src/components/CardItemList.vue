@@ -32,7 +32,7 @@
 
 <script setup>
 import { onMounted, ref, watch, reactive, inject } from 'vue'
-import axios from 'axios'
+import axiosApiInstance from '../api'
 import debounce from 'lodash.debounce'
 
 const props = defineProps({
@@ -84,17 +84,17 @@ const addToFavorites = async (item) => {
   try {
     if (!item.isFavorite) {
       const obj = {
-        item_id: item.id
+        item
       }
 
       item.isFavorite = true
 
-      const { data } = await axios.post(`https://106b03ab3546a2ba.mokky.dev/favorites`, obj)
+      const { data } = await axiosApiInstance.post(`https://106b03ab3546a2ba.mokky.dev/favorites`, obj)
 
       item.favoriteId = data.id
     } else {
       item.isFavorite = false
-      await axios.delete(`https://106b03ab3546a2ba.mokky.dev/favorites/${item.favoriteId}`)
+      await axiosApiInstance.delete(`https://106b03ab3546a2ba.mokky.dev/favorites/${item.favoriteId}`)
       item.favoriteId = null
     }
   } catch (err) {
@@ -104,7 +104,7 @@ const addToFavorites = async (item) => {
 
 const fetchFavorites = async () => {
 try {
-  const { data: favorites } = await axios.get(`https://106b03ab3546a2ba.mokky.dev/favorites`)
+  const { data: favorites } = await axiosApiInstance.get(`https://106b03ab3546a2ba.mokky.dev/favorites`)
 
   items.value = items.value.map((item) => {
     const favorite = favorites.find((favorite) => favorite.item_id === item.id)
@@ -133,7 +133,7 @@ const fetchItems = async () => {
           params.description = `*${filters.searchQuery}*`
       }
 
-      await axios.get(props.apiUrl, {params}).then(response => {
+      await axiosApiInstance.get(props.apiUrl, {params}).then(response => {
         items.value = response.data.filter(item => item.id >= props.idMin && item.id <= props.idMax).map((obj) => ({
           ...obj,
 

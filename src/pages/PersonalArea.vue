@@ -1,0 +1,39 @@
+<template>
+  <div class="personal-container mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl">
+    <h1>Личный кабинет</h1>
+    <Loader v-if="showLoader" />
+    <div class="flex flex-column gap-3 w-full align-items-center" v-else>
+      <Card class="w-full" v-for="(text, i) in personal" :key="i">
+        <template #title> {{ text.title }} </template>
+        <template #subtitle> {{ text.paragraph }} </template>
+      </Card>
+    </div>
+  </div>
+</template>
+
+
+<script setup>
+import { ref, onMounted } from 'vue'
+import axiosApiInstance from '@/api'
+import Loader from '../components/Loader.vue'
+import Card from 'primevue/card'
+
+const personal = ref();
+const showLoader = ref(false);
+
+const getData = async () => {
+  showLoader.value = true;
+  try {
+    const response = await axiosApiInstance.get(`https://online-store-dc48c-default-rtdb.europe-west1.firebasedatabase.app/personal.json`);
+    personal.value = response.data;
+  } catch (err) {
+    console.log(err.response);
+  } finally {
+    showLoader.value = false
+  }
+}
+
+onMounted(async () => {
+  await getData()
+})
+</script>

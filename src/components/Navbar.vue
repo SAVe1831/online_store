@@ -27,12 +27,22 @@
         <div class="card">
             <Menubar :model="navbarItems">
                 <template #end>
-                    <div class="flex align-items-center gap-2">
+                    <div class="flex align-items-center gap-3">
                         <router-link to="/favorites">
-                            <Button class="active:bg-green-200 p-1" severity="secondary"><i class="pi pi-heart" style="font-size: 1.5rem"></i></Button>
+                            <Button class="active:bg-green-200 p-1" severity="secondary"><i class="pi pi-heart" style="font-size: 1.5rem" title="Избранное"></i></Button>
                         </router-link>
-                        <Button class="active:bg-green-200 p-1" @click="openDrawer" severity="secondary"><i class="pi pi-shopping-cart mr-1" style="font-size: 1.5rem"></i><span class="text-red-600">{{ totalPrice }}₽</span></Button>
-                        <Button class="active:bg-green-200 p-1" severity="secondary"><i class="pi pi-user" style="font-size: 1.5rem"></i></Button>
+                        <Button class="active:bg-green-200 p-1" @click="openDrawer" severity="secondary"><i class="pi pi-shopping-cart mr-1" style="font-size: 1.5rem" title="Корзина"></i><span class="text-red-600">{{ totalPrice }}₽</span></Button>
+                        <div v-if="token" class="flex align-items-center gap-3">
+                            <router-link to="/personal-area">
+                            <Button class="active:bg-green-200 p-1" severity="secondary"><i class="pi pi-user" style="font-size: 1.5rem" title="Личный кабинет"></i></Button>
+                        </router-link>
+                        <router-link to="/auth-sign-in">
+                            <Button class="active:bg-green-200 p-1" @click.prevent="logout" severity="secondary"><i class="pi pi-sign-out" style="font-size: 1.5rem" title="Выход"></i></Button>
+                        </router-link>
+                        </div>
+                        <router-link v-else to="/auth-sign-in">
+                            <Button class="active:bg-green-200 p-1" severity="secondary" icon="fa-solid fa-user-slash" style="font-size: 1.25rem" title="Войти"></Button>
+                        </router-link>
                     </div>
                 </template>
             </Menubar>
@@ -48,9 +58,12 @@ import Menubar from 'primevue/menubar'
 import { ref } from "vue"
 import { useRouter } from 'vue-router'
 
+
 const props = defineProps({
     openDrawer: Function,
-    totalPrice: Number
+    totalPrice: Number,
+    token: String,
+    logout: Function
 })
 
 const navbarItems = ref([

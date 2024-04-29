@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 
 import Home from "@/pages/Home.vue"
 import Delivery from "@/pages/Delivery.vue"
@@ -43,6 +43,10 @@ import BirdsCarrying from "@/pages/ForBirds/BirdsCarrying.vue"
 import BirdsNestsHouses from "@/pages/ForBirds/BirdsNestsHouses.vue"
 import BirdsToys from "@/pages/ForBirds/BirdsToys.vue"
 import Favorites from "@/pages/Favorites.vue"
+import AuthSignIn from '@/pages/AuthSignIn.vue'
+import AuthSignUp from '@/pages/AuthSignUp.vue'
+import PersonalArea from '@/pages/PersonalArea.vue'
+import { useAuthStore } from '@/stores/auth'
 
 
 
@@ -270,6 +274,24 @@ const routes = [
         name: 'favorites',
         component: Favorites
     },
+    {
+        path: '/auth-sign-in',
+        name: 'auth-sign-in',
+        component: AuthSignIn,
+        meta:{auth: false}
+    },
+    {
+        path: '/auth-sign-up',
+        name: 'auth-sign-up',
+        component: AuthSignUp,
+        meta:{auth: false}
+    },
+    {
+        path: '/personal-area',
+        name: 'personal-area',
+        component:  PersonalArea,
+        meta:{auth: true}
+    }
     
 ]
 
@@ -279,7 +301,19 @@ const router = createRouter({
     scrollBehavior(to, from, savedPosition) {
         return { top: 0 };
     },
-    history: createWebHashHistory()
+    history: createWebHistory()
 })
 
-export default router;
+router.beforeEach((to, from, next) => {
+    const authStore = useAuthStore();
+  
+    if (to.meta.auth && !authStore.userInfo.token) {
+      next('/auth-sign-in')
+    } else if (to.meta.auth === false && authStore.userInfo.token) {
+      next('/personal-area')
+    } else {
+      next();
+    }
+  })
+
+export default router

@@ -51,7 +51,7 @@
 
 <script setup>
 import { ref, inject } from "vue"
-import axios from 'axios'
+import axiosApiInstance from '@/api'
 
 const { cart, totalPrice } = inject('cart')
 
@@ -65,7 +65,7 @@ const orderId = ref(null)
 const createOrder = async () => {
     try {
         isCreating.value = true;
-        const {data} = await axios.post('https://0e157e836a1fe779.mokky.dev/orders', {
+        const {data} = await axiosApiInstance.post('https://106b03ab3546a2ba.mokky.dev/orders', {
             items: cart.value,
             totalPrice: totalPrice.value
         })

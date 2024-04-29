@@ -30,7 +30,7 @@
             <Column class="border-2 text-center" field="summa" header="Накопленная сумма покупок"></Column>
         </DataTable>
         <p class="text-justify">
-            <strong>Для учета скидок Вы должны быть <a href="#">зарегистрированы на нашем сайте</a>. Накопленная сумма отображается в Вашем личном кабинете.</strong><br><br> 
+            <strong>Для учета скидок Вы должны быть <router-link v-if="token" to="/personal-area">зарегистрированы на нашем сайте</router-link><router-link v-else to="/auth-sign-in">зарегистрированы на нашем сайте</router-link>. Накопленная сумма отображается в Вашем личном кабинете.</strong><br><br> 
             4. Накопленная скидка сохраняется 6 месяцев. Если Вы не сделали ни одного заказа в нашем магазине более 6 месяцев - 
             скидка аннулируется. Быть нашим постоянным клиентом выгодно.<br><br>
             Важно учесть, что при оформлении заказе по телефону или через интернет-магазин без регистрации - Ваш заказ не попадет 
@@ -50,6 +50,11 @@
 <script setup>
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
+import { ref } from "vue"
+import { useAuthStore } from '../stores/auth'
+
+const authStore = useAuthStore();
+const token = ref(authStore.userInfo.token);
 
 const items = [
     {

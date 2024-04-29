@@ -1,6 +1,6 @@
 <template>
   <my-drawer v-if="drawerOpen" :close-drawer="closeDrawer"></my-drawer>
-  <Navbar :open-drawer="openDrawer" :total-price="totalPrice"></Navbar>
+  <Navbar :open-drawer="openDrawer" :total-price="totalPrice" :token="token" :logout="logout"></Navbar>
   <div class="app">
       <router-view></router-view>
   </div>
@@ -10,8 +10,32 @@
 
 
 <script setup>
-import { ref, provide, computed } from 'vue';
+import { ref, provide, computed } from 'vue'
+import { useAuthStore } from './stores/auth'
+import { useRouter } from 'vue-router';
 
+const authStore = useAuthStore();
+
+const router = useRouter();
+
+const token = computed(() => authStore.userInfo.token)
+const checkUser = () => {
+  const tokens = JSON.parse(localStorage.getItem('userTokens'));
+  if (tokens) {
+    authStore.userInfo.token = tokens.token
+    authStore.userInfo.refreshToken = tokens.refreshToken
+    authStore.userInfo.expiresIn = tokens.expiresIn
+  }
+}
+
+const logout = () => {
+  authStore.logout()
+  localStorage.removeItem('userTokens')
+  router.push('/auth-sign-in')
+}
+
+
+checkUser();
 
 const cart = ref([]);
 
@@ -27,16 +51,10 @@ const closeDrawer = () => {
   drawerOpen.value = false;
 }
 
-
-
-
-
 provide('cart', {
   cart,
   totalPrice
 })
-
-
 
 </script>
 
