@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 
 import Home from "@/pages/Home.vue"
 import Delivery from "@/pages/Delivery.vue"
@@ -301,7 +301,7 @@ const router = createRouter({
     scrollBehavior(to, from, savedPosition) {
         return { top: 0 };
     },
-    history: createWebHistory()
+    history: createWebHashHistory()
 })
 
 router.beforeEach((to, from, next) => {
