@@ -3,12 +3,6 @@
         <h1>Гнёзда и домики для птиц</h1>
         <my-card-item-list apiUrl="https://106b03ab3546a2ba.mokky.dev/items" :idMin="300" :idMax="309"></my-card-item-list>
     </div>
-    <!--1/ https://amma.pet/product/gnezdo-domik-dlja-ptits-iz-lugovyh-trav-skvorechnik-d85x200240mm-serija-natural-triol/
-        2/ https://www.wildberries.ru/catalog/12220808/detail.aspx
-        3/ https://zveryatam.ru/skvorechnik-nido-5-razmerov-ferplast.html
-        4/ https://zveryatam.ru/triol-domik-dlya-ptic-iz-naturalnogo-kokosa-1330-sm-triol.html
-        5/ https://zveryatam.ru/triol-domik-dlya-ptic-iz-naturalnogo-kokosa-s-lesenkoj-s-derevyannymi-stupenkami-1045-sm-triol.html
-        6/ https://zveryatam.ru/triol-dom-pletenyj-izbushka-dlya-ptic-i-melkih-gryzunov-diametr-13-sm-triol.html-->
 </template>
 
 <script setup>

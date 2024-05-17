@@ -1,34 +1,16 @@
 <template>
-    <div class="purina-darling-container mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl">
-        <h1>Purina Darling</h1>
+    <div v-if="items.length > 0" class="mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl">
+        <h1>{{ items[0].title }}</h1>
         <div class="flex flex-wrap justify-content-around mt-3">
             <div class="w-full sm:w-8 md:w-5 lg:w-4 xl:w-3">
-                <!-- <img src="#" class="w-full mt-3" alt="purina-darling"> -->
-                <p class="text-justify">
-                    Корм сухой полнорационный для взрослых кошек, с мясом по-домашнему и овощами Purina Darling
-                </p>
-                <div class="btn flex justify-content-center">
-                    <Button label="Добавить в корзину" icon="pi pi-cart-plus" class="bg-yellow-400 border-none text-color" />
-                </div>
+                <img :src="items[0].image" class="w-full mt-3" alt="Фото продукта">
+                <p class="text-justify">{{ items[0].titleLong }}</p>
             </div>
             <div class="description w-full lg:w-6">
                 <h3>Состав</h3>
-                <p class="text-justify">
-                    Злаки, продукты переработки растительного сырья (ядра пшеницы), мясо и продукты его переработки (10%), экстракт 
-                    растительного белка, масла и жиры, дрожжи, витамины, миниральные вещества, овощи, красители, антиоксиданты.
-                </p>
+                <p class="text-justify">{{ items[0].compound }}</p>
                 <h3>Описание</h3>
-                <p class="text-justify">
-                    Сухой полнорационный корм для взрослых кошек, с мясом «по-домашнему» и овощами, под торговой маркой Purina 
-                    Darling произведен ООО «Нестле Россия» в России. <br><br>
-                    По результатам лабораторных испытаний данный товар подтвердил свое соответствие всем требованиям законодательства 
-                    и признан качественным и безопасным.<br><br>
-                    Данный сухой корм безопасен и нетоксичен: в нем не были обнаружены сальмонеллы (бактерии, вызывающие кишечные 
-                    инфекционные заболевания), токсинообразующие анаэробы (возбудители различных инфекций), кишечная палочка, 
-                    микотоксины и ГМО. Также в нем нет тяжелых металлов, радионуклидов, антибиотиков и пестицидов.<br><br>
-                    Корм содержит витамины (B2, B3, B6, D, A, E) и микро-/макроэлементы (фосфор, цинк, кальций, железо, калий, магний, 
-                    натрий, марганец и селен), аминокислоты и ненасыщенные жирные кислоты (линолевую кислоту).
-                </p>
+                <p class="text-justify">{{ items[0].description }}</p>
             </div>
         </div>
     </div>
@@ -36,7 +18,26 @@
 
 
 <script setup>
+import axiosApiInstance from '../api'
+import { ref } from 'vue'
 
+const items = ref([]);
+
+const props = defineProps({
+    itemId: Number
+})
+
+const fetchProduct = async () => {
+  try {
+        await axiosApiInstance.get(`https://106b03ab3546a2ba.mokky.dev/items`).then(response => {
+        items.value = response.data.filter(item => item.id === props.itemId)
+      })
+  } catch (err) {
+      console.log(err);
+  }
+}
+
+fetchProduct();
 </script>
 
 

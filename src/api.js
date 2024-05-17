@@ -23,7 +23,7 @@ axiosApiInstance.interceptors.request.use((config) => {
   }, async function (error) {
     const authStore = useAuthStore()
     const originalRequest = error.config
-    if (error.response.status === 401 && !originalRequest._retry) {
+    if (error.response.status === 401 && !originalRequest._retry ) {
       originalRequest._retry = true;
       try {
         const newTokens = await axios.post(
@@ -39,6 +39,7 @@ axiosApiInstance.interceptors.request.use((config) => {
           token: newTokens.data.access_token,
           refreshToken: newTokens.data.refresh_token
         }))
+        return axiosApiInstance(originalRequest)
       } catch (err) {
         console.log(err);
         localStorage.removeItem('userTokens')
@@ -47,6 +48,7 @@ axiosApiInstance.interceptors.request.use((config) => {
         authStore.userInfo.refreshToken = ''
       }
     }
+    return Promise.reject(error)
   })  
 
   export default axiosApiInstance

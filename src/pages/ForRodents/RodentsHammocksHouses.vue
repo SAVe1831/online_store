@@ -3,12 +3,6 @@
         <h1>Гамаки и домики для грызунов</h1>
         <my-card-item-list apiUrl="https://106b03ab3546a2ba.mokky.dev/items" :idMin="230" :idMax="239"></my-card-item-list>
     </div>
-    <!--1/ https://zveryatam.ru/savik-domik-plastikovyj-dlya-gryzunov-sputnik-2-razmera-savic.html
-        2/ https://zveryatam.ru/tb-15-gamak-dlya-melkih-zhivotnyh-40-sm-triol-kitaj.html
-        3/ https://zveryatam.ru/triksi-domik-norka-dlya-homyaka-9-h-16-h-12-sm-trixie.html
-        4/ https://zveryatam.ru/triksi-podvesnoj-most-s-gamakom-dlya-gryzunov-171522sm-trixie.html
-        5/ https://zveryatam.ru/gamma-domik-dlya-melkih-zhivotnyh-v-assortimente-gamma.html
-        6/ https://zveryatam.ru/gamak-tonnel-brus-dlya-horkov-krys-i-drugih-zhivotnyh-v-assortimente-plyush-gamma.html-->
 </template>
 
 <script setup>

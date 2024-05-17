@@ -34,23 +34,23 @@ export const useAuthStore = defineStore("auth", () => {
         } catch (err) {
             switch (err.response.data.error.message) {
                 case 'EMAIL_EXISTS':
-                    error.value = 'Email exists'
+                    error.value = 'Электронная почта уже зарегистрирована'
                     break;
                 case 'OPERATION_NOT_ALLOWED':
-                    error.value = 'Operation not allowed'
+                    error.value = 'Операция запрещена'
                     break;
                 case 'EMAIL_NOT_FOUND':
-                    error.value = 'Email not found'
+                    error.value = 'Электронная почта не найдена'
                     break;
                 case 'INVALID_PASSWORD':
-                    error.value = 'Invalid password'
+                    error.value = 'Неверный пароль'
                     break;
                 default:
-                    error.value = 'Error'
+                    error.value = 'Что-то пошло не так'
                     break;
             }
-            throw error.value;
-        
+            return error.value;
+
         } finally {
             loader.value = false
         }

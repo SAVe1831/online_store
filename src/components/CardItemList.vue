@@ -18,12 +18,13 @@
               :key="item.id" 
               :id="item.id"
               :image-url="item.image" 
-              :description="item.description" 
+              :titleLong="item.titleLong" 
               :price="item.price"
               :is-favorite="item.isFavorite" 
               :on-click-favorite="() => addToFavorites(item)"
               :is-added="item.isAdded" 
               :on-click-add="() => addToCart(item)"
+              :on-click-route="() => routeToProduct(item.id)"
           ></my-card-item>
       </div>
   </div>
@@ -34,6 +35,9 @@
 import { onMounted, ref, watch, reactive, inject } from 'vue'
 import axiosApiInstance from '../api'
 import debounce from 'lodash.debounce'
+import { useRouter } from 'vue-router'
+
+const router = useRouter();
 
 const props = defineProps({
   items: Array,
@@ -140,11 +144,14 @@ const fetchItems = async () => {
           favoriteId: null,
           isAdded: false
         }))
-        
       })
   } catch (err) {
       console.log(err);
   }
+}
+
+const routeToProduct = (id) => {
+  router.push(`/product/${id}`)
 }
 
 onMounted(async () => {
