@@ -81,36 +81,36 @@ Button[data-v-2747a96d]:active {
     transform: translateX(+2%) translateY(+2%);
 }
 
-.hover-translate[data-v-c69a9da0]:hover {
+.hover-translate[data-v-e92a7266]:hover {
     transform: translateY(-2px);
 }
 @media (min-width: 320px) {
-.card-item[data-v-c69a9da0] {
+.card-item[data-v-e92a7266] {
         width: 100%;
 }
 }
 @media (min-width: 460px) {
-.card-item[data-v-c69a9da0] {
+.card-item[data-v-e92a7266] {
         width: 48%;
 }
 }
 @media (min-width: 760px) {
-.card-item[data-v-c69a9da0] {
+.card-item[data-v-e92a7266] {
         width: 31%;
 }
 }
 @media (min-width: 1200px) {
-.card-item[data-v-c69a9da0] {
+.card-item[data-v-e92a7266] {
         width: 23%;
 }
 }
 @media (min-width: 1500px) {
-.card-item[data-v-c69a9da0] {
+.card-item[data-v-e92a7266] {
         width: 270px;
 }
 }
 
-img[data-v-f42785f6] {
+img[data-v-7517e9d7] {
   top: 4px;
   left: 4px;
 }
