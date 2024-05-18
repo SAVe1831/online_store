@@ -2,7 +2,7 @@
   <div>
       <div class="flex flex-column sm:flex-row pb-4 justify-content-end">
           <select @change="onChangeSelect($event)" class="h-2rem w-15rem px-2 border-none border-round-xl">
-              <option value="description">По алфавиту</option>
+              <option value="titleLong">По алфавиту</option>
               <option value="price">По цене(возрастание)</option>
               <option value="-price">По цене(убывание)</option>
           </select>
@@ -51,7 +51,7 @@ const emit = defineEmits(['addToCart'])
 const items = ref([]);
 
 const filters = reactive({
-  sortBy: 'description',
+  sortBy: 'titleLong',
   searchQuery: ''
 });
 
@@ -134,7 +134,7 @@ const fetchItems = async () => {
           sortBy: filters.sortBy
       }
       if (filters.searchQuery) {
-          params.description = `*${filters.searchQuery}*`
+          params.titleLong = `*${filters.searchQuery}*`
       }
 
       await axiosApiInstance.get(props.apiUrl, {params}).then(response => {
