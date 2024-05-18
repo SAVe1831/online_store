@@ -39459,9 +39459,9 @@ function toNumber(value2) {
 }
 var lodash_debounce = debounce;
 const debounce$1 = /* @__PURE__ */ getDefaultExportFromCjs(lodash_debounce);
-const _withScopeId$1 = (n) => (pushScopeId("data-v-7517e9d7"), n = n(), popScopeId(), n);
+const _withScopeId$1 = (n) => (pushScopeId("data-v-673c724d"), n = n(), popScopeId(), n);
 const _hoisted_1$2 = { class: "flex flex-column sm:flex-row pb-4 justify-content-end" };
-const _hoisted_2$2 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createBaseVNode("option", { value: "description" }, "По алфавиту", -1));
+const _hoisted_2$2 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createBaseVNode("option", { value: "titleLong" }, "По алфавиту", -1));
 const _hoisted_3$2 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createBaseVNode("option", { value: "price" }, "По цене(возрастание)", -1));
 const _hoisted_4$2 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createBaseVNode("option", { value: "-price" }, "По цене(убывание)", -1));
 const _hoisted_5$2 = [
@@ -39490,7 +39490,7 @@ const _sfc_main$2 = {
     const props = __props;
     const items2 = ref([]);
     const filters = reactive({
-      sortBy: "description",
+      sortBy: "titleLong",
       searchQuery: ""
     });
     const onChangeSelect = (event2) => {
@@ -39557,7 +39557,7 @@ const _sfc_main$2 = {
           sortBy: filters.sortBy
         };
         if (filters.searchQuery) {
-          params.description = `*${filters.searchQuery}*`;
+          params.titleLong = `*${filters.searchQuery}*`;
         }
         await axiosApiInstance.get(props.apiUrl, { params }).then((response) => {
           items2.value = response.data.filter((item3) => item3.id >= props.idMin && item3.id <= props.idMax).map((obj) => ({
@@ -39625,7 +39625,7 @@ const _sfc_main$2 = {
     };
   }
 };
-const CardItemList = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-7517e9d7"]]);
+const CardItemList = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-673c724d"]]);
 const _hoisted_1$1 = {
   key: 0,
   class: "mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl"
