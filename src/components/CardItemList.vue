@@ -12,7 +12,7 @@
                   type="text" placeholder="Поиск...">
           </div>
       </div>
-      <div v-if="items.length === 0" class="flex justify-content-center">
+      <div v-if="showLoader" class="flex justify-content-center">
           <Loader/>
       </div>
       <div v-else class="card-container flex flex-wrap justify-content-around gap-3" v-auto-animate>
@@ -53,6 +53,8 @@ const props = defineProps({
 const emit = defineEmits(['addToCart'])
 
 const items = ref([]);
+
+const showLoader = ref(false);
 
 const filters = reactive({
   sortBy: 'titleLong',
@@ -133,6 +135,7 @@ try {
 }
 
 const fetchItems = async () => {
+  showLoader.value = true;
   try {
       const params = {
           sortBy: filters.sortBy
@@ -151,6 +154,8 @@ const fetchItems = async () => {
       })
   } catch (err) {
       console.log(err);
+  } finally {
+    showLoader.value = false
   }
 }
 

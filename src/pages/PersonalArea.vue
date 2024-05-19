@@ -1,7 +1,9 @@
 <template>
   <div class="items-container mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl">
     <h1>Личный кабинет</h1>
-    <Loader v-if="showLoader" />
+    <div v-if="showLoader" class="flex justify-content-center">
+        <Loader/>
+    </div>
     <div class="flex flex-column gap-3 w-full align-items-center" v-else>
       <Card class="w-full" v-for="(text, i) in hello" :key="i">
         <template #title> {{ text.header }} </template>

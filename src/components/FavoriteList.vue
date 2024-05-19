@@ -11,6 +11,9 @@
         <input @change="onChangeSearch($event)" class="h-2rem w-15rem pl-5 pr-1 border-none border-round-xl" type="text" placeholder="Поиск...">
       </div>
   </div>
+  <div v-if="showLoader" class="flex justify-content-center">
+      <Loader/>
+  </div>
   <div v-if="items.length === 0" class="flex justify-content-center">
       <h3>Список избранных товаров пуст</h3>
   </div>
@@ -45,6 +48,8 @@ const props = defineProps({
 const emit = defineEmits(['addToCart'])
 
 const items = ref([]);
+
+const showLoader = ref(false);
 
 const filters = reactive({
     sortBy: 'titleLong',
@@ -115,6 +120,7 @@ const fetchFavorites = async () => {
 }
 
 const fetchItems = async () => {
+  showLoader.value = true;
     try {
         const params = {
             sortBy: filters.sortBy
@@ -134,7 +140,9 @@ const fetchItems = async () => {
         }))
     } catch (err) {
         console.log(err);
-    }
+    } finally {
+    showLoader.value = false
+  }
 }
 
 onMounted(async () => {
