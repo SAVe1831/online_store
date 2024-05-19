@@ -2,7 +2,7 @@
   <div>
     <div class="flex flex-column sm:flex-row pb-4 justify-content-end">
       <select @change="onChangeSelect($event)" class="h-2rem w-15rem px-2 border-none border-round-xl">
-        <option value="description">По алфавиту</option>
+        <option value="titleLong">По алфавиту</option>
         <option value="price">По цене(возрастание)</option>
         <option value="-price">По цене(убывание)</option>
       </select>
@@ -11,13 +11,16 @@
         <input @change="onChangeSearch($event)" class="h-2rem w-15rem pl-5 pr-1 border-none border-round-xl" type="text" placeholder="Поиск...">
       </div>
   </div>
-  <div class="card-container flex flex-wrap justify-content-around gap-3" v-auto-animate>
+  <div v-if="items.length === 0" class="flex justify-content-center">
+      <h3>Список избранных товаров пуст</h3>
+  </div>
+  <div v-else class="card-container flex flex-wrap justify-content-around gap-3" v-auto-animate>
       <my-card-item 
         v-for="item in items" 
         :key="item.item.id" 
         :id="item.item.id"
         :image-url="item.item.image" 
-        :description="item.item.description" 
+        :titleLong="item.item.titleLong" 
         :price="item.item.price"
         :is-favorite="item.item.isFavorite" 
         :on-click-favorite="() => removeFromFavorites(item.item)"
@@ -32,6 +35,7 @@
 <script setup>
 import { onMounted, ref, watch, reactive, inject } from 'vue'
 import axiosApiInstance from '@/api'
+import Loader from './Loader.vue'
 
 const props = defineProps({
     items: Array,
@@ -43,7 +47,7 @@ const emit = defineEmits(['addToCart'])
 const items = ref([]);
 
 const filters = reactive({
-    sortBy: 'description',
+    sortBy: 'titleLong',
     searchQuery: ''
 });
 
@@ -116,7 +120,7 @@ const fetchItems = async () => {
             sortBy: filters.sortBy
         }
         if (filters.searchQuery) {
-            params.description = `*${filters.searchQuery}*`
+            params.titleLong = `*${filters.searchQuery}*`
         }
 
         const { data } = await axiosApiInstance.get(props.apiUrl, {

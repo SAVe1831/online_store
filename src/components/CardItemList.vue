@@ -12,7 +12,10 @@
                   type="text" placeholder="Поиск...">
           </div>
       </div>
-      <div class="card-container flex flex-wrap justify-content-around gap-3" v-auto-animate>
+      <div v-if="items.length === 0" class="flex justify-content-center">
+          <Loader/>
+      </div>
+      <div v-else class="card-container flex flex-wrap justify-content-around gap-3" v-auto-animate>
           <my-card-item 
               v-for="item in items" 
               :key="item.id" 
@@ -36,6 +39,7 @@ import { onMounted, ref, watch, reactive, inject } from 'vue'
 import axiosApiInstance from '../api'
 import debounce from 'lodash.debounce'
 import { useRouter } from 'vue-router'
+import Loader from './Loader.vue'
 
 const router = useRouter();
 
