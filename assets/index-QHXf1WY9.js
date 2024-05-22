@@ -27890,9 +27890,9 @@ const _hoisted_6$e = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
 const _hoisted_7$e = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
 const _hoisted_8$b = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
 const _hoisted_9$b = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
-const _hoisted_10$9 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
-const _hoisted_11$8 = /* @__PURE__ */ createBaseVNode("strong", { style: { "font-size": "20px" } }, "Скидки по разным дисконтным программам и акциям не суммируются. Вы можете выбрать для себя наиболее выгодную скидку, но только какую-то одну. На товары участвующие в акциях и распродажах скидки по дисконтным программам не предоставляются - эти товары уже со скидками.", -1);
-const _hoisted_12$6 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
+const _hoisted_10$a = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
+const _hoisted_11$9 = /* @__PURE__ */ createBaseVNode("strong", { style: { "font-size": "20px" } }, "Скидки по разным дисконтным программам и акциям не суммируются. Вы можете выбрать для себя наиболее выгодную скидку, но только какую-то одну. На товары участвующие в акциях и распродажах скидки по дисконтным программам не предоставляются - эти товары уже со скидками.", -1);
+const _hoisted_12$7 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
 const _hoisted_13$5 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
 const _sfc_main$42 = {
   __name: "Discounts",
@@ -27984,9 +27984,9 @@ const _sfc_main$42 = {
           _hoisted_8$b,
           createTextVNode(" Важно учесть, что при оформлении заказе по телефону или через интернет-магазин без регистрации - Ваш заказ не попадет в личный кабинет, так как оператор не сможет зайти под Вашим логином и паролем, и пожалуйста, даже не просите его сделать это. Поэтому просим Вас зарегистрироваться на сайте, чтобы покупка зоотоваров в нашем магазине была для Вас максимально выгодной. "),
           _hoisted_9$b,
-          _hoisted_10$9,
-          _hoisted_11$8,
-          _hoisted_12$6,
+          _hoisted_10$a,
+          _hoisted_11$9,
+          _hoisted_12$7,
           _hoisted_13$5,
           createTextVNode(' Так же просим обратить внимание, что на товар в промоупаковке (например, на мешке или пачке написано "+20% бесплатно" или "5+1 бесплатно") дополнительные скидки по дисконтным программам не предоставляются. ')
         ])
@@ -28011,9 +28011,9 @@ const _hoisted_6$d = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
 const _hoisted_7$d = /* @__PURE__ */ createBaseVNode("b", null, "Ваш E-mail:", -1);
 const _hoisted_8$a = /* @__PURE__ */ createBaseVNode("span", { style: { "color": "red" } }, "*", -1);
 const _hoisted_9$a = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
-const _hoisted_10$8 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
-const _hoisted_11$7 = /* @__PURE__ */ createBaseVNode("b", null, "Телефон:", -1);
-const _hoisted_12$5 = /* @__PURE__ */ createBaseVNode("span", { style: { "color": "red" } }, "*", -1);
+const _hoisted_10$9 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
+const _hoisted_11$8 = /* @__PURE__ */ createBaseVNode("b", null, "Телефон:", -1);
+const _hoisted_12$6 = /* @__PURE__ */ createBaseVNode("span", { style: { "color": "red" } }, "*", -1);
 const _hoisted_13$4 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
 const _hoisted_14$4 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
 const _hoisted_15$4 = /* @__PURE__ */ createBaseVNode("b", null, "Текст сообщения:", -1);
@@ -28104,9 +28104,9 @@ const _sfc_main$41 = {
           }, null, 512), [
             [vModelText, review.email]
           ]),
-          _hoisted_10$8,
-          _hoisted_11$7,
-          _hoisted_12$5,
+          _hoisted_10$9,
+          _hoisted_11$8,
+          _hoisted_12$6,
           _hoisted_13$4,
           withDirectives(createBaseVNode("input", {
             class: "mb-3 mt-1",
@@ -28211,9 +28211,9 @@ const _hoisted_6$c = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
 const _hoisted_7$c = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
 const _hoisted_8$9 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
 const _hoisted_9$8 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
-const _hoisted_10$7 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
-const _hoisted_11$6 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
-const _hoisted_12$4 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
+const _hoisted_10$8 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
+const _hoisted_11$7 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
+const _hoisted_12$5 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
 const _hoisted_13$3 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
 const _hoisted_14$3 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
 const _hoisted_15$3 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
@@ -28259,11 +28259,11 @@ function _sfc_render$3K(_ctx, _cache) {
       _hoisted_8$9,
       _hoisted_9$8,
       createTextVNode(" ОРГНИП 3333333333"),
-      _hoisted_10$7,
+      _hoisted_10$8,
       createTextVNode(" Юр. адрес: 398046, РОССИЯ, КРАСНОДАРСКИЙ КРАЙ, Г КРАСНОДАР, Ставропольская Д99"),
-      _hoisted_11$6,
+      _hoisted_11$7,
       createTextVNode(' Банк: АО "АЛЬФА-БАНК"'),
-      _hoisted_12$4,
+      _hoisted_12$5,
       createTextVNode(" Р/с 777777777777777"),
       _hoisted_13$3,
       createTextVNode(" БИК 6666666666"),
@@ -30409,11 +30409,11 @@ const _hoisted_6$a = /* @__PURE__ */ _withScopeId$4(() => /* @__PURE__ */ create
 const _hoisted_7$a = /* @__PURE__ */ _withScopeId$4(() => /* @__PURE__ */ createBaseVNode("label", { for: "username" }, "Электронная почта:", -1));
 const _hoisted_8$8 = { class: "form-group flex flex-column mt-3" };
 const _hoisted_9$7 = /* @__PURE__ */ _withScopeId$4(() => /* @__PURE__ */ createBaseVNode("label", { for: "password" }, "Пароль:", -1));
-const _hoisted_10$6 = {
+const _hoisted_10$7 = {
   key: 1,
   class: "flex justify-content-center"
 };
-const _hoisted_11$5 = {
+const _hoisted_11$6 = {
   key: 2,
   class: "flex justify-content-center"
 };
@@ -30464,9 +30464,9 @@ const _sfc_main$g = {
                 [vModelText, password.value]
               ])
             ]),
-            unref(authStore).loader ? (openBlock(), createElementBlock("div", _hoisted_10$6, [
+            unref(authStore).loader ? (openBlock(), createElementBlock("div", _hoisted_10$7, [
               createVNode(_sfc_main$h)
-            ])) : (openBlock(), createElementBlock("div", _hoisted_11$5, [
+            ])) : (openBlock(), createElementBlock("div", _hoisted_11$6, [
               createBaseVNode("button", {
                 onClick: signin,
                 class: "my-5 w-full p-2 cursor-pointer bg-green-400 border-none text-white hover:bg-green-500 transition-400",
@@ -30499,11 +30499,11 @@ const _hoisted_6$9 = /* @__PURE__ */ _withScopeId$3(() => /* @__PURE__ */ create
 const _hoisted_7$9 = /* @__PURE__ */ _withScopeId$3(() => /* @__PURE__ */ createBaseVNode("label", { for: "username" }, "Электронная почта:", -1));
 const _hoisted_8$7 = { class: "form-group flex flex-column mt-3" };
 const _hoisted_9$6 = /* @__PURE__ */ _withScopeId$3(() => /* @__PURE__ */ createBaseVNode("label", { for: "password" }, "Пароль:", -1));
-const _hoisted_10$5 = {
+const _hoisted_10$6 = {
   key: 1,
   class: "flex justify-content-center"
 };
-const _hoisted_11$4 = {
+const _hoisted_11$5 = {
   key: 2,
   class: "flex justify-content-center"
 };
@@ -30554,9 +30554,9 @@ const _sfc_main$f = {
                 [vModelText, password.value]
               ])
             ]),
-            unref(authStore).loader ? (openBlock(), createElementBlock("div", _hoisted_10$5, [
+            unref(authStore).loader ? (openBlock(), createElementBlock("div", _hoisted_10$6, [
               createVNode(_sfc_main$h)
-            ])) : (openBlock(), createElementBlock("div", _hoisted_11$4, [
+            ])) : (openBlock(), createElementBlock("div", _hoisted_11$5, [
               createBaseVNode("button", {
                 onClick: signup,
                 class: "my-5 w-full p-2 cursor-pointer bg-green-400 border-none text-white hover:bg-green-500 transition-400",
@@ -34694,13 +34694,13 @@ const _hoisted_9$5 = /* @__PURE__ */ _withScopeId$2(() => /* @__PURE__ */ create
   src: _imports_0$4,
   alt: "Пустая корзина"
 }, null, -1));
-const _hoisted_10$4 = /* @__PURE__ */ _withScopeId$2(() => /* @__PURE__ */ createBaseVNode("p", { class: "text-center text-2xl" }, "Добавьте какой-нибудь товар", -1));
-const _hoisted_11$3 = [
+const _hoisted_10$5 = /* @__PURE__ */ _withScopeId$2(() => /* @__PURE__ */ createBaseVNode("p", { class: "text-center text-2xl" }, "Добавьте какой-нибудь товар", -1));
+const _hoisted_11$4 = [
   _hoisted_8$6,
   _hoisted_9$5,
-  _hoisted_10$4
+  _hoisted_10$5
 ];
-const _hoisted_12$3 = {
+const _hoisted_12$4 = {
   key: 1,
   class: "flex flex-column align-items-center mt-5"
 };
@@ -34763,8 +34763,8 @@ const _sfc_main$c = {
             _hoisted_5$a
           ]),
           !unref(totalPrice) || orderId.value ? (openBlock(), createElementBlock("div", _hoisted_6$8, [
-            !unref(totalPrice) && !orderId.value ? (openBlock(), createElementBlock("div", _hoisted_7$8, _hoisted_11$3)) : createCommentVNode("", true),
-            orderId.value ? (openBlock(), createElementBlock("div", _hoisted_12$3, [
+            !unref(totalPrice) && !orderId.value ? (openBlock(), createElementBlock("div", _hoisted_7$8, _hoisted_11$4)) : createCommentVNode("", true),
+            orderId.value ? (openBlock(), createElementBlock("div", _hoisted_12$4, [
               _hoisted_13$2,
               _hoisted_14$2,
               createBaseVNode("p", _hoisted_15$2, "Ваш заказ №" + toDisplayString(orderId.value) + " успешно оформлен. Ожидайте доставку в указанный срок", 1)
@@ -35903,9 +35903,9 @@ const _hoisted_9$4 = /* @__PURE__ */ createBaseVNode("img", {
   height: "100px",
   width: "auto"
 }, null, -1);
-const _hoisted_10$3 = { class: "card" };
-const _hoisted_11$2 = { class: "flex align-items-center gap-3" };
-const _hoisted_12$2 = /* @__PURE__ */ createBaseVNode("i", {
+const _hoisted_10$4 = { class: "card" };
+const _hoisted_11$3 = { class: "flex align-items-center gap-3" };
+const _hoisted_12$3 = /* @__PURE__ */ createBaseVNode("i", {
   class: "pi pi-heart",
   style: { "font-size": "1.5rem" },
   title: "Избранное"
@@ -36001,10 +36001,10 @@ const _sfc_main$b = {
             _hoisted_8$5,
             _hoisted_9$4
           ]),
-          createBaseVNode("div", _hoisted_10$3, [
+          createBaseVNode("div", _hoisted_10$4, [
             createVNode(unref(script$9), { model: navbarItems.value }, {
               end: withCtx(() => [
-                createBaseVNode("div", _hoisted_11$2, [
+                createBaseVNode("div", _hoisted_11$3, [
                   createVNode(_component_router_link, { to: "/favorites" }, {
                     default: withCtx(() => [
                       createVNode(_component_Button, {
@@ -36012,7 +36012,7 @@ const _sfc_main$b = {
                         severity: "secondary"
                       }, {
                         default: withCtx(() => [
-                          _hoisted_12$2
+                          _hoisted_12$3
                         ]),
                         _: 1
                       })
@@ -38336,9 +38336,9 @@ const _hoisted_6$5 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
 const _hoisted_7$5 = /* @__PURE__ */ createStaticVNode('<div class="social-block mt-4"><a class="social" href="https://vk.com"><img src="' + _imports_0$1 + '" alt="vkontakte" width="34px"></a><a class="social" href="https://ok.ru/"><img src="' + _imports_1 + '" alt="odnoklassniki" width="34px"></a><a class="social" href="https://web.telegram.org/k/"><img src="' + _imports_2 + '" alt="telegram" width="34px"></a></div>', 1);
 const _hoisted_8$4 = /* @__PURE__ */ createStaticVNode('<div class="middle-block w-full sm:w-6 lg:w-4 pt-3 pr-4"><div class="footer-contacts"><div class="footer-contacts_phone"><a class="no-underline hover:underline text-color" href="tel:+79998887766">Тел +7(999)888-77-66</a></div><div class="footer-contacts__address mt-3">Офис: г. Краснодар, ул. Красных Партизан, 137</div><div class="footer-time mt-3">Пн-Сб с 9:00 до 20:00. Воскресенье - выходной</div></div></div>', 1);
 const _hoisted_9$3 = { class: "right-block w-full sm:w-6 lg:w-4 pt-3" };
-const _hoisted_10$2 = { class: "menu-bottom m-0 p-0" };
-const _hoisted_11$1 = { class: "menu-bottom_item" };
-const _hoisted_12$1 = { class: "menu-bottom_item" };
+const _hoisted_10$3 = { class: "menu-bottom m-0 p-0" };
+const _hoisted_11$2 = { class: "menu-bottom_item" };
+const _hoisted_12$2 = { class: "menu-bottom_item" };
 const _hoisted_13 = { class: "menu-bottom_item" };
 const _hoisted_14 = { class: "menu-bottom_item" };
 const _hoisted_15 = { class: "menu-bottom_item" };
@@ -38362,8 +38362,8 @@ function _sfc_render(_ctx, _cache) {
     ]),
     _hoisted_8$4,
     createBaseVNode("div", _hoisted_9$3, [
-      createBaseVNode("ul", _hoisted_10$2, [
-        createBaseVNode("li", _hoisted_11$1, [
+      createBaseVNode("ul", _hoisted_10$3, [
+        createBaseVNode("li", _hoisted_11$2, [
           createVNode(_component_router_link, {
             class: "no-underline hover:underline text-color",
             to: "/requisites"
@@ -38374,7 +38374,7 @@ function _sfc_render(_ctx, _cache) {
             _: 1
           })
         ]),
-        createBaseVNode("li", _hoisted_12$1, [
+        createBaseVNode("li", _hoisted_12$2, [
           createVNode(_component_router_link, {
             class: "no-underline hover:underline text-color",
             to: "/discounts"
@@ -39465,7 +39465,7 @@ function toNumber(value2) {
 }
 var lodash_debounce = debounce;
 const debounce$1 = /* @__PURE__ */ getDefaultExportFromCjs(lodash_debounce);
-const _withScopeId$1 = (n) => (pushScopeId("data-v-b63466c5"), n = n(), popScopeId(), n);
+const _withScopeId$1 = (n) => (pushScopeId("data-v-b76b882e"), n = n(), popScopeId(), n);
 const _hoisted_1$2 = { class: "flex flex-column sm:flex-row pb-4 justify-content-end" };
 const _hoisted_2$2 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createBaseVNode("option", { value: "titleLong" }, "По алфавиту", -1));
 const _hoisted_3$2 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createBaseVNode("option", { value: "price" }, "По цене(возрастание)", -1));
@@ -39487,6 +39487,14 @@ const _hoisted_8$2 = {
 };
 const _hoisted_9$2 = {
   key: 1,
+  class: "flex justify-content-center w-6 text-red-500"
+};
+const _hoisted_10$2 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createBaseVNode("h3", null, "Если Вы видите это сообщение, значит сервер, на котором хранятся демонстрационные материалы, в данный момент недоступен. Попробуйте зайти позже.", -1));
+const _hoisted_11$1 = [
+  _hoisted_10$2
+];
+const _hoisted_12$1 = {
+  key: 2,
   class: "card-container flex flex-wrap justify-content-around gap-3"
 };
 const _sfc_main$2 = {
@@ -39622,7 +39630,8 @@ const _sfc_main$2 = {
         ]),
         showLoader.value ? (openBlock(), createElementBlock("div", _hoisted_8$2, [
           createVNode(_sfc_main$h)
-        ])) : withDirectives((openBlock(), createElementBlock("div", _hoisted_9$2, [
+        ])) : createCommentVNode("", true),
+        items2.value.length === 0 ? (openBlock(), createElementBlock("div", _hoisted_9$2, _hoisted_11$1)) : withDirectives((openBlock(), createElementBlock("div", _hoisted_12$1, [
           (openBlock(true), createElementBlock(Fragment, null, renderList(items2.value, (item3) => {
             return openBlock(), createBlock(_component_my_card_item, {
               key: item3.id,
@@ -39644,7 +39653,7 @@ const _sfc_main$2 = {
     };
   }
 };
-const CardItemList = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-b63466c5"]]);
+const CardItemList = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-b76b882e"]]);
 const _hoisted_1$1 = {
   key: 0,
   class: "mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl"
