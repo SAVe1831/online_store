@@ -15,10 +15,7 @@
       <div v-if="showLoader" class="flex justify-content-center">
           <Loader/>
       </div>
-      <div v-if="items.length === 0" class="flex justify-content-center w-6 text-red-500">
-        <h3>Если Вы видите это сообщение, значит сервер, на котором хранятся демонстрационные материалы, в данный момент недоступен. Попробуйте зайти позже.</h3>
-      </div>
-      <div v-else class="card-container flex flex-wrap justify-content-around gap-3" v-auto-animate>
+      <div v-if="items.length !== 0" class="card-container flex flex-wrap justify-content-around gap-3" v-auto-animate>
           <my-card-item 
               v-for="item in items" 
               :key="item.id" 
@@ -32,6 +29,9 @@
               :on-click-add="() => addToCart(item)"
               :on-click-route="() => routeToProduct(item.id)"
           ></my-card-item>
+      </div>
+      <div v-else class="flex justify-content-center w-6 text-red-500">
+        <h3>Если Вы видите это сообщение, значит сервер, на котором хранятся демонстрационные материалы, в данный момент недоступен. Попробуйте зайти позже.</h3>
       </div>
   </div>
 </template>
