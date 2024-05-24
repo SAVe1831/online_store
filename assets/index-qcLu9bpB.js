@@ -39465,7 +39465,7 @@ function toNumber(value2) {
 }
 var lodash_debounce = debounce;
 const debounce$1 = /* @__PURE__ */ getDefaultExportFromCjs(lodash_debounce);
-const _withScopeId$1 = (n) => (pushScopeId("data-v-b76b882e"), n = n(), popScopeId(), n);
+const _withScopeId$1 = (n) => (pushScopeId("data-v-470613d2"), n = n(), popScopeId(), n);
 const _hoisted_1$2 = { class: "flex flex-column sm:flex-row pb-4 justify-content-end" };
 const _hoisted_2$2 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createBaseVNode("option", { value: "titleLong" }, "По алфавиту", -1));
 const _hoisted_3$2 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createBaseVNode("option", { value: "price" }, "По цене(возрастание)", -1));
@@ -39487,16 +39487,16 @@ const _hoisted_8$2 = {
 };
 const _hoisted_9$2 = {
   key: 1,
-  class: "flex justify-content-center w-6 text-red-500"
-};
-const _hoisted_10$2 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createBaseVNode("h3", null, "Если Вы видите это сообщение, значит сервер, на котором хранятся демонстрационные материалы, в данный момент недоступен. Попробуйте зайти позже.", -1));
-const _hoisted_11$1 = [
-  _hoisted_10$2
-];
-const _hoisted_12$1 = {
-  key: 2,
   class: "card-container flex flex-wrap justify-content-around gap-3"
 };
+const _hoisted_10$2 = {
+  key: 2,
+  class: "flex justify-content-center w-6 text-red-500"
+};
+const _hoisted_11$1 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createBaseVNode("h3", null, "Если Вы видите это сообщение, значит сервер, на котором хранятся демонстрационные материалы, в данный момент недоступен. Попробуйте зайти позже.", -1));
+const _hoisted_12$1 = [
+  _hoisted_11$1
+];
 const _sfc_main$2 = {
   __name: "CardItemList",
   props: {
@@ -39631,7 +39631,7 @@ const _sfc_main$2 = {
         showLoader.value ? (openBlock(), createElementBlock("div", _hoisted_8$2, [
           createVNode(_sfc_main$h)
         ])) : createCommentVNode("", true),
-        items2.value.length === 0 ? (openBlock(), createElementBlock("div", _hoisted_9$2, _hoisted_11$1)) : withDirectives((openBlock(), createElementBlock("div", _hoisted_12$1, [
+        items2.value.length !== 0 ? withDirectives((openBlock(), createElementBlock("div", _hoisted_9$2, [
           (openBlock(true), createElementBlock(Fragment, null, renderList(items2.value, (item3) => {
             return openBlock(), createBlock(_component_my_card_item, {
               key: item3.id,
@@ -39648,12 +39648,12 @@ const _sfc_main$2 = {
           }), 128))
         ])), [
           [_directive_auto_animate]
-        ])
+        ]) : (openBlock(), createElementBlock("div", _hoisted_10$2, _hoisted_12$1))
       ]);
     };
   }
 };
-const CardItemList = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-b76b882e"]]);
+const CardItemList = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-470613d2"]]);
 const _hoisted_1$1 = {
   key: 0,
   class: "mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl"
