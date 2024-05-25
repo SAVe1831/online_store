@@ -39465,7 +39465,7 @@ function toNumber(value2) {
 }
 var lodash_debounce = debounce;
 const debounce$1 = /* @__PURE__ */ getDefaultExportFromCjs(lodash_debounce);
-const _withScopeId$1 = (n) => (pushScopeId("data-v-470613d2"), n = n(), popScopeId(), n);
+const _withScopeId$1 = (n) => (pushScopeId("data-v-444e6214"), n = n(), popScopeId(), n);
 const _hoisted_1$2 = { class: "flex flex-column sm:flex-row pb-4 justify-content-end" };
 const _hoisted_2$2 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createBaseVNode("option", { value: "titleLong" }, "По алфавиту", -1));
 const _hoisted_3$2 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createBaseVNode("option", { value: "price" }, "По цене(возрастание)", -1));
@@ -39491,9 +39491,9 @@ const _hoisted_9$2 = {
 };
 const _hoisted_10$2 = {
   key: 2,
-  class: "flex justify-content-center w-6 text-red-500"
+  class: "flex ml-5 w-6 text-red-500"
 };
-const _hoisted_11$1 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createBaseVNode("h3", null, "Если Вы видите это сообщение, значит сервер, на котором хранятся демонстрационные материалы, в данный момент недоступен. Попробуйте зайти позже.", -1));
+const _hoisted_11$1 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createBaseVNode("h3", null, "Если Вы видите это сообщение, значит сервер, на котором хранятся демонстрационные материалы, в данный момент перегружен запросами или недоступен. Попробуйте зайти позже.", -1));
 const _hoisted_12$1 = [
   _hoisted_11$1
 ];
@@ -39653,7 +39653,7 @@ const _sfc_main$2 = {
     };
   }
 };
-const CardItemList = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-470613d2"]]);
+const CardItemList = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-444e6214"]]);
 const _hoisted_1$1 = {
   key: 0,
   class: "mt-8 mb-3 bg-red-50 p-1 sm:p-5 border-round-2xl"
